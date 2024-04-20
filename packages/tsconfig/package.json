@@ -6,8 +6,7 @@
   "main": "index.js",
   "files": [
     "base.json",
-    "nextjs.json",
-    "react-library.json"
+    "internal-package.json"
   ],
   "devDependencies": {
     "tsconfig-paths": "^4.1.0"

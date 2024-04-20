@@ -1,10 +1,9 @@
-import { Button } from "@buildit/ui";
+export const runtime = "edge";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <main>
-      Hello World!
-      <Button>Clickme</Button>
-    </main>
+    <div>
+      <h1>Hello World</h1>
+    </div>
   );
 }

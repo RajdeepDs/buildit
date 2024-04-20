@@ -1,5 +1,5 @@
 {
-  "extends": "@buildit/tsconfig/react-library.json",
+  "extends": "@buildit/tsconfig/internal-package.json",
   "compilerOptions": {
     "resolveJsonModule": true,
     "experimentalDecorators": true

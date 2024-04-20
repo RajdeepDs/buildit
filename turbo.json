@@ -39,5 +39,5 @@
       "cache": false
     }
   },
-  "globalEnv": []
+  "globalEnv": ["DB_URL", "DB_TOKEN"]
 }

@@ -1,0 +1,37 @@
+{
+  "name": "@buildit/db",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "generate": "drizzle-kit generate:sqlite",
+    "push": "drizzle-kit push:sqlite",
+    "migrate": "tsx src/migrate.ts",
+    "studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.6.0",
+    "@t3-oss/env-core": "^0.9.2",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.8",
+    "drizzle-zod": "^0.5.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@buildit/eslint-config": "workspace:*",
+    "@buildit/tsconfig": "workspace:*",
+    "@types/node": "^20.12.7",
+    "drizzle-kit": "^0.20.14",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  },
+  "browser": {
+    "crypto": false
+  }
+}
