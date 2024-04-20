@@ -2,7 +2,7 @@
 
 # .env file
 .env
-!packages/db/.env
+!packages/*/.env
 
 # dependencies
 node_modules

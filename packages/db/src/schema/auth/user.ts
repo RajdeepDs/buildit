@@ -5,7 +5,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { accounts } from "./accounts";
 import { twoFactorConfirmations } from "./twofactorConfirmation";
 
-export const users = sqliteTable("users", {
+export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => randomUUID()),

@@ -26,7 +26,7 @@
     "@buildit/eslint-config": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
     "@types/node": "^20.12.7",
-    "drizzle-kit": "^0.20.14",
+    "drizzle-kit": "^0.20.16",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
