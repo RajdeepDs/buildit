@@ -1,8 +1,6 @@
 import { auth, signIn, signOut } from "@buildit/auth";
 import { Button } from "@buildit/ui";
 
-import Test from "./test";
-
 export default async function SignIn() {
   const user = await auth();
   if (!user) {
@@ -38,8 +36,6 @@ export default async function SignIn() {
           Sign out
         </Button>
       </form>
-
-      <Test />
     </div>
   );
 }
