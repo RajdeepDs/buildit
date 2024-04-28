@@ -1,20 +1,21 @@
 import { auth, signIn, signOut } from "@buildit/auth";
-import { Button } from "@buildit/ui";
 
 export default async function SignIn() {
   const user = await auth();
   if (!user) {
     return (
-      <form>
-        <Button
-          size="lg"
-          formAction={async () => {
-            "use server";
-            await signIn("github");
-          }}
+      <form
+        action={async () => {
+          "use server";
+          await signIn("github");
+        }}
+      >
+        <button
+          type="submit"
+          className="items-center rounded-md bg-black px-3 py-2 text-white"
         >
-          Sign in with Github
-        </Button>
+          Signin with GitHub
+        </button>
       </form>
     );
   }
@@ -25,16 +26,18 @@ export default async function SignIn() {
         <span>Logged in as {user.user.name}</span>
       </p>
 
-      <form>
-        <Button
-          size="lg"
-          formAction={async () => {
-            "use server";
-            await signOut();
-          }}
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button
+          className="items-center rounded-md bg-black px-3 py-2 text-white"
+          type="submit"
         >
           Sign out
-        </Button>
+        </button>
       </form>
     </div>
   );
