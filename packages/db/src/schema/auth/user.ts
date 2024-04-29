@@ -2,13 +2,12 @@ import { randomUUID } from "crypto";
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
+import { workspaces } from "../workspace/workspace";
 import { accounts } from "./accounts";
 import { twoFactorConfirmations } from "./twofactorConfirmation";
 
 export const users = sqliteTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => randomUUID()),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   username: text("username").unique(),
   email: text("email").notNull().unique(),
@@ -25,4 +24,5 @@ export const users = sqliteTable("user", {
 export const usersRelations = relations(users, ({ many, one }) => ({
   accounts: many(accounts),
   twoFactorConfirmation: one(twoFactorConfirmations),
+  workspaces: many(workspaces),
 }));

@@ -12,7 +12,8 @@
     "generate": "drizzle-kit generate:sqlite",
     "push": "drizzle-kit push:sqlite",
     "migrate": "tsx src/migrate.ts",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "local": "turso dev --db-file local.db"
   },
   "dependencies": {
     "@libsql/client": "^0.6.0",
