@@ -1,6 +1,5 @@
 "use server";
 
-import { randomUUID } from "crypto";
 import { z } from "zod";
 
 import { db } from "@buildit/db";
@@ -36,9 +35,7 @@ export const createWorkspace = async ({
     });
 
     return { success: "Workspace created" };
-  } catch (e) {
-    console.log(e);
-
+  } catch {
     return { error: "Error creating workspace" };
   }
 };

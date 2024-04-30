@@ -25,7 +25,7 @@ import {
   Separator,
 } from "@buildit/ui";
 
-import { createWorkspace } from "@/lib/actions/create-workspace";
+import { createWorkspace } from "@/lib/actions/workspace/create-workspace";
 
 const formSchema = z.object({
   workspaceName: z
@@ -58,7 +58,8 @@ function AddWorkspaceModalHelper({
       createWorkspace({
         name: values.workspaceName,
         slug: values.workspaceSlug,
-      }).then((data) => {
+        // TODO: Add types for data
+      }).then((data: any) => {
         if (data.error) {
           console.log(data.error);
         }

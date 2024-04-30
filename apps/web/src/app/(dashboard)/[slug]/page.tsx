@@ -1,3 +1,9 @@
+import WorkspacePageClient from "./page-client";
+
 export default function Workspace() {
-  return <div>Workspace</div>;
+  return (
+    <div>
+      <WorkspacePageClient />
+    </div>
+  );
 }
