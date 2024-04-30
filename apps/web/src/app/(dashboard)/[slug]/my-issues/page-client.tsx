@@ -36,7 +36,6 @@ export default function MyIssuesClient(): JSX.Element {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     startTransition(() => {
       createIssue({
         title: values.title,
@@ -45,9 +44,11 @@ export default function MyIssuesClient(): JSX.Element {
       }).then((data) => {
         if (data.error) {
           console.log(data.error);
+          form.reset();
         }
         if (data.success) {
           console.log(data.success);
+          form.reset();
         }
       });
     });
@@ -64,7 +65,7 @@ export default function MyIssuesClient(): JSX.Element {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Add Title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,7 +78,7 @@ export default function MyIssuesClient(): JSX.Element {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Add Description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -12,6 +12,6 @@ export const getWorkspaceBySlug = async ({ slug }: getWorkspaceProps) => {
     });
     return workspace;
   } catch {
-    return { error: "Workspace not found" };
+    return null;
   }
 };

@@ -12,6 +12,6 @@ export const getUserById = async ({ id }: getUserProps) => {
     });
     return user;
   } catch {
-    return { error: "User not found" };
+    return null;
   }
 };

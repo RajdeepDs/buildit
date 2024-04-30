@@ -31,7 +31,7 @@ export const createIssue = async ({
   }
 
   const workspace = await getWorkspaceBySlug({ slug });
-  if (!workspace || "error" in workspace) {
+  if (!workspace) {
     return { error: "Workspace not found" };
   }
   try {
