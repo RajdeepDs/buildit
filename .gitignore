@@ -43,3 +43,7 @@ dist/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# packages/db - local databases
+packages/db/local.db*

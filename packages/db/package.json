@@ -21,12 +21,14 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.8",
     "drizzle-zod": "^0.5.1",
+    "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@buildit/eslint-config": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
     "@types/node": "^20.12.7",
+    "@types/uuid": "^9.0.8",
     "drizzle-kit": "^0.20.17",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.2",

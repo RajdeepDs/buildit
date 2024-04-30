@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1714464437641,
+      "tag": "0000_simple_the_watchers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1714479864842,
+      "tag": "0001_glorious_dragon_man",
+      "breakpoints": true
+    }
+  ]
+}

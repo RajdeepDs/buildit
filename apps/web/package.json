@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@buildit/api": "workspace:^",
     "@buildit/auth": "workspace:*",
     "@buildit/db": "workspace:*",
     "@buildit/ui": "workspace:*",

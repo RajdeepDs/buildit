@@ -1,6 +1,7 @@
 import {
   Dispatch,
   SetStateAction,
+  startTransition,
   useCallback,
   useMemo,
   useState,
@@ -23,6 +24,8 @@ import {
   Modal,
   Separator,
 } from "@buildit/ui";
+
+import { createWorkspace } from "@/lib/actions/create-workspace";
 
 const formSchema = z.object({
   workspaceName: z
@@ -51,10 +54,21 @@ function AddWorkspaceModalHelper({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    setShowAddWorkspaceModal(false);
-    console.log("Workspace added");
-    router.push(`/${values.workspaceSlug}`);
+    startTransition(() => {
+      createWorkspace({
+        name: values.workspaceName,
+        slug: values.workspaceSlug,
+      }).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+        if (data.success) {
+          console.log(data.success);
+          setShowAddWorkspaceModal(false);
+          router.push(`/${values.workspaceSlug}`);
+        }
+      });
+    });
   }
   return (
     <Modal
