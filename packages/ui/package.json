@@ -26,13 +26,13 @@
   "devDependencies": {
     "@buildit/tailwind-config": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
-    "@types/react": "^18.2.38",
+    "@types/react": "^18",
     "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "react": "^18.2.0",
+    "postcss": "^8",
+    "react": "^18",
     "tailwindcss": "^3.4.1",
     "tsup": "^8.0.1",
-    "typescript": "^5.4.5"
+    "typescript": "^5"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -47,6 +47,7 @@
     "lucide-react": "^0.344.0",
     "next-themes": "^0.3.0",
     "react-hook-form": "^7.51.3",
+    "react-resizable-panels": "^2.0.19",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

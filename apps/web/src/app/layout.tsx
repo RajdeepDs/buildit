@@ -6,11 +6,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Buildit",
-  description: "An open-souce collaborative project management tool",
+  title: "BuildIt",
+  description: "An open source collaborative project management tool.",
 };
-
-export const runtime = "edge";
 
 export default function RootLayout({
   children,
