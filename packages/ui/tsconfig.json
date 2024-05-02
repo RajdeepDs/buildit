@@ -1,7 +1,7 @@
 {
   "extends": "@buildit/tsconfig/internal-package.json",
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "react",
     "resolveJsonModule": true,
     "experimentalDecorators": true
   },

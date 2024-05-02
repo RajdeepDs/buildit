@@ -4,7 +4,7 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "@buildit/tailwind-config/tailwind.config.ts",
+    "config": "@trepo/tailwind-config/tailwind.config.ts",
     "css": "src/styles.css",
     "baseColor": "slate",
     "cssVariables": false,

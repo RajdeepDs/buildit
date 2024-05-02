@@ -7,6 +7,8 @@ import { authConfig } from "./config";
 
 export type { Session } from "next-auth";
 
+export const runtime = "edge";
+
 export const {
   handlers: { GET, POST },
   auth,
