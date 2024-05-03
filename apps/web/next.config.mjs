@@ -14,5 +14,15 @@ const nextConfig = {
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+
+  async redirects() {
+    return [
+      {
+        source: "/:slug",
+        destination: "/:slug/my-issues",
+        permanent: true,
+      },
+    ];
+  },
 };
 export default nextConfig;
