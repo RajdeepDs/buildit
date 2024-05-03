@@ -1,12 +1,9 @@
-import { issue } from "@buildit/db/src/schema";
-
 import { getAllIssues } from "@/lib/data/issues/get-issues";
 
 export const runtime = "edge";
+
 export default async function MyIssues() {
   const issues = await getAllIssues();
-  console.log(issues);
-
   return (
     <div className="h-full p-2">
       <h1>My Issues</h1>
