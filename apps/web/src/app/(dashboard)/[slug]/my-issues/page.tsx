@@ -5,6 +5,7 @@ export const runtime = "edge";
 
 export default async function MyIssues() {
   const issues = await getAllIssues();
+
   return (
     <div className="h-full p-2">
       <h1>My Issues</h1>
