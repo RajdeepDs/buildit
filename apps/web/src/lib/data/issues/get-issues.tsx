@@ -17,3 +17,15 @@ export async function getAllIssues() {
     return null;
   }
 }
+
+export async function getIssueByIssueId(issueId: string) {
+  try {
+    const IssueDetails = await db.query.issue.findFirst({
+      where: eq(issue.issueId, issueId),
+    });
+
+    return IssueDetails;
+  } catch {
+    return null;
+  }
+}

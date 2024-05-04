@@ -1,7 +1,10 @@
+import IssueClientPage from "./page-client";
+
+export const runtime = "edge";
 export default function IssuePage() {
   return (
     <div>
-      <h1>Issue Page</h1>
+      <IssueClientPage />
     </div>
   );
 }
