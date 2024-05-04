@@ -1,7 +1,7 @@
 import { db, eq } from "@buildit/db";
 import { issue } from "@buildit/db/src/schema";
 
-import { getSession } from "@/lib/get-session";
+import { getSession } from "@/lib/data/get-session";
 
 export async function getAllIssues() {
   const user = await getSession();
