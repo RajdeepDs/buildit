@@ -10,7 +10,7 @@ export default function DashboardLayout({
   return (
     <div className="h-dvh flex">
       <Sidebar />
-      <main className="h-dvh w-full">{children}</main>
+      <main className="h-dvh w-full bg-gray-100">{children}</main>
     </div>
   );
 }
