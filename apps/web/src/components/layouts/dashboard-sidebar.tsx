@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
@@ -22,7 +23,7 @@ export default function DashboardSidebar({
       href: `/${slug}/inbox`,
     },
     {
-      name: "My Issues",
+      name: "My issues",
       icon: "issues",
       href: `/${slug}/my-issues`,
     },
@@ -53,10 +54,14 @@ export default function DashboardSidebar({
           />
         )}
       </div>
-
-      <div className="mt-2 flex cursor-pointer items-center gap-2 rounded-md px-1 py-1 hover:bg-gray-200 ">
-        <Icons.search className="mr-[14px] h-[18px] w-[18px] text-gray-400" />
-        <p className="text-gray-600 hover:text-black">Search</p>
+      <div className="mb-2 mt-5 flex w-full items-center justify-between gap-x-2">
+        <Button variant={"secondary"} className="w-full gap-x-2">
+          <Icons.newIssue className="h-[15px] w-[15px] text-gray-700" />
+          New issue
+        </Button>
+        <Button variant={"secondary"}>
+          <Icons.search className="h-[18px] w-[18px] text-gray-700" />
+        </Button>
       </div>
       {dashboardTabs.map(({ name, href, icon }) => {
         const TabIcon = Icons[(icon as keyof typeof Icons) || "chevronDown"];
@@ -64,16 +69,17 @@ export default function DashboardSidebar({
           <Link key={name} href={href}>
             <div
               className={cn(
-                "mt-1 flex cursor-pointer items-center gap-2 rounded-md px-1 py-1 text-gray-600 hover:bg-gray-200 focus:text-black",
-                pathname === href && "bg-gray-200 font-semibold text-black",
+                "mt-1 flex cursor-pointer items-center gap-2 rounded-md px-1 py-1 hover:bg-gray-200",
+                pathname === href && "bg-gray-200",
               )}
             >
-              <TabIcon className="text-grey-deep mr-[14px] h-[18px] w-[18px]" />
-              <p>{name}</p>
+              <TabIcon className="mr-[8px] h-[18px] w-[18px] text-gray-700" />
+              <p className="text-sm font-medium text-gray-800">{name}</p>
             </div>
           </Link>
         );
       })}
+      <Icons.info className="absolute bottom-2 mt-2 h-[22px] w-[22px] cursor-pointer text-gray-500" />
     </div>
   );
 }

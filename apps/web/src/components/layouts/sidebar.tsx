@@ -14,7 +14,7 @@ export default function Sidebar(): JSX.Element {
   }
 
   return (
-    <aside className="w-[240px] border">
+    <aside className="w-[240px] bg-gray-100">
       {pathname !== `/${slug}/settings` && <DashboardSidebar slug={slug} />}
       {pathname === `/${slug}/settings` && <SettingsSidebar slug={slug} />}
     </aside>
