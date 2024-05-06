@@ -4,6 +4,8 @@ import {
   CircleDotDashed,
   HelpCircle,
   Inbox,
+  Maximize2,
+  Minimize2,
   PenBox,
   Search,
 } from "lucide-react";
@@ -19,4 +21,6 @@ export const Icons = {
   issues: CircleDotDashed,
   newIssue: PenBox,
   info: HelpCircle,
+  maximize: Maximize2,
+  minimize: Minimize2,
 };

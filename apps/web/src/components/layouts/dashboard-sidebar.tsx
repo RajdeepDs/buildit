@@ -8,6 +8,7 @@ import { cn } from "@buildit/ui/utils";
 
 import useUser from "@/lib/swr/use-user";
 import useWorkspace from "@/lib/swr/use-workspace";
+import { CreateIssueModal } from "../modals/create-issue-modal";
 
 export default function DashboardSidebar({
   slug,
@@ -55,10 +56,12 @@ export default function DashboardSidebar({
         )}
       </div>
       <div className="mb-2 mt-5 flex w-full items-center justify-between gap-x-2">
-        <Button variant={"secondary"} className="w-full gap-x-2">
-          <Icons.newIssue className="h-[15px] w-[15px] text-gray-700" />
-          New issue
-        </Button>
+        <CreateIssueModal>
+          <Button variant={"secondary"} className="w-full gap-x-2">
+            <Icons.newIssue className="h-[15px] w-[15px] text-gray-700" />
+            New issue
+          </Button>
+        </CreateIssueModal>
         <Button variant={"secondary"}>
           <Icons.search className="h-[18px] w-[18px] text-gray-700" />
         </Button>
