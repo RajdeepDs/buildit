@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Modal,
+  FixedModal as Modal,
   Separator,
 } from "@buildit/ui";
 
