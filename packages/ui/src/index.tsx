@@ -7,3 +7,5 @@ export * from "./components/ui/separator";
 export * from "./components/ui/dialog";
 export * from "./components/ui/modal";
 export * from "./components/ui/textarea";
+export * from "./components/ui/popover";
+export * from "./components/ui/command";

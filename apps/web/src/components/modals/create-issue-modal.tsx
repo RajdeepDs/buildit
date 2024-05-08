@@ -1,28 +1,10 @@
 "use client";
 
 import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import {
-  Button,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  Input,
-  Modal,
-  ModalContent,
-  ModalTrigger,
-  Textarea,
-} from "@buildit/ui";
+import { Modal, ModalContent, ModalTrigger } from "@buildit/ui";
 
-const formSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-});
+import CreateIssueForm from "../forms/create-issue-form";
 
 export function CreateIssueModal({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
@@ -33,17 +15,6 @@ export function CreateIssueModal({ children }: { children: React.ReactNode }) {
     setIsMaximized(!isMaximized);
   };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger asChild>{children}</ModalTrigger>
@@ -53,35 +24,7 @@ export function CreateIssueModal({ children }: { children: React.ReactNode }) {
         onMaximize={handleParentMaximize}
         needMaximize={false}
       >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Issue title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea placeholder="Issue description" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
+        <CreateIssueForm />
       </ModalContent>
     </Modal>
   );

@@ -1,4 +1,6 @@
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
+  CheckIcon,
   ChevronDown,
   ChevronLeft,
   CircleDotDashed,
@@ -23,4 +25,6 @@ export const Icons = {
   info: HelpCircle,
   maximize: Maximize2,
   minimize: Minimize2,
+  caretSortIcon: CaretSortIcon,
+  checkIcon: CheckIcon,
 };

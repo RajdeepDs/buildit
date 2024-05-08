@@ -1,15 +1,15 @@
-import Issue from "@/components/issue/issue";
-import { getAllIssues } from "@/lib/data/issues/get-issues";
+"use client";
+
+// import Issue from "@/components/issue/issue";
+// import { getAllIssues } from "@/lib/data/issues/get-issues";
+import * as React from "react";
 
 export const runtime = "edge";
 
-export default async function MyIssues() {
-  const issues = await getAllIssues();
-
+export default function MyIssues() {
   return (
     <div className="h-full p-2">
-      <h1>My Issues</h1>
-      {issues?.map((issue) => <Issue issue={issue} key={issue.id} />)}
+      <h1 className="">My Issues</h1>
     </div>
   );
 }
