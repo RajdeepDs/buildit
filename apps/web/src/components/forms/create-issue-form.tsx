@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,11 +28,13 @@ import {
 import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
+import { createIssue } from "@/lib/actions/issue/create-issue";
+
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.string(),
-  status: z.string(),
-  priority: z.string(),
+  status: z.enum(["open", "in-progress", "closed"]),
+  priority: z.enum(["high", "medium", "low"]),
 });
 
 type Status = {
@@ -45,37 +48,49 @@ type Priority = {
 };
 
 const statuses: Status[] = [
+  // {
+  //   value: "backlog",
+  //   label: "Backlog",
+  // },
+  // {
+  //   value: "todo",
+  //   label: "Todo",
+  // },
+  // {
+  //   value: "in progress",
+  //   label: "In Progress",
+  // },
+  // {
+  //   value: "done",
+  //   label: "Done",
+  // },
+  // {
+  //   value: "canceled",
+  //   label: "Canceled",
+  // },
   {
-    value: "backlog",
-    label: "Backlog",
+    value: "open",
+    label: "Open",
   },
   {
-    value: "todo",
-    label: "Todo",
-  },
-  {
-    value: "in progress",
+    value: "in-progress",
     label: "In Progress",
   },
   {
-    value: "done",
-    label: "Done",
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
+    value: "closed",
+    label: "Closed",
   },
 ];
 
 const priorities: Priority[] = [
-  {
-    value: "no priority",
-    label: "No Priority",
-  },
-  {
-    value: "urgent",
-    label: "Urgent",
-  },
+  // {
+  //   value: "no priority",
+  //   label: "No Priority",
+  // },
+  // {
+  //   value: "urgent",
+  //   label: "Urgent",
+  // },
   {
     value: "high",
     label: "High",
@@ -90,7 +105,12 @@ const priorities: Priority[] = [
   },
 ];
 
-export default function CreateIssueForm(): JSX.Element {
+export default function CreateIssueForm({
+  onOpenChange,
+}: {
+  onOpenChange: (isOpen: boolean) => void;
+}): JSX.Element {
+  const { slug } = useParams() as { slug?: string };
   const [openStatus, setOpenStatus] = React.useState(false);
   const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
     statuses[0] || null,
@@ -104,13 +124,29 @@ export default function CreateIssueForm(): JSX.Element {
     defaultValues: {
       title: "",
       description: "",
-      status: statuses[0]?.value || "",
-      priority: priorities[0]?.value || "",
+      status: "open",
+      priority: "low",
     },
   });
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    if (slug) {
+      createIssue({
+        title: values.title,
+        description: values.description,
+        status: values.status,
+        priority: values.priority,
+        slug,
+      }).then((res) => {
+        if (res.error) {
+          console.error(res.error);
+        }
+        if (res.success) {
+          console.log(res.success);
+        }
+        onOpenChange(false);
+      });
+    }
   }
   return (
     <Form {...form}>
@@ -181,7 +217,10 @@ export default function CreateIssueForm(): JSX.Element {
                                     (priority) => priority.value === value,
                                   ) || null,
                                 );
-                                form.setValue("status", value);
+                                form.setValue(
+                                  "status",
+                                  value as "open" | "in-progress" | "closed",
+                                ); // Cast value to the correct type
                                 setOpenStatus(false);
                               }}
                             >
@@ -246,7 +285,10 @@ export default function CreateIssueForm(): JSX.Element {
                                     (priority) => priority.value === value,
                                   ) || null,
                                 );
-                                form.setValue("priority", value);
+                                form.setValue(
+                                  "priority",
+                                  value as "high" | "medium" | "low",
+                                ); // Cast value to the correct type
                                 setOpenPriority(false);
                               }}
                             >

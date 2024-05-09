@@ -15,6 +15,7 @@ export default function useWorkspace(slug: string) {
   const { data, isLoading, error } = useSWR<TWorkspace>(
     `/api/workspace/${slug}`,
     fetcher,
+    { suspense: true },
   );
 
   return {

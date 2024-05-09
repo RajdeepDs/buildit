@@ -24,7 +24,7 @@ export function CreateIssueModal({ children }: { children: React.ReactNode }) {
         onMaximize={handleParentMaximize}
         needMaximize={false}
       >
-        <CreateIssueForm />
+        <CreateIssueForm onOpenChange={setOpen} />
       </ModalContent>
     </Modal>
   );
