@@ -1,7 +1,5 @@
 "use client";
 
-// import Issue from "@/components/issue/issue";
-// import { getAllIssues } from "@/lib/data/issues/get-issues";
 import * as React from "react";
 
 export const runtime = "edge";
