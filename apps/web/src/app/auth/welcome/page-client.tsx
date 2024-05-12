@@ -28,7 +28,7 @@ export default function WelcomePageClient(): JSX.Element {
         <div className="flex flex-col items-center">
           <h1 className="text-xl font-semibold">Buildit</h1>
           <p className="mb-5">Welcome to the app!</p>
-          <Button onClick={() => router.push("/welcome?type=workspace")}>
+          <Button onClick={() => router.push("/auth/welcome?type=workspace")}>
             Get Started
           </Button>
         </div>
