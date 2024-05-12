@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -19,8 +20,10 @@ export default function AvatarDropdownMenu({
 }: {
   user: TUser | undefined;
 }) {
+  const router = useRouter();
   const onclick = () => {
     logout();
+    router.push("/auth/signin");
   };
   return (
     <DropdownMenu>
