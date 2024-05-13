@@ -2,12 +2,23 @@
 
 import * as React from "react";
 
+import MyIssuesCard from "@/components/issue/my-issues-card";
+import useIssues from "@/lib/swr/use-issues";
+
 export const runtime = "edge";
 
 export default function MyIssues() {
+  const { issues, isLoading } = useIssues();
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    <div className="h-full p-2">
-      <h1 className="">My Issues</h1>
+    <div className="h-full">
+      <nav className="border-b p-2">
+        <h1 className="text-sm">My issues</h1>
+      </nav>
+      <main>
+        {issues?.map((issue) => <MyIssuesCard key={issue.id} issue={issue} />)}
+      </main>
     </div>
   );
 }
