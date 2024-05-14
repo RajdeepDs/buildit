@@ -8,10 +8,12 @@ export default function useIssues() {
     data: issues,
     isLoading,
     error,
+    mutate,
   } = useSWR<TIssues>(`/api/issue`, fetcher);
 
   return {
     issues,
+    mutate,
     isLoading,
     error,
   };
