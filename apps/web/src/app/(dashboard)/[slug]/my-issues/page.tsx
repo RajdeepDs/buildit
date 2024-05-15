@@ -18,6 +18,7 @@ export default function MyIssues() {
       </nav>
       <main>
         {issues?.map((issue) => <MyIssuesCard key={issue.id} issue={issue} />)}
+        {issues?.length === 0 && <p>No issue found. Create a new Issue</p>}
       </main>
     </div>
   );

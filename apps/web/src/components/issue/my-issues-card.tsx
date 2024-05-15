@@ -1,3 +1,6 @@
+import { useRouter } from "next/navigation";
+import { mutate } from "swr";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,14 +13,19 @@ import { Icons } from "@buildit/ui/icons";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
-export default function MyIssuesCard({
+export default async function MyIssuesCard({
   issue,
   key,
 }: {
   issue: TIssue;
   key: TIssue["id"];
-}): JSX.Element {
+}): Promise<JSX.Element> {
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
+  async function deleteIssue() {
+    await fetch(`/api/issue/${issue.issueId}`, {
+      method: "DELETE",
+    });
+  }
   return (
     <div
       key={key}
@@ -34,7 +42,11 @@ export default function MyIssuesCard({
             <Icons.horizontalMore className="h-4 w-4 text-gray-500" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await deleteIssue();
+              }}
+            >
               <Icons.trash className="mr-2 h-4 w-4" />
               Delete
               <DropdownMenuShortcut>Del</DropdownMenuShortcut>
