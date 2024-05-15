@@ -8,8 +8,10 @@ import {
   Inbox,
   Maximize2,
   Minimize2,
+  MoreHorizontal,
   PenBox,
   Search,
+  Trash,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -27,4 +29,6 @@ export const Icons = {
   minimize: Minimize2,
   caretSortIcon: CaretSortIcon,
   checkIcon: CheckIcon,
+  horizontalMore: MoreHorizontal,
+  trash: Trash,
 };

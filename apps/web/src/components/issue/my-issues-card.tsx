@@ -1,3 +1,12 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
+
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
@@ -18,8 +27,20 @@ export default function MyIssuesCard({
         <p className="text-sm text-gray-400">{issue.issueId}</p>
         <p className="">{issue.title}</p>
       </div>
-      <div className="">
+      <div className="flex items-center gap-x-3">
         <span className="text-sm text-gray-400">{updatedAt}</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="rounded-md p-1 outline-none hover:bg-gray-200">
+            <Icons.horizontalMore className="h-4 w-4 text-gray-500" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Icons.trash className="mr-2 h-4 w-4" />
+              Delete
+              <DropdownMenuShortcut>Del</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
