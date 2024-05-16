@@ -34,8 +34,12 @@ import useIssues from "@/lib/swr/use-issues";
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.string(),
-  status: z.enum(["open", "in-progress", "closed"]),
-  priority: z.enum(["high", "medium", "low"]),
+  status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
+    message: "Invalid status",
+  }),
+  priority: z.enum(["urgent", "high", "medium", "low", "no priority"], {
+    message: "Invalid priority",
+  }),
 });
 
 type Status = {
@@ -49,49 +53,37 @@ type Priority = {
 };
 
 const statuses: Status[] = [
-  // {
-  //   value: "backlog",
-  //   label: "Backlog",
-  // },
-  // {
-  //   value: "todo",
-  //   label: "Todo",
-  // },
-  // {
-  //   value: "in progress",
-  //   label: "In Progress",
-  // },
-  // {
-  //   value: "done",
-  //   label: "Done",
-  // },
-  // {
-  //   value: "canceled",
-  //   label: "Canceled",
-  // },
   {
-    value: "open",
-    label: "Open",
+    value: "backlog",
+    label: "Backlog",
   },
   {
-    value: "in-progress",
+    value: "todo",
+    label: "Todo",
+  },
+  {
+    value: "in progress",
     label: "In Progress",
   },
   {
-    value: "closed",
-    label: "Closed",
+    value: "done",
+    label: "Done",
+  },
+  {
+    value: "canceled",
+    label: "Canceled",
   },
 ];
 
 const priorities: Priority[] = [
-  // {
-  //   value: "no priority",
-  //   label: "No Priority",
-  // },
-  // {
-  //   value: "urgent",
-  //   label: "Urgent",
-  // },
+  {
+    value: "no priority",
+    label: "No Priority",
+  },
+  {
+    value: "urgent",
+    label: "Urgent",
+  },
   {
     value: "high",
     label: "High",
@@ -125,8 +117,8 @@ export default function CreateIssueForm({
     defaultValues: {
       title: "",
       description: "",
-      status: "open",
-      priority: "low",
+      status: "backlog",
+      priority: "no priority",
     },
   });
 
@@ -224,7 +216,12 @@ export default function CreateIssueForm({
                                 );
                                 form.setValue(
                                   "status",
-                                  value as "open" | "in-progress" | "closed",
+                                  value as
+                                    | "backlog"
+                                    | "todo"
+                                    | "in progress"
+                                    | "done"
+                                    | "canceled",
                                 ); // Cast value to the correct type
                                 setOpenStatus(false);
                               }}
@@ -292,7 +289,12 @@ export default function CreateIssueForm({
                                 );
                                 form.setValue(
                                   "priority",
-                                  value as "high" | "medium" | "low",
+                                  value as
+                                    | "high"
+                                    | "medium"
+                                    | "low"
+                                    | "no priority"
+                                    | "urgent",
                                 ); // Cast value to the correct type
                                 setOpenPriority(false);
                               }}

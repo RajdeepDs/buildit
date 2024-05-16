@@ -1,6 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
 
 import { users } from "../auth";
 import { workspaces } from "../workspace";
@@ -8,11 +8,15 @@ import { workspaces } from "../workspace";
 export const issue = sqliteTable("issue", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => uuidv4()),
+    .$defaultFn(() => nanoid()),
   title: text("title").notNull(),
   description: text("description"),
-  status: text("status", { enum: ["open", "in-progress", "closed"] }),
-  priority: text("priority", { enum: ["low", "medium", "high"] }),
+  status: text("status", {
+    enum: ["backlog", "todo", "in progress", "done", "canceled"],
+  }),
+  priority: text("priority", {
+    enum: ["low", "medium", "high", "urgent", "no priority"],
+  }),
   reporterId: text("reporterId").references(() => users.id, {
     onDelete: "cascade",
   }),

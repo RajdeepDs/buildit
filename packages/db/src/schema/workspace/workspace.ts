@@ -1,13 +1,13 @@
 import { relations, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
 
 import { users } from "../auth/user";
 
 export const workspaces = sqliteTable("workspace", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => uuidv4()),
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(

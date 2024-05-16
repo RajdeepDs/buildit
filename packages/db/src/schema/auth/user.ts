@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
 
 import { workspaces } from "../workspace/workspace";
 import { accounts } from "./accounts";
@@ -9,7 +9,7 @@ import { twoFactorConfirmations } from "./twofactorConfirmation";
 export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => uuidv4()),
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   username: text("username").unique(),
   email: text("email").notNull().unique(),

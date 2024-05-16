@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "6e75941f-b531-41c2-b09e-1ef7aaa0feb9",
-  "prevId": "2df04547-5dd9-4785-9915-6cd5b28e8b27",
   "tables": {
     "user": {
       "name": "user",
@@ -195,15 +193,15 @@
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -271,15 +269,15 @@
         "twoFactorConfirmations_userId_user_id_fk": {
           "name": "twoFactorConfirmations_userId_user_id_fk",
           "tableFrom": "twoFactorConfirmations",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -391,15 +389,15 @@
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -466,15 +464,15 @@
         "workspace_userId_user_id_fk": {
           "name": "workspace_userId_user_id_fk",
           "tableFrom": "workspace",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -576,28 +574,28 @@
         "issue_reporterId_user_id_fk": {
           "name": "issue_reporterId_user_id_fk",
           "tableFrom": "issue",
-          "tableTo": "user",
           "columnsFrom": [
             "reporterId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "issue_workspaceId_workspace_id_fk": {
           "name": "issue_workspaceId_workspace_id_fk",
           "tableFrom": "issue",
-          "tableTo": "workspace",
           "columnsFrom": [
             "workspaceId"
           ],
+          "tableTo": "workspace",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -606,8 +604,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "6e75941f-b531-41c2-b09e-1ef7aaa0feb9",
+  "prevId": "2df04547-5dd9-4785-9915-6cd5b28e8b27"
 }
