@@ -17,6 +17,7 @@ export const workspaces = sqliteTable("workspace", {
     sql`(CURRENT_TIMESTAMP)`,
   ),
   userId: text("userId").references(() => users.id, { onDelete: "cascade" }),
+  issueCounter: integer("issueCounter").default(0),
 });
 
 export const workspaceRelations = relations(workspaces, ({ one }) => ({

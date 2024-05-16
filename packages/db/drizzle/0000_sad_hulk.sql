@@ -64,13 +64,31 @@ CREATE TABLE `workspace` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`slug` text NOT NULL,
-	`createdAt` integer,
-	`updatedAt` integer,
+	`createdAt` integer DEFAULT (CURRENT_TIMESTAMP),
+	`updatedAt` integer DEFAULT (CURRENT_TIMESTAMP),
 	`userId` text,
+	`issueCounter` integer DEFAULT 0,
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `issue` (
+	`id` text PRIMARY KEY NOT NULL,
+	`title` text NOT NULL,
+	`description` text,
+	`status` text,
+	`priority` text,
+	`reporterId` text,
+	`assigneeId` text,
+	`createdAt` integer DEFAULT (CURRENT_TIMESTAMP),
+	`updatedAt` integer DEFAULT (CURRENT_TIMESTAMP),
+	`workspaceId` text,
+	`issueId` text NOT NULL,
+	FOREIGN KEY (`reporterId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`workspaceId`) REFERENCES `workspace`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
 CREATE INDEX `Account_userId_index` ON `account` (`userId`);--> statement-breakpoint
-CREATE UNIQUE INDEX `workspace_slug_unique` ON `workspace` (`slug`);
+CREATE UNIQUE INDEX `workspace_slug_unique` ON `workspace` (`slug`);--> statement-breakpoint
+CREATE UNIQUE INDEX `issue_issueId_unique` ON `issue` (`issueId`);

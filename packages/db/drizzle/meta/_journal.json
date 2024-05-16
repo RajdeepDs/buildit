@@ -1,26 +1,12 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714464437641,
-      "tag": "0000_simple_the_watchers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1714479864842,
-      "tag": "0001_glorious_dragon_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1714488886383,
-      "tag": "0002_wise_microbe",
+      "version": "6",
+      "when": 1715842685266,
+      "tag": "0000_sad_hulk",
       "breakpoints": true
     }
   ]

@@ -7,6 +7,7 @@ import { issue, workspaces } from "@buildit/db/src/schema";
 
 import { getSession } from "@/lib/data/get-session";
 import { CreateIssueSchema } from "@/schemas/issue";
+import type { TWorkspace } from "@/types";
 
 export const createIssue = async ({
   title,
@@ -33,9 +34,11 @@ export const createIssue = async ({
     return { error: "Unauthorized" };
   }
 
-  const workspace = await db.query.workspaces.findFirst({
+  const workspace: TWorkspace = await db.query.workspaces.findFirst({
     where: eq(workspaces.slug, slug),
   });
+  const workspaceCounter = workspace?.issueCounter;
+  const issueCounter = workspaceCounter! + 1;
 
   try {
     await db.insert(issue).values({
@@ -44,9 +47,13 @@ export const createIssue = async ({
       status,
       priority,
       reporterId: isSession.id,
-      issueId: Math.random().toString(36).substring(7),
+      issueId: "ISSUE-" + issueCounter,
       workspaceId: workspace?.id,
     });
+    await db
+      .update(workspaces)
+      .set({ issueCounter })
+      .where(eq(workspaces.slug, slug));
     return { success: "Issue created" };
   } catch (error) {
     return { error: "Error creating issue" };

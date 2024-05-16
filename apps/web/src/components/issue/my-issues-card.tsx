@@ -11,13 +11,11 @@ import useIssues from "@/lib/swr/use-issues";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
-export default async function MyIssuesCard({
+export default function MyIssuesCard({
   issue,
-  key,
 }: {
   issue: TIssue;
-  key: TIssue["id"];
-}): Promise<JSX.Element> {
+}): JSX.Element {
   const { mutate } = useIssues();
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   async function deleteIssue() {
@@ -28,7 +26,7 @@ export default async function MyIssuesCard({
   }
   return (
     <div
-      key={key}
+      key={issue.id}
       className="flex cursor-pointer items-center justify-between border-x-0 border-b-[0.1px] p-2 hover:bg-gray-100/50"
     >
       <div className="flex items-center space-x-2">

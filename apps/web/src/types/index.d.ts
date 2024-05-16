@@ -11,14 +11,17 @@ export type TUser = {
   isTwoFactorEnabled: boolean;
 };
 
-export type TWorkspace = {
-  id: string;
-  name: string;
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: string;
-};
+export type TWorkspace =
+  | {
+      id: string;
+      name: string;
+      slug: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      issueCounter: number | null;
+      userId: string | null;
+    }
+  | undefined;
 
 export type TIssue = {
   issue;
@@ -27,8 +30,8 @@ export type TIssue = {
   createdAt: Date | null;
   updatedAt: Date | null;
   title: string;
-  status: "open" | "in-progress" | "closed" | null;
-  priority: "low" | "medium" | "high" | null;
+  status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
+  priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
   reporterId: string | null;
   assigneeId: string | null;
   workspaceId: string | null;
