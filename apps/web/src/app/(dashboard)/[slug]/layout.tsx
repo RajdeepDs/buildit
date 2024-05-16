@@ -10,7 +10,9 @@ export default function DashboardLayout({
   return (
     <div className="h-dvh flex bg-gray-100">
       <Sidebar />
-      <main className="m-2 w-full rounded-md border bg-white">{children}</main>
+      <main className="my-2 mr-2 w-full rounded-md border bg-white">
+        {children}
+      </main>
     </div>
   );
 }
