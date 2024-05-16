@@ -1,6 +1,3 @@
-import { useRouter } from "next/navigation";
-import { mutate } from "swr";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +7,7 @@ import {
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
+import useIssues from "@/lib/swr/use-issues";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
@@ -20,11 +18,13 @@ export default async function MyIssuesCard({
   issue: TIssue;
   key: TIssue["id"];
 }): Promise<JSX.Element> {
+  const { mutate } = useIssues();
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   async function deleteIssue() {
     await fetch(`/api/issue/${issue.issueId}`, {
       method: "DELETE",
     });
+    mutate();
   }
   return (
     <div

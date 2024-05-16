@@ -29,6 +29,7 @@ import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
 import { createIssue } from "@/lib/actions/issue/create-issue";
+import useIssues from "@/lib/swr/use-issues";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -128,6 +129,9 @@ export default function CreateIssueForm({
       priority: "low",
     },
   });
+
+  const { mutate } = useIssues();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     if (slug) {
@@ -143,6 +147,7 @@ export default function CreateIssueForm({
         }
         if (res.success) {
           console.log(res.success);
+          mutate();
         }
         onOpenChange(false);
       });
