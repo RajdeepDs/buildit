@@ -27,7 +27,7 @@ export default function AvatarDropdownMenu({
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="outline-none">
         {user && user.image && (
           <Image
             src={user?.image}

@@ -12,7 +12,7 @@ export default function Sidebar(): JSX.Element {
   const pathname = usePathname();
   const { slug } = useParams() as { slug?: string };
   const { workspace, isLoading } = useWorkspace(slug!);
-  const { users } = useUser();
+  const { user } = useUser();
   if (!slug) {
     return <></>;
   }
@@ -24,7 +24,7 @@ export default function Sidebar(): JSX.Element {
       ) : (
         <>
           {pathname !== `/${slug}/settings` && (
-            <DashboardSidebar slug={slug} workspace={workspace} user={users} />
+            <DashboardSidebar slug={slug} workspace={workspace} user={user} />
           )}
           {pathname === `/${slug}/settings` && <SettingsSidebar slug={slug} />}
         </>
