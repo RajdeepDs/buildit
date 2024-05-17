@@ -14,7 +14,7 @@ export async function GET(
       where: eq(issue.issueId, id),
     });
 
-    return Response.json({ issueData });
+    return Response.json(issueData);
   } catch (e) {
     console.error("Error:", e);
     return new Response("Error", {
