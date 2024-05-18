@@ -18,19 +18,19 @@ export default function IssueCard({
           <p className="mt-5">{issue?.description}</p>
         </div>
       </div>
-      <div className="w-[250px] border-l">
-        <h1 className="font-semibold">Propertise</h1>
+      <div className="w-[250px] border-l p-2">
+        <h1 className="text-sm font-medium">Propertise</h1>
         <div className="mt-5 space-y-4">
-          <p className="">
+          <p className="capitalize">
             <span className="mr-1 font-medium">Status:</span>
             {issue?.status}
           </p>
-          <p className="">
+          <p className="capitalize">
             <span className="mr-1 font-medium">Priority:</span>
             {issue?.priority}
           </p>
           <p className="">
-            <span className="mr-1 font-medium">Reporter:</span>
+            <span className="mr-1 font-medium">Reporter ID:</span>
             {issue?.reporterId}
           </p>
         </div>
