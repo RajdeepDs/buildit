@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   EditorBubble,
   EditorCommand,
@@ -49,7 +49,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           handleDrop: (view, event, _slice, moved) =>
             handleImageDrop(view, event, moved, uploadFn),
           attributes: {
-            class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
+            class: `prose prose-md dark:prose-invert prose-headings:font-bold focus:outline-none max-w-full`,
           },
         }}
         onUpdate={({ editor }) => {
@@ -57,8 +57,8 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
         }}
         slotAfter={<ImageResizer />}
       >
-        <EditorCommand className="border-muted bg-background z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border px-1 py-2 shadow-md transition-all">
-          <EditorCommandEmpty className="text-muted-foreground px-2">
+        <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-gray-200 bg-white px-1 py-1 shadow-md transition-all">
+          <EditorCommandEmpty className="px-2 text-gray-400">
             No results
           </EditorCommandEmpty>
           <EditorCommandList>
@@ -66,17 +66,15 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
               <EditorCommandItem
                 value={item.title}
                 onCommand={(val) => item.command?.(val)}
-                className={`hover:bg-accent aria-selected:bg-accent flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm `}
+                className={`flex w-full items-center space-x-2 rounded-md px-1 py-1 text-left text-sm hover:bg-gray-100 aria-selected:bg-gray-100 `}
                 key={item.title}
               >
-                <div className="border-muted bg-background flex h-10 w-10 items-center justify-center rounded-md border">
+                <div className="flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white">
                   {item.icon}
                 </div>
                 <div>
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {item.description}
-                  </p>
+                  <p className="text-xs text-gray-500">{item.description}</p>
                 </div>
               </EditorCommandItem>
             ))}
@@ -87,7 +85,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           tippyOptions={{
             placement: "top",
           }}
-          className="border-muted bg-background flex w-fit max-w-[90vw] overflow-hidden rounded-md border shadow-xl"
+          className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-gray-300 bg-white shadow-xl"
         >
           <Separator orientation="vertical" />
           <NodeSelector open={openNode} onOpenChange={setOpenNode} />

@@ -76,17 +76,18 @@ ul[data-type="taskList"] li > label input[type="checkbox"] {
   height: 1.2em;
   position: relative;
   top: 5px;
-  border: 2px solid hsl(var(--border));
+  border: 2px solid #313131;
+  border-radius: 20%;
   margin-right: 0.3rem;
   display: grid;
   place-content: center;
 
   &:hover {
-    background-color: hsl(var(--accent));
+    background-color: rgb(243, 243, 243);
   }
 
   &:active {
-    background-color: hsl(var(--accent));
+    background-color: rgb(243, 243, 243);
   }
 
   &::before {
@@ -106,7 +107,7 @@ ul[data-type="taskList"] li > label input[type="checkbox"] {
 }
 
 ul[data-type="taskList"] li[data-checked="true"] > div > p {
-  color: var(--muted-foreground);
+  color: rgb(134, 134, 134);
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
