@@ -11,6 +11,7 @@
   "dependencies": {
     "@buildit/auth": "workspace:*",
     "@buildit/db": "workspace:*",
+    "@buildit/editor": "workspace:^",
     "@buildit/ui": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-popover": "^1.0.7",

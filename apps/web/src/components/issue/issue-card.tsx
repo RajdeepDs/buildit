@@ -20,9 +20,10 @@ export default function IssueCard({
     <div className="flex h-full">
       <div className="mx-auto w-3/6">
         <div className="mt-12">
-          {/* <h1 className="text-2xl font-semibold">{issue?.title}</h1>
-          <p className="mt-5">{issue?.description}</p> */}
-          <Editor initialValue={value} onChange={setValue} />
+          <h1 className="text-2xl font-semibold">{issue?.title}</h1>
+          <p className="mt-5">{issue?.description}</p>
+
+          {/* <Editor initialValue={value} onChange={setValue} /> */}
         </div>
       </div>
       <div className="w-[250px] border-l p-2">

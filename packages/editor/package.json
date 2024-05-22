@@ -1,0 +1,42 @@
+{
+  "name": "@buildit/editor",
+  "version": "1.0.0",
+  "types": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "scripts": {},
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@buildit/ui": "workspace:^",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tippyjs/react": "^4.2.6",
+    "@tiptap-pro/extension-drag-handle-react": "^2.8.7",
+    "@tiptap/core": "^2.4.0",
+    "@tiptap/extension-document": "^2.4.0",
+    "@tiptap/extension-heading": "^2.4.0",
+    "@tiptap/extension-placeholder": "^2.4.0",
+    "@tiptap/pm": "^2.4.0",
+    "@tiptap/react": "^2.4.0",
+    "@tiptap/starter-kit": "^2.4.0",
+    "@tiptap/suggestion": "^2.4.0",
+    "lucide-react": "^0.344.0",
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "@buildit/tailwind-config": "workspace:*",
+    "@buildit/tsconfig": "workspace:*",
+    "@types/react": "^18",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwindcss": "^3.4.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5"
+  }
+}
