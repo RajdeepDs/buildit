@@ -3,10 +3,14 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 
-import { CustomDocument, Heading } from ".";
+import { CustomDocument, Heading, TaskItem, TaskList } from ".";
 
 export const ExtensionsKit = () => [
   CustomDocument,
+  TaskList,
+  TaskItem.configure({
+    nested: true,
+  }),
   StarterKit.configure({
     heading: {
       levels: [1, 2, 3],
