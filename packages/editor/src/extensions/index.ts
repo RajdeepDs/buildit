@@ -14,3 +14,4 @@ export { Heading } from "./Headings";
 export { CustomDocument } from "./Document";
 export { FontSize } from "./FontSize";
 export { Link } from "./Link";
+export { SlashCommand } from "./SlashCommand";

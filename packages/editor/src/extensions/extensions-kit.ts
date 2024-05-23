@@ -11,6 +11,7 @@ import {
   Heading,
   Highlight,
   Link,
+  SlashCommand,
   Subscript,
   Superscript,
   TaskItem,
@@ -32,6 +33,7 @@ export const ExtensionsKit = () => [
   FontFamily,
   FontSize,
   Link,
+  SlashCommand,
   TextAlign.extend({
     addKeyboardShortcuts() {
       return {};
