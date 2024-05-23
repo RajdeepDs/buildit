@@ -3,11 +3,42 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 
-import { CustomDocument, Heading, TaskItem, TaskList } from ".";
+import {
+  Color,
+  CustomDocument,
+  FontFamily,
+  FontSize,
+  Heading,
+  Highlight,
+  Link,
+  Subscript,
+  Superscript,
+  TaskItem,
+  TaskList,
+  TextAlign,
+  TextStyle,
+  Underline,
+} from ".";
 
 export const ExtensionsKit = () => [
   CustomDocument,
   TaskList,
+  Underline,
+  Subscript,
+  Superscript,
+  TextStyle,
+  Color,
+  Highlight,
+  FontFamily,
+  FontSize,
+  Link,
+  TextAlign.extend({
+    addKeyboardShortcuts() {
+      return {};
+    },
+  }).configure({
+    types: ["heading", "paragraph"],
+  }),
   TaskItem.configure({
     nested: true,
   }),

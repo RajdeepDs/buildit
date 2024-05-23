@@ -218,6 +218,9 @@ importers:
       '@buildit/ui':
         specifier: workspace:^
         version: link:../ui
+      '@radix-ui/react-dropdown-menu':
+        specifier: ^2.0.6
+        version: 2.0.6(@types/react@18.2.79)(react-dom@18.3.1)(react@18.2.0)
       '@radix-ui/react-popover':
         specifier: ^1.0.7
         version: 1.0.7(@types/react@18.2.79)(react-dom@18.3.1)(react@18.2.0)
@@ -233,19 +236,46 @@ importers:
       '@tiptap/core':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/pm@2.4.0)
+      '@tiptap/extension-color':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)(@tiptap/extension-text-style@2.4.0)
       '@tiptap/extension-document':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-font-family':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)(@tiptap/extension-text-style@2.4.0)
       '@tiptap/extension-heading':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-highlight':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-link':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)(@tiptap/pm@2.4.0)
       '@tiptap/extension-placeholder':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0)(@tiptap/pm@2.4.0)
+      '@tiptap/extension-subscript':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-superscript':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
       '@tiptap/extension-task-item':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0)(@tiptap/pm@2.4.0)
       '@tiptap/extension-task-list':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-text-align':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-text-style':
+        specifier: ^2.4.0
+        version: 2.4.0(@tiptap/core@2.4.0)
+      '@tiptap/extension-underline':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0)
       '@tiptap/pm':
@@ -263,6 +293,9 @@ importers:
       lucide-react:
         specifier: ^0.344.0
         version: 0.344.0(react@18.2.0)
+      react-colorful:
+        specifier: ^5.6.1
+        version: 5.6.1(react-dom@18.3.1)(react@18.2.0)
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -277,10 +310,10 @@ importers:
         specifier: ^18
         version: 18.2.79
       autoprefixer:
-        specifier: ^10.4.16
+        specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
       postcss:
-        specifier: ^8
+        specifier: ^8.4.38
         version: 8.4.38
       react:
         specifier: ^18
@@ -289,7 +322,7 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.2.0)
       tailwindcss:
-        specifier: ^3.4.1
+        specifier: ^3.4.3
         version: 3.4.3
       tsup:
         specifier: ^8.0.1
@@ -2972,6 +3005,16 @@ packages:
       tippy.js: 6.3.7
     dev: false
 
+  /@tiptap/extension-font-family@2.4.0(@tiptap/core@2.4.0)(@tiptap/extension-text-style@2.4.0):
+    resolution: {integrity: sha512-viWyQJSxJBRn2ni7G2QgMdBqx7ysE60JBo0/1ptt5mD81+czaYYm8WkUNljljrIMV9djC8qGUlFqhI1Kx+ONaQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/extension-text-style': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
+      '@tiptap/extension-text-style': 2.4.0(@tiptap/core@2.4.0)
+    dev: false
+
   /@tiptap/extension-gapcursor@2.4.0(@tiptap/core@2.4.0)(@tiptap/pm@2.4.0):
     resolution: {integrity: sha512-F4y/0J2lseohkFUw9P2OpKhrJ6dHz69ZScABUvcHxjznJLd6+0Zt7014Lw5PA8/m2d/w0fX8LZQ88pZr4quZPQ==}
     peerDependencies:
@@ -3105,6 +3148,22 @@ packages:
       '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
     dev: false
 
+  /@tiptap/extension-subscript@2.4.0(@tiptap/core@2.4.0):
+    resolution: {integrity: sha512-exLSmSFmYN6AVww5oyroFL3KCwstT0U+ojvVhRD6DQ+Hc81d++lBKANfsWAcllXjZVGPWeMNdE66bV7oFCtQcQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
+    dev: false
+
+  /@tiptap/extension-superscript@2.4.0(@tiptap/core@2.4.0):
+    resolution: {integrity: sha512-s+GsbbERNQCn/hyaw5/82y3wHQ7o5byc/eFAKYo1p3p5eESlDaHY/xVYPt3CGOX2TJWZalgSFEFqBVdTSI8mUQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
+    dev: false
+
   /@tiptap/extension-task-item@2.4.0(@tiptap/core@2.4.0)(@tiptap/pm@2.4.0):
     resolution: {integrity: sha512-x40vdHnmDiBbA2pjWR/92wVGb6jT13Nk2AhRUI/oP/r4ZGKpTypoB7heDnvLBgH0Y5a51dFqU+G1SFFL30u5uA==}
     peerDependencies:
@@ -3117,6 +3176,14 @@ packages:
 
   /@tiptap/extension-task-list@2.4.0(@tiptap/core@2.4.0):
     resolution: {integrity: sha512-vmUB3wEJU81QbiHUygBlselQW8YIW8/85UTwANvWx8+KEWyM7EUF4utcm5R2UobIprIcWb4hyVkvW/5iou25gg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.4.0(@tiptap/pm@2.4.0)
+    dev: false
+
+  /@tiptap/extension-text-align@2.4.0(@tiptap/core@2.4.0):
+    resolution: {integrity: sha512-wpRe2OiLXTK4kTy4RZEPnPjFbK16kYHPAx1552hLXrOdyxbS7Sdbo+w4x7aGLLZZqZdudCFfkdtnqrc7PDVZdA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
@@ -6724,6 +6791,16 @@ packages:
 
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  /react-colorful@5.6.1(react-dom@18.3.1)(react@18.2.0):
+    resolution: {integrity: sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.3.1(react@18.2.0)
+    dev: false
 
   /react-css-styled@1.1.9:
     resolution: {integrity: sha512-M7fJZ3IWFaIHcZEkoFOnkjdiUFmwd8d+gTh2bpqMOcnxy/0Gsykw4dsL4QBiKsxcGow6tETUa4NAUcmJF+/nfw==}
