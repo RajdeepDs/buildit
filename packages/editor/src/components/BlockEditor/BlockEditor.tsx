@@ -16,7 +16,7 @@ export const BlockEditor = () => {
   if (!editor) return null;
   return (
     <div className="flex h-full" ref={menuContainerRef}>
-      <div className="relative flex h-full flex-1 flex-col ">
+      <div className="relative flex h-full w-full flex-1 flex-col">
         <EditorContent
           editor={editor}
           ref={editorRef}
