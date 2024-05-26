@@ -102,6 +102,6 @@
   color: gray;
   pointer-events: none;
   height: 0;
-  font-size: x-large;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
 }

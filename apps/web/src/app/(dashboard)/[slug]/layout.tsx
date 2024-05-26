@@ -2,6 +2,8 @@ import React from "react";
 
 import Sidebar from "@/components/layouts/sidebar";
 
+export const runtime = "edge";
+
 export default function DashboardLayout({
   children,
 }: {

@@ -7,7 +7,6 @@ import "../../styles/index.css";
 
 import { useBlockEditor } from "../../hooks/useBlockEditor";
 import { LinkMenu, TextMenu } from "../menus";
-import { ContentItemMenu } from "../menus/ContentItemMenu";
 
 export const BlockEditor = () => {
   const menuContainerRef = useRef(null);
@@ -16,13 +15,13 @@ export const BlockEditor = () => {
   if (!editor) return null;
   return (
     <div className="flex h-full" ref={menuContainerRef}>
-      <div className="relative flex h-full w-full flex-1 flex-col">
+      <div className="relative flex h-full w-full flex-1 flex-col px-3 py-1">
         <EditorContent
           editor={editor}
           ref={editorRef}
           className="flex-1 overflow-y-auto"
         />
-        <ContentItemMenu editor={editor} />
+        {/* <ContentItemMenu editor={editor} /> */}
         <LinkMenu editor={editor} appendTo={menuContainerRef} />
         <TextMenu editor={editor} />
       </div>
