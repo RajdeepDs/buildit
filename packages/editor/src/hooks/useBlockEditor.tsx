@@ -7,5 +7,6 @@ export const useBlockEditor = () => {
     autofocus: true,
     extensions: [...ExtensionsKit()],
   });
+
   return { editor };
 };
