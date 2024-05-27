@@ -31,7 +31,7 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
   if (editor && !control) {
     return (
       <div className="flex h-full" ref={menuContainerRef}>
-        <div className="relative flex h-full w-full flex-1 flex-col px-3 py-1">
+        <div className="relative flex h-full w-full flex-1 flex-col">
           <EditorContent
             editor={editor}
             ref={editorRef}
@@ -52,7 +52,7 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
       defaultValue=""
       render={({ field }) => (
         <div className="flex h-full" ref={menuContainerRef}>
-          <div className="relative flex h-full w-full flex-1 flex-col px-3 py-1">
+          <div className="relative flex h-full w-full flex-1 flex-col">
             <EditorContent
               editor={editor}
               ref={editorRef}

@@ -22,7 +22,7 @@ import {
 } from ".";
 
 export const ExtensionsKit = () => [
-  CustomDocument,
+  // CustomDocument,
   TaskList,
   Underline,
   Subscript,
@@ -48,11 +48,11 @@ export const ExtensionsKit = () => [
     heading: {
       levels: [1, 2, 3],
     },
-    document: false,
+    // document: false,
   }),
-  Placeholder.configure({
-    placeholder: "Title",
-  }),
+  // Placeholder.configure({
+  //   placeholder: "Title",
+  // }),
   Heading.configure({
     levels: [1, 2, 3],
   }),

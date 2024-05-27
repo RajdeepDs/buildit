@@ -1,3 +1,5 @@
+import { BlockEditor } from "@buildit/editor";
+
 import useIssue from "@/lib/swr/use-issue";
 
 export default function IssueCard({
@@ -15,6 +17,7 @@ export default function IssueCard({
         <div className="mt-12">
           <h1 className="text-2xl font-semibold">{issue?.title}</h1>
           <p className="mt-5">{issue?.description}</p>
+          <BlockEditor />
         </div>
       </div>
       <div className="w-[250px] border-l p-2">

@@ -3,7 +3,7 @@
   @apply z-0 caret-black outline-0 dark:caret-white;
 
   & > * {
-    @apply mx-auto max-w-2xl;
+    /* @apply mx-auto max-w-2xl; */
   }
 
   .selection {

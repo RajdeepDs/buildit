@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { BlockEditor } from "@buildit/editor";
 import {
   Button,
   Form,
@@ -148,7 +149,11 @@ export default function CreateIssueForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Issue title" {...field} />
+                <Input
+                  placeholder="Issue title"
+                  {...field}
+                  className="border-none px-0 text-lg font-semibold shadow-none focus-visible:ring-0"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -158,9 +163,9 @@ export default function CreateIssueForm({
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="max-h-[400px] overflow-y-auto">
               <FormControl>
-                <Textarea placeholder="Issue description" {...field} />
+                <BlockEditor />
               </FormControl>
               <FormMessage />
             </FormItem>
