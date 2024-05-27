@@ -8,7 +8,7 @@ import "../../styles/index.css";
 import { Controller } from "react-hook-form";
 
 import { useBlockEditor } from "../../hooks/useBlockEditor";
-import { LinkMenu, TextMenu } from "../menus";
+import { ContentItemMenu, LinkMenu, TextMenu } from "../menus";
 
 interface BlockEditorProps {
   control?: any;
@@ -37,6 +37,7 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
             ref={editorRef}
             className="flex-1 overflow-y-auto"
           />
+          {/* <ContentItemMenu editor={editor} /> */}
           <LinkMenu editor={editor} appendTo={menuContainerRef} />
           <TextMenu editor={editor} />
         </div>
@@ -58,6 +59,7 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
               className="flex-1 overflow-y-auto"
               onBlur={() => field.onChange(editor.getJSON())}
             />
+            {/* <ContentItemMenu editor={editor} /> */}
             <LinkMenu editor={editor} appendTo={menuContainerRef} />
             <TextMenu editor={editor} />
           </div>

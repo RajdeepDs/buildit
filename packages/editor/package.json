@@ -16,7 +16,6 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@tippyjs/react": "^4.2.6",
-    "@tiptap-pro/extension-drag-handle-react": "^2.8.7",
     "@tiptap/core": "^2.4.0",
     "@tiptap/extension-color": "^2.4.0",
     "@tiptap/extension-document": "^2.4.0",

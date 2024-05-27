@@ -8,25 +8,19 @@ import { z } from "zod";
 
 import {
   Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
   Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Textarea,
 } from "@buildit/ui";
-import { Icons } from "@buildit/ui/icons";
-import { cn } from "@buildit/ui/utils";
 
 import { createIssue } from "@/lib/actions/issue/create-issue";
 import useIssues from "@/lib/swr/use-issues";
@@ -172,77 +166,36 @@ export default function CreateIssueForm({
             </FormItem>
           )}
         />
-        <div className="flex gap-x-1">
+        <div className="flex gap-x-2">
           <FormField
             control={form.control}
             name="status"
             render={({ field }) => (
               <FormItem>
-                <Popover open={openStatus} onOpenChange={setOpenStatus}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground",
-                        )}
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {statuses.map((status) => (
+                      <SelectItem
+                        key={status.value}
+                        value={status.value}
+                        onClick={() => {
+                          setSelectedStatus(status);
+                          setOpenStatus(false);
+                        }}
                       >
-                        {selectedStatus ? (
-                          <>{selectedStatus.label}</>
-                        ) : (
-                          "Select status"
-                        )}
-                        <Icons.caretSortIcon />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0" align="start">
-                    <Command>
-                      <CommandInput placeholder="Filter status..." />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup>
-                          {statuses.map((status) => (
-                            <CommandItem
-                              key={status.value}
-                              value={status.value}
-                              onSelect={(value) => {
-                                setSelectedStatus(
-                                  statuses.find(
-                                    (priority) => priority.value === value,
-                                  ) || null,
-                                );
-                                form.setValue(
-                                  "status",
-                                  value as
-                                    | "backlog"
-                                    | "todo"
-                                    | "in progress"
-                                    | "done"
-                                    | "canceled",
-                                ); // Cast value to the correct type
-                                setOpenStatus(false);
-                              }}
-                            >
-                              {status.label}
-                              <Icons.checkIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  status.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
+                        {status.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />
@@ -251,71 +204,30 @@ export default function CreateIssueForm({
             name="priority"
             render={({ field }) => (
               <FormItem>
-                <Popover open={openPriority} onOpenChange={setOpenPriority}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground",
-                        )}
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Priority" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {priorities.map((priority) => (
+                      <SelectItem
+                        key={priority.value}
+                        value={priority.value}
+                        onClick={() => {
+                          setSelectedPriority(priority);
+                          setOpenPriority(false);
+                        }}
                       >
-                        {selectedPriority ? (
-                          <>{selectedPriority.label}</>
-                        ) : (
-                          "Select priority"
-                        )}
-                        <Icons.caretSortIcon />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0" align="start">
-                    <Command>
-                      <CommandInput placeholder="Filter priority..." />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup>
-                          {priorities.map((priority) => (
-                            <CommandItem
-                              key={priority.value}
-                              value={priority.value}
-                              onSelect={(value) => {
-                                setSelectedPriority(
-                                  priorities.find(
-                                    (priority) => priority.value === value,
-                                  ) || null,
-                                );
-                                form.setValue(
-                                  "priority",
-                                  value as
-                                    | "high"
-                                    | "medium"
-                                    | "low"
-                                    | "no priority"
-                                    | "urgent",
-                                ); // Cast value to the correct type
-                                setOpenPriority(false);
-                              }}
-                            >
-                              {priority.label}
-                              <Icons.checkIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  priority.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
+                        {priority.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />
