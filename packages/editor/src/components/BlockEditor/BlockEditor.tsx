@@ -20,11 +20,11 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const { editor } = useBlockEditor();
 
-  useEffect(() => {
-    editor?.on("blur", ({ editor }) => {
-      console.log(editor.getJSON());
-    });
-  }, [editor]);
+  // useEffect(() => {
+  //   editor?.on("blur", ({ editor }) => {
+  //     console.log(editor.getJSON());
+  //   });
+  // }, [editor]);
 
   if (!editor) return null;
 
@@ -52,7 +52,7 @@ export const BlockEditor = ({ control, name }: BlockEditorProps) => {
       defaultValue=""
       render={({ field }) => (
         <div className="flex h-full" ref={menuContainerRef}>
-          <div className="relative flex h-full w-full flex-1 flex-col">
+          <div className="flex h-full w-full flex-1 flex-col">
             <EditorContent
               editor={editor}
               ref={editorRef}

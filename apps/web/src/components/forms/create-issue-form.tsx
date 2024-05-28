@@ -20,7 +20,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
 } from "@buildit/ui";
 
 import { createIssue } from "@/lib/actions/issue/create-issue";
@@ -28,7 +27,7 @@ import useIssues from "@/lib/swr/use-issues";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
-  description: z.string(),
+  description: z.any(),
   status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
     message: "Invalid status",
   }),
@@ -121,24 +120,24 @@ export default function CreateIssueForm({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    if (slug) {
-      createIssue({
-        title: values.title,
-        description: values.description,
-        status: values.status,
-        priority: values.priority,
-        slug,
-      }).then((res) => {
-        if (res.error) {
-          console.error(res.error);
-        }
-        if (res.success) {
-          console.log(res.success);
-          mutate();
-        }
-        onOpenChange(false);
-      });
-    }
+    // if (slug) {
+    //   createIssue({
+    //     title: values.title,
+    //     description: values.description,
+    //     status: values.status,
+    //     priority: values.priority,
+    //     slug,
+    //   }).then((res) => {
+    //     if (res.error) {
+    //       console.error(res.error);
+    //     }
+    //     if (res.success) {
+    //       console.log(res.success);
+    //       mutate();
+    //     }
+    //     onOpenChange(false);
+    //   });
+    // }
   }
   return (
     <Form {...form}>
@@ -165,7 +164,7 @@ export default function CreateIssueForm({
           render={({ field }) => (
             <FormItem className="max-h-[400px] overflow-y-auto">
               <FormControl>
-                <BlockEditor />
+                <BlockEditor control={form.control} name="description" />
               </FormControl>
               <FormMessage />
             </FormItem>
