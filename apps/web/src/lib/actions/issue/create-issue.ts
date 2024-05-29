@@ -16,8 +16,6 @@ export const createIssue = async ({
   priority,
   slug,
 }: z.infer<typeof CreateIssueSchema>) => {
-  console.log(description);
-
   const validateFields = CreateIssueSchema.parse({
     title,
     description,

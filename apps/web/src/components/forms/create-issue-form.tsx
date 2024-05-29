@@ -22,8 +22,10 @@ import {
   SelectValue,
 } from "@buildit/ui";
 
+import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
 import useIssues from "@/lib/swr/use-issues";
+import type { Priority, Status } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -36,62 +38,6 @@ const formSchema = z.object({
   }),
 });
 
-type Status = {
-  value: string;
-  label: string;
-};
-
-type Priority = {
-  value: string;
-  label: string;
-};
-
-const statuses: Status[] = [
-  {
-    value: "backlog",
-    label: "Backlog",
-  },
-  {
-    value: "todo",
-    label: "Todo",
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-  },
-  {
-    value: "done",
-    label: "Done",
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-  },
-];
-
-const priorities: Priority[] = [
-  {
-    value: "no priority",
-    label: "No Priority",
-  },
-  {
-    value: "urgent",
-    label: "Urgent",
-  },
-  {
-    value: "high",
-    label: "High",
-  },
-  {
-    value: "medium",
-    label: "Medium",
-  },
-  {
-    value: "low",
-    label: "Low",
-  },
-];
-
 export default function CreateIssueForm({
   onOpenChange,
 }: {
@@ -103,9 +49,8 @@ export default function CreateIssueForm({
     statuses[0] || null,
   );
   const [openPriority, setOpenPriority] = React.useState(false);
-  const [selectedPriority, setSelectedPriority] = React.useState<Status | null>(
-    priorities[0] || null,
-  );
+  const [selectedPriority, setSelectedPriority] =
+    React.useState<Priority | null>(priorities[0] || null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -119,7 +64,6 @@ export default function CreateIssueForm({
   const { mutate } = useIssues();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values.description);
     if (slug) {
       createIssue({
         title: values.title,
@@ -149,7 +93,6 @@ export default function CreateIssueForm({
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder="Issue title"
                   {...field}
                   className="border-none px-0 text-lg font-semibold shadow-none focus-visible:ring-0"
                 />

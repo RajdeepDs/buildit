@@ -18,6 +18,7 @@ import {
 import { Icons } from "@buildit/ui/icons";
 
 import IssueCard from "@/components/issue/issue-card";
+import useIssue from "@/lib/swr/use-issue";
 import useIssues from "@/lib/swr/use-issues";
 
 export default function IssueClientPage() {
@@ -30,6 +31,13 @@ export default function IssueClientPage() {
     });
     mutate();
     router.push(`/${slug}/my-issues`);
+  }
+  const { issue, isLoading, error } = useIssue(id);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -67,7 +75,7 @@ export default function IssueClientPage() {
           </Breadcrumb>
         </nav>
         <main className="h-full">
-          <IssueCard issueId={id} />
+          <IssueCard issue={issue} />
         </main>
       </div>
     </div>

@@ -39,3 +39,27 @@ export type TIssue = {
 };
 
 export type TIssues = TIssue[];
+
+export type Status = {
+  value: string;
+  label: string;
+};
+
+export type Priority = {
+  value: string;
+  label: string;
+};
+
+export type IssueProp = {
+  id: string;
+  title: string;
+  description: string | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
+  priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
+  reporterId: string | null;
+  assigneeId: string | null;
+  workspaceId: string | null;
+  issueId: string;
+};

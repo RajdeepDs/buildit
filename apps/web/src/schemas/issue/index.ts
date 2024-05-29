@@ -11,3 +11,7 @@ export const CreateIssueSchema = z.object({
   }),
   slug: z.string(),
 });
+
+export const UpdateIssueSchema = CreateIssueSchema.extend({
+  issueId: z.string(),
+}).omit({ slug: true });
