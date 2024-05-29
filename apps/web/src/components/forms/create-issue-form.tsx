@@ -93,8 +93,9 @@ export default function CreateIssueForm({
             <FormItem>
               <FormControl>
                 <Input
+                  placeholder="Title"
                   {...field}
-                  className="border-none px-0 text-lg font-semibold shadow-none focus-visible:ring-0"
+                  className="border-none px-0 text-lg font-semibold shadow-none placeholder:text-gray-500 focus-visible:ring-0"
                 />
               </FormControl>
               <FormMessage />

@@ -5,7 +5,6 @@ import StarterKit from "@tiptap/starter-kit";
 
 import {
   Color,
-  CustomDocument,
   FontFamily,
   FontSize,
   Heading,
@@ -22,7 +21,6 @@ import {
 } from ".";
 
 export const ExtensionsKit = () => [
-  // CustomDocument,
   TaskList,
   Underline,
   Subscript,
@@ -48,11 +46,10 @@ export const ExtensionsKit = () => [
     heading: {
       levels: [1, 2, 3],
     },
-    // document: false,
   }),
-  // Placeholder.configure({
-  //   placeholder: "Title",
-  // }),
+  Placeholder.configure({
+    placeholder: "Add description...",
+  }),
   Heading.configure({
     levels: [1, 2, 3],
   }),

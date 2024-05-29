@@ -87,7 +87,7 @@ export default function IssueCard({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex h-full">
         <div className="mx-auto w-3/6">
-          <div className="mt-12">
+          <div className="mt-12 h-full">
             <FormField
               control={form.control}
               name="title"
@@ -107,7 +107,7 @@ export default function IssueCard({
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="max-h-[400px] overflow-y-auto">
+                <FormItem className="max-h-[720px] overflow-y-auto">
                   <FormControl>
                     <BlockEditor
                       control={form.control}
