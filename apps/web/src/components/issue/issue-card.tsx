@@ -16,8 +16,7 @@ export default function IssueCard({
       <div className="mx-auto w-3/6">
         <div className="mt-12">
           <h1 className="text-2xl font-semibold">{issue?.title}</h1>
-          <p className="mt-5">{issue?.description}</p>
-          <BlockEditor />
+          <BlockEditor content={issue?.description} />
         </div>
       </div>
       <div className="w-[250px] border-l p-2">

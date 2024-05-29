@@ -10,7 +10,7 @@ export const issue = sqliteTable("issue", {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   title: text("title").notNull(),
-  description: text("description"),
+  description: text("description", { mode: "json" }),
   status: text("status", {
     enum: ["backlog", "todo", "in progress", "done", "canceled"],
   }),

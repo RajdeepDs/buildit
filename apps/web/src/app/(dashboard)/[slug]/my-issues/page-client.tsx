@@ -4,8 +4,9 @@ import MyIssuesCard from "@/components/issue/my-issues-card";
 import useIssues from "@/lib/swr/use-issues";
 
 export default function MyIssuesClientPage() {
-  const { issues, isLoading } = useIssues();
+  const { issues, isLoading, error } = useIssues();
   if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="h-full">

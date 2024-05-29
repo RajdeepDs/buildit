@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const CreateIssueSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
-  description: z.string(),
+  description: z.any(),
   status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
     message: "Invalid status",
   }),

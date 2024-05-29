@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import type { JSONContent } from "@tiptap/react";
 import { EditorContent } from "@tiptap/react";
 
 import "../../styles/index.css";
@@ -13,13 +14,13 @@ import { ContentItemMenu, LinkMenu, TextMenu } from "../menus";
 interface BlockEditorProps {
   control?: any;
   name?: string;
+  content?: string | null | undefined;
 }
 
-export const BlockEditor = ({ control, name }: BlockEditorProps) => {
+export const BlockEditor = ({ control, name, content }: BlockEditorProps) => {
   const menuContainerRef = useRef(null);
   const editorRef = useRef<HTMLDivElement | null>(null);
-  const { editor } = useBlockEditor();
-
+  const { editor } = useBlockEditor({ content: content || "" });
   // useEffect(() => {
   //   editor?.on("blur", ({ editor }) => {
   //     console.log(editor.getJSON());

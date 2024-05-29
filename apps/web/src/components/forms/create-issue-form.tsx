@@ -119,25 +119,25 @@ export default function CreateIssueForm({
   const { mutate } = useIssues();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // if (slug) {
-    //   createIssue({
-    //     title: values.title,
-    //     description: values.description,
-    //     status: values.status,
-    //     priority: values.priority,
-    //     slug,
-    //   }).then((res) => {
-    //     if (res.error) {
-    //       console.error(res.error);
-    //     }
-    //     if (res.success) {
-    //       console.log(res.success);
-    //       mutate();
-    //     }
-    //     onOpenChange(false);
-    //   });
-    // }
+    console.log(values.description);
+    if (slug) {
+      createIssue({
+        title: values.title,
+        description: JSON.parse(JSON.stringify(values.description)),
+        status: values.status,
+        priority: values.priority,
+        slug,
+      }).then((res) => {
+        if (res.error) {
+          console.error(res.error);
+        }
+        if (res.success) {
+          console.log(res.success);
+          mutate();
+        }
+        onOpenChange(false);
+      });
+    }
   }
   return (
     <Form {...form}>
