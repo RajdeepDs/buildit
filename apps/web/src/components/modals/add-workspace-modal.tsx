@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -55,10 +56,10 @@ function AddWorkspaceModalHelper({
         // TODO: Add types for data
       }).then((data: any) => {
         if (data.error) {
-          console.log(data.error);
+          toast.error("Error creating workspace.");
         }
         if (data.success) {
-          console.log(data.success);
+          toast.success("Workspace created successfully.");
           setShowAddWorkspaceModal(false);
           router.push(`/${values.workspaceSlug}`);
         }

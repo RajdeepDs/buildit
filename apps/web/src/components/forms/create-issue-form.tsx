@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { startTransition } from "react";
 import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
@@ -65,21 +66,25 @@ export default function CreateIssueForm({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (slug) {
-      createIssue({
-        title: values.title,
-        description: JSON.parse(JSON.stringify(values.description)),
-        status: values.status,
-        priority: values.priority,
-        slug,
-      }).then((res) => {
-        if (res.error) {
-          console.error(res.error);
-        }
-        if (res.success) {
-          console.log(res.success);
-          mutate();
-        }
-        onOpenChange(false);
+      startTransition(() => {
+        createIssue({
+          title: values.title,
+          description: JSON.parse(JSON.stringify(values.description)),
+          status: values.status,
+          priority: values.priority,
+          slug,
+        }).then((res) => {
+          if (res.error) {
+            toast.error("Failed to create issue.");
+          }
+          if (res.success) {
+            toast.success("Issue created.", {
+              description: `${res.success} is created successfully.`,
+            });
+            mutate();
+          }
+          onOpenChange(false);
+        });
       });
     }
   }

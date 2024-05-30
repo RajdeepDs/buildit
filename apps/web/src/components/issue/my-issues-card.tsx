@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -28,6 +29,7 @@ export default function MyIssuesCard({
     await fetch(`/api/issue/${issue.issueId}`, {
       method: "DELETE",
     });
+    toast.success("Issue deleted successfully.");
     mutate();
   }
   const { user } = useUser();

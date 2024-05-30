@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
@@ -74,10 +75,10 @@ export default function IssueCard({
       issueId: issue?.issueId || "",
     }).then((res) => {
       if (res.error) {
-        console.error(res.error);
+        toast.error("Error updating issue.");
       }
       if (res.success) {
-        console.log(res.success);
+        toast.success("Issue updated successfully.");
         mutate();
       }
     });

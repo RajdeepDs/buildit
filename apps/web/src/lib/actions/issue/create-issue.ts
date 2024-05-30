@@ -54,7 +54,7 @@ export const createIssue = async ({
       .update(workspaces)
       .set({ issueCounter })
       .where(eq(workspaces.slug, slug));
-    return { success: "Issue created" };
+    return { success: "ISSUE-" + issueCounter };
   } catch (error) {
     return { error: "Error creating issue" };
   }
