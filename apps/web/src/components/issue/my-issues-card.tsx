@@ -71,6 +71,7 @@ export default function MyIssuesCard({
           onClick={async () => {
             await deleteIssue();
           }}
+          className="text-red-500 focus:bg-red-50 focus:text-red-500"
         >
           <Icons.trash className="mr-2 h-4 w-4" />
           Delete

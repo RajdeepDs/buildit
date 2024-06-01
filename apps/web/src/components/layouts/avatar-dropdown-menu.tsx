@@ -51,7 +51,12 @@ export default function AvatarDropdownMenu({
           <Link href="/settings/members">Invite and manage members</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={onclick}>Log Out</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={onclick}
+          className="text-red-500 focus:bg-red-100 focus:text-red-500"
+        >
+          Log Out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
