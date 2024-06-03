@@ -3,12 +3,12 @@ export type TUser = {
   name: string;
   username: string | null;
   email: string;
-  emailVerified: string | null;
-  image: string;
+  emailVerified: Date | null;
+  image: string | null;
   password: string | null;
-  onboarding: boolean;
-  role: string;
-  isTwoFactorEnabled: boolean;
+  onboarding: boolean | null;
+  role: string | null;
+  isTwoFactorEnabled: boolean | null;
 };
 
 export type TWorkspace =
@@ -24,14 +24,14 @@ export type TWorkspace =
   | undefined;
 
 export type TIssue = {
-  issue;
   id: string;
-  description: string | null;
+  description: unknown | null;
   createdAt: Date | null;
   updatedAt: Date | null;
   title: string;
   status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
   priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
+  reporter: TUser | null;
   reporterId: string | null;
   assigneeId: string | null;
   workspaceId: string | null;

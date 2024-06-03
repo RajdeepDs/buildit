@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
+  // BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -46,10 +46,11 @@ export default function IssueClientPage() {
         <nav className="border-b p-2">
           <Breadcrumb>
             <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href={`/${slug}/my-issues`}>
-                  My issues
-                </BreadcrumbLink>
+              <BreadcrumbItem
+                onClick={() => router.back()}
+                className="cursor-pointer"
+              >
+                My Issues
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

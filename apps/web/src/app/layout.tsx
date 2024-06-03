@@ -5,6 +5,8 @@ import "./globals.css";
 
 import { Toaster } from "sonner";
 
+import Provider from "@/components/Provider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
-        <Toaster closeButton />
+        <Provider>
+          {children}
+          <Toaster closeButton />
+        </Provider>
       </body>
     </html>
   );
