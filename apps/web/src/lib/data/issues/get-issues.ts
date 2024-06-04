@@ -1,31 +1,31 @@
+"use server";
+
 import { db, eq } from "@buildit/db";
 import { issue } from "@buildit/db/src/schema";
 
-import { getSession } from "@/lib/data/get-session";
-
-export async function getAllIssues() {
-  const user = await getSession();
-  if (!user) {
-    return null;
-  }
+export const getIssues = async () => {
   try {
-    const allIssues = await db.query.issue.findMany({
-      where: eq(issue.reporterId, user.id),
+    const issues = await db.query.issue.findMany({
+      with: {
+        reporter: true,
+      },
     });
-    return allIssues;
+    return issues;
   } catch {
     return null;
   }
-}
+};
 
-export async function getIssueByIssueId(issueId: string) {
+export const getIssueByIssueId = async ({ issueId }: { issueId: string }) => {
   try {
-    const IssueDetails = await db.query.issue.findFirst({
+    const issueDetails = await db.query.issue.findFirst({
       where: eq(issue.issueId, issueId),
+      with: {
+        reporter: true,
+      },
     });
-
-    return IssueDetails;
+    return issueDetails;
   } catch {
     return null;
   }
-}
+};

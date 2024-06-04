@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import AllIssues from "@/components/issue/all-issues";
-import { fetchIssues } from "@/lib/actions/issue/get-issues";
+import { getIssues } from "@/lib/data/issues/get-issues";
 
 export const runtime = "edge";
 
@@ -13,7 +13,7 @@ export default async function MyIssuesPage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["issues"],
-    queryFn: fetchIssues,
+    queryFn: getIssues,
   });
 
   return (
