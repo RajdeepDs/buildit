@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { QueryClient, useMutation } from "@tanstack/react-query";
 
 import {
   DropdownMenu,
@@ -12,25 +11,14 @@ import {
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
-import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
-export default async function MyIssuesCard({ issue }: { issue: TIssue }) {
-  const queryClient = new QueryClient();
+export default function MyIssuesCard({ issue }: { issue: TIssue }) {
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   const createdAt = issue?.createdAt && formatDate(issue?.createdAt);
 
   const { slug } = useParams() as { slug?: string };
-
-  // Todo: Fix mutation to delete Issue
-  // const { mutateAsync: deleteIssueMutation } = useMutation({
-  //   mutationKey: ["deleteIssue"],
-  //   mutationFn: deleteIssue,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["issues"]);
-  //   },
-  // });
 
   return (
     <DropdownMenu>

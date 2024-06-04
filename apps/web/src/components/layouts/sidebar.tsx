@@ -2,7 +2,6 @@
 
 import { useParams, usePathname } from "next/navigation";
 
-import Loading from "@/app/(dashboard)/[slug]/loading";
 import useUser from "@/lib/swr/use-user";
 import useWorkspace from "@/lib/swr/use-workspace";
 import DashboardSidebar from "./dashboard-sidebar";
@@ -19,16 +18,10 @@ export default function Sidebar(): JSX.Element {
 
   return (
     <aside className="hidden w-[240px] bg-gray-100 lg:block">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {pathname !== `/${slug}/settings` && (
-            <DashboardSidebar slug={slug} workspace={workspace} user={user} />
-          )}
-          {pathname === `/${slug}/settings` && <SettingsSidebar slug={slug} />}
-        </>
+      {pathname !== `/${slug}/settings` && (
+        <DashboardSidebar slug={slug} workspace={workspace} user={user} />
       )}
+      {pathname === `/${slug}/settings` && <SettingsSidebar slug={slug} />}
     </aside>
   );
 }

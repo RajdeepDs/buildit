@@ -11,7 +11,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         defaultOptions: {
           queries: {
             staleTime: 4 * 1000,
-            refetchInterval: 4 * 1000,
+            refetchInterval: 3 * 1000,
           },
         },
       }),
