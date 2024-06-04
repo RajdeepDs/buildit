@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -11,6 +13,7 @@ import {
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
+import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
@@ -18,7 +21,23 @@ export default function MyIssuesCard({ issue }: { issue: TIssue }) {
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   const createdAt = issue?.createdAt && formatDate(issue?.createdAt);
 
+  const router = useRouter();
+
   const { slug } = useParams() as { slug?: string };
+
+  const mutation = useMutation({
+    mutationKey: ["deleteIssue", { id: issue.issueId }],
+    mutationFn: () => {
+      return deleteIssue({ issueId: issue.issueId });
+    },
+    onSuccess: () => {
+      toast.success("Issue deleted!");
+      router.push(`/${slug}/my-issues`);
+    },
+    onError: () => {
+      toast.error("Error deleting issue!");
+    },
+  });
 
   return (
     <DropdownMenu>
@@ -52,7 +71,9 @@ export default function MyIssuesCard({ issue }: { issue: TIssue }) {
       </div>
       <DropdownMenuContent>
         <DropdownMenuItem
-          // onClick={async () => await deleteIssueMutation({ id: issue.issueId })}
+          onClick={() => {
+            mutation.mutate();
+          }}
           className="text-red-500 focus:bg-red-50 focus:text-red-500"
         >
           <Icons.trash className="mr-2 h-4 w-4" />

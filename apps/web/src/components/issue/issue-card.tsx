@@ -26,8 +26,7 @@ import {
 import { priorities, statuses } from "@/configs/issue-types";
 import { updateIssue } from "@/lib/actions/issue/update-issue";
 import useIssues from "@/lib/swr/use-issues";
-import useUser from "@/lib/swr/use-user";
-import type { IssueProp, Priority, Status } from "@/types";
+import type { Priority, Status, TIssue } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -42,7 +41,7 @@ const formSchema = z.object({
 export default function IssueCard({
   issue,
 }: {
-  issue: IssueProp | undefined;
+  issue: TIssue | undefined;
 }): JSX.Element {
   const [openStatus, setOpenStatus] = React.useState(false);
   const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
@@ -61,9 +60,6 @@ export default function IssueCard({
       priority: issue?.priority || "no priority",
     },
   });
-
-  const { user } = useUser();
-
   const { mutate } = useIssues();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -113,7 +109,7 @@ export default function IssueCard({
                     <BlockEditor
                       control={form.control}
                       name="description"
-                      content={issue?.description}
+                      content={issue?.description as string}
                     />
                   </FormControl>
                   <FormMessage />
@@ -190,16 +186,18 @@ export default function IssueCard({
               )}
             />
             <div className="w-full cursor-pointer rounded-md p-2 px-2 hover:bg-gray-100">
-              {user && (
+              {issue?.reporter && (
                 <div className="flex items-center gap-2">
-                  <Image
-                    src={user?.image}
-                    width={20}
-                    height={20}
-                    alt="avatar"
-                    className="rounded-full ring-2 ring-offset-1 "
-                  />
-                  <span className="text-sm">{user?.name}</span>
+                  {issue?.reporter.image && (
+                    <Image
+                      src={issue?.reporter?.image}
+                      width={20}
+                      height={20}
+                      alt="avatar"
+                      className="rounded-full ring-2 ring-offset-1 "
+                    />
+                  )}
+                  <span className="text-sm">{issue?.reporter?.name}</span>
                 </div>
               )}
             </div>

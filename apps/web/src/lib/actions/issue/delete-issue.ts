@@ -1,39 +1,27 @@
 "use server";
 
-import { z } from "zod";
+import type { z } from "zod";
 
 import { db, eq } from "@buildit/db";
 import { issue } from "@buildit/db/src/schema";
 
-export const DeleteIssueSchema = z.object({
-  id: z.string(),
-});
+import { DeleteIssueSchema } from "@/schemas/issue";
 
 export const deleteIssue = async ({
-  id,
+  issueId,
 }: z.infer<typeof DeleteIssueSchema>) => {
   const validateFields = DeleteIssueSchema.parse({
-    id,
+    issueId,
   });
 
   if (!validateFields) {
     return { error: "Invalid fields" };
   }
 
-  const isIssuePresent = db.query.issue.findFirst({
-    where: eq(issue.issueId, id),
-  });
-
-  if (!isIssuePresent) {
-    return {
-      error: "The issue is not present",
-    };
-  }
-
   try {
-    await db.delete(issue).where(eq(issue.issueId, id));
-    return { success: "Issue Deleted" };
-  } catch (error) {
+    await db.delete(issue).where(eq(issue.issueId, issueId));
+    return { success: "Issue deleted!" };
+  } catch (e) {
     return { error: "Error deleting issue" };
   }
 };
