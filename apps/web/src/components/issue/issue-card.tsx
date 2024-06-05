@@ -26,7 +26,7 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { updateIssue } from "@/lib/actions/issue/update-issue";
-import type { Priority, Status, TIssue } from "@/types";
+import type { TIssue } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -43,14 +43,6 @@ export default function IssueCard({
 }: {
   issue: TIssue | undefined;
 }): JSX.Element {
-  const [openStatus, setOpenStatus] = React.useState(false);
-  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-    statuses[0] || null,
-  );
-  const [openPriority, setOpenPriority] = React.useState(false);
-  const [selectedPriority, setSelectedPriority] =
-    React.useState<Priority | null>(priorities[0] || null);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,21 +53,16 @@ export default function IssueCard({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
-  }
-
   const mutation = useMutation({
     mutationKey: ["updateIssue", { id: issue?.issueId }],
-    mutationFn: (values: z.infer<typeof formSchema>) => {
-      return updateIssue({
+    mutationFn: (values: z.infer<typeof formSchema>) =>
+      updateIssue({
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
         status: values.status,
         priority: values.priority,
         issueId: issue?.issueId || "",
-      });
-    },
+      }),
     onSuccess: () => {
       toast.success("Issue updated successfully.");
     },
@@ -83,6 +70,10 @@ export default function IssueCard({
       toast.error("Error updating issue.");
     },
   });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    mutation.mutate(values);
+  }
 
   return (
     <Form {...form}>
@@ -107,7 +98,7 @@ export default function IssueCard({
             <FormField
               control={form.control}
               name="description"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="max-h-[720px] overflow-y-auto">
                   <FormControl>
                     <BlockEditor
@@ -141,14 +132,7 @@ export default function IssueCard({
                     </FormControl>
                     <SelectContent>
                       {statuses.map((status) => (
-                        <SelectItem
-                          key={status.value}
-                          value={status.value}
-                          onClick={() => {
-                            setSelectedStatus(status);
-                            setOpenStatus(false);
-                          }}
-                        >
+                        <SelectItem key={status.value} value={status.value}>
                           {status.label}
                         </SelectItem>
                       ))}
@@ -173,14 +157,7 @@ export default function IssueCard({
                     </FormControl>
                     <SelectContent>
                       {priorities.map((priority) => (
-                        <SelectItem
-                          key={priority.value}
-                          value={priority.value}
-                          onClick={() => {
-                            setSelectedPriority(priority);
-                            setOpenPriority(false);
-                          }}
-                        >
+                        <SelectItem key={priority.value} value={priority.value}>
                           {priority.label}
                         </SelectItem>
                       ))}

@@ -26,7 +26,6 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
-import type { Priority, Status } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -45,13 +44,7 @@ export default function CreateIssueForm({
   onOpenChange: (isOpen: boolean) => void;
 }): JSX.Element {
   const { slug } = useParams() as { slug?: string };
-  const [openStatus, setOpenStatus] = React.useState(false);
-  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-    statuses[0] || null,
-  );
-  const [openPriority, setOpenPriority] = React.useState(false);
-  const [selectedPriority, setSelectedPriority] =
-    React.useState<Priority | null>(priorities[0] || null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,23 +55,16 @@ export default function CreateIssueForm({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (slug) {
-      mutation.mutate(values);
-    }
-  }
-
   const mutation = useMutation({
     mutationKey: ["createIssue", { slug }],
-    mutationFn: (values: z.infer<typeof formSchema>) => {
-      return createIssue({
+    mutationFn: (values: z.infer<typeof formSchema>) =>
+      createIssue({
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
         status: values.status,
         priority: values.priority,
         slug: slug || "",
-      });
-    },
+      }),
     onSuccess: (res) => {
       toast.success("Issue created.", {
         description: `${res.success} created successfully.`,
@@ -89,6 +75,13 @@ export default function CreateIssueForm({
       toast.error("Error creating issue.");
     },
   });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (slug) {
+      mutation.mutate(values);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -111,7 +104,7 @@ export default function CreateIssueForm({
         <FormField
           control={form.control}
           name="description"
-          render={({ field }) => (
+          render={() => (
             <FormItem className="max-h-[400px] overflow-y-auto">
               <FormControl>
                 <BlockEditor control={form.control} name="description" />
@@ -137,14 +130,7 @@ export default function CreateIssueForm({
                   </FormControl>
                   <SelectContent>
                     {statuses.map((status) => (
-                      <SelectItem
-                        key={status.value}
-                        value={status.value}
-                        onClick={() => {
-                          setSelectedStatus(status);
-                          setOpenStatus(false);
-                        }}
-                      >
+                      <SelectItem key={status.value} value={status.value}>
                         {status.label}
                       </SelectItem>
                     ))}
@@ -169,14 +155,7 @@ export default function CreateIssueForm({
                   </FormControl>
                   <SelectContent>
                     {priorities.map((priority) => (
-                      <SelectItem
-                        key={priority.value}
-                        value={priority.value}
-                        onClick={() => {
-                          setSelectedPriority(priority);
-                          setOpenPriority(false);
-                        }}
-                      >
+                      <SelectItem key={priority.value} value={priority.value}>
                         {priority.label}
                       </SelectItem>
                     ))}
