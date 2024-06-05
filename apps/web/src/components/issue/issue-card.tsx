@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -25,7 +26,6 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { updateIssue } from "@/lib/actions/issue/update-issue";
-import useIssues from "@/lib/swr/use-issues";
 import type { Priority, Status, TIssue } from "@/types";
 
 const formSchema = z.object({
@@ -60,25 +60,29 @@ export default function IssueCard({
       priority: issue?.priority || "no priority",
     },
   });
-  const { mutate } = useIssues();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateIssue({
-      title: values.title,
-      description: JSON.parse(JSON.stringify(values.description)),
-      status: values.status,
-      priority: values.priority,
-      issueId: issue?.issueId || "",
-    }).then((res) => {
-      if (res.error) {
-        toast.error("Error updating issue.");
-      }
-      if (res.success) {
-        toast.success("Issue updated successfully.");
-        mutate();
-      }
-    });
+    mutation.mutate(values);
   }
+
+  const mutation = useMutation({
+    mutationKey: ["updateIssue", { id: issue?.issueId }],
+    mutationFn: (values: z.infer<typeof formSchema>) => {
+      return updateIssue({
+        title: values.title,
+        description: JSON.parse(JSON.stringify(values.description)),
+        status: values.status,
+        priority: values.priority,
+        issueId: issue?.issueId || "",
+      });
+    },
+    onSuccess: () => {
+      toast.success("Issue updated successfully.");
+    },
+    onError: () => {
+      toast.error("Error updating issue.");
+    },
+  });
 
   return (
     <Form {...form}>

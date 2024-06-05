@@ -1,8 +1,9 @@
 "use client";
 
-import React, { startTransition } from "react";
+import React from "react";
 import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -25,7 +26,6 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
-import useIssues from "@/lib/swr/use-issues";
 import type { Priority, Status } from "@/types";
 
 const formSchema = z.object({
@@ -62,32 +62,33 @@ export default function CreateIssueForm({
     },
   });
 
-  const { mutate } = useIssues();
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (slug) {
-      startTransition(() => {
-        createIssue({
-          title: values.title,
-          description: JSON.parse(JSON.stringify(values.description)),
-          status: values.status,
-          priority: values.priority,
-          slug,
-        }).then((res) => {
-          if (res.error) {
-            toast.error("Failed to create issue.");
-          }
-          if (res.success) {
-            toast.success("Issue created.", {
-              description: `${res.success} is created successfully.`,
-            });
-            mutate();
-          }
-          onOpenChange(false);
-        });
-      });
+      mutation.mutate(values);
     }
   }
+
+  const mutation = useMutation({
+    mutationKey: ["createIssue", { slug }],
+    mutationFn: (values: z.infer<typeof formSchema>) => {
+      return createIssue({
+        title: values.title,
+        description: JSON.parse(JSON.stringify(values.description)),
+        status: values.status,
+        priority: values.priority,
+        slug: slug || "",
+      });
+    },
+    onSuccess: (res) => {
+      toast.success("Issue created.", {
+        description: `${res.success} created successfully.`,
+      });
+      onOpenChange(false);
+    },
+    onError: () => {
+      toast.error("Error creating issue.");
+    },
+  });
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

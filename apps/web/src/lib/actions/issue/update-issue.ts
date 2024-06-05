@@ -36,7 +36,7 @@ export const updateIssue = async ({
   try {
     await db
       .update(issue)
-      .set({ title, description, status, priority })
+      .set({ title, description, status, priority, updatedAt: new Date() })
       .where(eq(issue.issueId, issueId));
     return { success: "Issue updated!" };
   } catch (error) {
