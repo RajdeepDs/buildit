@@ -7,7 +7,6 @@ import {
   Color,
   FontFamily,
   FontSize,
-  Heading,
   Highlight,
   Link,
   SlashCommand,
@@ -49,8 +48,5 @@ export const ExtensionsKit = () => [
   }),
   Placeholder.configure({
     placeholder: "Add description...",
-  }),
-  Heading.configure({
-    levels: [1, 2, 3],
   }),
 ];
