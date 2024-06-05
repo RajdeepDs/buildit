@@ -22,12 +22,10 @@
     "class-variance-authority": "^0.7.0",
     "lucide-react": "^0.344.0",
     "next": "14.2.3",
-    "novel": "^0.4.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "sonner": "^1.4.41",
-    "swr": "^2.2.5",
     "zod": "^3.23.4"
   },
   "devDependencies": {
