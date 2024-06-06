@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAtom } from "jotai";
 
 import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
+import { toggleSearchAtom } from "@/lib/store/search-issue";
 import type { TUser } from "@/types";
 import { CreateIssueModal } from "../modals/create-issue-modal";
 import AvatarDropdownMenu from "./avatar-dropdown-menu";
@@ -32,6 +34,7 @@ export default function DashboardSidebar({
       href: `/${slug}/my-issues`,
     },
   ];
+  const [toggleSearch, setToggleSearch] = useAtom(toggleSearchAtom);
 
   return (
     <div className="mt-2 flex flex-col px-2">
@@ -51,7 +54,14 @@ export default function DashboardSidebar({
             New issue
           </Button>
         </CreateIssueModal>
-        <Button variant={"secondary"}>
+        <Button
+          variant={"secondary"}
+          onClick={() => setToggleSearch(!toggleSearch)}
+          className={cn(
+            toggleSearch &&
+              "border border-gray-300 bg-gray-200 hover:bg-gray-200",
+          )}
+        >
           <Icons.search className="h-[18px] w-[18px] text-gray-700" />
         </Button>
       </div>

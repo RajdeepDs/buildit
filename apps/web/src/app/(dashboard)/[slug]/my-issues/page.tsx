@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import AllIssues from "@/components/issue/all-issues";
+import NavIssue from "@/components/issue/nav-issue";
 import { getIssues } from "@/lib/data/issues/get-issues";
 
 export const runtime = "edge";
@@ -18,9 +19,7 @@ export default async function MyIssuesPage() {
 
   return (
     <div className="h-full">
-      <nav className="border-b p-2">
-        <h1 className="text-sm">My issues</h1>
-      </nav>
+      <NavIssue />
       <main>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AllIssues />
