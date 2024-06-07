@@ -15,6 +15,7 @@ export default function NavIssue() {
         <Input
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search issues"
+          className="h-[30px]"
         />
       ) : (
         <h1 className="text-sm">My issues</h1>
