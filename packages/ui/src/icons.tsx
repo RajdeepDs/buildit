@@ -21,6 +21,7 @@ import {
   Highlighter,
   Inbox,
   Italic,
+  LayoutList,
   Maximize2,
   Minimize2,
   MoreHorizontal,
@@ -79,4 +80,5 @@ export const Icons = {
   alignCenter: AlignCenter,
   alignRight: AlignRight,
   alignJustify: AlignJustify,
+  projects: LayoutList,
 };

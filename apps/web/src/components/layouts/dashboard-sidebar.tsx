@@ -33,6 +33,11 @@ export default function DashboardSidebar({
       icon: "issues",
       href: `/${slug}/my-issues`,
     },
+    {
+      name: "Projects",
+      icon: "projects",
+      href: `/${slug}/projects`,
+    },
   ];
   const [toggleSearch, setToggleSearch] = useAtom(toggleSearchAtom);
 
