@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
 export default function SettingsSidebar({
@@ -12,7 +13,7 @@ export default function SettingsSidebar({
   const settingsTabs = [
     {
       name: "Profile",
-      href: `/${slug}/settings`,
+      href: `/${slug}/settings/profile`,
     },
     {
       name: "Account",
@@ -33,8 +34,9 @@ export default function SettingsSidebar({
   ];
   return (
     <>
-      <div className="mx-2 px-2">
-        <Link href={`/${slug}`} className="font-bold">
+      <div className="mx-2 mt-2 px-2">
+        <Link href={`/${slug}`} className="flex w-fit items-center font-bold">
+          <Icons.chevronLeft className="mr-2 h-4 w-4" />
           Back
         </Link>
       </div>
