@@ -23,7 +23,7 @@
     "@buildit/eslint-config": "workspace:*",
     "@ianvs/prettier-plugin-sort-imports": "4.1.0",
     "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.4",
+    "prettier-plugin-tailwindcss": "0.6.2",
     "typescript": "5.4.2"
   }
 }

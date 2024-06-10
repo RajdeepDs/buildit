@@ -27,7 +27,7 @@ export default function Sidebar(): JSX.Element {
   }
 
   return (
-    <aside className="hidden w-[240px] bg-gray-100 lg:block">
+    <aside className="bg-muted hidden w-[240px] lg:block">
       {!pathname.startsWith(`/${slug}/settings/`) && (
         <DashboardSidebar slug={slug} workspace={workspace!} user={user!} />
       )}

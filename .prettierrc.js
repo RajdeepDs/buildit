@@ -8,10 +8,8 @@ const config = {
   semi: true,
   trailingComma: "all",
   tabWidth: 2,
-  plugins: [
-    "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss",
-  ],
+  tailwindFunctions: ["clsx", "cva"],
+
   // Last version that doesn't squash type and value imports
   importOrderTypeScriptVersion: "4.4.0",
   importOrder: [
@@ -26,6 +24,10 @@ const config = {
     "^[./]",
   ],
   proseWrap: "always", // printWidth line breaks in md/mdx
+  plugins: [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+  ],
 };
 
 module.exports = config;
