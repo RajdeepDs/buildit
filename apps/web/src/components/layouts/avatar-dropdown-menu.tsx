@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
 
 import { logout } from "@/lib/actions/logout";
 import type { TUser } from "@/types";
@@ -29,17 +30,9 @@ export default function AvatarDropdownMenu({
   const { slug } = useParams() as { slug?: string };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none">
-        {user && user.image && (
-          <Image
-            src={user?.image}
-            alt="user"
-            width={24}
-            height={24}
-            priority
-            className="cursor-pointer rounded-full ring-2 ring-blue-500 ring-offset-2"
-          />
-        )}
+      <DropdownMenuTrigger className="flex items-center gap-x-1 outline-none">
+        <span className="text-emphasis">{user?.name}</span>
+        <Icons.chevronDown className="stroke-textColor-subtle h-4 w-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="ml-3">
         <DropdownMenuItem asChild>
