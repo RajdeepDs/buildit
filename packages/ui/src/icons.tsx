@@ -4,6 +4,7 @@ import {
   AlignJustify,
   AlignLeft,
   AlignRight,
+  ArrowLeft,
   Bold,
   Book,
   CheckIcon,
@@ -26,6 +27,7 @@ import {
   Inbox,
   Italic,
   LayoutList,
+  Lock,
   Maximize2,
   Minimize2,
   MoreHorizontal,
@@ -42,6 +44,7 @@ import {
   Trash,
   Trash2,
   Underline,
+  Users,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -91,4 +94,7 @@ export const Icons = {
   settings: Settings,
   externalLink: ExternalLink,
   home: Home,
+  back: ArrowLeft,
+  lock: Lock,
+  users: Users,
 };

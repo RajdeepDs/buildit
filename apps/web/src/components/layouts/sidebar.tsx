@@ -28,11 +28,10 @@ export default function Sidebar(): JSX.Element {
 
   return (
     <aside className="bg-muted border-muted hidden w-[240px] border-r lg:block">
-      {!pathname.startsWith(`/${slug}/settings/`) && (
+      {!pathname.startsWith(`/${slug}/settings`) ? (
         <DashboardSidebar slug={slug} workspace={workspace!} user={user!} />
-      )}
-      {pathname.startsWith(`/${slug}/settings/`) && (
-        <SettingsSidebar slug={slug} />
+      ) : (
+        <SettingsSidebar slug={slug} workspace={workspace!} user={user!} />
       )}
     </aside>
   );

@@ -63,3 +63,18 @@ export type IssueProp = {
   workspaceId: string | null;
   issueId: string;
 };
+
+export type TSettingsSidebar = {
+  title: string;
+  icon?: string;
+  items: {
+    title: string;
+    href?: string;
+    icon?: string;
+    button?: boolean;
+    subItems?: {
+      title: string;
+      href: string;
+    }[];
+  }[];
+}[];
