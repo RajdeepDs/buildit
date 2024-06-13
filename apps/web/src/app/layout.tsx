@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
@@ -7,7 +8,19 @@ import { Toaster } from "sonner";
 
 import Provider from "@/components/Provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const interFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  preload: true,
+  display: "swap",
+});
+const calFont = localFont({
+  src: "../fonts/CalSans-SemiBold.woff2",
+  variable: "--font-cal",
+  preload: true,
+  display: "block",
+  weight: "600",
+});
 
 export const metadata: Metadata = {
   title: "BuildIt",
@@ -21,7 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
+        <style>{`
+          :root {
+            --font-inter: ${interFont.style.fontFamily.replace(/\'/g, "")};
+            --font-cal: ${calFont.style.fontFamily.replace(/\'/g, "")};
+          }
+        `}</style>
+      </head>
+      <body>
         <Provider>
           {children}
           <Toaster closeButton />

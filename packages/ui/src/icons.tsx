@@ -27,6 +27,7 @@ import {
   Inbox,
   Italic,
   LayoutList,
+  ListFilter,
   Lock,
   Maximize2,
   Minimize2,
@@ -97,4 +98,5 @@ export const Icons = {
   back: ArrowLeft,
   lock: Lock,
   users: Users,
+  filter: ListFilter,
 };
