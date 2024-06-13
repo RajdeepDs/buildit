@@ -35,16 +35,14 @@ export default function AvatarDropdownMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="ml-3">
         <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/profile`}>Profile</Link>
+          <Link href={`/${slug}/settings/`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/general`}>Workspace settings</Link>
+          <Link href={`/${slug}/settings/`}>Workspace settings</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/members`}>
-            Invite and manage members
-          </Link>
+          <Link href={`/${slug}/settings/`}>Invite and manage members</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
