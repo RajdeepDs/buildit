@@ -16,6 +16,7 @@ export const users = sqliteTable("user", {
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image"),
   password: text("password"),
+  bio: text("bio"),
   onboarding: integer("onboarding", { mode: "boolean" }).default(false),
   role: text("role", { enum: ["user", "admin"] }).default("user"),
   isTwoFactorEnabled: integer("isTwoFactorEnabled", {

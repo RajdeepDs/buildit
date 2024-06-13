@@ -6,6 +6,7 @@ CREATE TABLE `user` (
 	`emailVerified` integer,
 	`image` text,
 	`password` text,
+	`bio` text,
 	`onboarding` integer DEFAULT false,
 	`role` text DEFAULT 'user',
 	`isTwoFactorEnabled` integer DEFAULT false
