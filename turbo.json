@@ -1,11 +1,7 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "experimentalUI": true,
-  "globalDependencies": ["**/.env"],
-  "pipeline": {
-    "topo": {
-      "dependsOn": ["^topo"]
-    },
+  "ui": "tui",
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [
@@ -20,17 +16,9 @@
       "persistent": true,
       "cache": false
     },
-    "format": {
-      "outputs": ["node_modules/.cache/.prettiercache"],
-      "outputMode": "new-only"
-    },
     "lint": {
-      "dependsOn": ["^topo"],
+      "dependsOn": ["build"],
       "outputs": ["node_modules/.cache/.eslintcache"]
-    },
-    "typecheck": {
-      "dependsOn": ["^topo"],
-      "outputs": ["node_modules/.cache/tsbuildinfo.json"]
     },
     "clean": {
       "cache": false
@@ -39,5 +27,11 @@
       "cache": false
     }
   },
-  "globalEnv": ["DB_URL", "DB_TOKEN"]
+  "globalEnv": [
+    "DATABASE_URL",
+    "DATABASE_AUTH_TOKEN",
+    "AUTH_SECRET",
+    "GITHUB_CLIENT_ID",
+    "GITHUB_CLIENT_SECRET"
+  ]
 }

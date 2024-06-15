@@ -45,7 +45,7 @@ export default function MyIssuesCard({ issue }: { issue: TIssue }) {
         <Link
           href={`/${slug}/issue/${issue.issueId}`}
           key={issue.id}
-          className="flex w-full cursor-pointer items-center justify-between "
+          className="flex w-full cursor-pointer items-center justify-between"
         >
           <div className="flex items-center space-x-2">
             <p className="text-sm text-gray-400">{issue.issueId}</p>

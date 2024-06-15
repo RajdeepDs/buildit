@@ -3,20 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run build",
+    "dev": "turbo watch dev",
+    "db:push": "pnpm -F @buildit/db push",
+    "db:studio": "pnpm -F @buildit/db studio",
+    "lint": "turbo run lint",
     "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo clean",
-    "db:push": "pnpm -F db push",
-    "db:studio": "pnpm -F db studio",
-    "dev": "turbo dev --parallel",
-    "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
-    "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
-    "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
-    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-    "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm lint:ws",
-    "typecheck": "turbo typecheck",
-    "ui-add": "pnpm -F ui ui-add"
+    "clean:workspaces": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "packageManager": "pnpm@8.15.6",
   "devDependencies": {
@@ -24,6 +18,7 @@
     "@ianvs/prettier-plugin-sort-imports": "4.1.0",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "0.6.2",
+    "turbo": "^2.0.4",
     "typescript": "5.4.2"
   }
 }

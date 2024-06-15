@@ -175,7 +175,7 @@ export default function IssueCard({
                       width={20}
                       height={20}
                       alt="avatar"
-                      className="rounded-full ring-2 ring-offset-1 "
+                      className="rounded-full ring-2 ring-offset-1"
                     />
                   )}
                   <span className="text-sm">{issue?.reporter?.name}</span>
