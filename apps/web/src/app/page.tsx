@@ -3,11 +3,13 @@ import Link from "next/link";
 import { Button } from "@buildit/ui";
 
 import { getSession } from "@/lib/data/get-session";
+import { getWorkspaceSlug } from "@/lib/data/workspace/get-workspace-slug";
 
 export const runtime = "edge";
 
 export default async function Home() {
   const isSession = await getSession();
+  const workspaceSlug = await getWorkspaceSlug();
 
   return (
     <main className="">
@@ -18,7 +20,7 @@ export default async function Home() {
         </p>
         <Button asChild variant={"outline"} className="mt-10">
           {isSession ? (
-            <Link href="/">Dashboard</Link>
+            <Link href={`/${workspaceSlug}`}>Dashboard</Link>
           ) : (
             <Link href="/auth/signin">Sign in</Link>
           )}

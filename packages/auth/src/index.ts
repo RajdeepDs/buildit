@@ -15,6 +15,9 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/signin",
+  },
   adapter: DrizzleAdapter(db),
   ...authConfig,
 });

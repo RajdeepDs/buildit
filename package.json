@@ -7,6 +7,7 @@
     "dev": "turbo watch dev",
     "db:push": "pnpm -F @buildit/db push",
     "db:studio": "pnpm -F @buildit/db studio",
+    "db:local": "pnpm -F @buildit/db local",
     "lint": "turbo run lint",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
