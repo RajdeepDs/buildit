@@ -26,7 +26,7 @@ export default async function DashboardLayout({
   if (params.slug !== "favicon.ico")
     await queryClient.prefetchQuery({
       queryKey: ["workspace", { slug: params.slug }],
-      queryFn: async () => getWorkspace({ workspaceSlug: params.slug }),
+      queryFn: () => getWorkspace({ workspaceSlug: params.slug }),
     });
 
   return (

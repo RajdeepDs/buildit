@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import slugify from "@sindresorhus/slugify";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -13,24 +16,28 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
   Input,
   Separator,
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
+import { updateWorkspace } from "@/lib/actions/workspace/update-workspace";
 import { getWorkspace } from "@/lib/data/workspace/get-workspace";
 
 const updateWorkspaceSchema = z.object({
   workspaceName: z.string(),
-  workspaceURL: z.string(),
+  workspaceURL: z.string().min(1, { message: "Workspace URL is required" }),
 });
 
-export default function WorkspaceForm(): JSX.Element {
+export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const router = useRouter();
+
   const { data: workspace } = useQuery({
-    queryKey: ["workspace"],
-    queryFn: async () => getWorkspace({ workspaceSlug: "build-it" }),
+    queryKey: ["workspace", { slug }],
+    queryFn: async () => getWorkspace({ workspaceSlug: slug }),
   });
 
   const form = useForm<z.infer<typeof updateWorkspaceSchema>>({
@@ -41,8 +48,37 @@ export default function WorkspaceForm(): JSX.Element {
     },
   });
 
+  const mutation = useMutation({
+    mutationKey: ["updateWorkspace", { slug }],
+    mutationFn: (values: z.infer<typeof updateWorkspaceSchema>) =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(
+            updateWorkspace({
+              workspaceName: values.workspaceName,
+              workspaceURL: values.workspaceURL,
+            }),
+          );
+        }, 500);
+      }),
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
+    onSuccess: (res) => {
+      router.replace(`/${res}/settings/general`);
+      toast.success("Workspace updated successfully");
+      setIsSubmitting(false);
+    },
+    onError: (error) => {
+      toast.error("Error updating workspace", {
+        description: error.message,
+      });
+      setIsSubmitting(false);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof updateWorkspaceSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
   return (
     <div className="space-y-8">
@@ -54,9 +90,17 @@ export default function WorkspaceForm(): JSX.Element {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Workspace Name</FormLabel>
-                <FormControl>
+                <FormControl
+                  onChange={() =>
+                    form.setValue(
+                      "workspaceURL",
+                      slugify(form.getValues("workspaceName")),
+                    )
+                  }
+                >
                   <Input {...field} placeholder="Enter your workspace name" />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -69,6 +113,7 @@ export default function WorkspaceForm(): JSX.Element {
                 <FormControl>
                   <Input {...field} placeholder="Enter your workspace URL" />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

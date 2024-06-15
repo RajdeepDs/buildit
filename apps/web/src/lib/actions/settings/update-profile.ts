@@ -27,8 +27,6 @@ export const updateProfile = async ({
     return { error: "Unauthorized" };
   }
 
-  console.log(isSession);
-
   try {
     await db.update(users).set({ name, bio }).where(eq(users.id, isSession.id));
   } catch (error) {

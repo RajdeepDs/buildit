@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import ProfileForm from "@/components/settings/profile-form";
+import ProfileForm from "@/components/forms/profile-form";
 import SettingsHeader from "@/components/settings/settings-header";
 import { getUser } from "@/lib/data/user/get-user";
 
