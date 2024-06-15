@@ -7,7 +7,7 @@ import slugify from "@sindresorhus/slugify";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import {
   Button,
@@ -24,11 +24,7 @@ import { Icons } from "@buildit/ui/icons";
 
 import { updateWorkspace } from "@/lib/actions/workspace/update-workspace";
 import { getWorkspace } from "@/lib/data/workspace/get-workspace";
-
-const updateWorkspaceSchema = z.object({
-  workspaceName: z.string(),
-  workspaceURL: z.string().min(1, { message: "Workspace URL is required" }),
-});
+import { updateWorkspaceSchema } from "@/schemas/workspace";
 
 export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,7 +62,7 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
     },
     onSuccess: (res) => {
       router.replace(`/${res}/settings/general`);
-      toast.success("Workspace updated successfully");
+      toast.success("Workspace updated successfully.");
       setIsSubmitting(false);
     },
     onError: (error) => {
@@ -83,7 +79,10 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
   return (
     <div className="space-y-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="max-w-sm space-y-4"
+        >
           <FormField
             control={form.control}
             name="workspaceName"
@@ -111,7 +110,18 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
               <FormItem>
                 <FormLabel>Workspace URL</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter your workspace URL" />
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <div className="border-subtle flex h-10 w-full items-center rounded-md border px-3 py-2 text-sm has-[:focus-visible]:border-black">
+                      <span className="text-subtle cursor-default">
+                        buildit.codes/
+                      </span>
+                      <input
+                        className="w-full bg-transparent focus-visible:outline-none"
+                        type="text"
+                        {...field}
+                      />
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

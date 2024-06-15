@@ -1,16 +1,12 @@
 "use server";
 
-import { z } from "zod";
+import type { z } from "zod";
 
 import { db, eq } from "@buildit/db";
 import { workspaces } from "@buildit/db/src/schema";
 
 import { getSession } from "@/lib/data/get-session";
-
-const updateWorkspaceSchema = z.object({
-  workspaceName: z.string(),
-  workspaceURL: z.string().min(1, { message: "Workspace URL is required" }),
-});
+import { updateWorkspaceSchema } from "@/schemas/workspace";
 
 export const updateWorkspace = async ({
   workspaceName,

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
 import {
@@ -26,17 +26,7 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
-
-const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.any(),
-  status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
-    message: "Invalid status",
-  }),
-  priority: z.enum(["urgent", "high", "medium", "low", "no priority"], {
-    message: "Invalid priority",
-  }),
-});
+import { CreateIssueSchema } from "@/schemas/issue";
 
 export default function CreateIssueForm({
   onOpenChange,
@@ -45,8 +35,8 @@ export default function CreateIssueForm({
 }): JSX.Element {
   const { slug } = useParams() as { slug?: string };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof CreateIssueSchema>>({
+    resolver: zodResolver(CreateIssueSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -57,7 +47,7 @@ export default function CreateIssueForm({
 
   const mutation = useMutation({
     mutationKey: ["createIssue", { slug }],
-    mutationFn: (values: z.infer<typeof formSchema>) =>
+    mutationFn: (values: z.infer<typeof CreateIssueSchema>) =>
       createIssue({
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
@@ -76,7 +66,7 @@ export default function CreateIssueForm({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
     if (slug) {
       mutation.mutate(values);
     }
