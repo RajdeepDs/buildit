@@ -1,7 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -14,6 +17,8 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
+
+import { createAccount } from "@/lib/actions/auth/create-account";
 
 const SignUpSchema = z.object({
   username: z
@@ -28,6 +33,7 @@ const SignUpSchema = z.object({
 });
 
 export default function SignUpForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -37,8 +43,30 @@ export default function SignUpForm() {
     },
   });
 
+  const mutation = useMutation({
+    mutationKey: ["createAccount"],
+    mutationFn: (values: z.infer<typeof SignUpSchema>) =>
+      createAccount({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }),
+    onSuccess: (res) => {
+      if (res.error) {
+        toast.error(res.error);
+        form.reset();
+      } else {
+        toast.success(res.success);
+        router.push("/auth/signin");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof SignUpSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (

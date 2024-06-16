@@ -3,6 +3,8 @@ import Link from "next/link";
 import { OauthButton } from "@/components/forms/oauth-buttons";
 import SignUpForm from "@/components/forms/sign-up-form";
 
+export const runtime = "edge";
+
 export default function RegisterPage() {
   return (
     <div className="mx-auto flex h-dvh items-center justify-center">

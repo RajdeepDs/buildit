@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -14,6 +16,8 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
+
+import { login } from "@/lib/actions/auth/login";
 
 const SignInSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -29,8 +33,29 @@ export default function SignInForm() {
     },
   });
 
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: (values: z.infer<typeof SignInSchema>) =>
+      login({
+        email: values.email,
+        password: values.password,
+      }),
+
+    onSuccess: (res) => {
+      if (res.error) {
+        toast.error(res.error);
+        form.reset();
+      } else {
+        toast.success(res.success);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof SignInSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (
@@ -75,7 +100,7 @@ export default function SignInForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Create Account
+          Login
         </Button>
       </form>
     </Form>
