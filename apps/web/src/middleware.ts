@@ -16,7 +16,7 @@ export default auth(async (req): Promise<any> => {
 
   const user = await getUser();
 
-  var isOnboarded = false;
+  let isOnboarded = false;
   if (session) {
     isOnboarded = user?.onboarding ?? false;
   }

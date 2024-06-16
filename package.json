@@ -11,7 +11,8 @@
     "lint": "turbo run lint",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "ui:add": "pnpm -F @buildit/ui add"
   },
   "packageManager": "pnpm@8.15.6",
   "devDependencies": {
