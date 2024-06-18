@@ -7,12 +7,14 @@
     "dev": "turbo watch dev",
     "db:push": "pnpm -F @buildit/db push",
     "db:studio": "pnpm -F @buildit/db studio",
-    "db:local": "pnpm -F @buildit/db local",
+    "db:local": "turbo run db:local",
     "lint": "turbo run lint",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "ui:add": "pnpm -F @buildit/ui add"
+    "ui:add": "pnpm -F @buildit/ui add",
+    "web": "turbo run web",
+    "dx": "turbo run dx"
   },
   "packageManager": "pnpm@8.15.6",
   "devDependencies": {

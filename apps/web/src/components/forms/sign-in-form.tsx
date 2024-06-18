@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,16 +17,10 @@ import {
   Input,
 } from "@buildit/ui";
 
+import magicLinkSignIn from "@/lib/actions/auth/sign-in";
+
 const SignInSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters long")
-    .max(20, "Username cannot exceed 20 characters")
-    .regex(/^[a-zA-Z0-9_]*$/, {
-      message: "Only letters, numbers, and underscores are allowed.",
-    }),
   email: z.string().email("Invalid email format"),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 export default function SignInForm() {
@@ -37,8 +32,14 @@ export default function SignInForm() {
     },
   });
 
+  const mutation = useMutation({
+    mutationKey: ["magicLinkSignIn"],
+    mutationFn: (values: z.infer<typeof SignInSchema>) =>
+      magicLinkSignIn({ email: values.email }),
+  });
+
   const onSubmit = (values: z.infer<typeof SignInSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (

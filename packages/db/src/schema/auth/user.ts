@@ -4,13 +4,12 @@ import { nanoid } from "nanoid";
 
 import { workspaces } from "../workspace/workspace";
 import { accounts } from "./accounts";
-import { twoFactorConfirmations } from "./twofactorConfirmation";
 
 export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  name: text("name").notNull(),
+  name: text("name"),
   username: text("username").unique(),
   email: text("email").notNull().unique(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
@@ -18,14 +17,9 @@ export const users = sqliteTable("user", {
   password: text("password"),
   bio: text("bio"),
   onboarding: integer("onboarding", { mode: "boolean" }).default(false),
-  role: text("role", { enum: ["user", "admin"] }).default("user"),
-  isTwoFactorEnabled: integer("isTwoFactorEnabled", {
-    mode: "boolean",
-  }).default(false),
 });
 
-export const usersRelations = relations(users, ({ many, one }) => ({
+export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  twoFactorConfirmation: one(twoFactorConfirmations),
   workspaces: many(workspaces),
 }));

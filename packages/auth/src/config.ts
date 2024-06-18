@@ -1,5 +1,6 @@
 import type { DefaultSession, NextAuthConfig } from "next-auth";
 import Github from "next-auth/providers/github";
+import Resend from "next-auth/providers/resend";
 
 import { env } from "../env";
 
@@ -19,6 +20,10 @@ export const authConfig = {
     Github({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Resend({
+      from: "BuildIt <buildit@buildit.codes>",
     }),
   ],
 } satisfies NextAuthConfig;

@@ -1,7 +1,8 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 
-import { db } from "@buildit/db";
+import { db, eq } from "@buildit/db";
+import { users } from "@buildit/db/src/schema";
 
 import { authConfig } from "./config";
 
@@ -18,6 +19,7 @@ export const {
   pages: {
     signIn: "/sign-in",
   },
+
   adapter: DrizzleAdapter(db),
   ...authConfig,
 });
