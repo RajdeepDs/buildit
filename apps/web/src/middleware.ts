@@ -28,7 +28,7 @@ export default auth(async (req): Promise<any> => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (!isOnboarded) {
-        return Response.redirect(new URL("/auth/welcome", nextUrl));
+        return Response.redirect(new URL("/getting-started", nextUrl));
       }
       const workspaceSlug = await getWorkspaceSlug();
       return Response.redirect(new URL(`/${workspaceSlug}/my-issues`, nextUrl));
