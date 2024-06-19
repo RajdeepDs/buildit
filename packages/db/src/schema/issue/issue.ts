@@ -3,6 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { users } from "../auth";
+import { team } from "../team";
 import { workspaces } from "../workspace";
 
 export const issue = sqliteTable("issue", {
@@ -31,6 +32,7 @@ export const issue = sqliteTable("issue", {
     onDelete: "cascade",
   }),
   issueId: text("issueId").notNull().unique(),
+  teamId: text("teamId").references(() => team.id, { onDelete: "cascade" }),
 });
 
 export const issueRelations = relations(issue, ({ one }) => ({
@@ -39,4 +41,5 @@ export const issueRelations = relations(issue, ({ one }) => ({
     fields: [issue.workspaceId],
     references: [workspaces.id],
   }),
+  team: one(team, { fields: [issue.teamId], references: [team.id] }),
 }));
