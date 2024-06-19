@@ -15,3 +15,4 @@ export * from "./components/ui/alert-dialog";
 export * from "./components/ui/breadcrumb";
 export * from "./components/ui/select";
 export * from "./components/ui/sonner";
+export * from "./components/ui/checkbox";

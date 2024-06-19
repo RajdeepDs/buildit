@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "de1171b7-3029-4b78-bd37-1b8b9881f0e7",
+  "id": "6a8613dd-4f35-4a37-9902-72f2a0ee89da",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -18,7 +18,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "username": {
@@ -65,22 +65,6 @@
         },
         "onboarding": {
           "name": "onboarding",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'user'"
-        },
-        "isTwoFactorEnabled": {
-          "name": "isTwoFactorEnabled",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -258,112 +242,6 @@
             "token"
           ],
           "name": "verificationToken_identifier_token_pk"
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "twoFactorConfirmations": {
-      "name": "twoFactorConfirmations",
-      "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "twoFactorConfirmations_userId_user_id_fk": {
-          "name": "twoFactorConfirmations_userId_user_id_fk",
-          "tableFrom": "twoFactorConfirmations",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "passwordResetToken": {
-      "name": "passwordResetToken",
-      "columns": {
-        "identifier": {
-          "name": "identifier",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expires": {
-          "name": "expires",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "passwordResetToken_identifier_token_pk": {
-          "columns": [
-            "identifier",
-            "token"
-          ],
-          "name": "passwordResetToken_identifier_token_pk"
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "twoFactorTokens": {
-      "name": "twoFactorTokens",
-      "columns": {
-        "identifier": {
-          "name": "identifier",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expires": {
-          "name": "expires",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "twoFactorTokens_identifier_token_pk": {
-          "columns": [
-            "identifier",
-            "token"
-          ],
-          "name": "twoFactorTokens_identifier_token_pk"
         }
       },
       "uniqueConstraints": {}

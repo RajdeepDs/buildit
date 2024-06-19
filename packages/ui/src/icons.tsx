@@ -28,6 +28,7 @@ import {
   Italic,
   LayoutList,
   ListFilter,
+  Loader2,
   Lock,
   Maximize2,
   Minimize2,
@@ -99,4 +100,5 @@ export const Icons = {
   lock: Lock,
   users: Users,
   filter: ListFilter,
+  loading: Loader2,
 };

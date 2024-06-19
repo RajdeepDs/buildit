@@ -1,15 +1,13 @@
 CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
+	`name` text,
 	`username` text,
 	`email` text NOT NULL,
 	`emailVerified` integer,
 	`image` text,
 	`password` text,
 	`bio` text,
-	`onboarding` integer DEFAULT false,
-	`role` text DEFAULT 'user',
-	`isTwoFactorEnabled` integer DEFAULT false
+	`onboarding` integer DEFAULT false
 );
 --> statement-breakpoint
 CREATE TABLE `account` (
@@ -29,25 +27,6 @@ CREATE TABLE `account` (
 );
 --> statement-breakpoint
 CREATE TABLE `verificationToken` (
-	`identifier` text NOT NULL,
-	`token` text NOT NULL,
-	`expires` integer NOT NULL,
-	PRIMARY KEY(`identifier`, `token`)
-);
---> statement-breakpoint
-CREATE TABLE `twoFactorConfirmations` (
-	`userId` integer PRIMARY KEY NOT NULL,
-	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
-CREATE TABLE `passwordResetToken` (
-	`identifier` text NOT NULL,
-	`token` text NOT NULL,
-	`expires` integer NOT NULL,
-	PRIMARY KEY(`identifier`, `token`)
-);
---> statement-breakpoint
-CREATE TABLE `twoFactorTokens` (
 	`identifier` text NOT NULL,
 	`token` text NOT NULL,
 	`expires` integer NOT NULL,

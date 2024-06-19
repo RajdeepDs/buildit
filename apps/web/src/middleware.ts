@@ -16,7 +16,7 @@ export default auth(async (req): Promise<any> => {
 
   const user = await getUser();
 
-  var isOnboarded = false;
+  let isOnboarded = false;
   if (session) {
     isOnboarded = user?.onboarding ?? false;
   }
@@ -25,14 +25,13 @@ export default auth(async (req): Promise<any> => {
     return null;
   }
 
-  const workspaceSlug = await getWorkspaceSlug();
-
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (!isOnboarded) {
         return Response.redirect(new URL("/auth/welcome", nextUrl));
       }
-      return Response.redirect(new URL(`/${workspaceSlug}`, nextUrl));
+      const workspaceSlug = await getWorkspaceSlug();
+      return Response.redirect(new URL(`/${workspaceSlug}/my-issues`, nextUrl));
     }
     return null;
   }
@@ -46,7 +45,7 @@ export default auth(async (req): Promise<any> => {
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
     return Response.redirect(
-      new URL(`/auth/signin?callbackUrl=${encodedCallbackUrl}`, nextUrl),
+      new URL(`/sign-in?callbackUrl=${encodedCallbackUrl}`, nextUrl),
     );
   }
   return null;

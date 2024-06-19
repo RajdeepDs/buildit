@@ -23,7 +23,22 @@
     "clean": {
       "cache": false
     },
-    "//#clean": {
+    "@buildit/db#local": {
+      "cache": false
+    },
+    "db:local": {
+      "dependsOn": ["@buildit/db#local"],
+      "cache": false
+    },
+    "@buildit/web#dev": {
+      "cache": false
+    },
+    "web": {
+      "dependsOn": ["@buildit/web#dev"],
+      "cache": false
+    },
+    "dx": {
+      "dependsOn": ["db:local", "web"],
       "cache": false
     }
   },
