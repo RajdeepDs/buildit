@@ -9,6 +9,6 @@ export const metadata: Metadata = {
   description: "Get started with BuildIt.",
 };
 
-export default function OnboardingPage(): JSX.Element {
+export default async function OnboardingPage(): Promise<JSX.Element> {
   return <OnboardingPageClient />;
 }

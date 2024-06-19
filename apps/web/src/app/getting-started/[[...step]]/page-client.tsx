@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { z } from "zod";
 
 import CreateTeamForm from "@/components/getting-started/create-team-form";
@@ -25,7 +25,6 @@ const stepTransform = (step: (typeof steps)[number]) => {
 };
 
 export default function OnboardingPageClient(): JSX.Element {
-  const pathname = usePathname();
   const params = useParams<{ step: string | string[] }>();
 
   const router = useRouter();

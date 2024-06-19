@@ -29,3 +29,13 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/inbox";
+
+/**
+ * An array of routes that are used for onboarding.
+ * @type {string[]}
+ */
+export const onboardingRoutes = [
+  "/getting-started",
+  "/getting-started/create-team",
+  "/getting-started/user-profile",
+];

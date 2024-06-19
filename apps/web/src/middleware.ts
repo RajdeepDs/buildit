@@ -1,6 +1,11 @@
 import { auth } from "@buildit/auth";
 
-import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
+import {
+  apiAuthPrefix,
+  authRoutes,
+  onboardingRoutes,
+  publicRoutes,
+} from "@/routes";
 import { getUser } from "./lib/data/user/get-user";
 import { getWorkspaceSlug } from "./lib/data/workspace/get-workspace-slug";
 
@@ -11,6 +16,7 @@ export default auth(async (req): Promise<any> => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isOnboardingRoute = onboardingRoutes.includes(nextUrl.pathname);
 
   const session = req.auth?.user;
 
@@ -24,16 +30,22 @@ export default auth(async (req): Promise<any> => {
   if (isApiAuthRoute) {
     return null;
   }
+  const workspaceSlug = await getWorkspaceSlug();
 
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (!isOnboarded) {
         return Response.redirect(new URL("/getting-started", nextUrl));
       }
-      const workspaceSlug = await getWorkspaceSlug();
       return Response.redirect(new URL(`/${workspaceSlug}/my-issues`, nextUrl));
     }
     return null;
+  }
+
+  if (isOnboardingRoute) {
+    if (isLoggedIn && isOnboarded) {
+      return Response.redirect(new URL(`/${workspaceSlug}/my-issues`, nextUrl));
+    }
   }
 
   if (!isLoggedIn && !isPublicRoute) {
