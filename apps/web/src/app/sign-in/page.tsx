@@ -1,9 +1,16 @@
-import { OauthButton } from "@/components/forms/oauth-buttons";
-import SignInForm from "@/components/forms/sign-in-form";
+import type { Metadata } from "next";
+
+import { OauthButton } from "@/components/sign-in/oauth-buttons";
+import SignInForm from "@/components/sign-in/sign-in-form";
 
 export const runtime = "edge";
 
-export default function RegisterPage() {
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your BuildIt account",
+};
+
+export default function SignInPage() {
   return (
     <div className="mx-auto flex h-dvh items-center justify-center">
       <div className="bg-muted border-subtle w-fit rounded-lg border p-16">

@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 
 import {
   Button,
@@ -16,15 +15,12 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
 
 import magicLinkSignIn from "@/lib/actions/auth/sign-in";
-
-const SignInSchema = z.object({
-  email: z.string().email("Invalid email format"),
-});
+import { SignInSchema } from "@/schemas/auth";
 
 export default function SignInForm() {
-  const router = useRouter();
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -66,7 +62,10 @@ export default function SignInForm() {
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={mutation.isPending}>
+          {mutation.isPending && (
+            <Icons.loading className="mr-2 animate-spin" />
+          )}
           Sign In
         </Button>
       </form>

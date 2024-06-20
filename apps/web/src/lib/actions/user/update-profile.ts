@@ -41,7 +41,7 @@ export const updateProfile = async ({
       .where(eq(users.id, isSession.id));
 
     return { success: "Profile updated successfully" };
-  } catch (error) {
+  } catch {
     return { error: "Error updating profile" };
   }
 };

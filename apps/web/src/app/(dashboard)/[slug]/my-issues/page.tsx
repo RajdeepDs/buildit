@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   dehydrate,
   HydrationBoundary,
@@ -9,6 +10,11 @@ import NavIssue from "@/components/issue/nav-issue";
 import { getIssues } from "@/lib/data/issues/get-issues";
 
 export const runtime = "edge";
+
+export const metadata: Metadata = {
+  title: "My issues",
+  description: "View and manage your issues.",
+};
 
 export default async function MyIssuesPage() {
   const queryClient = new QueryClient();

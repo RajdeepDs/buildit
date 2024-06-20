@@ -41,7 +41,9 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
         teamName: values.teamName,
         teamIdentifier: values.teamIdentifier,
       }),
-    onSuccess: () => {
+    onSuccess: (res) => {
+      console.log(res);
+
       nextStep();
     },
     onError: () => {

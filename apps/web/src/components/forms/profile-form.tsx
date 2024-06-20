@@ -22,6 +22,7 @@ import {
 import { Icons } from "@buildit/ui/icons";
 
 import { updateProfile } from "@/lib/actions/settings/update-profile";
+import type { MutationResult } from "@/lib/actions/types";
 import { getUser } from "@/lib/data/user/get-user";
 import { updateProfileSchema } from "@/schemas/settings";
 
@@ -52,32 +53,33 @@ export default function ProfileForm(): JSX.Element {
 
   const mutation = useMutation({
     mutationKey: ["updateProfile"],
-    mutationFn: (values: z.infer<typeof updateProfileSchema>) =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            updateProfile({
-              name: values.name,
-              bio: values.bio,
-            }),
-          );
-        }, 500);
-      }),
-    onMutate: () => {
-      setIsSubmitting(true);
+    mutationFn: async (
+      values: z.infer<typeof updateProfileSchema>,
+    ): Promise<MutationResult> => {
+      return updateProfile({
+        name: values.name,
+        bio: values.bio,
+      });
     },
-    onSuccess: () => {
-      toast.success("Profile updated successfully.");
-      setIsSubmitting(false);
+    onSuccess: (result: MutationResult) => {
+      if (result.success) {
+        toast.success(result.success);
+        setIsSubmitting(false);
+      } else {
+        toast.error(result.error);
+        setIsSubmitting(false);
+      }
     },
     onError: () => {
-      toast.error("Error updating profile.");
-      setIsSubmitting(false);
+      toast.error("Error updating profile!");
     },
   });
 
   const onSubmit = (values: z.infer<typeof updateProfileSchema>) => {
-    mutation.mutate(values);
+    setIsSubmitting(true);
+    setTimeout(() => {
+      mutation.mutate(values);
+    }, 500);
   };
 
   return (
@@ -85,7 +87,7 @@ export default function ProfileForm(): JSX.Element {
       {user && user.image && (
         <Image
           src={user.image}
-          alt={user.name}
+          alt={user.name || "User profile picture"}
           width={80}
           height={80}
           className="mb-4 rounded-full border-2"

@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import {
   dehydrate,
   HydrationBoundary,
@@ -10,6 +11,13 @@ import { getUser } from "@/lib/data/user/get-user";
 import { getWorkspace } from "@/lib/data/workspace/get-workspace";
 
 export const runtime = "edge";
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Buildit",
+    default: "Dashboard",
+  },
+};
 
 export default async function DashboardLayout({
   children,
