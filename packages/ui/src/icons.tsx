@@ -5,6 +5,7 @@ import {
   AlignLeft,
   AlignRight,
   ArrowLeft,
+  ArrowRight,
   Bold,
   Book,
   CheckIcon,
@@ -101,4 +102,5 @@ export const Icons = {
   users: Users,
   filter: ListFilter,
   loading: Loader2,
+  arrowRight: ArrowRight,
 };

@@ -38,6 +38,7 @@ export default function ProfileForm(): JSX.Element {
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       name: "",
+      username: "",
       bio: "",
     },
   });
@@ -46,6 +47,7 @@ export default function ProfileForm(): JSX.Element {
     if (user) {
       form.reset({
         name: user.name || "",
+        username: user.username || "",
         bio: user.bio || "",
       });
     }
@@ -58,6 +60,7 @@ export default function ProfileForm(): JSX.Element {
     ): Promise<MutationResult> => {
       return updateProfile({
         name: values.name,
+        username: values.username,
         bio: values.bio,
       });
     },
@@ -71,7 +74,8 @@ export default function ProfileForm(): JSX.Element {
       }
     },
     onError: () => {
-      toast.error("Error updating profile!");
+      toast.error("Error updating profile");
+      setIsSubmitting(false);
     },
   });
 
@@ -109,6 +113,18 @@ export default function ProfileForm(): JSX.Element {
           />
           <FormField
             control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Enter username" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="bio"
             render={({ field }) => (
               <FormItem>
@@ -122,7 +138,7 @@ export default function ProfileForm(): JSX.Element {
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Updating..." : "Update"}
           </Button>
         </form>

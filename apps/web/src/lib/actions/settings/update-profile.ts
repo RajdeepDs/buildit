@@ -11,17 +11,21 @@ import type { MutationResult } from "../types";
 
 export const updateProfile = async ({
   name,
+  username,
   bio,
 }: z.infer<typeof updateProfileSchema>): Promise<MutationResult> => {
   try {
-    updateProfileSchema.parse({ name, bio });
+    updateProfileSchema.parse({ name, username, bio });
 
     const isSession = await getSession();
     if (!isSession) {
       return { error: "Unauthorized!" };
     }
 
-    await db.update(users).set({ name, bio }).where(eq(users.id, isSession.id));
+    await db
+      .update(users)
+      .set({ name, username, bio })
+      .where(eq(users.id, isSession.id));
     return { success: "Profile updated successfully." };
   } catch (error) {
     return {

@@ -2,8 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import {
   Button,
@@ -15,17 +14,11 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
 
+import type { MutationResult } from "@/lib/actions/types";
 import { createWorkspace } from "@/lib/actions/workspace/create-workspace";
-
-const WorkspaceSetupFormSchema = z.object({
-  workspaceName: z
-    .string()
-    .min(3, "Workspace name must be at least 3 characters"),
-  workspaceSlug: z
-    .string()
-    .min(3, "Workspace name must be at least 3 characters"),
-});
+import { WorkspaceSetupFormSchema } from "@/schemas/getting-started";
 
 export default function WorkspaceSetupForm({
   nextStep,
@@ -42,11 +35,14 @@ export default function WorkspaceSetupForm({
 
   const mutation = useMutation({
     mutationKey: ["createWorkspace"],
-    mutationFn: async (values: z.infer<typeof WorkspaceSetupFormSchema>) =>
-      createWorkspace({
+    mutationFn: async (
+      values: z.infer<typeof WorkspaceSetupFormSchema>,
+    ): Promise<MutationResult> => {
+      return createWorkspace({
         name: values.workspaceName,
         slug: values.workspaceSlug,
-      }),
+      });
+    },
     onSuccess: () => {
       nextStep();
     },
@@ -103,8 +99,13 @@ export default function WorkspaceSetupForm({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending || mutation.isSuccess}
+          >
             Continue
+            <Icons.arrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import {
   Button,
@@ -18,14 +18,11 @@ import {
 } from "@buildit/ui";
 
 import { updateOnboarding } from "@/lib/actions/onboarding";
-import { updateProfile } from "@/lib/actions/user/update-profile";
+import { updateProfile } from "@/lib/actions/settings/update-profile";
+import type { MutationResult } from "@/lib/actions/types";
 import { getWorkspaceSlug } from "@/lib/data/workspace/get-workspace-slug";
+import { UserProfileFormSchema } from "@/schemas/getting-started";
 
-const UserProfileFormSchema = z.object({
-  fullname: z.string().min(3, "Full name must be at least 3 characters"),
-  username: z.string().min(3, "User name must be at least 3 characters"),
-  bio: z.string().optional(),
-});
 export default function UserProfileForm() {
   const form = useForm<z.infer<typeof UserProfileFormSchema>>({
     resolver: zodResolver(UserProfileFormSchema),
@@ -47,21 +44,26 @@ export default function UserProfileForm() {
 
   const mutation = useMutation({
     mutationKey: ["updateUserProfile"],
-    mutationFn: async (values: z.infer<typeof UserProfileFormSchema>) =>
-      updateProfile({
+    mutationFn: async (
+      values: z.infer<typeof UserProfileFormSchema>,
+    ): Promise<MutationResult> => {
+      return updateProfile({
         name: values.fullname,
         username: values.username,
         bio: values.bio || "",
-      }),
+      });
+    },
     onSuccess: async () => {
       const workspaceSlug = await getWorkspaceSlug();
       onboardingMutation.mutate();
       router.push(`/${workspaceSlug}/my-issues`);
     },
   });
+
   const onSubmit = (values: z.infer<typeof UserProfileFormSchema>) => {
     mutation.mutate(values);
   };
+
   return (
     <div>
       <Form {...form}>
@@ -120,8 +122,12 @@ export default function UserProfileForm() {
             )}
           />
 
-          <Button type="submit" className="w-full">
-            Continue
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending || mutation.isSuccess}
+          >
+            Submit
           </Button>
         </form>
       </Form>

@@ -5,7 +5,7 @@ import { users } from "@buildit/db/src/schema";
 
 import { getUser } from "../user/get-user";
 
-export const getWorkspaceByUserId = async () => {
+export const getWorkspaceWithUser = async () => {
   try {
     const user = await getUser();
 

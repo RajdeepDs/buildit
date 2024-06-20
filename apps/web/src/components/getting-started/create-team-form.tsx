@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import {
   Button,
@@ -15,15 +15,11 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
 
 import { createTeam } from "@/lib/actions/team/create-team";
-
-const CreateTeamFormSchema = z.object({
-  teamName: z.string().min(3, "Team name must be at least 3 characters."),
-  teamIdentifier: z
-    .string()
-    .max(5, "Team identifier must be at most 5 characters."),
-});
+import type { MutationResult } from "@/lib/actions/types";
+import { CreateTeamFormSchema } from "@/schemas/getting-started";
 
 export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
   const form = useForm<z.infer<typeof CreateTeamFormSchema>>({
@@ -36,23 +32,26 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
 
   const mutation = useMutation({
     mutationKey: ["createTeam"],
-    mutationFn: async (values: z.infer<typeof CreateTeamFormSchema>) =>
-      createTeam({
+    mutationFn: async (
+      values: z.infer<typeof CreateTeamFormSchema>,
+    ): Promise<MutationResult> => {
+      return createTeam({
         teamName: values.teamName,
         teamIdentifier: values.teamIdentifier,
-      }),
-    onSuccess: (res) => {
-      console.log(res);
-
+      });
+    },
+    onSuccess: () => {
       nextStep();
     },
     onError: () => {
-      toast.error("Error creating team.");
+      toast.error("Error creating team!");
     },
   });
+
   const onSubmit = (values: z.infer<typeof CreateTeamFormSchema>) => {
     mutation.mutate(values);
   };
+
   return (
     <div>
       <Form {...form}>
@@ -96,8 +95,13 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
             )}
           />
 
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending || mutation.isSuccess}
+          >
             Continue
+            <Icons.arrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>

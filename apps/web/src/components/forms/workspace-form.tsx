@@ -22,9 +22,10 @@ import {
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
+import type { MutationResult } from "@/lib/actions/types";
 import { updateWorkspace } from "@/lib/actions/workspace/update-workspace";
 import { getWorkspace } from "@/lib/data/workspace/get-workspace";
-import { updateWorkspaceSchema } from "@/schemas/workspace";
+import { UpdateWorkspaceSchema } from "@/schemas/workspace";
 
 export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,8 +37,8 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
     queryFn: async () => getWorkspace({ workspaceSlug: slug }),
   });
 
-  const form = useForm<z.infer<typeof updateWorkspaceSchema>>({
-    resolver: zodResolver(updateWorkspaceSchema),
+  const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
+    resolver: zodResolver(UpdateWorkspaceSchema),
     defaultValues: {
       workspaceName: workspace?.name || "",
       workspaceURL: workspace?.slug || "",
@@ -46,24 +47,25 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
 
   const mutation = useMutation({
     mutationKey: ["updateWorkspace", { slug }],
-    mutationFn: (values: z.infer<typeof updateWorkspaceSchema>) =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            updateWorkspace({
-              workspaceName: values.workspaceName,
-              workspaceURL: values.workspaceURL,
-            }),
-          );
-        }, 500);
-      }),
-    onMutate: () => {
-      setIsSubmitting(true);
+    mutationFn: async (
+      values: z.infer<typeof UpdateWorkspaceSchema>,
+    ): Promise<MutationResult> => {
+      return updateWorkspace({
+        workspaceName: values.workspaceName,
+        workspaceURL: values.workspaceURL,
+      });
     },
-    onSuccess: (res) => {
-      router.replace(`/${res}/settings/general`);
-      toast.success("Workspace updated successfully.");
-      setIsSubmitting(false);
+    onSuccess: (result: MutationResult) => {
+      if (result.success) {
+        router.replace(`/${result.success}/settings/general`);
+        toast.success("Workspace updated successfully.");
+        setIsSubmitting(false);
+      } else {
+        toast.error("Error updating workspace", {
+          description: result.error,
+        });
+        setIsSubmitting(false);
+      }
     },
     onError: (error) => {
       toast.error("Error updating workspace", {
@@ -73,8 +75,11 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof updateWorkspaceSchema>) => {
-    mutation.mutate(values);
+  const onSubmit = (values: z.infer<typeof UpdateWorkspaceSchema>) => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      mutation.mutate(values);
+    }, 500);
   };
   return (
     <div className="space-y-8">
@@ -127,7 +132,7 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Updating..." : "Update"}
           </Button>
         </form>
