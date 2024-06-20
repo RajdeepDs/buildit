@@ -8,6 +8,13 @@
       "when": 1718809356146,
       "tag": "0000_burly_reavers",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1718868216975,
+      "tag": "0001_misty_thunderball",
+      "breakpoints": true
     }
   ]
 }
