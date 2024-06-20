@@ -14,7 +14,6 @@ export const users = sqliteTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image"),
-  password: text("password"),
   bio: text("bio"),
   onboarding: integer("onboarding", { mode: "boolean" }).default(false),
 });
