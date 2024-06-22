@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "6ead41f8-1dc1-4a95-9186-927716354d29",
-  "prevId": "bb2d0f7b-80bc-4f59-ae12-1c94406899e2",
+  "id": "4cd774c1-9484-4362-b713-eb4f601f7247",
+  "prevId": "fc7840da-5314-43b5-af92-dbcb5ba4be02",
   "tables": {
     "user": {
       "name": "user",
@@ -549,11 +549,11 @@
           "autoincrement": false,
           "default": "(CURRENT_TIMESTAMP)"
         },
-        "userId": {
-          "name": "userId",
+        "admin": {
+          "name": "admin",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "workspaceId": {
@@ -574,12 +574,12 @@
         }
       },
       "foreignKeys": {
-        "team_userId_user_id_fk": {
-          "name": "team_userId_user_id_fk",
+        "team_admin_user_id_fk": {
+          "name": "team_admin_user_id_fk",
           "tableFrom": "team",
           "tableTo": "user",
           "columnsFrom": [
-            "userId"
+            "admin"
           ],
           "columnsTo": [
             "id"
@@ -593,72 +593,6 @@
           "tableTo": "workspace",
           "columnsFrom": [
             "workspaceId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "member": {
-      "name": "member",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "teamId": {
-          "name": "teamId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "member_email_unique": {
-          "name": "member_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "member_teamId_team_id_fk": {
-          "name": "member_teamId_team_id_fk",
-          "tableFrom": "member",
-          "tableTo": "team",
-          "columnsFrom": [
-            "teamId"
           ],
           "columnsTo": [
             "id"

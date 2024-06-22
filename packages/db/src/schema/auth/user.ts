@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
+import { team } from "../team";
 import { workspaces } from "../workspace/workspace";
 import { accounts } from "./accounts";
 
@@ -21,4 +22,5 @@ export const users = sqliteTable("user", {
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   workspaces: many(workspaces),
+  teams: many(team),
 }));

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bb2d0f7b-80bc-4f59-ae12-1c94406899e2",
+  "id": "fc7840da-5314-43b5-af92-dbcb5ba4be02",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -44,13 +44,6 @@
         },
         "image": {
           "name": "image",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "password": {
-          "name": "password",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -556,11 +549,11 @@
           "autoincrement": false,
           "default": "(CURRENT_TIMESTAMP)"
         },
-        "userId": {
-          "name": "userId",
+        "admin": {
+          "name": "admin",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "workspaceId": {
@@ -581,12 +574,12 @@
         }
       },
       "foreignKeys": {
-        "team_userId_user_id_fk": {
-          "name": "team_userId_user_id_fk",
+        "team_admin_user_id_fk": {
+          "name": "team_admin_user_id_fk",
           "tableFrom": "team",
           "tableTo": "user",
           "columnsFrom": [
-            "userId"
+            "admin"
           ],
           "columnsTo": [
             "id"

@@ -3,6 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { users } from "../auth/user";
+import { team } from "../team";
 
 export const workspaces = sqliteTable("workspace", {
   id: text("id")
@@ -20,6 +21,7 @@ export const workspaces = sqliteTable("workspace", {
   issueCounter: integer("issueCounter").default(0),
 });
 
-export const workspaceRelations = relations(workspaces, ({ one }) => ({
+export const workspaceRelations = relations(workspaces, ({ one, many }) => ({
   user: one(users, { fields: [workspaces.userId], references: [users.id] }),
+  teams: many(team),
 }));

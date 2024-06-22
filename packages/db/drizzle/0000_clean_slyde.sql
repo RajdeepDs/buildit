@@ -5,7 +5,6 @@ CREATE TABLE `user` (
 	`email` text NOT NULL,
 	`emailVerified` integer,
 	`image` text,
-	`password` text,
 	`bio` text,
 	`onboarding` integer DEFAULT false
 );
@@ -75,9 +74,9 @@ CREATE TABLE `team` (
 	`teamId` text NOT NULL,
 	`createdAt` integer DEFAULT (CURRENT_TIMESTAMP),
 	`updatedAt` integer DEFAULT (CURRENT_TIMESTAMP),
-	`userId` text,
+	`admin` text NOT NULL,
 	`workspaceId` text,
-	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`admin`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`workspaceId`) REFERENCES `workspace`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

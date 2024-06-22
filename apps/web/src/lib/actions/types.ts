@@ -10,5 +10,5 @@ export type CreateTeamResponse = {
   createdAt: Date | null;
   updatedAt: Date | null;
   workspaceId: string | null;
-  userId: string | null;
+  admin: string | null;
 }[];

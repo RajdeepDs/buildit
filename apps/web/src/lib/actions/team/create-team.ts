@@ -38,20 +38,13 @@ export const createTeam = async ({
         name: teamName,
         teamId: teamIdentifier,
         workspaceId: workspace.id,
-        userId: user.id,
+        admin: user.id,
       })
       .returning();
 
     if (!teamRes || !teamRes[0]) {
       return { error: "Error creating team" };
     }
-
-    await db.insert(member).values({
-      name: user.name as string,
-      email: user.email as string,
-      teamId: teamRes[0]?.id,
-      role: "admin",
-    });
 
     return { success: "Team created successfully" };
   } catch (error) {

@@ -3,7 +3,6 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { users } from "../auth/user";
-import { member } from "../member/member";
 import { workspaces } from "../workspace";
 
 export const team = sqliteTable("team", {
@@ -18,17 +17,18 @@ export const team = sqliteTable("team", {
   updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).default(
     sql`(CURRENT_TIMESTAMP)`,
   ),
-  userId: text("userId").references(() => users.id, { onDelete: "cascade" }),
+  admin: text("admin")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   workspaceId: text("workspaceId").references(() => workspaces.id, {
     onDelete: "cascade",
   }),
 });
 
-export const teamRelations = relations(team, ({ one, many }) => ({
-  user: one(users, { fields: [team.userId], references: [users.id] }),
+export const teamRelations = relations(team, ({ one }) => ({
+  user: one(users, { fields: [team.admin], references: [users.id] }),
   workspace: one(workspaces, {
     fields: [team.workspaceId],
     references: [workspaces.id],
   }),
-  members: many(member),
 }));
