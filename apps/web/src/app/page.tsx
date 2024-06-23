@@ -20,9 +20,9 @@ export default async function Home() {
         </p>
         <Button asChild variant={"outline"} className="mt-10">
           {isSession ? (
-            <Link href={`/${workspaceSlug}`}>Dashboard</Link>
+            <Link href={`/${workspaceSlug}/my-issues`}>Dashboard</Link>
           ) : (
-            <Link href="/auth/signin">Sign in</Link>
+            <Link href="/sign-in">Sign in</Link>
           )}
         </Button>
       </div>
