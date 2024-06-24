@@ -18,7 +18,7 @@ export default async function Home() {
         <p className="mt-4 text-center text-lg">
           An open source collaborative project management tool.
         </p>
-        <Button asChild variant={"outline"} className="mt-10">
+        <Button asChild variant={"outline"} className="my-10">
           {isSession ? (
             <Link href={`/${workspaceSlug}/my-issues`}>Dashboard</Link>
           ) : (

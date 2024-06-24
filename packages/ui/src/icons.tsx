@@ -16,6 +16,7 @@ import {
   Code,
   Code2,
   Copy,
+  Dot,
   ExternalLink,
   Github,
   GripVertical,
@@ -103,4 +104,5 @@ export const Icons = {
   filter: ListFilter,
   loading: Loader2,
   arrowRight: ArrowRight,
+  dot: Dot,
 };
