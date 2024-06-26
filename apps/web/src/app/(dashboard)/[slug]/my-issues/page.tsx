@@ -5,8 +5,11 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
+import { Button } from "@buildit/ui";
+import { Icons } from "@buildit/ui/icons";
+
 import AllIssues from "@/components/issue/all-issues";
-import NavIssue from "@/components/issue/nav-issue";
+import { PageHeader } from "@/components/ui/page-header";
 import { getIssues } from "@/lib/data/issues/get-issues";
 
 export const runtime = "edge";
@@ -25,7 +28,11 @@ export default async function MyIssuesPage() {
 
   return (
     <div className="h-full">
-      <NavIssue />
+      <PageHeader title="My issues">
+        <Button color="minimal" size={"icon"}>
+          <Icons.panelRight className="text-subtle active:text-emphasis h-4 w-4" />
+        </Button>
+      </PageHeader>
       <main>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AllIssues />

@@ -38,6 +38,7 @@ import {
   MoreHorizontal,
   MoreVertical,
   Palette,
+  PanelRight,
   PenBox,
   Plus,
   RemoveFormatting,
@@ -111,4 +112,5 @@ export const Icons = {
   hexagon: Hexagon,
   team: SquareUserRound,
   user: User2,
+  panelRight: PanelRight,
 };
