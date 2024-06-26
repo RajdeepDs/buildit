@@ -1,31 +1,36 @@
 export const getNavigations = (slug: string) => {
   return [
     {
-      name: "Inbox",
-      icon: "inbox",
-      href: `/${slug}/inbox`,
-    },
-    {
       name: "My issues",
       icon: "issues",
       href: `/${slug}/my-issues`,
     },
+    {
+      name: "Projects",
+      icon: "hexagon",
+      href: `/${slug}/projects`,
+    },
+    {
+      name: "Teams",
+      icon: "team",
+      href: `/${slug}/teams`,
+    },
   ];
 };
 
-export const getSubNavigations = (slug: string) => {
+export const getTeamsNavigations = (slug: string) => {
   return [
     {
-      name: "Issues",
-      href: `/${slug}/issues`,
+      name: "Active issues",
+      href: `/${slug}/issues/active`,
+    },
+    {
+      name: "Backlog issues",
+      href: `/${slug}/issues/backlog`,
     },
     {
       name: "Projects",
       href: `/${slug}/projects`,
-    },
-    {
-      name: "Team members",
-      href: `/${slug}/team-members`,
     },
   ];
 };
@@ -36,25 +41,21 @@ export const getFooterNavigations = (slug: string) => {
       name: "Invite people",
       icon: "plus",
       href: "/invite",
-      externalLink: false,
     },
     {
       name: "Settings",
       icon: "settings",
       href: `/${slug}/settings`,
-      externalLink: false,
     },
     {
       name: "Github",
       icon: "github",
       href: "https://github.com/RajdeepDs/buildit",
-      externalLink: true,
     },
     {
       name: "Documentations",
       icon: "book",
       href: "",
-      externalLink: true,
     },
   ];
 };

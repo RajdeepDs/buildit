@@ -24,6 +24,7 @@ import {
   Heading2,
   Heading3,
   HelpCircle,
+  Hexagon,
   Highlighter,
   Home,
   Inbox,
@@ -42,12 +43,14 @@ import {
   RemoveFormatting,
   Search,
   Settings,
+  SquareUserRound,
   Strikethrough,
   Subscript,
   Superscript,
   Trash,
   Trash2,
   Underline,
+  User2,
   Users,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -105,4 +108,7 @@ export const Icons = {
   loading: Loader2,
   arrowRight: ArrowRight,
   dot: Dot,
+  hexagon: Hexagon,
+  team: SquareUserRound,
+  user: User2,
 };

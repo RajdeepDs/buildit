@@ -54,7 +54,7 @@ export function Avatar(props: AvatarProps) {
             {props.fallback ? (
               props.fallback
             ) : (
-              <Icons.users size={size} className="text-emphasis" />
+              <Icons.user size={size} className="text-emphasis" />
             )}
           </>
         </AvatarPrimitive.Fallback>

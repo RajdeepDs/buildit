@@ -21,11 +21,12 @@ export const buttonVariants = cva(
         secondary:
           "bg-default text-emphasis border-default hover:bg-muted hover:border-emphasis focus:ring-offset focus:ring-emphasis disabled:bg-muted disabled:text-muted disabled:hover:border-default border focus:ring-2 focus-visible:outline-none",
         minimal:
-          "text-emphasis hover:bg-muted focus:ring-offset focus:ring-emphasis disabled:text-muted disabled:hover:bg-muted disabled:text-muted focus:ring-2 focus-visible:outline-none",
+          "text-emphasis hover:bg-muted focus-visible:ring-offset focus-visible:ring-emphasis disabled:text-muted disabled:hover:bg-muted disabled:text-muted focus-visible:outline-none focus-visible:ring-2",
         destructive:
           "bg-default text-emphasis border-default hover:bg-error focus:bg-error focus:ring-offset border hover:border-red-100 hover:text-red-700 focus:border-red-100 focus:text-red-700 focus:ring-2 focus:ring-red-700 focus-visible:outline-none disabled:border-red-200 disabled:bg-red-100 disabled:text-red-700 disabled:hover:border-red-200",
       },
       size: {
+        icon: "h-8 w-8 px-0 py-0",
         sm: "px-3 py-2 leading-4",
         base: "h-9 px-4 py-2.5",
       },
