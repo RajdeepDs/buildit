@@ -30,7 +30,7 @@ export function OauthButton(): JSX.Element {
         className="w-full"
       >
         <Button
-          variant={"outline"}
+          color={"secondary"}
           className="w-full space-x-2"
           disabled={mutation.isPending || mutation.isSuccess}
         >
@@ -56,7 +56,7 @@ export function OauthButton(): JSX.Element {
       </form>
       <form className="w-full">
         <Button
-          variant={"outline"}
+          color={"secondary"}
           className="flex w-full items-center space-x-2"
           disabled={mutation.isPending || mutation.isSuccess}
         >

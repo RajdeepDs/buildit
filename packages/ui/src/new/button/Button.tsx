@@ -1,29 +1,33 @@
-import React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
+import React, { forwardRef } from "react";
+import type { LinkProps } from "next/link";
+import Link from "next/link";
 import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 
 import { Icons } from "../../icons";
 import { cn } from "../../lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md p-5 font-medium",
+  "relative inline-flex items-center justify-center rounded-md text-sm font-medium transition",
   {
     variants: {
       variant: {
         button: "",
-        icon: "",
+        icon: "flex justify-center",
       },
       color: {
-        primary: "bg-inverted text-inverted",
-        secondary: "",
-        minimal: "",
-        destructive: "",
+        primary:
+          "bg-inverted text-inverted hover:bg-brand-emphasis focus:ring-offset focus:ring-brand-subtle disabled:bg-brand-subtle focus:ring-2 focus-visible:outline-none",
+        secondary:
+          "bg-default text-emphasis border-default hover:bg-muted hover:border-emphasis focus:ring-offset focus:ring-emphasis disabled:bg-muted disabled:text-muted disabled:hover:border-default border focus:ring-2 focus-visible:outline-none",
+        minimal:
+          "text-emphasis hover:bg-muted focus:ring-offset focus:ring-emphasis disabled:text-muted disabled:hover:bg-muted disabled:text-muted focus:ring-2 focus-visible:outline-none",
+        destructive:
+          "bg-default text-emphasis border-default hover:bg-error focus:bg-error focus:ring-offset border hover:border-red-100 hover:text-red-700 focus:border-red-100 focus:text-red-700 focus:ring-2 focus:ring-red-700 focus-visible:outline-none disabled:border-red-200 disabled:bg-red-100 disabled:text-red-700 disabled:hover:border-red-200",
       },
       size: {
-        sm: "",
-        base: "",
-        lg: "",
+        sm: "px-3 py-2 leading-4",
+        base: "h-9 px-4 py-2.5",
       },
     },
     defaultVariants: {
@@ -34,48 +38,94 @@ export const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color">,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-  StartIcon?: (typeof Icons)[keyof typeof Icons];
+type InferredVariantProps = VariantProps<typeof buttonVariants>;
+export type ButtonColor = NonNullable<InferredVariantProps["color"]>;
+
+export type ButtonBaseProps = {
+  onClick?: () => void;
+  CustomStartIcon?: React.ReactNode;
+  StartIcon?: keyof typeof Icons;
+  EndIcon?: keyof typeof Icons;
   disabled?: boolean;
-  loading?: boolean;
-}
+} & Omit<InferredVariantProps, "color"> & {
+    color?: ButtonColor;
+  };
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export type ButtonProps = ButtonBaseProps &
   (
-    {
-      loading = false,
-      className,
-      variant,
-      size,
-      color,
-      asChild = false,
-      StartIcon,
-      ...props
-    },
-    ref,
-  ) => {
-    const disabled = props.disabled || loading;
-    const TabIcon =
-      Icons[(StartIcon as unknown as keyof typeof Icons) || "chevronDown"];
-    return (
-      <div
-        className={(cn({ variant, size, color }), className)}
-        ref={ref}
-        {...props}
-      >
-        {StartIcon && (
-          <TabIcon
-            className={cn("text-subtle h-4 w-4", disabled && "text-subtle")}
-          />
-        )}
-        {props.children}
-      </div>
-    );
-  },
-);
-Button.displayName = "Button";
+    | (Omit<JSX.IntrinsicElements["a"], "href" | "onClick" | "ref"> & LinkProps)
+    | (Omit<JSX.IntrinsicElements["button"], "onClick" | "ref"> & {
+        href?: never;
+      })
+  );
 
-export { Button };
+export const Button = forwardRef<
+  HTMLAnchorElement | HTMLButtonElement,
+  ButtonProps
+>(function Button(props: ButtonProps, forwardedRef) {
+  const {
+    color = "primary",
+    size,
+    variant = "button",
+    type = "button",
+    CustomStartIcon,
+    StartIcon,
+    EndIcon,
+    ...passThroughProps
+  } = props;
+  const disabled = props.disabled;
+  const isLink = typeof props.href !== "undefined";
+  const elementType = isLink ? "a" : "button";
+  const Icon = Icons[StartIcon as keyof typeof Icons];
+  const IconEnd = Icons[EndIcon as keyof typeof Icons];
+
+  const element = React.createElement(
+    elementType,
+    {
+      ...passThroughProps,
+      ref: forwardedRef,
+      disabled,
+      type: isLink ? type : undefined,
+      className: cn(
+        buttonVariants({ color, size, variant, className: props.className }),
+      ),
+      onClick: disabled
+        ? (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+            e.preventDefault();
+          }
+        : props.onClick,
+    },
+    <>
+      {CustomStartIcon ||
+        (StartIcon && (
+          <>
+            <Icon
+              className={cn(
+                variant === "icon" && "h-4 w-4",
+                variant === "button" && "me-2 h-4 w-4 stroke-[1.5px]",
+              )}
+            />
+          </>
+        ))}
+      {props.children}
+      {EndIcon && (
+        <>
+          <IconEnd
+            className={cn(
+              variant === "icon" && "h-4 w-4",
+              variant === "button" && "ms-2 h-4 w-4 stroke-[1.5px]",
+            )}
+          />
+        </>
+      )}
+    </>,
+  );
+
+  return props.href ? (
+    <Link href={props.href} passHref legacyBehavior>
+      {element}
+    </Link>
+  ) : (
+    element
+  );
+});

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { Button } from "@buildit/ui";
 
 import { getSession } from "@/lib/data/get-session";
@@ -18,13 +16,19 @@ export default async function Home() {
         <p className="mt-4 text-center text-lg">
           An open source collaborative project management tool.
         </p>
-        <Button asChild variant={"outline"} className="my-10">
-          {isSession ? (
-            <Link href={`/${workspaceSlug}/my-issues`}>Dashboard</Link>
-          ) : (
-            <Link href="/sign-in">Sign in</Link>
-          )}
-        </Button>
+        {isSession ? (
+          <Button
+            color="secondary"
+            href={`/${workspaceSlug}/my-issues`}
+            className="my-10"
+          >
+            <p>Dashboard</p>
+          </Button>
+        ) : (
+          <Button color="primary" href="/sign-in" className="my-10">
+            Sign In
+          </Button>
+        )}
       </div>
     </main>
   );
