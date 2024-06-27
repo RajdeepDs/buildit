@@ -30,26 +30,27 @@ export default function AvatarDropdownMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-x-1 outline-none">
-        <span className="text-emphasis">{user?.name}</span>
-        <Icons.chevronDown className="stroke-textColor-subtle h-4 w-4" />
+        <span className="text-emphasis text-sm font-medium">{user?.name}</span>
+        <Icons.chevronDown className="text-default ml-2 h-4 w-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="ml-3">
         <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/`}>Profile</Link>
+          <Link href={`/${slug}/settings/`} className="space-x-2">
+            <Icons.user className="text-subtle h-4 w-4" />
+            <p className="text-default font-medium">Profile</p>
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/`}>Workspace settings</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href={`/${slug}/settings/`}>Invite and manage members</Link>
+          <Link href={`/${slug}/settings/`} className="space-x-2">
+            <Icons.settings className="text-subtle h-4 w-4" />
+            <p className="text-default font-medium">Workspace settings</p>
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={onclick}
-          className="text-red-500 focus:bg-red-100 focus:text-red-500"
-        >
-          Log Out
+        <DropdownMenuItem onClick={onclick} className="space-x-2">
+          <Icons.logOut className="text-subtle h-4 w-4" />
+          <p className="text-default font-medium">Log Out</p>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

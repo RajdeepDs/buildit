@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import { Button, Input } from "@buildit/ui";
+import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
 import AllIssues from "@/components/issue/all-issues";

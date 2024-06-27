@@ -1,14 +1,12 @@
 export type TUser = {
   id: string;
-  name: string;
+  name: string | null;
   username: string | null;
   email: string;
   emailVerified: Date | null;
   image: string | null;
-  password: string | null;
+  bio: string | null;
   onboarding: boolean | null;
-  role: string | null;
-  isTwoFactorEnabled: boolean | null;
 };
 
 export type TWorkspace =
@@ -25,17 +23,18 @@ export type TWorkspace =
 
 export type TIssue = {
   id: string;
-  description: unknown | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
   title: string;
+  description: unknown | null;
   status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
   priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
-  reporter: TUser | null;
   reporterId: string | null;
   assigneeId: string | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
   workspaceId: string | null;
   issueId: string;
+  teamId: string | null;
+  reporter: TUser | null;
 };
 
 export type TIssues = TIssue[];

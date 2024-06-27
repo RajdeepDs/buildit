@@ -34,6 +34,7 @@ import {
   ListFilter,
   Loader2,
   Lock,
+  LogOut,
   Maximize2,
   Minimize2,
   MoreHorizontal,
@@ -117,4 +118,5 @@ export const Icons = {
   panelRight: PanelRight,
   filter: Filter,
   sliders: SlidersHorizontal,
+  logOut: LogOut,
 };
