@@ -7,11 +7,14 @@ import {
   AlignRight,
   ArrowLeft,
   ArrowRight,
+  ArrowUpCircleIcon,
   Bold,
   Book,
+  CheckCircle2,
   CheckIcon,
   ChevronDown,
   ChevronLeft,
+  Circle,
   CircleDashed,
   CircleDotDashed,
   Clipboard,
@@ -39,6 +42,7 @@ import {
   LogOut,
   Maximize2,
   Minimize2,
+  Minus,
   MoreHorizontal,
   MoreVertical,
   Palette,
@@ -63,6 +67,7 @@ import {
   Underline,
   User2,
   Users,
+  XCircle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -132,5 +137,11 @@ export const Icons = {
   signalMedium: SignalMedium,
   signalLow: SignalLow,
   triangleAlert: AlertTriangle,
+  minus: Minus,
   tag: Tag,
+  backlog: CircleDashed,
+  todo: Circle,
+  inProgress: ArrowUpCircleIcon,
+  done: CheckCircle2,
+  canceled: XCircle,
 };

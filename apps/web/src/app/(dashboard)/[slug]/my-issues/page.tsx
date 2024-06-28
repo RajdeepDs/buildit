@@ -10,6 +10,7 @@ import { Icons } from "@buildit/ui/icons";
 
 import AllIssues from "@/components/issue/all-issues";
 import SearchIssue from "@/components/issue/search-issues";
+import DisplayMenu from "@/components/my-issues/display-menu";
 import FilterMenu from "@/components/my-issues/filter-menu";
 import { PageHeader } from "@/components/ui/page-header";
 import { getIssues } from "@/lib/data/issues/get-issues";
@@ -36,14 +37,10 @@ export default async function MyIssuesPage() {
         </Button>
       </PageHeader>
       <div className="flex items-center justify-between px-4">
-        {/* ToDo: Create an input ui component */}
         <SearchIssue />
         <div className="flex space-x-2">
           <FilterMenu />
-          {/* ToDo: Add a dropdown menu in Slider button */}
-          <Button color="minimal" size={"icon"}>
-            <Icons.sliders className="text-subtle active:text-emphasis h-4 w-4" />
-          </Button>
+          <DisplayMenu />
         </div>
       </div>
       <main className="mt-2 h-svh w-full border-t">

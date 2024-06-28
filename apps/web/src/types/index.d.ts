@@ -52,11 +52,13 @@ export type TIssues = TIssue[];
 export type Status = {
   value: string;
   label: string;
+  icon: string;
 };
 
 export type Priority = {
   value: string;
   label: string;
+  icon: string;
 };
 
 export type IssueProp = {
