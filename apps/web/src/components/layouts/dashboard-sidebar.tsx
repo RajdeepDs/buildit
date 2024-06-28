@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAtom } from "jotai";
 
 import { Avatar, Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
@@ -11,8 +10,8 @@ import {
   getNavigations,
   getTeamsNavigations,
 } from "@/configs/sidebar-navigations";
-import { toggleSearchAtom } from "@/lib/store/search-issue";
 import type { TTeam, TUser } from "@/types";
+import { CreateIssueModal } from "../modals/create-issue-modal";
 import VerticalTabs from "../ui/vertical-tabs";
 import AvatarDropdownMenu from "./avatar-dropdown-menu";
 
@@ -33,8 +32,6 @@ export default function DashboardSidebar({
   const teamNavigations = getTeamsNavigations(slug);
   const FooterNavigations = getFooterNavigations(slug);
 
-  const [toggleSearch, setToggleSearch] = useAtom(toggleSearchAtom);
-
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between py-3 pl-4 pr-3">
@@ -42,20 +39,11 @@ export default function DashboardSidebar({
           {user && <Avatar imageSrc={user.image} alt={user.name!} size="sm" />}
           <AvatarDropdownMenu user={user} />
         </div>
-        <Button
-          variant={"icon"}
-          size={"icon"}
-          color={"minimal"}
-          className={cn(toggleSearch && "bg-emphasis hover:bg-emphasis")}
-          onClick={() => setToggleSearch(!toggleSearch)}
-        >
-          <Icons.search
-            className={cn(
-              "text-subtle h-4 w-4",
-              toggleSearch && "text-emphasis",
-            )}
-          />
-        </Button>
+        <CreateIssueModal>
+          <Button variant={"icon"} size={"icon"} color={"secondary"}>
+            <Icons.squarePen className="h-4 w-4" />
+          </Button>
+        </CreateIssueModal>
       </div>
       <div className="flex-1 px-3">
         {Navigations.map(({ name, href, icon }) => {

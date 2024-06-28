@@ -1,3 +1,5 @@
+import type { TWorkspace } from "@/types";
+
 export interface MutationResult {
   success?: string;
   error?: string;
@@ -12,3 +14,5 @@ export type CreateTeamResponse = {
   workspaceId: string | null;
   admin: string | null;
 }[];
+
+export type WorkspaceResponse = TWorkspace[];

@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -26,6 +26,7 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
+import { getTeams } from "@/lib/data/team/get-teams";
 import { CreateIssueSchema } from "@/schemas/issue";
 
 export default function CreateIssueForm({
@@ -34,6 +35,11 @@ export default function CreateIssueForm({
   onOpenChange: (isOpen: boolean) => void;
 }): JSX.Element {
   const { slug } = useParams() as { slug?: string };
+
+  const { data: team } = useQuery({
+    queryKey: ["team"],
+    queryFn: async () => getTeams(),
+  });
 
   const form = useForm<z.infer<typeof CreateIssueSchema>>({
     resolver: zodResolver(CreateIssueSchema),
@@ -53,21 +59,26 @@ export default function CreateIssueForm({
         description: JSON.parse(JSON.stringify(values.description)),
         status: values.status,
         priority: values.priority,
-        slug: slug || "",
+        slug: slug,
+        teamId: team?.id,
       }),
     onSuccess: (res) => {
-      toast.success("Issue created.", {
-        description: `${res.success} created successfully.`,
-      });
+      if (res.success) {
+        toast.success("Issue created", {
+          description: `${res.success} created successfully.`,
+        });
+      } else {
+        toast.error("Error creating issue");
+      }
       onOpenChange(false);
     },
     onError: () => {
-      toast.error("Error creating issue.");
+      toast.error("Error creating issue");
     },
   });
 
   const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
-    if (slug) {
+    if (slug && team) {
       mutation.mutate(values);
     }
   };

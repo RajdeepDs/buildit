@@ -1,13 +1,13 @@
 "use server";
 
-import type { z } from "zod";
+import { z } from "zod";
 
 import { db, eq } from "@buildit/db";
 import { issue, workspaces } from "@buildit/db/src/schema";
 
 import { getSession } from "@/lib/data/get-session";
 import { CreateIssueSchema } from "@/schemas/issue";
-import type { TWorkspace } from "@/types";
+import type { MutationResult, WorkspaceResponse } from "../types";
 
 export const createIssue = async ({
   title,
@@ -15,47 +15,58 @@ export const createIssue = async ({
   status,
   priority,
   slug,
-}: z.infer<typeof CreateIssueSchema>) => {
-  const validateFields = CreateIssueSchema.parse({
-    title,
-    description,
-    status,
-    priority,
-    slug,
-  });
-
-  if (!validateFields) {
-    return { error: "Invalid fields" };
-  }
-
-  const isSession = await getSession();
-
-  if (!isSession) {
-    return { error: "Unauthorized" };
-  }
-
-  const workspace: TWorkspace = await db.query.workspaces.findFirst({
-    where: eq(workspaces.slug, slug),
-  });
-  const workspaceCounter = workspace?.issueCounter;
-  const issueCounter = workspaceCounter! + 1;
-
+  teamId,
+}: z.infer<typeof CreateIssueSchema>): Promise<MutationResult> => {
   try {
+    CreateIssueSchema.parse({
+      title,
+      description,
+      status,
+      priority,
+      slug,
+      teamId,
+    });
+
+    const user = await getSession();
+    if (!user) {
+      return { error: "Unauthorized!" };
+    }
+
+    const workspace = await db.query.workspaces.findFirst({
+      where: eq(workspaces.slug, slug!),
+    });
+    const workspaceCounter = workspace?.issueCounter;
+    const issueCounter = workspaceCounter! + 1;
+    console.log(issueCounter, "issueCounter");
+
     await db.insert(issue).values({
       title,
       description,
       status,
       priority,
-      reporterId: isSession.id,
+      reporterId: user.id,
       issueId: "ISSUE-" + issueCounter,
       workspaceId: workspace?.id,
+      teamId: teamId,
     });
-    await db
+
+    const workspaceRes: WorkspaceResponse = await db
       .update(workspaces)
-      .set({ issueCounter })
-      .where(eq(workspaces.slug, slug));
-    return { success: "ISSUE-" + issueCounter };
+      .set({
+        issueCounter,
+      })
+      .where(eq(workspaces.slug, slug!))
+      .returning();
+
+    if (!workspaceRes || !workspaceRes[0]) {
+      return { error: "Error updating workspace." };
+    }
+
+    return { success: "ISSUE-" + workspaceRes[0].issueCounter };
   } catch (error) {
-    return { error: "Error creating issue" };
+    return {
+      error:
+        error instanceof z.ZodError ? "Invalid fields" : "Error creating issue",
+    };
   }
 };

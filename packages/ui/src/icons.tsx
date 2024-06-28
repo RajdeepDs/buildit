@@ -47,6 +47,7 @@ import {
   Search,
   Settings,
   SlidersHorizontal,
+  SquarePen,
   SquareUserRound,
   Strikethrough,
   Subscript,
@@ -119,4 +120,5 @@ export const Icons = {
   filter: Filter,
   sliders: SlidersHorizontal,
   logOut: LogOut,
+  squarePen: SquarePen,
 };

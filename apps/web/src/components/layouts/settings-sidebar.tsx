@@ -41,7 +41,7 @@ export default function SettingsSidebar({
                     <>
                       <Image
                         src={user.image}
-                        alt={user.name}
+                        alt={user.name!}
                         width={16}
                         height={16}
                         className="rounded-full"

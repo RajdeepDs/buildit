@@ -9,7 +9,8 @@ export const CreateIssueSchema = z.object({
   priority: z.enum(["urgent", "high", "medium", "low", "no priority"], {
     message: "Invalid priority",
   }),
-  slug: z.string(),
+  slug: z.string().optional(),
+  teamId: z.string().optional(),
 });
 
 export const UpdateIssueSchema = CreateIssueSchema.extend({
