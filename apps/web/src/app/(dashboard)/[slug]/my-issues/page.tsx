@@ -9,6 +9,7 @@ import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
 import AllIssues from "@/components/issue/all-issues";
+import FilterMenu from "@/components/my-issues/filter-menu";
 import { PageHeader } from "@/components/ui/page-header";
 import { getIssues } from "@/lib/data/issues/get-issues";
 
@@ -42,11 +43,9 @@ export default async function MyIssuesPage() {
             placeholder="Search..."
           />
         </div>
-        {/* ToDo: Add a dropdown menu in both the buttons */}
         <div className="flex space-x-2">
-          <Button color="minimal" size={"icon"}>
-            <Icons.filter className="text-subtle active:text-emphasis h-4 w-4" />
-          </Button>
+          <FilterMenu />
+          {/* ToDo: Add a dropdown menu in Slider button */}
           <Button color="minimal" size={"icon"}>
             <Icons.sliders className="text-subtle active:text-emphasis h-4 w-4" />
           </Button>
