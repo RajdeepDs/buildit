@@ -40,9 +40,12 @@ export default function DashboardSidebar({
           <AvatarDropdownMenu user={user} />
         </div>
         <CreateIssueModal>
-          <Button variant={"icon"} size={"icon"} color={"secondary"}>
-            <Icons.squarePen className="h-4 w-4" />
-          </Button>
+          <Button
+            variant={"icon"}
+            size={"icon"}
+            color={"secondary"}
+            StartIcon="squarePen"
+          />
         </CreateIssueModal>
       </div>
       <div className="flex-1 px-3">

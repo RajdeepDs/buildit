@@ -27,7 +27,7 @@ export default async function MyIssuesPage() {
   });
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <PageHeader title="My issues">
         <Button color="minimal" size={"icon"}>
           <Icons.horizontalMore className="text-subtle active:text-emphasis h-4 w-4" />
@@ -52,7 +52,7 @@ export default async function MyIssuesPage() {
           </Button>
         </div>
       </div>
-      <main className="px-4">
+      <main className="h-svh w-full px-4 py-4">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AllIssues />
         </HydrationBoundary>
