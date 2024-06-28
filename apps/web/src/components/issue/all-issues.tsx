@@ -1,10 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 import { Button } from "@buildit/ui";
 
 import { getIssues } from "@/lib/data/issues/get-issues";
+import { searchQueryAtom, searchResultsAtom } from "@/lib/store/search-issue";
 import { CreateIssueModal } from "../modals/create-issue-modal";
 import MyIssuesCard from "./my-issues-card";
 
@@ -13,6 +15,10 @@ export default function AllIssues() {
     queryKey: ["issues"],
     queryFn: async () => getIssues(),
   });
+
+  const [issues, setIssues] = useAtom(searchResultsAtom);
+  const [searchQuery] = useAtom(searchQueryAtom);
+  setIssues(data || []);
 
   if (error) return <div>Error: {error.message}</div>;
   return (
@@ -31,7 +37,11 @@ export default function AllIssues() {
           </CreateIssueModal>
         </div>
       ) : (
-        data?.map((issue) => <MyIssuesCard key={issue.id} issue={issue} />)
+        issues
+          .filter((issue) =>
+            issue.title.toLowerCase().includes(searchQuery.toLowerCase()),
+          )
+          .map((issue) => <MyIssuesCard key={issue.id} issue={issue} />)
       )}
     </div>
   );

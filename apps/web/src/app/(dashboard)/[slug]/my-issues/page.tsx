@@ -9,6 +9,7 @@ import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
 import AllIssues from "@/components/issue/all-issues";
+import SearchIssue from "@/components/issue/search-issues";
 import FilterMenu from "@/components/my-issues/filter-menu";
 import { PageHeader } from "@/components/ui/page-header";
 import { getIssues } from "@/lib/data/issues/get-issues";
@@ -36,13 +37,7 @@ export default async function MyIssuesPage() {
       </PageHeader>
       <div className="flex items-center justify-between px-4">
         {/* ToDo: Create an input ui component */}
-        <div className="border-muted flex items-center space-x-2 rounded-md border px-2 py-1">
-          <Icons.search className="text-subtle h-4 w-4" />
-          <input
-            className="flex items-center outline-none placeholder:text-sm"
-            placeholder="Search..."
-          />
-        </div>
+        <SearchIssue />
         <div className="flex space-x-2">
           <FilterMenu />
           {/* ToDo: Add a dropdown menu in Slider button */}
@@ -51,7 +46,7 @@ export default async function MyIssuesPage() {
           </Button>
         </div>
       </div>
-      <main className="h-svh w-full px-4 py-4">
+      <main className="mt-2 h-svh w-full border-t">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AllIssues />
         </HydrationBoundary>

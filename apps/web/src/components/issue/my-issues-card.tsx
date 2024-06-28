@@ -41,7 +41,7 @@ export default function MyIssuesCard({ issue }: { issue: TIssue }) {
 
   return (
     <DropdownMenu>
-      <div className="flex w-full items-center gap-x-2 border-x-0 border-b-[0.1px] p-2 hover:bg-gray-100/50">
+      <div className="flex w-full items-center gap-x-2 border-b px-4 py-2 hover:bg-gray-100/50">
         <Link
           href={`/${slug}/issue/${issue.issueId}`}
           key={issue.id}
