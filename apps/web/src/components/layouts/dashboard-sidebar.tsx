@@ -12,20 +12,20 @@ import {
   getTeamsNavigations,
 } from "@/configs/sidebar-navigations";
 import { toggleSearchAtom } from "@/lib/store/search-issue";
-import type { TUser } from "@/types";
+import type { TTeam, TUser } from "@/types";
 import VerticalTabs from "../ui/vertical-tabs";
 import AvatarDropdownMenu from "./avatar-dropdown-menu";
 
 type DashboardSidebarProps = {
   slug: string;
-  workspace: { name: string } | undefined;
   user: TUser | undefined;
+  teams: TTeam | undefined;
 };
 
 export default function DashboardSidebar({
   slug,
-  workspace,
   user,
+  teams,
 }: DashboardSidebarProps): JSX.Element {
   const pathname = usePathname();
 
@@ -39,7 +39,7 @@ export default function DashboardSidebar({
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between py-3 pl-4 pr-3">
         <div className="flex items-center gap-x-2">
-          {user && <Avatar imageSrc={user.image} alt={user.name} size="sm" />}
+          {user && <Avatar imageSrc={user.image} alt={user.name!} size="sm" />}
           <AvatarDropdownMenu user={user} />
         </div>
         <Button
@@ -76,7 +76,9 @@ export default function DashboardSidebar({
             <div className="w-fit items-center rounded-sm">
               <Icons.home className="text-subtle h-4 w-4" />
             </div>
-            <span className="text-default font-medium">{workspace?.name}</span>
+            <span className="text-default text-sm font-medium">
+              {teams?.name}
+            </span>
           </div>
           <div className="ml-6">
             {teamNavigations.map(({ name, href }) => (

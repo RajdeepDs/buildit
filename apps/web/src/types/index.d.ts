@@ -9,6 +9,16 @@ export type TUser = {
   onboarding: boolean | null;
 };
 
+export type TTeam = {
+  id: string;
+  name: string;
+  teamId: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  admin: string | null;
+  workspaceId: string | null;
+};
+
 export type TWorkspace =
   | {
       id: string;

@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { db } from "@buildit/db";
-import { member, team } from "@buildit/db/src/schema";
+import { team } from "@buildit/db/src/schema";
 
 import { getSession } from "@/lib/data/get-session";
 import { getWorkspaceWithUser } from "@/lib/data/workspace/get-workspace-with-user";
