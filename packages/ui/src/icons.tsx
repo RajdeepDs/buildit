@@ -14,6 +14,7 @@ import {
   CheckIcon,
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
   Circle,
   CircleDashed,
   CircleDotDashed,
@@ -144,4 +145,5 @@ export const Icons = {
   inProgress: ArrowUpCircleIcon,
   done: CheckCircle2,
   canceled: XCircle,
+  chevronRight: ChevronRight,
 };

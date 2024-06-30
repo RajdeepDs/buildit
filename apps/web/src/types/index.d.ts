@@ -18,6 +18,7 @@ export type TTeam = {
   admin: string | null;
   workspaceId: string | null;
   user: TUser | null;
+  issues: TIssue[];
 };
 
 export type TWorkspace =

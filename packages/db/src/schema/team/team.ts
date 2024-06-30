@@ -3,6 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { users } from "../auth/user";
+import { issue } from "../issue";
 import { workspaces } from "../workspace";
 
 export const team = sqliteTable("team", {
@@ -25,10 +26,11 @@ export const team = sqliteTable("team", {
   }),
 });
 
-export const teamRelations = relations(team, ({ one }) => ({
+export const teamRelations = relations(team, ({ one, many }) => ({
   user: one(users, { fields: [team.admin], references: [users.id] }),
   workspace: one(workspaces, {
     fields: [team.workspaceId],
     references: [workspaces.id],
   }),
+  issue: many(issue),
 }));

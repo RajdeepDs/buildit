@@ -18,19 +18,19 @@ export const getNavigations = (slug: string) => {
   ];
 };
 
-export const getTeamsNavigations = (slug: string) => {
+export const getTeamsNavigations = (slug: string, teamId: string) => {
   return [
     {
       name: "Active issues",
-      href: `/${slug}/issues/active`,
+      href: `/${slug}/team/${teamId}/active`,
     },
     {
       name: "Backlog issues",
-      href: `/${slug}/issues/backlog`,
+      href: `/${slug}/team/${teamId}/backlog`,
     },
     {
       name: "Projects",
-      href: `/${slug}/projects`,
+      href: `/${slug}/team/${teamId}/projects`,
     },
   ];
 };

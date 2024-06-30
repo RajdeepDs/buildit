@@ -29,7 +29,6 @@ export default function DashboardSidebar({
   const pathname = usePathname();
 
   const Navigations = getNavigations(slug);
-  const teamNavigations = getTeamsNavigations(slug);
   const FooterNavigations = getFooterNavigations(slug);
 
   return (
@@ -63,25 +62,32 @@ export default function DashboardSidebar({
         })}
         <div className="my-2">
           <p className="text-subtle p-2 text-sm font-medium">Your teams</p>
-          {teams.map((team) => (
-            <div className="mb-4" key={team.id}>
-              <div className="flex items-center gap-x-2 px-2 py-1.5">
-                <div className="w-fit items-center rounded-sm">
-                  <Icons.home className="text-subtle h-4 w-4" />
+          {teams.map((team) => {
+            const teamNavigations = getTeamsNavigations(slug, team.teamId);
+            return (
+              <div className="mb-4" key={team.id}>
+                <div className="flex items-center gap-x-2 px-2 py-1.5">
+                  <div className="w-fit items-center rounded-sm">
+                    <Icons.home className="text-subtle h-4 w-4" />
+                  </div>
+                  <span className="text-default text-sm font-medium">
+                    {team?.name}
+                  </span>
                 </div>
-                <span className="text-default text-sm font-medium">
-                  {team?.name}
-                </span>
+                <div className="ml-6">
+                  {teamNavigations.map(({ name, href }) => (
+                    <Link key={name} href={href}>
+                      <VerticalTabs
+                        name={name}
+                        href={href}
+                        pathname={pathname}
+                      />
+                    </Link>
+                  ))}
+                </div>
               </div>
-              <div className="ml-6">
-                {teamNavigations.map(({ name, href }) => (
-                  <Link key={name} href={href}>
-                    <VerticalTabs name={name} href={href} pathname={pathname} />
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
