@@ -5,7 +5,7 @@ export function PageHeader({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <header className="flex items-center justify-between px-4 py-2">

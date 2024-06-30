@@ -13,8 +13,11 @@ export const getTeams = async () => {
       return null;
     }
 
-    const teams = await db.query.team.findFirst({
+    const teams = await db.query.team.findMany({
       where: eq(team.admin, user.id),
+      with: {
+        user: true,
+      },
     });
 
     return teams;

@@ -17,6 +17,7 @@ export type TTeam = {
   updatedAt: Date | null;
   admin: string | null;
   workspaceId: string | null;
+  user: TUser | null;
 };
 
 export type TWorkspace =
