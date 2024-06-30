@@ -31,7 +31,7 @@ export const Link = TiptapLink.extend({
       ...(this.parent?.() || []),
       new Plugin({
         props: {
-          handleKeyDown: (view: EditorView, event: KeyboardEvent) => {
+          handleKeyDown: (_view: EditorView, event: KeyboardEvent) => {
             const { selection } = editor.state;
 
             if (event.key === "Escape" && selection.empty !== true) {

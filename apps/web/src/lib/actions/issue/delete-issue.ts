@@ -21,7 +21,7 @@ export const deleteIssue = async ({
   try {
     await db.delete(issue).where(eq(issue.issueId, issueId));
     return { success: "Issue deleted!" };
-  } catch (e) {
+  } catch {
     return { error: "Error deleting issue" };
   }
 };

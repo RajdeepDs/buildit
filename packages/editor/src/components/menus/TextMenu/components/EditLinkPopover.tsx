@@ -1,5 +1,5 @@
-import React from "react";
 import * as Popover from "@radix-ui/react-popover";
+import React from "react";
 
 import { LinkEditorPanel } from "../../../../components/panels/LinkEditorPanel";
 import { Icon } from "../../../ui/Icon";

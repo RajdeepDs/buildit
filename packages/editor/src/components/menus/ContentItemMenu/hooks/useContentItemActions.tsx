@@ -1,7 +1,7 @@
-import { useCallback } from "react";
 import type { Node } from "@tiptap/pm/model";
 import type { NodeSelection } from "@tiptap/pm/state";
 import type { Editor } from "@tiptap/react";
+import { useCallback } from "react";
 
 const useContentItemActions = (
   editor: Editor,

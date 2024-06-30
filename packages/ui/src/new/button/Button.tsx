@@ -1,8 +1,8 @@
-import React, { forwardRef } from "react";
-import type { LinkProps } from "next/link";
-import Link from "next/link";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
+import type { LinkProps } from "next/link";
+import Link from "next/link";
+import React, { forwardRef } from "react";
 
 import { Icons } from "../../icons";
 import { cn } from "../../lib/utils";

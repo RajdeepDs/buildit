@@ -1,7 +1,7 @@
-import React, { memo } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import type { Editor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react";
+import React, { memo } from "react";
 
 import { Icons } from "@buildit/ui/icons";
 

@@ -13,11 +13,10 @@
   "types": "./src/index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "biome lint ./src",
+    "format": "biome format ./src",
     "type-check": "tsc --pretty --noEmit",
     "type-check:ci": "tsc-absolute --pretty --noEmit",
-    "lint:fix": "eslint . --fix",
-    "lint:report": "eslint . --format json --output-file ../../lint-results/ui.json",
     "add": "pnpm dlx shadcn-ui@latest add"
   },
   "peerDependencies": {

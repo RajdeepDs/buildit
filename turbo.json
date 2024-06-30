@@ -2,6 +2,9 @@
   "$schema": "https://turborepo.org/schema.json",
   "ui": "tui",
   "tasks": {
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": [
@@ -17,8 +20,13 @@
       "cache": false
     },
     "lint": {
-      "dependsOn": ["build"],
-      "outputs": ["node_modules/.cache/.eslintcache"]
+      "dependsOn": ["^topo"]
+    },
+    "format": {
+      "dependsOn": ["^topo"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^topo"]
     },
     "clean": {
       "cache": false

@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
+import type { Metadata } from "next";
 
 import WorkspaceForm from "@/components/forms/workspace-form";
 import SettingsHeader from "@/components/settings/settings-header";

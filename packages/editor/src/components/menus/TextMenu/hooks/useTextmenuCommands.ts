@@ -1,5 +1,5 @@
-import { useCallback } from "react";
 import type { Editor } from "@tiptap/react";
+import { useCallback } from "react";
 
 export const useTextmenuCommands = (editor: Editor) => {
   const onBold = useCallback(

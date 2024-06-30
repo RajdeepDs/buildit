@@ -9,8 +9,8 @@ import type {
 import Suggestion from "@tiptap/suggestion";
 import tippy from "tippy.js";
 
-import { GROUPS } from "./groups";
 import { MenuList } from "./MenuList";
+import { GROUPS } from "./groups";
 
 const extensionName = "slashCommand";
 

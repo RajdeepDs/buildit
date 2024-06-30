@@ -1,6 +1,6 @@
-import * as React from "react";
-import Link from "next/link";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import Link from "next/link";
+import * as React from "react";
 
 import { Icons } from "../../icons";
 import { cn } from "../../lib/utils";

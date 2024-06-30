@@ -1,7 +1,7 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useParams, usePathname } from "next/navigation";
 
 import { getTeams } from "@/lib/data/team/get-teams";
 import { getUser } from "@/lib/data/user/get-user";

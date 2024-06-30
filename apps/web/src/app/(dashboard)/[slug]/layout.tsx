@@ -1,10 +1,10 @@
-import React from "react";
-import type { Metadata } from "next";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
+import type { Metadata } from "next";
+import React from "react";
 
 import Sidebar from "@/components/layouts/sidebar";
 import { getTeams } from "@/lib/data/team/get-teams";

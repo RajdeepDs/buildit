@@ -1,8 +1,8 @@
 "use client";
 
+import * as Dialog from "@radix-ui/react-dialog";
 import type { Dispatch, SetStateAction } from "react";
 import * as React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
 
 import { cn } from "../../lib/utils";
 

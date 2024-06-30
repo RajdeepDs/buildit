@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import type { Editor } from "@tiptap/react";
+import { useMemo } from "react";
 
 import type { ContentPickerOptions } from "../components/ContentTypePicker";
 

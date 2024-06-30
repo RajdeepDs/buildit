@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "biome lint ./src",
+    "format": "biome format ./src"
   },
   "dependencies": {
     "@buildit/auth": "workspace:*",
@@ -19,7 +20,6 @@
     "@t3-oss/env-nextjs": "^0.9.2",
     "@tanstack/react-query": "^5.40.0",
     "@tanstack/react-query-devtools": "^5.40.0",
-    "argon2-browser": "^1.18.0",
     "class-variance-authority": "^0.7.0",
     "jotai": "^2.8.3",
     "lucide-react": "^0.344.0",
@@ -31,15 +31,11 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
-    "@buildit/eslint-config": "workspace:*",
     "@buildit/tailwind-config": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
-    "@types/argon2-browser": "^1.18.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3",
     "jiti": "^1.21.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",

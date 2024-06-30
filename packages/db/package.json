@@ -6,14 +6,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "lint": "biome lint ./src",
+    "format": "biome format ./src",
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
-    "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
-    "migrate": "tsx src/migrate.ts",
+    "local": "turso dev --db-file local.db",
     "studio": "drizzle-kit studio",
-    "local": "turso dev --db-file local.db"
+    "migrate": "tsx src/migrate.ts",
+    "generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@libsql/client": "^0.6.0",
@@ -26,7 +26,6 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
-    "@buildit/eslint-config": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
     "@types/node": "^20",
     "@types/uuid": "^9.0.8",

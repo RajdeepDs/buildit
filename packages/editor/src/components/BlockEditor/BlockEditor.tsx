@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
 import type { JSONContent } from "@tiptap/react";
 import { EditorContent } from "@tiptap/react";
+import React, { useEffect, useRef } from "react";
 
 import "../../styles/index.css";
 

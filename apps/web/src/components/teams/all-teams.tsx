@@ -12,6 +12,10 @@ export default function AllTeams(): JSX.Element {
   });
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <div>{allTeams?.map((team) => <Team key={team.id} team={team} />)}</div>
+    <div>
+      {allTeams?.map((team) => (
+        <Team key={team.id} team={team} />
+      ))}
+    </div>
   );
 }

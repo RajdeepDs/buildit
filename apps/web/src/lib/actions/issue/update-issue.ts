@@ -39,7 +39,7 @@ export const updateIssue = async ({
       .set({ title, description, status, priority, updatedAt: new Date() })
       .where(eq(issue.issueId, issueId));
     return { success: "Issue updated!" };
-  } catch (error) {
+  } catch {
     return { error: "Error creating issue" };
   }
 };

@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
+import type { Metadata } from "next";
 
 import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";

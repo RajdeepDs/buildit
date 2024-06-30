@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import type { Editor } from "@tiptap/react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";

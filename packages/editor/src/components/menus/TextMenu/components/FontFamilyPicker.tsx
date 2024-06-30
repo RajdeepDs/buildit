@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
+import React, { useCallback } from "react";
 
 import { DropdownButton, DropdownCategoryTitle } from "../../../ui/Dropdown";
 import { Icon } from "../../../ui/Icon";
