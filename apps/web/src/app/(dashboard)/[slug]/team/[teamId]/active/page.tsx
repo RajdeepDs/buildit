@@ -18,7 +18,7 @@ export default async function ActiveIssues({
 }): Promise<JSX.Element> {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["activeIssues", { teamId: params.teamId }],
+    queryKey: ["active Issues", { teamId: params.teamId }],
     queryFn: async () => getIssuesByTeam({ teamId: params.teamId }),
   });
 

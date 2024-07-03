@@ -15,8 +15,7 @@ export const getIssuesByTeam = async ({ teamId }: { teamId: string }) => {
         },
       },
     });
-
-    return team?.issue || [];
+    return team?.issue ?? [];
   } catch {
     return null;
   }
