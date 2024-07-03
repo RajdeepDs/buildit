@@ -17,6 +17,7 @@ export default function AllIssues() {
   const { data: allIssues, error } = useQuery({
     queryKey: ["issues"],
     queryFn: async () => getIssues(),
+    refetchInterval: 4 * 1000,
   });
 
   const [filteredIssues, setFilteredIssues] = useState<TIssues>([]);

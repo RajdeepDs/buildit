@@ -37,7 +37,6 @@ export const createIssue = async ({
     });
     const workspaceCounter = workspace?.issueCounter;
     const issueCounter = workspaceCounter! + 1;
-    console.log(issueCounter, "issueCounter");
 
     await db.insert(issue).values({
       title,
