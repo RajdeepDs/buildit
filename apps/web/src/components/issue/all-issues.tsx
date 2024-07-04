@@ -1,19 +1,21 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
 import { Button } from "@buildit/ui";
 
 import { getIssues } from "@/lib/data/issues/get-issues";
-import { filterIssueByStatusAtom } from "@/lib/store/filter-issue";
-import { searchQueryAtom } from "@/lib/store/search-issue";
+
 import type { TIssues } from "@/types";
 import { CreateIssueModal } from "../modals/create-issue-modal";
 import MyIssuesCard from "./my-issues-card";
 
+import useMyIssuesStore from "@/lib/store/my-issues-store";
+
 export default function AllIssues() {
+  const store = useMyIssuesStore();
+
   const { data: allIssues, error } = useQuery({
     queryKey: ["issues"],
     queryFn: async () => getIssues(),
@@ -22,9 +24,7 @@ export default function AllIssues() {
 
   const [filteredIssues, setFilteredIssues] = useState<TIssues>([]);
 
-  const [filteredStatus] = useAtom(filterIssueByStatusAtom);
-
-  const [searchQuery] = useAtom(searchQueryAtom);
+  const filteredStatus = store.filterByStatus;
 
   useEffect(() => {
     const filtered = allIssues?.filter((issue) => {
@@ -34,16 +34,16 @@ export default function AllIssues() {
       return true;
     });
 
-    if (searchQuery) {
+    if (store.search) {
       setFilteredIssues(
         filtered?.filter((issue) =>
-          issue.title.toLowerCase().includes(searchQuery.toLowerCase()),
+          issue.title.toLowerCase().includes(store.search.toLowerCase()),
         ) || [],
       );
     } else {
       setFilteredIssues(filtered || allIssues || []);
     }
-  }, [allIssues, filteredStatus, searchQuery]);
+  }, [allIssues, filteredStatus, store.search]);
 
   if (error) return <div>Error: {error.message}</div>;
   return (

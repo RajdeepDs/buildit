@@ -1,6 +1,5 @@
 "use client";
 
-import { useAtom } from "jotai";
 import React from "react";
 
 import {
@@ -23,19 +22,17 @@ import {
 import { Icons } from "@buildit/ui/icons";
 
 import { priorities, statuses } from "@/configs/issue-types";
-import { filterIssueByStatusAtom } from "@/lib/store/filter-issue";
+import type { Store } from "@/lib/store/my-issues-store";
 
-export default function FilterMenu() {
+export default function FilterMenu({ store }: { store: Store }) {
   const [open, setOpen] = React.useState(false);
 
-  const setSelectedStatus = useAtom(filterIssueByStatusAtom)[1];
-
   const handleSelectStatus = (status: string) => {
-    setSelectedStatus(status);
+    store.setFilterByStatus(status);
     setOpen(false);
   };
 
-  const [filteredStatus] = useAtom(filterIssueByStatusAtom);
+  const filteredStatus = store.filterByStatus;
 
   const selectedStatus = statuses.find(
     (status) => status.value === filteredStatus,
@@ -48,7 +45,7 @@ export default function FilterMenu() {
           {selectedStatus}
           <Icons.canceled
             className="text-subtle ml-2 h-4 w-4 cursor-pointer"
-            onClick={() => setSelectedStatus("")}
+            onClick={() => store.setFilterByStatus("")}
           />
         </Badge>
       )}

@@ -5,11 +5,9 @@ import {
 } from "@tanstack/react-query";
 
 import IssuesByTeam from "@/components/issue/issues-by-team";
-import SearchIssue from "@/components/issue/search-issues";
-import DisplayMenu from "@/components/my-issues/display-menu";
-import FilterMenu from "@/components/my-issues/filter-menu";
 import { TeamsPageHeader } from "@/components/ui/page-header";
 import { getIssuesByTeam } from "@/lib/data/issues/get-issues-by-team";
+import SubHeader from "@/components/teams/sub-header";
 
 export default async function ActiveIssues({
   params,
@@ -25,13 +23,7 @@ export default async function ActiveIssues({
   return (
     <div>
       <TeamsPageHeader team={params.teamId} title="Active Issues" />
-      <div className="flex items-center justify-between px-4">
-        <SearchIssue />
-        <div className="flex space-x-2">
-          <FilterMenu />
-          <DisplayMenu />
-        </div>
-      </div>
+      <SubHeader />
       <main className="mt-2 h-svh w-full border-t">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <IssuesByTeam teamId={params.teamId} />

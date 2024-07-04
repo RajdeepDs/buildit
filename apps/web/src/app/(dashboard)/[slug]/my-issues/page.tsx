@@ -9,11 +9,9 @@ import { Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
 import AllIssues from "@/components/issue/all-issues";
-import SearchIssue from "@/components/issue/search-issues";
-import DisplayMenu from "@/components/my-issues/display-menu";
-import FilterMenu from "@/components/my-issues/filter-menu";
 import { PageHeader } from "@/components/ui/page-header";
 import { getIssues } from "@/lib/data/issues/get-issues";
+import SubHeader from "@/components/my-issues/sub-header";
 
 export const runtime = "edge";
 
@@ -36,13 +34,7 @@ export default async function MyIssuesPage() {
           <Icons.horizontalMore className="text-subtle active:text-emphasis h-4 w-4" />
         </Button>
       </PageHeader>
-      <div className="flex items-center justify-between px-4">
-        <SearchIssue />
-        <div className="flex space-x-2">
-          <FilterMenu />
-          <DisplayMenu />
-        </div>
-      </div>
+      <SubHeader />
       <main className="mt-2 h-svh w-full border-t">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <AllIssues />

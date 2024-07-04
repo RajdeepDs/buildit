@@ -1,18 +1,14 @@
 "use client";
 
-import { useAtom } from "jotai";
 import React from "react";
 
 import { Icons } from "@buildit/ui/icons";
+import type { Store } from "@/lib/store/my-issues-store";
 
-import { searchQueryAtom } from "@/lib/store/search-issue";
-
-export default function SearchIssue() {
-  const setSearchQuery = useAtom(searchQueryAtom)[1];
-
+export default function SearchIssue({ store }: { store: Store }) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchQuery(value);
+    store.setSearch(value);
   };
 
   return (
@@ -21,7 +17,8 @@ export default function SearchIssue() {
       <input
         className="flex items-center text-sm outline-none placeholder:text-sm"
         placeholder="Search..."
-        onChangeCapture={handleSearchChange}
+        onChange={handleSearchChange}
+        value={store.search}
       />
     </div>
   );
