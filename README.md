@@ -56,7 +56,9 @@ To run BuildIt locally, you need to have the following installed:
 
 4. Run `pnpm dx` in the root directory to start the development server.
 
-5. Now you can access the application at `http://localhost:3000`.
+5. Open a separate terminal and run `pnpm db:migrate` in the root directory to migrate the tables to the local database.
+
+6. Now you can access the application at `http://localhost:3000`.
 
 ## Contributing
 
