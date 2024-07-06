@@ -6,6 +6,8 @@ const useActiveIssuesStore = create<Store>((set) => ({
   setSearch: (search) => set({ search }),
   filterByStatus: "",
   setFilterByStatus: (status) => set({ filterByStatus: status }),
+  filterByPriority: "",
+  setFilterByPriority: (priority) => set({ filterByPriority: priority }),
 }));
 
 export default useActiveIssuesStore;

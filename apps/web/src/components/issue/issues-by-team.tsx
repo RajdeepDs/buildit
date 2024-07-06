@@ -22,11 +22,15 @@ export default function IssuesByTeam({ teamId }: { teamId: string }) {
   const [filteredIssues, setFilteredIssues] = useState<TIssues>([]);
 
   const filteredStatus = store.filterByStatus;
+  const filteredPriority = store.filterByPriority;
 
   useEffect(() => {
     const filtered = allIssues?.filter((issue) => {
       if (filteredStatus && filteredStatus !== "") {
         return issue.status === filteredStatus;
+      }
+      if (filteredPriority && filteredPriority !== "") {
+        return issue.priority === filteredPriority;
       }
       return true;
     });
@@ -40,7 +44,7 @@ export default function IssuesByTeam({ teamId }: { teamId: string }) {
     } else {
       setFilteredIssues(filtered || allIssues || []);
     }
-  }, [allIssues, filteredStatus, store.search]);
+  }, [allIssues, filteredStatus, filteredPriority, store.search]);
 
   if (error) return <div>Error: {error.message}</div>;
   return (

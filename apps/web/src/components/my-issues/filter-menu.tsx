@@ -32,10 +32,20 @@ export default function FilterMenu({ store }: { store: Store }) {
     setOpen(false);
   };
 
+  const handleSelectPriority = (priority: string) => {
+    store.setFilterByPriority(priority);
+    setOpen(false);
+  };
+
   const filteredStatus = store.filterByStatus;
+  const filteredPriority = store.filterByPriority;
 
   const selectedStatus = statuses.find(
     (status) => status.value === filteredStatus,
+  )?.label;
+
+  const selectedPriority = priorities.find(
+    (priority) => priority.value === filteredPriority,
   )?.label;
 
   return (
@@ -46,6 +56,15 @@ export default function FilterMenu({ store }: { store: Store }) {
           <Icons.canceled
             className="text-subtle ml-2 h-4 w-4 cursor-pointer"
             onClick={() => store.setFilterByStatus("")}
+          />
+        </Badge>
+      )}
+      {filteredPriority && (
+        <Badge size={"md"} variant={"gray"}>
+          {selectedPriority}
+          <Icons.canceled
+            className="text-subtle ml-2 h-4 w-4 cursor-pointer"
+            onClick={() => store.setFilterByPriority("")}
           />
         </Badge>
       )}
@@ -106,7 +125,7 @@ export default function FilterMenu({ store }: { store: Store }) {
                           key={priority.label}
                           value={priority.value}
                           onSelect={() => {
-                            setOpen(false);
+                            handleSelectPriority(priority.value);
                           }}
                         >
                           <Icon className="text-subtle mr-2 h-4 w-4 stroke-2" />
