@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getIssuesByTeam } from "@/lib/data/issues/get-issues-by-team";
-import MyIssuesCard from "./my-issues-card";
+import IssueItem from "./issue-item";
 
 import { useEffect, useState } from "react";
 import { TIssues } from "@/types";
@@ -14,7 +14,7 @@ export default function IssuesByTeam({ teamId }: { teamId: string }) {
   const store = useActiveIssuesStore();
 
   const { data: allIssues, error } = useQuery({
-    queryKey: ["active Issues", { teamId: teamId }],
+    queryKey: ["issues", { teamId: teamId }],
     queryFn: async () => getIssuesByTeam({ teamId: teamId }),
     refetchInterval: 4 * 1000,
   });
@@ -52,7 +52,7 @@ export default function IssuesByTeam({ teamId }: { teamId: string }) {
       <ul className="list-none">
         {filteredIssues?.map((issue) => (
           <li key={issue.id}>
-            <MyIssuesCard issue={issue} />
+            <IssueItem issue={issue} />
           </li>
         ))}
       </ul>

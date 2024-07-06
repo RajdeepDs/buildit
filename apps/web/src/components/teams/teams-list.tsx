@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getTeams } from "@/lib/data/team/get-teams";
-import Team from "./team";
+import TeamItem from "./team-item";
 
-export default function AllTeams(): JSX.Element {
+export default function TeamList(): JSX.Element {
   const { data: allTeams, error } = useQuery({
     queryKey: ["teams"],
     queryFn: async () => getTeams(),
@@ -14,7 +14,7 @@ export default function AllTeams(): JSX.Element {
   return (
     <div>
       {allTeams?.map((team) => (
-        <Team key={team.id} team={team} />
+        <TeamItem key={team.id} team={team} />
       ))}
     </div>
   );

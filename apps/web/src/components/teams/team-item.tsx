@@ -4,11 +4,11 @@ import { Icons } from "@buildit/ui/icons";
 import type { TTeam } from "@/types";
 import Link from "next/link";
 
-type TeamsProps = {
+type TeamsItemProps = {
   team: Omit<TTeam, "issues">;
 };
 
-export default function Team({ team }: TeamsProps): JSX.Element {
+export default function TeamItem({ team }: TeamsItemProps): JSX.Element {
   return (
     <Link
       href={`team/${team.teamId}/active`}

@@ -18,7 +18,7 @@ import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
-export default function MyIssuesCard({ issue }: { issue: TIssue }) {
+export default function IssueItem({ issue }: { issue: TIssue }) {
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   const createdAt = issue?.createdAt && formatDate(issue?.createdAt);
 

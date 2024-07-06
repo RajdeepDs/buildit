@@ -6,9 +6,9 @@ import {
 
 import { Button } from "@buildit/ui";
 
-import AllTeams from "@/components/teams/all-teams";
 import { PageHeader } from "@/components/ui/page-header";
 import { getTeams } from "@/lib/data/team/get-teams";
+import TeamList from "@/components/teams/teams-list";
 
 export default async function TeamsPage(): Promise<JSX.Element> {
   const queryClient = new QueryClient();
@@ -25,7 +25,7 @@ export default async function TeamsPage(): Promise<JSX.Element> {
       </PageHeader>
       <main className="h-svh w-full border-t">
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <AllTeams />
+          <TeamList />
         </HydrationBoundary>
       </main>
     </div>

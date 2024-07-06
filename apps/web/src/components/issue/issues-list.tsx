@@ -9,13 +9,11 @@ import { getIssues } from "@/lib/data/issues/get-issues";
 
 import type { TIssues } from "@/types";
 import { CreateIssueModal } from "../modals/create-issue-modal";
-import MyIssuesCard from "./my-issues-card";
+import IssueItem from "./issue-item";
 
-import useMyIssuesStore from "@/lib/store/my-issues-store";
+import { Store } from "@/lib/store/my-issues-store";
 
-export default function AllIssues() {
-  const store = useMyIssuesStore();
-
+export default function IssuesList({ store }: { store: Store }) {
   const { data: allIssues, error } = useQuery({
     queryKey: ["issues"],
     queryFn: async () => getIssues(),
@@ -50,9 +48,10 @@ export default function AllIssues() {
   }, [allIssues, filteredStatus, store.search, filteredPriority]);
 
   if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="h-full">
-      {filteredIssues?.length === 0 ? (
+      {allIssues?.length === 0 ? (
         <div className="flex h-1/2 w-full flex-col items-center justify-center space-y-4 rounded-lg">
           <div className="flex flex-col items-center">
             <h1 className="text-default font-cal text-xl">No issues found</h1>
@@ -69,7 +68,7 @@ export default function AllIssues() {
         <ul className="list-none">
           {filteredIssues.map((issue) => (
             <li key={issue.id}>
-              <MyIssuesCard issue={issue} />
+              <IssueItem issue={issue} />
             </li>
           ))}
         </ul>
