@@ -12,7 +12,6 @@ import {
 import type { TSettingsSidebar, TUser, TWorkspace } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { getTeams } from "@/lib/data/team/get-teams";
-import { NewTeamModal } from "../modals/new-team-modal";
 
 export default function SettingsSidebar({
   slug,
