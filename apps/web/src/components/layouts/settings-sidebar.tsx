@@ -5,8 +5,14 @@ import { usePathname } from "next/navigation";
 import { Icons } from "@buildit/ui/icons";
 import { cn } from "@buildit/ui/utils";
 
-import { getSettingsSidebar } from "@/configs/settings-sidebar-navigations";
+import {
+  getSettingsSidebar,
+  getSettingsTeamsNavigations,
+} from "@/configs/settings-sidebar-navigations";
 import type { TSettingsSidebar, TUser, TWorkspace } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { getTeams } from "@/lib/data/team/get-teams";
+import { NewTeamModal } from "../modals/new-team-modal";
 
 export default function SettingsSidebar({
   slug,
@@ -18,7 +24,14 @@ export default function SettingsSidebar({
 }): JSX.Element {
   const pathname = usePathname();
 
+  const { data: teams } = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => getTeams(),
+  });
+
   const settingsSidebar: TSettingsSidebar = getSettingsSidebar(slug);
+
+  const settingsTeamSidebar = getSettingsTeamsNavigations(slug, teams || []);
 
   return (
     <div className="flex flex-col">
@@ -114,6 +127,59 @@ export default function SettingsSidebar({
                             </li>
                           ))}
                         </ul>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <div className="my-4 px-2">
+        {settingsTeamSidebar.map((section, index) => {
+          const TabIcon = Icons[section.icon as keyof typeof Icons];
+          return (
+            <div key={index} className="space-y-1">
+              <div className="flex items-center gap-2 px-2 mb-2">
+                <TabIcon className="text-subtle h-4 w-4" />
+                <span className="text-subtle text-sm font-medium">
+                  {section.title}
+                </span>
+              </div>
+              <ul className="flex flex-col gap-[1px] pl-8 pr-4">
+                {section.items.map((item, index) => {
+                  const ItemIcon =
+                    Icons[item.icon as keyof typeof Icons] || Icons.chevronLeft;
+                  return (
+                    <li key={index}>
+                      {!item.button && (
+                        <>
+                          <div className="flex items-center mb-1">
+                            <ItemIcon className="text-subtle h-4 w-4 mr-2" />
+                            <span className="text-sm font-medium">
+                              {item.title}
+                            </span>
+                          </div>
+                          {"subItems" in item && item.subItems && (
+                            <ul className="flex flex-col gap-[1px] pl-4">
+                              {item.subItems.map((subItem, subItemIndex) => (
+                                <li key={subItemIndex}>
+                                  <Link
+                                    href={subItem.href}
+                                    className={`hover:bg-emphasis flex items-center rounded-md px-2 py-1 ${
+                                      pathname === subItem.href && "bg-emphasis"
+                                    }`}
+                                  >
+                                    <span className="text-subtle text-sm font-medium">
+                                      {subItem.title}
+                                    </span>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </>
                       )}
                     </li>
                   );

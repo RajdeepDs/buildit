@@ -1,3 +1,8 @@
+type TTeam = {
+  teamId: string;
+  name: string;
+};
+
 export const getSettingsSidebar = (slug: string) => [
   {
     title: "User",
@@ -38,30 +43,28 @@ export const getSettingsSidebar = (slug: string) => [
       },
     ],
   },
+];
+
+export const getSettingsTeamsNavigations = (slug: string, teams: TTeam[]) => [
   {
     title: "Teams",
     icon: "users",
     items: [
-      {
-        title: "TeamName",
+      ...teams.map((team) => ({
+        title: team?.name,
         icon: "home",
         button: false,
         subItems: [
           {
             title: "General",
-            href: `/${slug}/settings/team/general`,
+            href: `/${slug}/settings/teams/${team.teamId}`,
           },
           {
             title: "Members",
-            href: `/${slug}/settings/team/members`,
+            href: `/${slug}/settings/team/${team.teamId}/members`,
           },
         ],
-      },
-      {
-        title: "Add team",
-        icon: "plus",
-        button: true,
-      },
+      })),
     ],
   },
 ];
