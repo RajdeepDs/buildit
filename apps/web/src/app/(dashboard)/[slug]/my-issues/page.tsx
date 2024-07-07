@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "View and manage your issues.",
 };
 
-export default async function MyIssuesPage() {
+export default async function MyIssuesPage(): Promise<JSX.Element> {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["issues"],

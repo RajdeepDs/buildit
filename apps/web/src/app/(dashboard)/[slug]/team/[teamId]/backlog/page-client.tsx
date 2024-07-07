@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function BacklogIssuesClientPage({
   params,
-}: { params: { teamId: string } }) {
+}: { params: { teamId: string } }): JSX.Element {
   const store = useBacklogIssuesStore();
 
   const { data: allIssues, error } = useQuery({

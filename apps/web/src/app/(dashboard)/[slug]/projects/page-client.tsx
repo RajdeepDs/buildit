@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { getProjects } from "@/lib/data/project/get-project";
 import { useQuery } from "@tanstack/react-query";
 
-export default function ProjectsClientPage() {
+export default function ProjectsClientPage(): JSX.Element {
   const { data: projects, error } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => getProjects(),

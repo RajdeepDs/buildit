@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function ActiveIssuesClientPage({
   params,
-}: { params: { teamId: string } }) {
+}: { params: { teamId: string } }): JSX.Element {
   const store = useActiveIssuesStore();
   const { data: allIssues, error } = useQuery({
     queryKey: ["issues", { teamId: params.teamId }],
