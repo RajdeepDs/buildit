@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fc7840da-5314-43b5-af92-dbcb5ba4be02",
+  "id": "74babca5-7c17-46fd-b9b2-84a7c2f21c29",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -454,6 +454,13 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -498,6 +505,19 @@
           "tableTo": "team",
           "columnsFrom": [
             "teamId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "issue_projectId_project_id_fk": {
+          "name": "issue_projectId_project_id_fk",
+          "tableFrom": "issue",
+          "tableTo": "project",
+          "columnsFrom": [
+            "projectId"
           ],
           "columnsTo": [
             "id"
@@ -604,8 +624,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "member": {
-      "name": "member",
+    "project": {
+      "name": "project",
       "columns": {
         "id": {
           "name": "id",
@@ -621,8 +641,24 @@
           "notNull": true,
           "autoincrement": false
         },
-        "email": {
-          "name": "email",
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "admin": {
+          "name": "admin",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -632,30 +668,28 @@
           "name": "teamId",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {
-        "member_email_unique": {
-          "name": "member_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "member_teamId_team_id_fk": {
-          "name": "member_teamId_team_id_fk",
-          "tableFrom": "member",
+        "project_admin_user_id_fk": {
+          "name": "project_admin_user_id_fk",
+          "tableFrom": "project",
+          "tableTo": "user",
+          "columnsFrom": [
+            "admin"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "project_teamId_team_id_fk": {
+          "name": "project_teamId_team_id_fk",
+          "tableFrom": "project",
           "tableTo": "team",
           "columnsFrom": [
             "teamId"

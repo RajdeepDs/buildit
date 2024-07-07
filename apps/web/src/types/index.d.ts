@@ -21,6 +21,18 @@ export type TTeam = {
   issues: TIssue[];
 };
 
+export type TProject = {
+  id: string;
+  name: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  admin: string | null;
+  teamId: string | null;
+  issues: TIssue[];
+  teams: TTeam[];
+  user: TUser | null;
+};
+
 export type TWorkspace =
   | {
       id: string;

@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { users } from "../auth";
 import { team } from "../team";
 import { workspaces } from "../workspace";
+import { project } from "../project/project";
 
 export const issue = sqliteTable("issue", {
   id: text("id")
@@ -23,16 +24,19 @@ export const issue = sqliteTable("issue", {
   }),
   assigneeId: text("assigneeId"),
   createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(
-    sql`(CURRENT_TIMESTAMP)`,
+    sql`(CURRENT_TIMESTAMP)`
   ),
   updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).default(
-    sql`(CURRENT_TIMESTAMP)`,
+    sql`(CURRENT_TIMESTAMP)`
   ),
   workspaceId: text("workspaceId").references(() => workspaces.id, {
     onDelete: "cascade",
   }),
   issueId: text("issueId").notNull().unique(),
   teamId: text("teamId").references(() => team.id, { onDelete: "cascade" }),
+  projectId: text("projectId").references(() => project.id, {
+    onDelete: "cascade",
+  }),
 });
 
 export const issueRelations = relations(issue, ({ one }) => ({
@@ -42,4 +46,8 @@ export const issueRelations = relations(issue, ({ one }) => ({
     references: [workspaces.id],
   }),
   team: one(team, { fields: [issue.teamId], references: [team.id] }),
+  project: one(project, {
+    fields: [issue.projectId],
+    references: [project.id],
+  }),
 }));
