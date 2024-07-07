@@ -146,7 +146,7 @@ export default function ProfileForm(): JSX.Element {
       <Separator />
       <div className="flex flex-col space-y-4">
         <h1 className="font-semibold">Danger zone</h1>
-        <Button variant={"destructive"} className="w-fit">
+        <Button color={"destructive"} className="w-fit">
           <Icons.trash2 className="mr-2 h-4 w-4" />
           Delete account
         </Button>
