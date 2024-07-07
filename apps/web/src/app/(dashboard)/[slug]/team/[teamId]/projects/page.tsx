@@ -1,13 +1,26 @@
-import { TeamsPageHeader } from "@/components/ui/page-header";
+import { getProjectbyTeam } from "@/lib/data/project/get-project-by-team";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import ProjectsClientPage from "./page-client";
 
-export default function Projects({
+export default async function Projects({
   params,
 }: {
   params: { teamId: string };
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["project", { teamId: params.teamId }],
+    queryFn: async () => getProjectbyTeam({ teamId: params.teamId }),
+  });
   return (
     <div>
-      <TeamsPageHeader team={params.teamId} title="Projects" />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ProjectsClientPage params={params} />
+      </HydrationBoundary>
     </div>
   );
 }

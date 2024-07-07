@@ -1,16 +1,13 @@
 "use client";
 
-import { getProjects } from "@/lib/data/project/get-project";
-import { useQuery } from "@tanstack/react-query";
 import ProjectItem from "./project-item";
+import { TProject } from "@/types";
 
-export default function ProjectLists() {
-  const { data: projects, error } = useQuery({
-    queryKey: ["projects"],
-    queryFn: async () => getProjects(),
-  });
+type ProjectListsProps = {
+  projects: Omit<TProject, "issues" | "teams">[];
+};
 
-  if (error) return <div>Error: {error.message}</div>;
+export default function ProjectLists({ projects }: ProjectListsProps) {
   return (
     <ul>
       {projects?.map((project) => (

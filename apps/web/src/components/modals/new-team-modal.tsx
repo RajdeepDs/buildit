@@ -18,7 +18,7 @@ export const NewTeamModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button StartIcon="plus" size={"sm"}>
           New team
         </Button>
