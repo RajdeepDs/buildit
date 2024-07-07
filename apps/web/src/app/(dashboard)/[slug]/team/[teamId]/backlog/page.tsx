@@ -1,13 +1,27 @@
-import { TeamsPageHeader } from "@/components/ui/page-header";
+import { getIssuesByTeam } from "@/lib/data/issues/get-issues-by-team";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import BacklogIssuesClientPage from "./page-client";
 
-export default function BacklogIssues({
+export default async function BacklogIssues({
   params,
 }: {
   params: { teamId: string };
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["issues", { teamId: params.teamId }],
+    queryFn: async () => getIssuesByTeam({ teamId: params.teamId }),
+  });
+
   return (
     <div>
-      <TeamsPageHeader team={params.teamId} title="Backlog Issues" />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <BacklogIssuesClientPage params={params} />
+      </HydrationBoundary>
     </div>
   );
 }
