@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -40,10 +40,19 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
   const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
     resolver: zodResolver(UpdateWorkspaceSchema),
     defaultValues: {
-      workspaceName: workspace?.name || "",
-      workspaceURL: workspace?.slug || "",
+      workspaceName: "",
+      workspaceURL: "",
     },
   });
+
+  useEffect(() => {
+    if (workspace) {
+      form.reset({
+        workspaceName: workspace.name || "",
+        workspaceURL: workspace.slug || "",
+      });
+    }
+  }, [workspace, form]);
 
   const mutation = useMutation({
     mutationKey: ["updateWorkspace", { slug }],
@@ -142,7 +151,7 @@ export default function WorkspaceForm({ slug }: { slug: string }): JSX.Element {
         <h1 className="font-semibold">Danger zone</h1>
         <Button color={"destructive"} className="w-fit">
           <Icons.trash2 className="mr-2 h-4 w-4" />
-          Delete account
+          Delete workspace
         </Button>
       </div>
     </div>

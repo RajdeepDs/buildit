@@ -21,7 +21,7 @@ export default async function GeneralSettingsPage({
 }): Promise<JSX.Element> {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["workspace"],
+    queryKey: ["workspace", { slug: params.slug }],
     queryFn: () => getWorkspace({ workspaceSlug: params.slug }),
   });
   return (
