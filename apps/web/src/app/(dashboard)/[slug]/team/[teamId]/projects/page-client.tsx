@@ -10,7 +10,7 @@ export default function ProjectsClientPage({
   params,
 }: { params: { teamId: string } }): JSX.Element {
   const { data: projects, error } = useQuery({
-    queryKey: ["projects", { teamId: params.teamId }],
+    queryKey: ["project", { teamId: params.teamId }],
     queryFn: async () => getProjectbyTeam({ teamId: params.teamId }),
   });
 
