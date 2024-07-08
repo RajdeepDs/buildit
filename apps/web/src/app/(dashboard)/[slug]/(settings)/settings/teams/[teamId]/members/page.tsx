@@ -1,7 +1,5 @@
-import TeamForm from "@/components/settings/forms/team-form";
 import TeamMembersList from "@/components/settings/members/team-members-list";
 import SettingsHeader from "@/components/settings/settings-header";
-import { getTeamByTeamId } from "@/lib/data/team/get-team-by-teamId";
 import { getTeamMembersByTeamId } from "@/lib/data/team/get-team-members-by-teamId";
 import {
   dehydrate,
