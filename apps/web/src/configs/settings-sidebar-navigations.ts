@@ -19,30 +19,22 @@ export const getSettingsSidebar = (slug: string) => [
         title: "Members",
         href: `/${slug}/settings/members`,
       },
-      {
-        title: "Appearance",
-        href: `/${slug}/settings/appearance`,
-      },
+      // {
+      //   title: "Appearance",
+      //   href: `/${slug}/settings/appearance`,
+      // },
     ],
   },
-  {
-    title: "Security",
-    icon: "lock",
-    items: [
-      {
-        title: "Sessions",
-        href: `/${slug}/settings/sessions`,
-      },
-      {
-        title: "Password",
-        href: `/${slug}/settings/password`,
-      },
-      {
-        title: "Two factor auth",
-        href: `/${slug}/settings/two-factor-auth`,
-      },
-    ],
-  },
+  // {
+  //   title: "Security",
+  //   icon: "lock",
+  //   items: [
+  //     {
+  //       title: "Sessions",
+  //       href: `/${slug}/settings/sessions`,
+  //     },
+  //   ],
+  // },
 ];
 
 export const getSettingsTeamsNavigations = (slug: string, teams: TTeam[]) => [
@@ -61,7 +53,7 @@ export const getSettingsTeamsNavigations = (slug: string, teams: TTeam[]) => [
           },
           {
             title: "Members",
-            href: `/${slug}/settings/team/${team.teamId}/members`,
+            href: `/${slug}/settings/teams/${team.teamId}/members`,
           },
         ],
       })),
