@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 import WorkspaceForm from "@/components/forms/workspace-form";
 import SettingsHeader from "@/components/settings/settings-header";
-import { getWorkspace } from "@/lib/data/workspace/get-workspace";
+import { getWorkspaceMembers } from "@/lib/data/workspace/get-workspace-member";
 
 export const metadata: Metadata = {
   title: "General",
@@ -21,8 +21,8 @@ export default async function GeneralSettingsPage({
 }): Promise<JSX.Element> {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["workspace", { slug: params.slug }],
-    queryFn: () => getWorkspace({ workspaceSlug: params.slug }),
+    queryKey: ["workspaceMembers", { slug: params.slug }],
+    queryFn: () => getWorkspaceMembers({ workspaceSlug: params.slug }),
   });
   return (
     <>
