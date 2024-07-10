@@ -6,13 +6,13 @@ export default async function Home() {
   return (
     <main className="mt-10">
       <div className="flex h-full w-full flex-col items-center justify-center space-y-5">
-        <h1 className="text-5xl font-bold font-cal text-emphasis">
+        <h1 className="text-5xl font-bold font-cal text-strong">
           Welcome to BuildIt!
         </h1>
-        <p className="text-2xl font-cal text-subtle">
+        <p className="text-2xl font-cal text-soft">
           The open-source project development tool.
         </p>
-        <Button>Coming soon!</Button>
+        <Button className="bg-black text-white">Coming soon!</Button>
       </div>
     </main>
   );

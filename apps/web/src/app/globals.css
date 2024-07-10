@@ -4,93 +4,6 @@
 
 @import "./editor.css";
 
-:root {
-  /* background */
-
-  --buildit-bg-emphasis: #e5e7eb;
-  --buildit-bg: white;
-  --buildit-bg-subtle: #f3f4f6;
-  --buildit-bg-muted: #f9fafb;
-  --buildit-bg-inverted: #111827;
-
-  /* background -> components*/
-  --buildit-bg-info: #dee9fc;
-  --buildit-bg-success: #e2fbe8;
-  --buildit-bg-attention: #fceed8;
-  --buildit-bg-error: #f9e3e2;
-  --buildit-bg-dark-error: #752522;
-
-  /* Borders */
-  --buildit-border-emphasis: #9ca3af;
-  --buildit-border: #d1d5db;
-  --buildit-border-subtle: #e5e7eb;
-  --buildit-border-muted: #f3f4f6;
-  --buildit-border-error: #aa2e26;
-
-  /* Content/Text */
-  --buildit-text-emphasis: #111827;
-  --buildit-text: #374151;
-  --buildit-text-subtle: #6b7280;
-  --buildit-text-muted: #9ca3af;
-  --buildit-text-inverted: white;
-
-  /* Content/Text -> components */
-  --buildit-text-info: #253985;
-  --buildit-text-success: #285231;
-  --buildit-text-attention: #73321b;
-  --buildit-text-error: #752522;
-
-  /* Brand shenanigans
-      -> These will be computed for the users theme at runtime.
-    */
-  --buildit-brand: #111827;
-  --buildit-brand-emphasis: #101010;
-}
-
-/* Darkmode Colors  -- TODO: WIP*/
-.dark {
-  /* background */
-
-  --buildit-bg-emphasis: #2b2b2b;
-  --buildit-bg: #111111;
-  --buildit-bg-subtle: #1c1c1c;
-  --buildit-bg-muted: #101010;
-  --buildit-bg-inverted: #f3f4f6;
-
-  /* background -> components*/
-  --buildit-bg-info: #dee9fc;
-  --buildit-bg-success: #e2fbe8;
-  --buildit-bg-attention: #fceed8;
-  --buildit-bg-error: #f9e3e2;
-  --buildit-bg-dark-error: #752522;
-
-  /* Borders */
-  --buildit-border-emphasis: #575757;
-  --buildit-border: #444444;
-  --buildit-border-subtle: #2b2b2b;
-  --buildit-border-muted: #1c1c1c;
-  --buildit-border-error: #aa2e26;
-
-  /* Content/Text */
-  --buildit-text-emphasis: #f3f4f6;
-  --buildit-text: #d6d6d6;
-  --buildit-text-subtle: #767676;
-  --buildit-text-muted: #575757;
-  --buildit-text-inverted: white;
-
-  /* Content/Text -> components */
-  --buildit-text-info: #253985;
-  --buildit-text-success: #285231;
-  --buildit-text-attention: #73321b;
-  --buildit-text-error: #752522;
-
-  /* Brand shenanigans
-      -> These will be computed for the users theme at runtime.
-    */
-  --buildit-brand: #111827;
-  --buildit-brand-emphasis: #101010;
-}
-
 @layer base {
   body {
     @apply bg-white text-neutral-900 dark:bg-black dark:text-white;
@@ -107,17 +20,17 @@ body {
 
 input::placeholder,
 textarea::placeholder {
-  @apply text-black/50 dark:text-white/40;
+  @apply text-black/50;
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  @apply text-black/50 dark:text-white/40;
+  @apply text-black/50;
 }
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
-  @apply text-black/40 dark:text-white/40;
+  @apply text-black/40;
 }
 
 .react-colorful {
