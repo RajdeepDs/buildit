@@ -29,6 +29,13 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "nursery": {
+        "useSortedClasses": {
+          "level": "error",
+          "fix": "safe",
+          "options": {}
+        }
+      },
       "recommended": false,
       "complexity": {
         "noBannedTypes": "off",

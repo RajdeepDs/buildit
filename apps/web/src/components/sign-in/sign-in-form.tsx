@@ -9,6 +9,7 @@ import {
   Button,
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -49,14 +50,17 @@ export default function SignInForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-sub">Email</FormLabel>
               <FormControl>
                 <Input
                   placeholder="onboarding@example.com"
                   {...field}
-                  className="bg-white"
+                  className="bg-white placeholder:text-soft"
                 />
               </FormControl>
+              <FormDescription className="text-soft text-xs">
+                Use email to receive a secure sign-in link
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -66,7 +70,7 @@ export default function SignInForm() {
           {mutation.isPending && (
             <Icons.loading className="mr-2 animate-spin" />
           )}
-          Sign In
+          Continue
         </Button>
       </form>
     </Form>

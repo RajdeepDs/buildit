@@ -17,9 +17,9 @@ export const buttonVariants = cva(
       },
       color: {
         primary:
-          "bg-inverted text-inverted hover:bg-brand-emphasis focus:ring-offset focus:ring-brand-subtle disabled:bg-brand-subtle focus:ring-2 focus-visible:outline-none",
+          "bg-strong text-white hover:bg-surface focus:ring-offset-1 focus:ring-sub disabled:bg-soft focus:ring-2 focus-visible:outline-none",
         secondary:
-          "bg-default text-emphasis border-default hover:bg-muted hover:border-emphasis focus:ring-offset focus:ring-emphasis disabled:bg-muted disabled:text-muted disabled:hover:border-default border focus:ring-2 focus-visible:outline-none",
+          "bg-white text-strong border-soft hover:bg-weak focus:ring-soft focus:ring-offset-1 disabled:bg-soft disabled:text-soft disabled:hover:border-soft border focus:ring-2 focus-visible:outline-none",
         minimal:
           "text-emphasis hover:bg-muted focus-visible:ring-offset focus-visible:ring-emphasis disabled:text-muted disabled:hover:bg-muted disabled:text-muted focus-visible:outline-none focus-visible:ring-2",
         destructive:

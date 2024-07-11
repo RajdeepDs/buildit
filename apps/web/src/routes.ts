@@ -10,12 +10,7 @@ export const publicRoutes = ["/"];
  * These routes will redirect logged in users to "/dashboard".
  * @type {string[]}
  */
-export const authRoutes = [
-  "/sign-in",
-  "/auth/error",
-  "/auth/reset",
-  "/auth/new-password",
-];
+export const authRoutes = ["/signup", "/login"];
 
 /**
  * The prefix for API authentication routes.
@@ -28,7 +23,7 @@ export const apiAuthPrefix = "/api/auth";
  * The default redirect route after a user logs in.
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/inbox";
+export const DEFAULT_LOGIN_REDIRECT = "/my-issues";
 
 /**
  * An array of routes that are used for onboarding.
