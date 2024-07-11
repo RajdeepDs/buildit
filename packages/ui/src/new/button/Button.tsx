@@ -8,7 +8,7 @@ import { Icons } from "../../icons";
 import { cn } from "../../lib/utils";
 
 export const buttonVariants = cva(
-  "relative inline-flex items-center justify-center rounded-md text-sm font-medium transition",
+  "relative inline-flex items-center justify-center rounded-md text-sm font-medium transition cursor-pointer",
   {
     variants: {
       variant: {

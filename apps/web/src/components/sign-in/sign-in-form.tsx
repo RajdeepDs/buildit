@@ -55,11 +55,11 @@ export default function SignInForm() {
                 <Input
                   placeholder="onboarding@example.com"
                   {...field}
-                  className="bg-white placeholder:text-soft"
+                  className="bg-white"
                 />
               </FormControl>
               <FormDescription className="text-soft text-xs">
-                Use email to receive a secure sign-in link
+                Use email to receive a secure sign-in link.
               </FormDescription>
               <FormMessage />
             </FormItem>

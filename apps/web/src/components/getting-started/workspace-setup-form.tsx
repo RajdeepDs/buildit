@@ -13,8 +13,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  InputWithContent,
 } from "@buildit/ui";
-import { Icons } from "@buildit/ui/icons";
 
 import type { MutationResult } from "@/lib/actions/types";
 import { createWorkspace } from "@/lib/actions/workspace/create-workspace";
@@ -55,13 +55,13 @@ export default function WorkspaceSetupForm({
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             control={form.control}
             name="workspaceName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Workspace name</FormLabel>
+                <FormLabel className="text-sub">Workspace name</FormLabel>
                 <FormControl
                   onChange={() =>
                     form.setValue(
@@ -86,12 +86,13 @@ export default function WorkspaceSetupForm({
             name="workspaceSlug"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Workspace URL</FormLabel>
+                <FormLabel className="text-sub">Workspace URL</FormLabel>
                 <FormControl>
-                  <Input
+                  <InputWithContent
                     placeholder="acme"
                     required
                     className="bg-white"
+                    content="buildit.codes"
                     {...field}
                   />
                 </FormControl>
@@ -105,7 +106,6 @@ export default function WorkspaceSetupForm({
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Continue
-            <Icons.arrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>

@@ -67,13 +67,13 @@ export default function UserProfileForm() {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             control={form.control}
             name="fullname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full name</FormLabel>
+                <FormLabel className="text-sub">Full name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John Doe"
@@ -91,7 +91,7 @@ export default function UserProfileForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>User name</FormLabel>
+                <FormLabel className="text-sub">User name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="johndoe"
@@ -109,7 +109,7 @@ export default function UserProfileForm() {
             name="bio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>About</FormLabel>
+                <FormLabel className="text-sub">About</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}

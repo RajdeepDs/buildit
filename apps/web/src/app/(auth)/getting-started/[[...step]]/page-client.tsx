@@ -1,12 +1,10 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { z } from "zod";
-
 import CreateTeamForm from "@/components/getting-started/create-team-form";
 import UserProfileForm from "@/components/getting-started/user-profile-form";
 import WorkspaceSetupForm from "@/components/getting-started/workspace-setup-form";
-import Steps from "@/components/ui/steps";
+import { useParams, useRouter } from "next/navigation";
+import { z } from "zod";
 
 const INITIAL_STEP = "workspace-setup";
 
@@ -38,7 +36,7 @@ export default function OnboardingPageClient(): JSX.Element {
 
   const headers = [
     {
-      title: "Welcome to BuildIt",
+      title: "Welcome to BuildIt!",
       subtitle: "Let's get you started with your workspace setup.",
     },
     {
@@ -58,31 +56,26 @@ export default function OnboardingPageClient(): JSX.Element {
   const currentStepIndex = steps.indexOf(currentStep!);
 
   return (
-    <div className="bg-subtle mx-auto h-dvh py-6">
-      <div className="mx-auto max-w-[600px]">
-        <div className="mx-auto max-w-[550px] px-4">
-          <header>
-            <h1 className="font-cal text-emphasis text-2xl">
-              {headers[currentStepIndex]?.title || "Undefined title"}
-            </h1>
-            <p className="text-subtle text-sm">
-              {headers[currentStepIndex]?.subtitle}
-            </p>
-          </header>
-          <Steps
-            currentStepIndex={currentStepIndex + 1}
-            maxSteps={steps.length}
-          />
-        </div>
-        <div className="mt-10 rounded-md border bg-white p-10">
-          {currentStep === "workspace-setup" && (
-            <WorkspaceSetupForm nextStep={() => goToIndex(1)} />
-          )}
-          {currentStep === "create-team" && (
-            <CreateTeamForm nextStep={() => goToIndex(2)} />
-          )}
-          {currentStep === "user-profile" && <UserProfileForm />}
-        </div>
+    <div className="h-fit max-w-max space-y-6">
+      <p className="text-soft text-xs">
+        Step {currentStepIndex + 1} of {steps.length}
+      </p>
+      <header>
+        <h1 className="font-cal text-2xl text-strong">
+          {headers[currentStepIndex]?.title || "Undefined title"}
+        </h1>
+        <p className="text-sm text-soft">
+          {headers[currentStepIndex]?.subtitle}
+        </p>
+      </header>
+      <div>
+        {currentStep === "workspace-setup" && (
+          <WorkspaceSetupForm nextStep={() => goToIndex(1)} />
+        )}
+        {currentStep === "create-team" && (
+          <CreateTeamForm nextStep={() => goToIndex(2)} />
+        )}
+        {currentStep === "user-profile" && <UserProfileForm />}
       </div>
     </div>
   );

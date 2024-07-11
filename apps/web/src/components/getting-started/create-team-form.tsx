@@ -15,7 +15,6 @@ import {
   FormMessage,
   Input,
 } from "@buildit/ui";
-import { Icons } from "@buildit/ui/icons";
 
 import { createTeam } from "@/lib/actions/team/create-team";
 import type { MutationResult } from "@/lib/actions/types";
@@ -55,13 +54,13 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             control={form.control}
             name="teamName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Team name</FormLabel>
+                <FormLabel className="text-sub">Team name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Acme Inc."
@@ -79,7 +78,7 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
             name="teamIdentifier"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Team Identifier</FormLabel>
+                <FormLabel className="text-sub">Team Identifier</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="ACME"
@@ -89,7 +88,7 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
                     className="bg-white uppercase"
                   />
                 </FormControl>
-                <FormDescription>Will be used in issue IDs</FormDescription>
+                <FormDescription>Will be used in issue IDs.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -101,7 +100,6 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Continue
-            <Icons.arrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>
