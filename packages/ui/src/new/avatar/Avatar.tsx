@@ -34,7 +34,7 @@ export function Avatar(props: AvatarProps) {
     <AvatarPrimitive.Root
       data-testid={props?.["data-testid"]}
       className={cn(
-        "bg-emphasis item-center relative inline-flex aspect-square justify-center rounded-full align-top",
+        "item-center relative inline-flex aspect-square justify-center rounded-full bg-weak align-top",
         props.className,
         sizesPropsBySize[size],
       )}
@@ -54,7 +54,7 @@ export function Avatar(props: AvatarProps) {
             {props.fallback ? (
               props.fallback
             ) : (
-              <Icons.user size={size} className="text-emphasis" />
+              <Icons.user size={size} className="text-strong" />
             )}
           </>
         </AvatarPrimitive.Fallback>

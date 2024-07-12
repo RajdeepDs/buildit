@@ -18,23 +18,20 @@ export default function VerticalTabs({
   return (
     <div
       className={cn(
-        "hover:bg-emphasis mt-0.5 flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5",
-        pathname === href && "bg-emphasis",
+        "mt-0.5 flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 hover:bg-soft",
+        pathname === href && "bg-soft",
         !icon && "py-1",
       )}
     >
       {icon && (
         <Icon
-          className={cn(
-            "text-subtle h-4 w-4",
-            pathname === href && "text-emphasis",
-          )}
+          className={cn("h-4 w-4 text-sub", pathname === href && "text-strong")}
         />
       )}
       <p
         className={cn(
-          "text-default text-sm font-medium",
-          pathname === href && "text-emphasis",
+          "font-medium text-sm text-sub",
+          pathname === href && "text-strong",
         )}
       >
         {name}

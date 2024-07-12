@@ -22,14 +22,17 @@ export const getTeamsNavigations = (slug: string, teamId: string) => {
   return [
     {
       name: "Active issues",
+      icon: "issues",
       href: `/${slug}/team/${teamId}/active`,
     },
     {
       name: "Backlog issues",
+      icon: "backlog",
       href: `/${slug}/team/${teamId}/backlog`,
     },
     {
       name: "Projects",
+      icon: "hexagon",
       href: `/${slug}/team/${teamId}/projects`,
     },
   ];

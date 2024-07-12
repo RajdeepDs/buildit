@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { getTeams } from "@/lib/data/team/get-teams";
 import { getUser } from "@/lib/data/user/get-user";
@@ -9,9 +9,8 @@ import { getWorkspace } from "@/lib/data/workspace/get-workspace";
 import DashboardSidebar from "./dashboard-sidebar";
 import SettingsSidebar from "./settings-sidebar";
 
-export default function Sidebar(): JSX.Element {
+export default function Sidebar({ slug }: { slug: string }): JSX.Element {
   const pathname = usePathname();
-  const { slug } = useParams() as { slug?: string };
 
   const { data: user } = useQuery({
     queryKey: ["user"],
@@ -28,14 +27,15 @@ export default function Sidebar(): JSX.Element {
     queryFn: async () => getTeams(),
   });
 
-  if (!slug) {
-    return <></>;
-  }
-
   return (
-    <aside className="bg-muted border-muted hidden w-[240px] border-r lg:block">
+    <aside className="w-[240px] bg-weak">
       {!pathname.startsWith(`/${slug}/settings`) ? (
-        <DashboardSidebar slug={slug} user={user!} teams={teams!} />
+        <DashboardSidebar
+          slug={slug}
+          user={user!}
+          teams={teams!}
+          workspace={workspace!}
+        />
       ) : (
         <SettingsSidebar slug={slug} workspace={workspace!} user={user!} />
       )}

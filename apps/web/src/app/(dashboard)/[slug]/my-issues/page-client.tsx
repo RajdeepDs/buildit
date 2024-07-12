@@ -13,7 +13,7 @@ export default function MyIssuesClientPage(): JSX.Element {
     <>
       <PageHeader title="My issues">
         <Button color="minimal" size={"icon"}>
-          <Icons.horizontalMore className="text-subtle active:text-emphasis h-4 w-4" />
+          <Icons.horizontalMore className="h-4 w-4 text-subtle active:text-emphasis" />
         </Button>
       </PageHeader>
       <SubHeader store={store} />

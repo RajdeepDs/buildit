@@ -13,12 +13,12 @@ import {
 import { Icons } from "@buildit/ui/icons";
 
 import { logout } from "@/lib/actions/logout";
-import type { TUser } from "@/types";
+import type { TWorkspace } from "@/types";
 
 export default function AvatarDropdownMenu({
-  user,
+  workspace,
 }: {
-  user: TUser | undefined;
+  workspace: TWorkspace;
 }) {
   const router = useRouter();
   const onclick = () => {
@@ -30,51 +30,51 @@ export default function AvatarDropdownMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-x-1 outline-none">
-        <span className="text-emphasis text-sm font-medium">{user?.name}</span>
-        <Icons.chevronDown className="text-default ml-2 h-4 w-4" />
+        <span className="font-medium text-strong">{workspace?.name}</span>
+        <Icons.chevronDown className="ml-2 h-4 w-4 text-soft" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="ml-3 w-[180px] mt-2">
+      <DropdownMenuContent className="mt-2 ml-3 w-[180px]">
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/`} className="space-x-2">
-            <Icons.user className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">My Profile</p>
+            <Icons.user className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">My Profile</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/general`} className="space-x-2">
-            <Icons.home className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">My Workspace</p>
+            <Icons.home className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">My Workspace</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/`} className="space-x-2">
-            <Icons.settings className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">My settings</p>
+            <Icons.settings className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">My settings</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.home className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">Homepage</p>
+            <Icons.home className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">Homepage</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.penLine className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">Blogs</p>
+            <Icons.penLine className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">Blogs</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.bookOpenText className="text-subtle h-4 w-4" />
-            <p className="text-default font-medium">Changelogs</p>
+            <Icons.bookOpenText className="h-4 w-4 text-subtle" />
+            <p className="font-medium text-default">Changelogs</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onclick} className="space-x-2">
-          <Icons.logOut className="text-subtle h-4 w-4" />
-          <p className="text-default font-medium">Sign out</p>
+          <Icons.logOut className="h-4 w-4 text-subtle" />
+          <p className="font-medium text-default">Sign out</p>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

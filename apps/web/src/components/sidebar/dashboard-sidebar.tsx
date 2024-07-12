@@ -3,51 +3,51 @@ import { usePathname } from "next/navigation";
 
 import { Avatar, Button } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
-import { cn } from "@buildit/ui/utils";
 
 import {
-  getFooterNavigations,
   getNavigations,
   getTeamsNavigations,
 } from "@/configs/sidebar-navigations";
-import type { TTeam, TUser } from "@/types";
+import type { TTeam, TUser, TWorkspace } from "@/types";
 import { CreateIssueModal } from "../modals/create-issue-modal";
 import VerticalTabs from "../ui/vertical-tabs";
 import AvatarDropdownMenu from "./avatar-dropdown-menu";
 
 type DashboardSidebarProps = {
   slug: string;
-  user: TUser | undefined;
-  teams: TTeam[];
+  user: TUser;
+  teams: Pick<TTeam, "id" | "name" | "teamId">[];
+  workspace: TWorkspace;
 };
 
 export default function DashboardSidebar({
   slug,
   user,
   teams,
+  workspace,
 }: DashboardSidebarProps): JSX.Element {
   const pathname = usePathname();
 
   const Navigations = getNavigations(slug);
-  const FooterNavigations = getFooterNavigations(slug);
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between py-3 pl-4 pr-3">
-        <div className="flex items-center gap-x-2">
-          {user && <Avatar imageSrc={user.image} alt={user.name!} size="sm" />}
-          <AvatarDropdownMenu user={user} />
-        </div>
-        <CreateIssueModal>
-          <Button
-            variant={"icon"}
-            size={"icon"}
-            color={"secondary"}
-            StartIcon="squarePen"
-          />
-        </CreateIssueModal>
+    <div className="flex h-full flex-col space-y-3 p-3">
+      <div className="flex items-center gap-x-2 p-2">
+        {user && <Avatar imageSrc={user.image} alt={user.name!} size="sm" />}
+        <AvatarDropdownMenu workspace={workspace} />
       </div>
-      <div className="flex-1 px-3">
+      <div className="flex items-center justify-between ">
+        <CreateIssueModal>
+          <Button StartIcon="plus" size={"sm"}>
+            New issue
+          </Button>
+        </CreateIssueModal>
+        <Button size={"icon"} color="secondary" className="bg-white">
+          <Icons.search className="h-4 w-4 text-soft" />
+        </Button>
+      </div>
+      <div className="flex-1 space-y-4">
+        <p className="p-2 font-medium text-sm text-sub">Home</p>
         {Navigations.map(({ name, href, icon }) => {
           return (
             <Link key={name} href={href}>
@@ -60,27 +60,28 @@ export default function DashboardSidebar({
             </Link>
           );
         })}
-        <div className="my-2">
-          <p className="text-subtle p-2 text-sm font-medium">Your teams</p>
+        <div>
+          <p className="p-2 font-medium text-sm text-sub">Your teams</p>
           {teams.map((team) => {
             const teamNavigations = getTeamsNavigations(slug, team.teamId);
             return (
               <div className="mb-4" key={team.id}>
                 <div className="flex items-center gap-x-2 px-2 py-1.5">
                   <div className="w-fit items-center rounded-sm">
-                    <Icons.home className="text-subtle h-4 w-4" />
+                    <Icons.home className="h-4 w-4 text-sub" />
                   </div>
-                  <span className="text-default text-sm font-medium">
+                  <span className="font-medium text-sm text-sub">
                     {team?.name}
                   </span>
                 </div>
                 <div className="ml-6">
-                  {teamNavigations.map(({ name, href }) => (
+                  {teamNavigations.map(({ name, href, icon }) => (
                     <Link key={name} href={href}>
                       <VerticalTabs
                         name={name}
                         href={href}
                         pathname={pathname}
+                        icon={icon}
                       />
                     </Link>
                   ))}
@@ -89,25 +90,6 @@ export default function DashboardSidebar({
             );
           })}
         </div>
-      </div>
-
-      <div className="p-3">
-        {FooterNavigations.map(({ name, href, icon }) => {
-          const TabIcon = Icons[(icon as keyof typeof Icons) || "chevronDown"];
-          return (
-            <Link key={name} href={href}>
-              <div
-                className={cn(
-                  "mt-0.5 flex cursor-pointer items-center gap-2 rounded-md px-1 py-1 hover:bg-gray-200",
-                  pathname === href && "bg-gray-200",
-                )}
-              >
-                <TabIcon className={cn("text-subtle h-4 w-4")} />
-                <p className={cn("text-default text-sm font-medium")}>{name}</p>
-              </div>
-            </Link>
-          );
-        })}
       </div>
     </div>
   );
