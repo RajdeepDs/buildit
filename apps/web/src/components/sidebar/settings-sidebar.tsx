@@ -9,9 +9,10 @@ import {
   getSettingsSidebar,
   getSettingsTeamsNavigations,
 } from "@/configs/settings-sidebar-navigations";
-import type { TSettingsSidebar, TUser, TWorkspace } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 import { getTeams } from "@/lib/data/team/get-teams";
+import type { TUser, TWorkspace } from "@/types";
+import type { TSettingsSidebar } from "@/types/config";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SettingsSidebar({
   slug,
@@ -38,8 +39,8 @@ export default function SettingsSidebar({
         href={`/${slug}/my-issues`}
         className="my-6 flex cursor-pointer items-center gap-2 px-4"
       >
-        <Icons.back className="text-default h-4 w-4" />
-        <span className="text-default font-medium">Back</span>
+        <Icons.back className="h-4 w-4 text-default" />
+        <span className="font-medium text-default">Back</span>
       </Link>
       <div className="space-y-4 px-2">
         {settingsSidebar.map((section, index) => {
@@ -58,7 +59,7 @@ export default function SettingsSidebar({
                         height={16}
                         className="rounded-full"
                       />
-                      <span className="text-subtle text-sm font-medium">
+                      <span className="font-medium text-sm text-subtle">
                         {user.name}
                       </span>
                     </>
@@ -66,13 +67,13 @@ export default function SettingsSidebar({
                 </div>
               ) : (
                 <div className="flex items-center gap-2 px-2">
-                  <TabIcon className="text-subtle h-4 w-4" />
-                  <span className="text-subtle text-sm font-medium">
+                  <TabIcon className="h-4 w-4 text-subtle" />
+                  <span className="font-medium text-sm text-subtle">
                     {section.title}
                   </span>
                 </div>
               )}
-              <ul className="flex flex-col gap-[1px] pl-8 pr-4">
+              <ul className="flex flex-col gap-[1px] pr-4 pl-8">
                 {section.items.map((item, index) => {
                   const ItemIcon =
                     Icons[item.icon as keyof typeof Icons] || Icons.chevronLeft;
@@ -81,14 +82,14 @@ export default function SettingsSidebar({
                       {item.href ? (
                         <Link
                           href={item.href}
-                          className={`hover:bg-emphasis flex items-center rounded-md px-2 py-1 ${
+                          className={`flex items-center rounded-md px-2 py-1 hover:bg-emphasis ${
                             pathname === item.href && "bg-emphasis"
                           }`}
                         >
                           {item.icon && (
-                            <ItemIcon className="text-subtle h-4 w-4" />
+                            <ItemIcon className="h-4 w-4 text-subtle" />
                           )}
-                          <span className="text-sm font-medium">
+                          <span className="font-medium text-sm">
                             {item.title}
                           </span>
                         </Link>
@@ -97,14 +98,14 @@ export default function SettingsSidebar({
                           className={cn(
                             `flex items-center gap-1 rounded-md px-2 py-1 ${
                               item.button === true &&
-                              "hover:bg-emphasis cursor-pointer"
+                              "cursor-pointer hover:bg-emphasis"
                             }`,
                           )}
                         >
                           {item.icon && (
-                            <ItemIcon className="text-subtle h-4 w-4" />
+                            <ItemIcon className="h-4 w-4 text-subtle" />
                           )}
-                          <span className="text-sm font-medium">
+                          <span className="font-medium text-sm">
                             {item.title}
                           </span>
                         </div>
@@ -115,11 +116,11 @@ export default function SettingsSidebar({
                             <li key={index}>
                               <Link
                                 href={subItem.href}
-                                className={`hover:bg-emphasis flex items-center rounded-md px-2 py-1 ${
+                                className={`flex items-center rounded-md px-2 py-1 hover:bg-emphasis ${
                                   pathname === subItem.href && "bg-emphasis"
                                 }`}
                               >
-                                <span className="text-subtle text-sm font-medium">
+                                <span className="font-medium text-sm text-subtle">
                                   {subItem.title}
                                 </span>
                               </Link>
@@ -140,13 +141,13 @@ export default function SettingsSidebar({
           const TabIcon = Icons[section.icon as keyof typeof Icons];
           return (
             <div key={index} className="space-y-1">
-              <div className="flex items-center gap-2 px-2 mb-2">
-                <TabIcon className="text-subtle h-4 w-4" />
-                <span className="text-subtle text-sm font-medium">
+              <div className="mb-2 flex items-center gap-2 px-2">
+                <TabIcon className="h-4 w-4 text-subtle" />
+                <span className="font-medium text-sm text-subtle">
                   {section.title}
                 </span>
               </div>
-              <ul className="flex flex-col gap-[1px] pl-8 pr-4">
+              <ul className="flex flex-col gap-[1px] pr-4 pl-8">
                 {section.items.map((item, index) => {
                   const ItemIcon =
                     Icons[item.icon as keyof typeof Icons] || Icons.chevronLeft;
@@ -154,9 +155,9 @@ export default function SettingsSidebar({
                     <li key={index}>
                       {!item.button && (
                         <>
-                          <div className="flex items-center mb-1">
-                            <ItemIcon className="text-subtle h-4 w-4 mr-2" />
-                            <span className="text-sm font-medium">
+                          <div className="mb-1 flex items-center">
+                            <ItemIcon className="mr-2 h-4 w-4 text-subtle" />
+                            <span className="font-medium text-sm">
                               {item.title}
                             </span>
                           </div>
@@ -166,11 +167,11 @@ export default function SettingsSidebar({
                                 <li key={subItemIndex}>
                                   <Link
                                     href={subItem.href}
-                                    className={`hover:bg-emphasis flex items-center rounded-md px-2 py-1 ${
+                                    className={`flex items-center rounded-md px-2 py-1 hover:bg-emphasis ${
                                       pathname === subItem.href && "bg-emphasis"
                                     }`}
                                   >
-                                    <span className="text-subtle text-sm font-medium">
+                                    <span className="font-medium text-sm text-subtle">
                                       {subItem.title}
                                     </span>
                                   </Link>

@@ -50,38 +50,25 @@ export default function FilterMenu({ store }: { store: Store }) {
 
   return (
     <div className="flex items-center space-x-8">
-      {filteredStatus && (
-        <Badge size={"md"} variant={"gray"}>
-          {selectedStatus}
-          <Icons.canceled
-            className="text-subtle ml-2 h-4 w-4 cursor-pointer"
-            onClick={() => store.setFilterByStatus("")}
-          />
-        </Badge>
-      )}
-      {filteredPriority && (
-        <Badge size={"md"} variant={"gray"}>
-          {selectedPriority}
-          <Icons.canceled
-            className="text-subtle ml-2 h-4 w-4 cursor-pointer"
-            onClick={() => store.setFilterByPriority("")}
-          />
-        </Badge>
-      )}
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button size={"icon"} color="minimal">
-            <Icons.filter className="text-subtle active:text-emphasis h-4 w-4" />
+          <Button
+            color="secondary"
+            size={"sm"}
+            className="text-sub"
+            StartIcon="listFilter"
+          >
+            Filter
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="start" className="w-[200px]">
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Icons.status className="text-subtle mr-2 h-4 w-4 stroke-2" />
+              <Icons.status className="mr-2 h-4 w-4 text-sub" />
               Status
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <Command className="w-[150px]">
+              <Command className="w-[200px]">
                 <CommandInput placeholder="Filter status..." autoFocus={true} />
                 <CommandList>
                   <CommandEmpty>No status</CommandEmpty>
@@ -94,7 +81,7 @@ export default function FilterMenu({ store }: { store: Store }) {
                           value={status.value.toString()}
                           onSelect={() => handleSelectStatus(status.value)}
                         >
-                          <Icon className="text-subtle mr-2 h-4 w-4 stroke-2" />
+                          <Icon className="mr-2 h-4 w-4 text-sub" />
                           {status.label}
                         </CommandItem>
                       );
@@ -106,11 +93,11 @@ export default function FilterMenu({ store }: { store: Store }) {
           </DropdownMenuSub>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Icons.signalHigh className="text-subtle mr-2 h-4 w-4 stroke-2" />
+              <Icons.signalHigh className="mr-2 h-4 w-4 text-sub" />
               Priority
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <Command className="w-[150px]">
+              <Command className="w-[200px]">
                 <CommandInput
                   placeholder="Filter priority..."
                   autoFocus={true}
@@ -128,7 +115,7 @@ export default function FilterMenu({ store }: { store: Store }) {
                             handleSelectPriority(priority.value);
                           }}
                         >
-                          <Icon className="text-subtle mr-2 h-4 w-4 stroke-2" />
+                          <Icon className="mr-2 h-4 w-4 text-sub" />
                           {priority.label}
                         </CommandItem>
                       );
@@ -139,15 +126,33 @@ export default function FilterMenu({ store }: { store: Store }) {
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuItem>
-            <Icons.hexagon className="text-subtle mr-2 h-4 w-4 stroke-2" />
+            <Icons.hexagon className="mr-2 h-4 w-4 text-sub" />
             Project
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Icons.tag className="text-subtle mr-2 h-4 w-4 stroke-2" />
+            <Icons.tag className="mr-2 h-4 w-4 text-sub" />
             Labels
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      {filteredStatus && (
+        <Badge size={"md"} variant={"gray"}>
+          {selectedStatus}
+          <Icons.canceled
+            className="ml-2 h-4 w-4 cursor-pointer text-soft"
+            onClick={() => store.setFilterByStatus("")}
+          />
+        </Badge>
+      )}
+      {filteredPriority && (
+        <Badge size={"md"} variant={"gray"}>
+          {selectedPriority}
+          <Icons.canceled
+            className="ml-2 h-4 w-4 cursor-pointer text-soft"
+            onClick={() => store.setFilterByPriority("")}
+          />
+        </Badge>
+      )}
     </div>
   );
 }

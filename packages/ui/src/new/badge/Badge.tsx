@@ -1,5 +1,5 @@
-import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import React from "react";
 
 import { cn } from "../../lib/utils";
@@ -9,7 +9,7 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        gray: "bg-emphasis text-emphasis",
+        gray: "bg-weak text-strong",
         blue: "bg-info text-info",
         green: "bg-success text-success",
         orange: "bg-attention text-attention",

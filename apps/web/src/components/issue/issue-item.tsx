@@ -54,20 +54,20 @@ export default function IssueItem({ issue }: { issue: TIssue }) {
   return (
     <DropdownMenu>
       <div className="flex w-full items-center gap-x-2 border-b px-4 py-2 hover:bg-gray-100/50">
-        <PriorityIcon className="stroke-darkgray-300 h-4 w-4 stroke-2" />
+        <PriorityIcon className="h-4 w-4 stroke-2 stroke-darkgray-300" />
         <Link
           href={`/${slug}/issue/${issue.issueId}`}
           key={issue.id}
           className="flex w-full cursor-pointer items-center justify-between"
         >
           <div className="flex items-center space-x-2">
-            <p className="text-subtle text-sm">{issue.issueId}</p>
-            <StatusIcon className="stroke-darkgray-500 h-4 w-4" />
+            <p className="text-sm text-subtle">{issue.issueId}</p>
+            <StatusIcon className="h-4 w-4 stroke-darkgray-500" />
             <p className="text-default">{issue.title}</p>
           </div>
           <div className="flex items-center gap-x-3">
-            <span className="text-subtle text-sm">{updatedAt}</span>
-            <span className="text-subtle text-sm">{createdAt}</span>
+            <span className="text-sm text-subtle">{updatedAt}</span>
+            <span className="text-sm text-subtle">{createdAt}</span>
             {issue.reporter && issue.reporter.image && (
               <Avatar
                 imageSrc={issue.reporter.image}

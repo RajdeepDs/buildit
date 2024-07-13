@@ -63,18 +63,6 @@ export type TIssue = {
 
 export type TIssues = TIssue[];
 
-export type Status = {
-  value: string;
-  label: string;
-  icon: string;
-};
-
-export type Priority = {
-  value: string;
-  label: string;
-  icon: string;
-};
-
 export type IssueProp = {
   id: string;
   title: string;
@@ -88,18 +76,3 @@ export type IssueProp = {
   workspaceId: string | null;
   issueId: string;
 };
-
-export type TSettingsSidebar = {
-  title: string;
-  icon?: string;
-  items: {
-    title: string;
-    href?: string;
-    icon?: string;
-    button?: boolean;
-    subItems?: {
-      title: string;
-      href: string;
-    }[];
-  }[];
-}[];

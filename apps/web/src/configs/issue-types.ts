@@ -1,4 +1,4 @@
-import type { Priority, Status } from "@/types";
+import type { Priority, Status } from "@/types/config";
 
 export const statuses: Status[] = [
   {

@@ -23,7 +23,7 @@ export default async function MyIssuesPage(): Promise<JSX.Element> {
   });
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full py-3">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <MyIssuesClientPage />
       </HydrationBoundary>

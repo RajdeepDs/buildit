@@ -8,9 +8,9 @@ import FilterMenu from "./filter-menu";
 export default function SubHeader({ store }: { store: Store }) {
   return (
     <div className="flex items-center justify-between px-4">
-      <SearchIssue store={store} />
+      <FilterMenu store={store} />
       <div className="flex space-x-2">
-        <FilterMenu store={store} />
+        <SearchIssue store={store} />
         <DisplayMenu />
       </div>
     </div>

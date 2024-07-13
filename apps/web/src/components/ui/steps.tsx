@@ -7,7 +7,7 @@ export default function Steps({
 }): JSX.Element {
   return (
     <div className="mt-4 flex flex-col">
-      <div className="text-subtle text-sm">
+      <div className="text-sm text-subtle">
         step {currentStepIndex} of {maxSteps}
       </div>
       <div className="mt-1">

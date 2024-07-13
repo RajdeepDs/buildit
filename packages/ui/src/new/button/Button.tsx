@@ -21,7 +21,7 @@ export const buttonVariants = cva(
         secondary:
           "bg-white text-strong border-soft hover:bg-weak focus:ring-soft focus:ring-offset-1 disabled:bg-soft disabled:text-soft disabled:hover:border-soft border focus:ring-2 focus-visible:outline-none",
         minimal:
-          "text-emphasis hover:bg-muted focus-visible:ring-offset focus-visible:ring-emphasis disabled:text-muted disabled:hover:bg-muted disabled:text-muted focus-visible:outline-none focus-visible:ring-2",
+          "text-soft hover:bg-weak focus-visible:ring-offset focus-visible:ring-emphasis disabled:text-disabled disabled:hover:bg-disabled disabled:text-disabled focus-visible:outline-none focus-visible:ring-2",
         destructive:
           "bg-default text-emphasis border-default hover:bg-error focus:bg-error focus:ring-offset border hover:border-red-100 hover:text-red-700 focus:border-red-100 focus:text-red-700 focus:ring-2 focus:ring-red-700 focus-visible:outline-none disabled:border-red-200 disabled:bg-red-100 disabled:text-red-700 disabled:hover:border-red-200",
       },
