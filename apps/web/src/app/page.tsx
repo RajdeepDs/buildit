@@ -12,12 +12,10 @@ export default async function Home() {
           <h1 className="font-cal text-strong text-xl">BuildIt</h1>
         </div>
         <div className="flex space-x-2">
-          <Button className="" color="secondary" href={"/login"}>
+          <Button className="hidden" color="secondary">
             Login
           </Button>
-          <Button className="hidden md:flex" href={"/signup"}>
-            Get BuildIt free
-          </Button>
+          <Button className="hidden md:flex">Coming Soon</Button>
         </div>
       </nav>
       <section className="mt-28 flex flex-col items-center justify-center space-y-16">
@@ -30,7 +28,7 @@ export default async function Home() {
             <br className="hidden md:flex" /> efficiently with BuildIt's
             powerful, open-source platform.
           </p>
-          <Button href={"/signup"}>Get BuildIt free</Button>
+          <Button>Coming Soon</Button>
         </div>
         <Image
           src={"/dashboard.png"}
