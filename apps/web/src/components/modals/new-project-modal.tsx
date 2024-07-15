@@ -19,7 +19,7 @@ export const NewProjectModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button StartIcon="plus" size={"xs"}>
+        <Button StartIcon="plus" size={"sm"}>
           New project
         </Button>
       </DialogTrigger>

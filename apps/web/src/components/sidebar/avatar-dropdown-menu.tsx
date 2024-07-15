@@ -23,7 +23,7 @@ export default function AvatarDropdownMenu({
   const router = useRouter();
   const onclick = () => {
     logout();
-    router.push("/sign-in");
+    router.push("/login");
   };
 
   const { slug } = useParams() as { slug?: string };
