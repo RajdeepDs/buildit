@@ -9,22 +9,22 @@ export const groupingOptions: FilterSettings[] = [
     label: "Priority",
     value: "priority",
   },
-  {
-    label: "Assignee",
-    value: "assignee",
-  },
-  {
-    label: "Project",
-    value: "project",
-  },
-  {
-    label: "Label",
-    value: "label",
-  },
-  {
-    label: "Team",
-    value: "team",
-  },
+  // {
+  //   label: "Assignee",
+  //   value: "assignee",
+  // },
+  // {
+  //   label: "Project",
+  //   value: "project",
+  // },
+  // {
+  //   label: "Label",
+  //   value: "label",
+  // },
+  // {
+  //   label: "Team",
+  //   value: "team",
+  // },
   {
     label: "No grouping",
     value: "noGrouping",

@@ -1,4 +1,5 @@
 import { CaretSortIcon } from "@radix-ui/react-icons";
+import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
   AlignCenter,
@@ -8,6 +9,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpCircleIcon,
+  ArrowUpDown,
   Bold,
   Book,
   BookOpenText,
@@ -54,6 +56,7 @@ import {
   PenLine,
   Plus,
   RemoveFormatting,
+  Rows3,
   Search,
   Settings,
   SignalHigh,
@@ -73,7 +76,6 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
 export type Icon = LucideIcon;
 
@@ -152,4 +154,6 @@ export const Icons = {
   panelTop: PanelTop,
   penLine: PenLine,
   bookOpenText: BookOpenText,
+  rows3: Rows3,
+  arrowUpDown: ArrowUpDown,
 };

@@ -9,9 +9,10 @@ import { getIssues } from "@/lib/data/issues/get-issues";
 
 import type { TIssues } from "@/types";
 import { CreateIssueModal } from "../modals/create-issue-modal";
-import IssueItem from "./issue-item";
 
 import { Store } from "@/lib/store/my-issues-store";
+import IssueItem from "./issue-item";
+import IssuesGroup from "./issues-group";
 
 export default function IssuesList({ store }: { store: Store }) {
   const { data: allIssues, error } = useQuery({
@@ -24,6 +25,7 @@ export default function IssuesList({ store }: { store: Store }) {
 
   const filteredStatus = store.filterByStatus;
   const filteredPriority = store.filterByPriority;
+  const groupBy = store.groupBy;
 
   useEffect(() => {
     const filtered = allIssues?.filter((issue) => {
@@ -47,6 +49,24 @@ export default function IssuesList({ store }: { store: Store }) {
     }
   }, [allIssues, filteredStatus, store.search, filteredPriority]);
 
+  // TODO: Infer the types of the groupBy parameter
+  const groupIssues = (issues: any, groupBy: any) => {
+    if (groupBy === "noGrouping") {
+      return { Uncategorized: issues };
+    }
+
+    return issues.reduce((groups: any, issue: any) => {
+      const groupKey = issue[groupBy] || "Uncategorized";
+      if (!groups[groupKey]) {
+        groups[groupKey] = [];
+      }
+      groups[groupKey].push(issue);
+      return groups;
+    }, {});
+  };
+
+  const groupedIssues = groupIssues(filteredIssues, groupBy);
+
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -54,8 +74,8 @@ export default function IssuesList({ store }: { store: Store }) {
       {allIssues?.length === 0 ? (
         <div className="flex h-1/2 w-full flex-col items-center justify-center space-y-4 rounded-lg">
           <div className="flex flex-col items-center">
-            <h1 className="text-default font-cal text-xl">No issues found</h1>
-            <p className="text-subtle text-sm">
+            <h1 className="font-cal text-default text-xl">No issues found</h1>
+            <p className="text-sm text-subtle">
               There aren&apos;t any issues at the moment. Create one to get
               started!{" "}
             </p>
@@ -65,13 +85,18 @@ export default function IssuesList({ store }: { store: Store }) {
           </CreateIssueModal>
         </div>
       ) : (
-        <ul className="list-none">
-          {filteredIssues.map((issue) => (
-            <li key={issue.id}>
-              <IssueItem issue={issue} />
-            </li>
-          ))}
-        </ul>
+        Object.keys(groupedIssues).map((group) => (
+          <div key={group}>
+            <IssuesGroup group={group} />
+            <ul className="list-none">
+              {groupedIssues[group].map((issue: any) => (
+                <li key={issue.id}>
+                  <IssueItem issue={issue} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
       )}
     </div>
   );

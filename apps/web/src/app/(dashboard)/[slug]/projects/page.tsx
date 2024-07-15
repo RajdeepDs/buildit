@@ -1,11 +1,11 @@
+import { getProjects } from "@/lib/data/project/get-project";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
-import ProjectsClientPage from "./page-client";
-import { getProjects } from "@/lib/data/project/get-project";
 import { Metadata } from "next";
+import ProjectsClientPage from "./page-client";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -20,7 +20,7 @@ export default async function ProjectPage(): Promise<JSX.Element> {
   });
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full py-3">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ProjectsClientPage />
       </HydrationBoundary>

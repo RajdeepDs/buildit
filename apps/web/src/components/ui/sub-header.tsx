@@ -7,7 +7,7 @@ import FilterMenu from "./filter-menu";
 
 export default function SubHeader({ store }: { store: Store }) {
   return (
-    <div className="flex items-center justify-between px-4">
+    <div className="flex flex-1 items-center justify-between">
       <FilterMenu store={store} />
       <div className="flex space-x-2">
         <SearchIssue store={store} />

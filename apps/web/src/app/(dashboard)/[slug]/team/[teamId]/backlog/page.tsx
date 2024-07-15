@@ -1,8 +1,8 @@
 import { getIssuesByTeam } from "@/lib/data/issues/get-issues-by-team";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
 import BacklogIssuesClientPage from "./page-client";
 
@@ -18,7 +18,7 @@ export default async function BacklogIssues({
   });
 
   return (
-    <div>
+    <div className="h-full w-full py-3">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <BacklogIssuesClientPage params={params} />
       </HydrationBoundary>

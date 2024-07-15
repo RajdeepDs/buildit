@@ -23,12 +23,14 @@ export default function ActiveIssuesClientPage({
 
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <>
-      <TeamsPageHeader team={params.teamId} title="Active Issues" />
-      <SubHeader store={store} />
+    <div className="space-y-3">
+      <nav className="flex items-center space-x-2 px-3">
+        <TeamsPageHeader team={params.teamId} title="Active Issues" />
+        <SubHeader store={store} />
+      </nav>
       <main className="mt-2 h-svh w-full border-t">
         <IssuesByTeam store={store} issues={issues!} />
       </main>
-    </>
+    </div>
   );
 }

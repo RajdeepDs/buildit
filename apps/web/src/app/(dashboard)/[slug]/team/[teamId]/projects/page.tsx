@@ -1,8 +1,8 @@
 import { getProjectbyTeam } from "@/lib/data/project/get-project-by-team";
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
 import ProjectsClientPage from "./page-client";
 
@@ -17,7 +17,7 @@ export default async function Projects({
     queryFn: async () => getProjectbyTeam({ teamId: params.teamId }),
   });
   return (
-    <div>
+    <div className="h-full w-full py-3">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ProjectsClientPage params={params} />
       </HydrationBoundary>
