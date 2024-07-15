@@ -76,7 +76,7 @@ export default function DisplayMenu() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="hidden items-center justify-between">
             <Label className="flex items-center text-xs">
               <Icons.arrowUpDown className="mr-1 h-4 w-4 text-sub" />
               Ordering
