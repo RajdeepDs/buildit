@@ -53,7 +53,7 @@ export default function IssueItem({ issue }: { issue: TIssue }) {
 
   return (
     <DropdownMenu>
-      <div className="flex w-full items-center gap-x-2 border-b px-4 py-2 hover:bg-gray-100/50">
+      <div className="flex w-full items-center gap-x-2 border-b px-5 py-2 hover:bg-gray-100/50">
         <PriorityIcon className="h-4 w-4 stroke-2 stroke-darkgray-300" />
         <Link
           href={`/${slug}/issue/${issue.issueId}`}
