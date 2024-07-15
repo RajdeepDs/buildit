@@ -19,7 +19,7 @@ export default async function ActiveIssuesPage({
   });
 
   return (
-    <div>
+    <div className="h-full w-full py-3">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ActiveIssuesClientPage params={params} />
       </HydrationBoundary>
