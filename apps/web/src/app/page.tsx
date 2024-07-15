@@ -34,7 +34,7 @@ export default async function Home() {
           src={"/dashboard.png"}
           alt="Dashboard"
           height={516}
-          width={882}
+          width={900}
           className="rounded-lg border shadow-lg"
         />
       </section>
