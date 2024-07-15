@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@buildit/ui";
-import { Icons } from "@buildit/ui/icons";
 
 import { groupingOptions, orderingOptions } from "@/configs/filter-settings";
 
@@ -29,8 +28,13 @@ export default function DisplayMenu() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button color="minimal" size={"icon"}>
-          <Icons.horizontalMore className="h-4 w-4" />
+        <Button
+          StartIcon="sliders"
+          color="secondary"
+          size={"sm"}
+          className="text-sub"
+        >
+          Display
         </Button>
       </PopoverTrigger>
       <PopoverContent>

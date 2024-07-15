@@ -16,20 +16,22 @@ export default function MyIssuesClientPage(): JSX.Element {
   const store = useMyIssuesStore();
   return (
     <div className="space-y-3">
-      <header className="px-3">
-        <Breadcrumb className="p-2">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Icons.home className="h-4 w-4 text-sub" />
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>My issues</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </header>
-      <SubHeader store={store} />
+      <nav className="flex items-center space-x-2 px-3">
+        <header className="p-2">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <Icons.home className="h-4 w-4 text-sub" />
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>My issues</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <SubHeader store={store} />
+      </nav>
       <main className="h-svh w-full border-t">
         <IssuesList store={store} />
       </main>
