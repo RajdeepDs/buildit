@@ -31,7 +31,7 @@ export default function DisplayMenu() {
         <Button
           StartIcon="sliders"
           color="secondary"
-          size={"sm"}
+          size={"xs"}
           className="text-sub"
         >
           Display

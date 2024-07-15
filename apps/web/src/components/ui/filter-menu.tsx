@@ -3,26 +3,18 @@
 import React from "react";
 
 import {
-  Badge,
   Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
 import { priorities, statuses } from "@/configs/issue-types";
 import type { Store } from "@/lib/store/my-issues-store";
+
+import CustomizeFilter from "./customize-filter";
 
 export default function FilterMenu({ store }: { store: Store }) {
   const [open, setOpen] = React.useState(false);
@@ -31,7 +23,6 @@ export default function FilterMenu({ store }: { store: Store }) {
     store.setFilterByStatus(status);
     setOpen(false);
   };
-
   const handleSelectPriority = (priority: string) => {
     store.setFilterByPriority(priority);
     setOpen(false);
@@ -49,12 +40,12 @@ export default function FilterMenu({ store }: { store: Store }) {
   )?.label;
 
   return (
-    <div className="flex items-center space-x-8">
+    <div className="flex items-center space-x-4">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button
             color="secondary"
-            size={"sm"}
+            size={"xs"}
             className="text-sub"
             StartIcon="listFilter"
           >
@@ -62,96 +53,29 @@ export default function FilterMenu({ store }: { store: Store }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-[200px]">
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Icons.status className="mr-2 h-4 w-4 text-sub" />
-              Status
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <Command className="w-[200px]">
-                <CommandInput placeholder="Filter status..." autoFocus={true} />
-                <CommandList>
-                  <CommandEmpty>No status</CommandEmpty>
-                  <CommandGroup>
-                    {statuses.map((status) => {
-                      const Icon = Icons[status.icon as keyof typeof Icons];
-                      return (
-                        <CommandItem
-                          key={status.label}
-                          value={status.value.toString()}
-                          onSelect={() => handleSelectStatus(status.value)}
-                        >
-                          <Icon className="mr-2 h-4 w-4 text-sub" />
-                          {status.label}
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Icons.signalHigh className="mr-2 h-4 w-4 text-sub" />
-              Priority
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <Command className="w-[200px]">
-                <CommandInput
-                  placeholder="Filter priority..."
-                  autoFocus={true}
-                />
-                <CommandList>
-                  <CommandEmpty>No priority</CommandEmpty>
-                  <CommandGroup>
-                    {priorities.map((priority) => {
-                      const Icon = Icons[priority.icon as keyof typeof Icons];
-                      return (
-                        <CommandItem
-                          key={priority.label}
-                          value={priority.value}
-                          onSelect={() => {
-                            handleSelectPriority(priority.value);
-                          }}
-                        >
-                          <Icon className="mr-2 h-4 w-4 text-sub" />
-                          {priority.label}
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuItem>
-            <Icons.hexagon className="mr-2 h-4 w-4 text-sub" />
-            Project
+          <DropdownMenuItem onClick={() => handleSelectStatus("backlog")}>
+            <Icons.status className="mr-2 h-4 w-4 text-sub" />
+            Status
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Icons.tag className="mr-2 h-4 w-4 text-sub" />
-            Labels
+          <DropdownMenuItem onClick={() => handleSelectPriority("no priority")}>
+            <Icons.signalHigh className="mr-2 h-4 w-4 text-sub" />
+            Priority
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       {filteredStatus && (
-        <Badge size={"md"} variant={"gray"}>
-          {selectedStatus}
-          <Icons.canceled
-            className="ml-2 h-4 w-4 cursor-pointer text-soft"
-            onClick={() => store.setFilterByStatus("")}
-          />
-        </Badge>
+        <CustomizeFilter
+          filterType="Status"
+          selectedFilter={selectedStatus!}
+          onFilterChange={handleSelectStatus}
+        />
       )}
       {filteredPriority && (
-        <Badge size={"md"} variant={"gray"}>
-          {selectedPriority}
-          <Icons.canceled
-            className="ml-2 h-4 w-4 cursor-pointer text-soft"
-            onClick={() => store.setFilterByPriority("")}
-          />
-        </Badge>
+        <CustomizeFilter
+          filterType="Priority"
+          selectedFilter={selectedPriority!}
+          onFilterChange={handleSelectPriority}
+        />
       )}
     </div>
   );

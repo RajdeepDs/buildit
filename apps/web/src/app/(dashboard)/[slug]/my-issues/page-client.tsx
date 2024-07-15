@@ -32,7 +32,7 @@ export default function MyIssuesClientPage(): JSX.Element {
         </header>
         <SubHeader store={store} />
       </nav>
-      <main className="h-svh w-full border-t">
+      <main className="h-svh w-full space-x-4 border-t">
         <IssuesList store={store} />
       </main>
     </div>
