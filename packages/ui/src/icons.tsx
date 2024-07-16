@@ -74,6 +74,7 @@ import {
   Underline,
   User2,
   Users,
+  X,
   XCircle,
 } from "lucide-react";
 
@@ -156,4 +157,5 @@ export const Icons = {
   bookOpenText: BookOpenText,
   rows3: Rows3,
   arrowUpDown: ArrowUpDown,
+  x: X,
 };

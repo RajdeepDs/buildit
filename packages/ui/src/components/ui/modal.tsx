@@ -42,16 +42,16 @@ export const ModalContent = ({
 }) => {
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/10" />
+      <Dialog.Overlay className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/10 data-[state=closed]:animate-out data-[state=open]:animate-in" />
       <Dialog.Content
         className={cn(
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[10%] fixed left-[50%] top-[20%] z-50 max-h-[650px] w-full max-w-2xl translate-x-[-50%] translate-y-[-10%] border border-slate-200 bg-white p-4 shadow-lg duration-200 sm:rounded-lg dark:border-slate-800 dark:bg-slate-950",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[10%] fixed top-[20%] left-[50%] z-50 max-h-[650px] w-full max-w-2xl translate-x-[-50%] translate-y-[-10%] border border-slate-200 bg-white p-4 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg dark:border-slate-800 dark:bg-slate-950",
           className,
         )}
       >
         <div className="flex flex-col">
           <div className="mb-4 flex justify-between">
-            <h1 className="text-sm text-gray-700">
+            <h1 className="text-gray-700 text-sm">
               {type === "issue" ? "New issue" : "New project"}
             </h1>
             <div className="flex gap-x-2">
