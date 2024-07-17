@@ -9,6 +9,7 @@ import type { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
 import {
+  Avatar,
   Button,
   ComboBox,
   ComboBoxContent,
@@ -25,19 +26,25 @@ import {
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
 import { CreateIssueSchema } from "@/schemas/issue";
-import { TTeam } from "@/types";
+import { TProject, TTeam } from "@/types";
 import { Icons } from "@buildit/ui/icons";
 import { useState } from "react";
 
 export default function CreateIssueForm({
   onOpenChange,
   team,
+  projects,
 }: {
   onOpenChange: (isOpen: boolean) => void;
-  team: Pick<TTeam, "id">;
+  team: Pick<TTeam, "id" | "user" | "teamId">;
+  projects: Pick<TProject, "id" | "name">[];
 }): JSX.Element {
   const [openStatus, setOpenStatus] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
+  const [openAssignee, setOpenAssignee] = useState(false);
+  const [openProject, setOpenProject] = useState(false);
+
+  const assignee = team.user;
 
   const { slug } = useParams() as { slug?: string };
 
@@ -61,6 +68,8 @@ export default function CreateIssueForm({
         priority: values.priority,
         slug: slug,
         teamId: team.id,
+        assignee: values.assignee,
+        project: values.project,
       }),
     onSuccess: (res) => {
       if (res.success) {
@@ -179,6 +188,118 @@ export default function CreateIssueForm({
                         </ComboBoxItem>
                       );
                     })}
+                  </ComboBoxContent>
+                </ComboBox>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="assignee"
+            render={({ field }) => (
+              <FormItem>
+                <ComboBox open={openAssignee} onOpenChange={setOpenAssignee}>
+                  <ComboBoxTrigger>
+                    {field.value ? (
+                      assignee && (
+                        <div className="flex items-center space-x-2">
+                          <Avatar
+                            imageSrc={assignee.image}
+                            alt="avatar"
+                            size="xs"
+                          />
+                          <p className="text-sm">{assignee.name}</p>
+                        </div>
+                      )
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <Icons.userCircle2 className="h-4 w-4 text-soft" />
+                        <p>No assignee</p>
+                      </div>
+                    )}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent className="w-[200px]">
+                    <ComboBoxItem
+                      key="unassigned"
+                      value=""
+                      onSelect={() => {
+                        field.onChange("");
+                        setOpenAssignee(false);
+                      }}
+                    >
+                      <Icons.userCircle2 className="mr-2 h-4 w-4 text-soft" />
+                      No assignee
+                    </ComboBoxItem>
+                    {assignee && (
+                      <ComboBoxItem
+                        key={assignee.id}
+                        value={assignee.id}
+                        onSelect={() => {
+                          field.onChange(assignee.id);
+                          setOpenAssignee(false);
+                        }}
+                      >
+                        <Avatar
+                          imageSrc={assignee.image}
+                          alt="avatar"
+                          size="xs"
+                          className="mr-2"
+                        />
+                        {assignee.name}
+                      </ComboBoxItem>
+                    )}
+                  </ComboBoxContent>
+                </ComboBox>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="project"
+            render={({ field }) => (
+              <FormItem>
+                <ComboBox open={openProject} onOpenChange={setOpenProject}>
+                  <ComboBoxTrigger>
+                    {field.value ? (
+                      <div className="flex items-center">
+                        <Icons.hexagon className="mr-2 h-4 w-4 text-soft" />
+                        {
+                          projects.find((project) => project.id === field.value)
+                            ?.name
+                        }
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <Icons.hexagon className="h-4 w-4 text-soft" />
+                        <p>No Project</p>
+                      </div>
+                    )}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent className="w-[200px]">
+                    <ComboBoxItem
+                      key="no project"
+                      value=""
+                      onSelect={() => {
+                        field.onChange("");
+                        setOpenProject(false);
+                      }}
+                    >
+                      <Icons.hexagon className="mr-2 h-4 w-4 text-soft" />
+                      No Project
+                    </ComboBoxItem>
+                    {projects.map((project) => (
+                      <ComboBoxItem
+                        key={project.id}
+                        value={project.id}
+                        onSelect={() => {
+                          field.onChange(project.id);
+                          setOpenProject(false);
+                        }}
+                      >
+                        <Icons.hexagon className="mr-2 h-4 w-4 text-soft" />
+                        {project.name}
+                      </ComboBoxItem>
+                    ))}
                   </ComboBoxContent>
                 </ComboBox>
               </FormItem>

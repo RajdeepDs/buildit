@@ -73,6 +73,7 @@ import {
   Trash2,
   Underline,
   User2,
+  UserCircle2,
   Users,
   X,
   XCircle,
@@ -158,4 +159,5 @@ export const Icons = {
   rows3: Rows3,
   arrowUpDown: ArrowUpDown,
   x: X,
+  userCircle2: UserCircle2,
 };

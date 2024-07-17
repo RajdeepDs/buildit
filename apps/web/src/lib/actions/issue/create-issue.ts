@@ -16,6 +16,8 @@ export const createIssue = async ({
   priority,
   slug,
   teamId,
+  project,
+  assignee,
 }: z.infer<typeof CreateIssueSchema>): Promise<MutationResult> => {
   try {
     CreateIssueSchema.parse({
@@ -25,6 +27,8 @@ export const createIssue = async ({
       priority,
       slug,
       teamId,
+      assignee,
+      project,
     });
 
     const user = await getSession();
@@ -47,6 +51,8 @@ export const createIssue = async ({
       issueId: "ISSUE-" + issueCounter,
       workspaceId: workspace?.id,
       teamId: teamId,
+      assigneeId: assignee,
+      projectId: project,
     });
 
     const workspaceRes: WorkspaceResponse = await db

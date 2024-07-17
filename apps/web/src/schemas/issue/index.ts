@@ -11,6 +11,8 @@ export const CreateIssueSchema = z.object({
   }),
   slug: z.string().optional(),
   teamId: z.string().optional(),
+  assignee: z.string(),
+  project: z.string(),
 });
 
 export const UpdateIssueSchema = CreateIssueSchema.extend({
