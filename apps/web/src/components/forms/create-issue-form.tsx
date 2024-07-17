@@ -10,29 +10,33 @@ import type { z } from "zod";
 import { BlockEditor } from "@buildit/editor";
 import {
   Button,
+  ComboBox,
+  ComboBoxContent,
+  ComboBoxItem,
+  ComboBoxTrigger,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@buildit/ui";
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
 import { getTeams } from "@/lib/data/team/get-teams";
 import { CreateIssueSchema } from "@/schemas/issue";
+import { Icons } from "@buildit/ui/icons";
+import { useState } from "react";
 
 export default function CreateIssueForm({
   onOpenChange,
 }: {
   onOpenChange: (isOpen: boolean) => void;
 }): JSX.Element {
+  const [openStatus, setOpenStatus] = useState(false);
+  const [openPriority, setOpenPriority] = useState(false);
+
   const { slug } = useParams() as { slug?: string };
 
   const { data: team } = useQuery({
@@ -119,23 +123,32 @@ export default function CreateIssueForm({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Status" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {statuses.map((status) => (
-                      <SelectItem key={status.value} value={status.value}>
-                        {status.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <ComboBox open={openStatus} onOpenChange={setOpenStatus}>
+                  <ComboBoxTrigger>
+                    {
+                      statuses.find((status) => status.value === field.value)
+                        ?.label
+                    }
+                  </ComboBoxTrigger>
+                  <ComboBoxContent className="w-[200px]">
+                    {statuses.map((status) => {
+                      const Icon = Icons[status.icon as keyof typeof Icons];
+                      return (
+                        <ComboBoxItem
+                          key={status.value}
+                          value={status.value}
+                          onClick={() => {
+                            field.onChange(status.value);
+                            setOpenStatus(false);
+                          }}
+                        >
+                          <Icon className="mr-2 h-4 w-4 text-soft" />
+                          {status.label}
+                        </ComboBoxItem>
+                      );
+                    })}
+                  </ComboBoxContent>
+                </ComboBox>
               </FormItem>
             )}
           />
@@ -144,23 +157,33 @@ export default function CreateIssueForm({
             name="priority"
             render={({ field }) => (
               <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Priority" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {priorities.map((priority) => (
-                      <SelectItem key={priority.value} value={priority.value}>
-                        {priority.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <ComboBox open={openPriority} onOpenChange={setOpenPriority}>
+                  <ComboBoxTrigger>
+                    {
+                      priorities.find(
+                        (priority) => priority.value === field.value,
+                      )?.label
+                    }
+                  </ComboBoxTrigger>
+                  <ComboBoxContent className="w-[200px]">
+                    {priorities.map((priority) => {
+                      const Icon = Icons[priority.icon as keyof typeof Icons];
+                      return (
+                        <ComboBoxItem
+                          key={priority.value}
+                          value={priority.value}
+                          onClick={() => {
+                            field.onChange(priority.value);
+                            setOpenPriority(false);
+                          }}
+                        >
+                          <Icon className="mr-2 h-4 w-4 text-soft" />
+                          {priority.label}
+                        </ComboBoxItem>
+                      );
+                    })}
+                  </ComboBoxContent>
+                </ComboBox>
               </FormItem>
             )}
           />

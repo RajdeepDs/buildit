@@ -20,4 +20,5 @@ export * from "./components/ui/textarea";
 export * from "./new/avatar";
 export * from "./new/badge";
 export * from "./new/button";
+export * from "./new/combobox";
 export * from "./new/issue-modal";

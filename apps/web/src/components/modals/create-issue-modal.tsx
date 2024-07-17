@@ -20,11 +20,11 @@ export function CreateIssueModal({ children }: { children: React.ReactNode }) {
 
   return (
     <IssueModal open={open} onOpenChange={setOpen}>
-      <IssueModalTrigger>{children}</IssueModalTrigger>
+      <IssueModalTrigger asChild>{children}</IssueModalTrigger>
       <IssueModalContent>
         <IssueModalHeader>
           <Popover>
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
               <Button size={"xs"} color="secondary">
                 Team
               </Button>
