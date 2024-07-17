@@ -3,11 +3,11 @@
 import { z } from "zod";
 
 import { db, eq } from "@buildit/db";
-import { issue, workspaces } from "@buildit/db/src/schema";
+import { issue, team, workspaces } from "@buildit/db/src/schema";
 
 import { getSession } from "@/lib/data/get-session";
 import { CreateIssueSchema } from "@/schemas/issue";
-import type { MutationResult, WorkspaceResponse } from "../types";
+import type { MutationResult } from "../types";
 
 export const createIssue = async ({
   title,
@@ -16,6 +16,9 @@ export const createIssue = async ({
   priority,
   slug,
   teamId,
+  project,
+  assignee,
+  teamNameId,
 }: z.infer<typeof CreateIssueSchema>): Promise<MutationResult> => {
   try {
     CreateIssueSchema.parse({
@@ -25,6 +28,8 @@ export const createIssue = async ({
       priority,
       slug,
       teamId,
+      assignee,
+      project,
     });
 
     const user = await getSession();
@@ -35,8 +40,25 @@ export const createIssue = async ({
     const workspace = await db.query.workspaces.findFirst({
       where: eq(workspaces.slug, slug!),
     });
-    const workspaceCounter = workspace?.issueCounter;
-    const issueCounter = workspaceCounter! + 1;
+
+    if (!workspace) {
+      return { error: "Workspace not found!" };
+    }
+
+    const teamRes = await db.query.team.findFirst({
+      where: eq(team.id, teamId ?? ""),
+    });
+
+    if (!teamRes) {
+      return { error: "Team not found!" };
+    }
+
+    const TeamIssueCounter = teamRes.issueCounter;
+    console.log(TeamIssueCounter);
+
+    const issueCounter = TeamIssueCounter + 1;
+
+    const issueId: string = teamNameId + "-" + issueCounter;
 
     await db.insert(issue).values({
       title,
@@ -44,24 +66,21 @@ export const createIssue = async ({
       status,
       priority,
       reporterId: user.id,
-      issueId: "ISSUE-" + issueCounter,
+      issueId: issueId,
       workspaceId: workspace?.id,
       teamId: teamId,
+      assigneeId: assignee,
+      projectId: project,
     });
 
-    const workspaceRes: WorkspaceResponse = await db
-      .update(workspaces)
+    await db
+      .update(team)
       .set({
         issueCounter,
       })
-      .where(eq(workspaces.slug, slug!))
-      .returning();
+      .where(eq(team.id, teamId ?? ""));
 
-    if (!workspaceRes || !workspaceRes[0]) {
-      return { error: "Error updating workspace." };
-    }
-
-    return { success: "ISSUE-" + workspaceRes[0].issueCounter };
+    return { success: issueId };
   } catch (error) {
     return {
       error:

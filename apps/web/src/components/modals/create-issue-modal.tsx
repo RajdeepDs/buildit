@@ -1,31 +1,71 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-import { Modal, ModalContent, ModalTrigger } from "@buildit/ui";
+import {
+  ComboBox,
+  ComboBoxContent,
+  ComboBoxItem,
+  ComboBoxTrigger,
+  IssueModal,
+  IssueModalContent,
+  IssueModalHeader,
+  IssueModalTrigger,
+} from "@buildit/ui";
 
+import { getProjects } from "@/lib/data/project/get-project";
+import { getTeams } from "@/lib/data/team/get-teams";
 import CreateIssueForm from "../forms/create-issue-form";
 
 export function CreateIssueModal({ children }: { children: React.ReactNode }) {
+  const { data: teams } = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => getTeams(),
+  });
+
+  const { data: projects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: async () => getProjects(),
+  });
+
   const [open, setOpen] = React.useState(false);
+  const [openTeam, setOpenTeam] = React.useState(false);
 
-  const [isMaximized, setIsMaximized] = React.useState(false);
-
-  const handleParentMaximize = () => {
-    setIsMaximized(!isMaximized);
-  };
+  const [team, setTeam] = React.useState(teams?.[0]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger asChild>{children}</ModalTrigger>
-      <ModalContent
-        type="issue"
-        isMaximized={isMaximized}
-        onMaximize={handleParentMaximize}
-        needMaximize={false}
-      >
-        <CreateIssueForm onOpenChange={setOpen} />
-      </ModalContent>
-    </Modal>
+    <IssueModal open={open} onOpenChange={setOpen}>
+      <IssueModalTrigger asChild>{children}</IssueModalTrigger>
+      <IssueModalContent>
+        <IssueModalHeader>
+          {teams && teams?.length > 1 ? (
+            <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
+              <ComboBoxTrigger>{team?.name}</ComboBoxTrigger>
+              <ComboBoxContent className="w-[200px]">
+                {teams.map((team) => (
+                  <ComboBoxItem
+                    key={team.id}
+                    onSelect={() => {
+                      setTeam(team);
+                      setOpenTeam(false);
+                    }}
+                  >
+                    {team.name}
+                  </ComboBoxItem>
+                ))}
+              </ComboBoxContent>
+            </ComboBox>
+          ) : (
+            <p className="text-sm">{team?.name}</p>
+          )}
+        </IssueModalHeader>
+        <CreateIssueForm
+          onOpenChange={setOpen}
+          team={team!}
+          projects={projects!}
+        />
+      </IssueModalContent>
+    </IssueModal>
   );
 }
