@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,25 +24,22 @@ import {
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { createIssue } from "@/lib/actions/issue/create-issue";
-import { getTeams } from "@/lib/data/team/get-teams";
 import { CreateIssueSchema } from "@/schemas/issue";
+import { TTeam } from "@/types";
 import { Icons } from "@buildit/ui/icons";
 import { useState } from "react";
 
 export default function CreateIssueForm({
   onOpenChange,
+  team,
 }: {
   onOpenChange: (isOpen: boolean) => void;
+  team: Pick<TTeam, "id">;
 }): JSX.Element {
   const [openStatus, setOpenStatus] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
 
   const { slug } = useParams() as { slug?: string };
-
-  const { data: team } = useQuery({
-    queryKey: ["team"],
-    queryFn: async () => getTeams(),
-  });
 
   const form = useForm<z.infer<typeof CreateIssueSchema>>({
     resolver: zodResolver(CreateIssueSchema),
@@ -63,7 +60,7 @@ export default function CreateIssueForm({
         status: values.status,
         priority: values.priority,
         slug: slug,
-        teamId: team ? team[0]?.id : "",
+        teamId: team.id,
       }),
     onSuccess: (res) => {
       if (res.success) {
@@ -137,7 +134,7 @@ export default function CreateIssueForm({
                         <ComboBoxItem
                           key={status.value}
                           value={status.value}
-                          onClick={() => {
+                          onSelect={() => {
                             field.onChange(status.value);
                             setOpenStatus(false);
                           }}
@@ -172,7 +169,7 @@ export default function CreateIssueForm({
                         <ComboBoxItem
                           key={priority.value}
                           value={priority.value}
-                          onClick={() => {
+                          onSelect={() => {
                             field.onChange(priority.value);
                             setOpenPriority(false);
                           }}
