@@ -70,6 +70,7 @@ export default function CreateIssueForm({
         teamId: team.id,
         assignee: values.assignee,
         project: values.project,
+        teamNameId: team.teamId,
       }),
     onSuccess: (res) => {
       if (res.success) {

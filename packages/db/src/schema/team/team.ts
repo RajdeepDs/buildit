@@ -12,6 +12,7 @@ export const team = sqliteTable("team", {
     .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   teamId: text("teamId").notNull().unique(),
+  issueCounter: integer("issueCounter").default(0).notNull(),
   createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(
     sql`(CURRENT_TIMESTAMP)`,
   ),
