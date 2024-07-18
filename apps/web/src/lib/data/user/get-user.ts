@@ -19,3 +19,15 @@ export const getUser = async () => {
     return null;
   }
 };
+
+export const getUserById = async (userId: string) => {
+  try {
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+    });
+
+    return user;
+  } catch {
+    return null;
+  }
+};

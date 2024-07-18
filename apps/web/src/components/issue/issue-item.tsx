@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -9,6 +9,7 @@ import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { formatDate } from "@/lib/utils/date";
 import type { TIssue } from "@/types";
 
+import { getUserById } from "@/lib/data/user/get-user";
 import {
   Avatar,
   ContextMenu,
@@ -23,6 +24,13 @@ import { Icons } from "@buildit/ui/icons";
 export default function IssueItem({ issue }: { issue: TIssue }) {
   const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
   const createdAt = issue?.createdAt && formatDate(issue?.createdAt);
+
+  const { data: assignee } = useQuery({
+    queryKey: ["assignee", { id: issue.assigneeId }],
+    queryFn: async () => {
+      return getUserById(issue.assigneeId || "");
+    },
+  });
 
   const router = useRouter();
 
@@ -69,12 +77,10 @@ export default function IssueItem({ issue }: { issue: TIssue }) {
           <div className="flex items-center gap-x-3">
             <span className="text-soft text-xs">{updatedAt}</span>
             <span className="text-soft text-xs">{createdAt}</span>
-            {issue.reporter && issue.reporter.image && (
-              <Avatar
-                imageSrc={issue.reporter.image}
-                size="sm"
-                alt="user avatar"
-              />
+            {issue.assigneeId ? (
+              <Avatar imageSrc={assignee?.image} size="sm" />
+            ) : (
+              <Icons.userCircle2 className="h-5 w-5 text-soft" />
             )}
           </div>
         </Link>
