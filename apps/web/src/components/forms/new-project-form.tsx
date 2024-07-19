@@ -13,25 +13,23 @@ import {
   Input,
 } from "@buildit/ui";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { MutationResult } from "@/lib/actions/types";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { CreateProjectSchema } from "@/schemas/project";
 import { createProject } from "@/lib/actions/project/create-project";
-import { getTeams } from "@/lib/data/team/get-teams";
+import { MutationResult } from "@/lib/actions/types";
+import { CreateProjectSchema } from "@/schemas/project";
+import { TTeam } from "@/types";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function NewProjectForm({
   onOpenChange,
+  team,
 }: {
   onOpenChange: (isOpen: boolean) => void;
+  team: TTeam;
 }): JSX.Element {
   const router = useRouter();
-
-  const { data: team } = useQuery({
-    queryKey: ["team"],
-    queryFn: async () => getTeams(),
-  });
+  console.log(team);
 
   const form = useForm<z.infer<typeof CreateProjectSchema>>({
     resolver: zodResolver(CreateProjectSchema),
@@ -47,7 +45,7 @@ export default function NewProjectForm({
     ): Promise<MutationResult> => {
       return createProject({
         projectName: values.projectName,
-        teamId: team ? team[0]?.teamId : "",
+        teamId: team.id as string,
       });
     },
     onSuccess: (res) => {
@@ -66,7 +64,9 @@ export default function NewProjectForm({
   });
 
   const onSubmit = (values: z.infer<typeof CreateProjectSchema>) => {
-    mutation.mutate(values);
+    if (team) {
+      mutation.mutate(values);
+    }
   };
 
   return (
@@ -95,7 +95,7 @@ export default function NewProjectForm({
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-fit"
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Continue

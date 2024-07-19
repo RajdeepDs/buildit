@@ -9,6 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  Button,
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 import { useQuery } from "@tanstack/react-query";
@@ -39,7 +40,11 @@ export default function ProjectsClientPage({
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <NewProjectModal />
+        <NewProjectModal>
+          <Button StartIcon="plus" size={"sm"}>
+            New project
+          </Button>
+        </NewProjectModal>
       </nav>
       <main className="h-svh w-full border-t">
         <ProjectLists projects={projects!} />

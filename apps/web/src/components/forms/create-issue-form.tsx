@@ -222,7 +222,7 @@ export default function CreateIssueForm({
                   <ComboBoxContent className="w-[200px]">
                     <ComboBoxItem
                       key="unassigned"
-                      value=""
+                      value="unassigned"
                       onSelect={() => {
                         field.onChange("");
                         setOpenAssignee(false);
@@ -279,7 +279,7 @@ export default function CreateIssueForm({
                   <ComboBoxContent className="w-[200px]">
                     <ComboBoxItem
                       key="no project"
-                      value=""
+                      value="no project"
                       onSelect={() => {
                         field.onChange("");
                         setOpenProject(false);
@@ -288,7 +288,7 @@ export default function CreateIssueForm({
                       <Icons.hexagon className="mr-2 h-4 w-4 text-soft" />
                       No Project
                     </ComboBoxItem>
-                    {projects.map((project) => (
+                    {projects?.map((project) => (
                       <ComboBoxItem
                         key={project.id}
                         value={project.id}
