@@ -36,45 +36,45 @@ export default function AvatarDropdownMenu({
       <DropdownMenuContent className="mt-2 ml-3 w-[180px]">
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/`} className="space-x-2">
-            <Icons.user className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">My Profile</p>
+            <Icons.user className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">My Profile</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/general`} className="space-x-2">
-            <Icons.home className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">My Workspace</p>
+            <Icons.home className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">My Workspace</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/${slug}/settings/`} className="space-x-2">
-            <Icons.settings className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">My settings</p>
+            <Icons.settings className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">My settings</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.home className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">Homepage</p>
+            <Icons.home className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">Homepage</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.penLine className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">Blogs</p>
+            <Icons.penLine className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">Blogs</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={"/"} className="space-x-2">
-            <Icons.bookOpenText className="h-4 w-4 text-subtle" />
-            <p className="font-medium text-default">Changelogs</p>
+            <Icons.bookOpenText className="h-4 w-4 text-sub/80" />
+            <p className="font-medium text-strong">Changelogs</p>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onclick} className="space-x-2">
-          <Icons.logOut className="h-4 w-4 text-subtle" />
-          <p className="font-medium text-default">Sign out</p>
+          <Icons.logOut className="h-4 w-4 text-sub/80" />
+          <p className="font-medium text-strong">Sign out</p>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
