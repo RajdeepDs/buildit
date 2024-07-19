@@ -8,16 +8,18 @@ import {
   getNavigations,
   getTeamsNavigations,
 } from "@/configs/sidebar-navigations";
-import type { TTeam, TUser, TWorkspace } from "@/types";
+
 import { CreateIssueModal } from "../modals/create-issue-modal";
 import VerticalTabs from "../ui/vertical-tabs";
 import AvatarDropdownMenu from "./avatar-dropdown-menu";
 
+import type { TTeam, TUser, TWorkspace } from "@/types";
+
 type DashboardSidebarProps = {
   slug: string;
-  user: TUser;
+  user: Pick<TUser, "name" | "image">;
   teams: Pick<TTeam, "id" | "name" | "teamId">[];
-  workspace: TWorkspace;
+  workspace: Pick<TWorkspace, "name">;
 };
 
 export default function DashboardSidebar({

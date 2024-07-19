@@ -12,16 +12,16 @@ export default function TeamItem({ team }: TeamsItemProps): JSX.Element {
   return (
     <Link
       href={`team/${team.teamId}/active`}
-      className="hover:bg-muted flex cursor-pointer items-center justify-between border-b px-4 py-1"
+      className="flex cursor-pointer items-center justify-between border-b px-4 py-1 hover:bg-muted"
     >
       <div className="flex items-center space-x-4">
         <h2 className="font-medium">{team.name}</h2>
-        <p className="text-subtle text-sm">{team.teamId}</p>
+        <p className="text-sm text-subtle">{team.teamId}</p>
       </div>
       <div className="flex items-center space-x-4">
         <Avatar imageSrc={team.user?.image} size="md" />
         <Button variant="icon" size={"icon"} color="minimal" className="">
-          <Icons.horizontalMore className="text-subtle h-4 w-4" />
+          <Icons.horizontalMore className="h-4 w-4 text-subtle" />
         </Button>
       </div>
     </Link>

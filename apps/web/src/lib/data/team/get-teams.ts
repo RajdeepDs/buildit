@@ -17,6 +17,8 @@ export const getTeams = async () => {
       where: eq(team.admin, user.id),
       with: {
         user: true,
+        issue: true,
+        workspace: true,
       },
     });
 

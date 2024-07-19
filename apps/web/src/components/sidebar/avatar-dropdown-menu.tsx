@@ -18,7 +18,7 @@ import type { TWorkspace } from "@/types";
 export default function AvatarDropdownMenu({
   workspace,
 }: {
-  workspace: TWorkspace;
+  workspace: Pick<TWorkspace, "name">;
 }) {
   const router = useRouter();
   const onclick = () => {
