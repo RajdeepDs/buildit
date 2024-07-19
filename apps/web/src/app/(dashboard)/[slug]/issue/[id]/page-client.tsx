@@ -51,9 +51,12 @@ export default function IssueClientPage() {
     return (
       <div className="h-full">
         <div className="h-full">
-          <nav className="border-b p-2">
+          <nav className="border-b p-2 px-3">
             <Breadcrumb>
               <BreadcrumbList>
+                <BreadcrumbItem>
+                  <Icons.home className="h-4 w-4 text-sub" />
+                </BreadcrumbItem>
                 <BreadcrumbItem
                   onClick={() => router.back()}
                   className="cursor-pointer"

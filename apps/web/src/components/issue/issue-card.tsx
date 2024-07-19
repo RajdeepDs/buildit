@@ -87,7 +87,7 @@ export default function IssueCard({
                   <FormControl>
                     <Input
                       {...field}
-                      className="border-none px-0 text-lg font-semibold shadow-none focus-visible:ring-0"
+                      className="border-none px-0 font-semibold text-lg shadow-none focus-visible:ring-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,7 +113,7 @@ export default function IssueCard({
           </div>
         </div>
         <div className="w-[250px] border-l p-2">
-          <h1 className="text-sm font-medium">Propertise</h1>
+          <h1 className="font-medium text-sm">Propertise</h1>
           <div className="mt-5 space-y-4">
             <FormField
               control={form.control}

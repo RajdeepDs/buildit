@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/utils/date";
 
 import {
   Avatar,
+  Badge,
   ContextMenu,
   ContextMenuContent,
   ContextMenuGroup,
@@ -31,6 +32,7 @@ type IssueItemProps = Pick<
   | "assigneeId"
   | "updatedAt"
   | "createdAt"
+  | "project"
 >;
 
 export default function IssueItem({ issue }: { issue: IssueItemProps }) {
@@ -80,6 +82,7 @@ export default function IssueItem({ issue }: { issue: IssueItemProps }) {
             <p className="text-sm text-surface">{issue.title}</p>
           </div>
           <div className="flex items-center gap-x-3">
+            {issue.project && <Badge size={"sm"}>{issue.project?.name}</Badge>}
             <span className="text-soft text-xs">{updatedAt}</span>
             <span className="text-soft text-xs">{createdAt}</span>
             {issue.assigneeId ? (
