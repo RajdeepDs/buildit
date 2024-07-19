@@ -44,7 +44,7 @@ export default function DashboardSidebar({
             New issue
           </Button>
         </CreateIssueModal>
-        <Button size={"icon"} color="secondary" className="bg-white">
+        <Button size={"icon"} color="secondary" className="hidden bg-white">
           <Icons.search className="h-4 w-4 text-soft" />
         </Button>
       </div>
