@@ -41,9 +41,9 @@ export default function IssueCard({
     mutationKey: ["updateIssue", { id: issue?.issueId }],
     mutationFn: (values: z.infer<typeof formSchema>) =>
       updateIssue({
+        issueId: issue?.issueId || "",
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
-        issueId: issue?.issueId || "",
       }),
     onSuccess: () => {
       toast.success("Issue updated successfully.");
@@ -54,7 +54,7 @@ export default function IssueCard({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
+    console.log("Submit", values);
   }
 
   return (
@@ -71,6 +71,12 @@ export default function IssueCard({
                     <Input
                       {...field}
                       className="border-none px-0 font-semibold text-lg shadow-none focus-visible:ring-0"
+                      onBlur={() => {
+                        form.trigger("title");
+                        if (form.formState.isValid) {
+                          onSubmit(form.getValues());
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -87,6 +93,12 @@ export default function IssueCard({
                       control={form.control}
                       name="description"
                       content={issue?.description as string}
+                      onBlur={() => {
+                        form.trigger("description");
+                        if (form.formState.isValid) {
+                          onSubmit(form.getValues());
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
