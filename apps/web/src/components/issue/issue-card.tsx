@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -37,6 +39,8 @@ export default function IssueCard({
     },
   });
 
+  const [hasChanges, setHasChanges] = useState(false);
+
   const mutation = useMutation({
     mutationKey: ["updateIssue", { id: issue?.issueId }],
     mutationFn: (values: z.infer<typeof formSchema>) =>
@@ -54,8 +58,22 @@ export default function IssueCard({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submit", values);
+    if (hasChanges) {
+      mutation.mutate(values);
+      setHasChanges(false);
+    }
   }
+
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      const hasChanged =
+        values.title !== issue?.title ||
+        JSON.stringify(values.description) !==
+          JSON.stringify(issue?.description);
+      setHasChanges(hasChanged);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, issue]);
 
   return (
     <Form {...form}>
