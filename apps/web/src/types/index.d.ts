@@ -9,16 +9,29 @@ export type TUser = {
   onboarding: boolean | null;
 };
 
+export type TWorkspace = {
+  id: string;
+  name: string;
+  slug: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  userId: string | null;
+  user?: TUser | null;
+  teams?: TTeam[] | null;
+};
+
 export type TTeam = {
   id: string;
   name: string;
   teamId: string;
+  issueCounter: number;
   createdAt: Date | null;
   updatedAt: Date | null;
-  admin: string | null;
+  admin: string;
   workspaceId: string | null;
-  user: TUser | null;
-  issues: TIssue[];
+  user?: TUser | null;
+  workspace?: TWorkspace | null;
+  issue?: TIssue[];
 };
 
 export type TProject = {
@@ -26,24 +39,11 @@ export type TProject = {
   name: string;
   createdAt: Date | null;
   updatedAt: Date | null;
-  admin: string | null;
-  teamId: string | null;
-  issues: TIssue[];
-  teams: TTeam[];
-  user: TUser | null;
+  admin: string;
+  teamId: string;
+  user?: TUser | null;
+  team?: TTeam | null;
 };
-
-export type TWorkspace =
-  | {
-      id: string;
-      name: string;
-      slug: string;
-      createdAt: Date | null;
-      updatedAt: Date | null;
-      issueCounter: number | null;
-      userId: string | null;
-    }
-  | undefined;
 
 export type TIssue = {
   id: string;
@@ -58,21 +58,26 @@ export type TIssue = {
   workspaceId: string | null;
   issueId: string;
   teamId: string | null;
-  reporter: TUser | null;
+  projectId: string | null;
+  reporter?: TUser | null;
+  assignee?: TUser | null;
+  workspace?: TWorkspace | null;
+  team?: TTeam | null;
+  project?: TProject | null;
 };
 
-export type TIssues = TIssue[];
+// export type TIssues = TIssue[];
 
-export type IssueProp = {
-  id: string;
-  title: string;
-  description: string | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
-  status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
-  priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
-  reporterId: string | null;
-  assigneeId: string | null;
-  workspaceId: string | null;
-  issueId: string;
-};
+// export type IssueProp = {
+//   id: string;
+//   title: string;
+//   description: string | null;
+//   createdAt: Date | null;
+//   updatedAt: Date | null;
+//   status: "backlog" | "todo" | "in progress" | "done" | "canceled" | null;
+//   priority: "low" | "medium" | "high" | "urgent" | "no priority" | null;
+//   reporterId: string | null;
+//   assigneeId: string | null;
+//   workspaceId: string | null;
+//   issueId: string;
+// };

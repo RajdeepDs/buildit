@@ -1,42 +1,31 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@buildit/ui";
 
-import { priorities, statuses } from "@/configs/issue-types";
 import { updateIssue } from "@/lib/actions/issue/update-issue";
 import type { TIssue } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.any(),
-  status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
-    message: "Invalid status",
-  }),
-  priority: z.enum(["urgent", "high", "medium", "low", "no priority"], {
-    message: "Invalid priority",
-  }),
 });
+
 export default function IssueCard({
   issue,
 }: {
@@ -47,20 +36,18 @@ export default function IssueCard({
     defaultValues: {
       title: issue?.title || "",
       description: issue?.description || "",
-      status: issue?.status || "backlog",
-      priority: issue?.priority || "no priority",
     },
   });
+
+  const [hasChanges, setHasChanges] = useState(false);
 
   const mutation = useMutation({
     mutationKey: ["updateIssue", { id: issue?.issueId }],
     mutationFn: (values: z.infer<typeof formSchema>) =>
       updateIssue({
+        issueId: issue?.issueId || "",
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
-        status: values.status,
-        priority: values.priority,
-        issueId: issue?.issueId || "",
       }),
     onSuccess: () => {
       toast.success("Issue updated successfully.");
@@ -71,8 +58,22 @@ export default function IssueCard({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
+    if (hasChanges) {
+      mutation.mutate(values);
+      setHasChanges(false);
+    }
   }
+
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      const hasChanged =
+        values.title !== issue?.title ||
+        JSON.stringify(values.description) !==
+          JSON.stringify(issue?.description);
+      setHasChanges(hasChanged);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, issue]);
 
   return (
     <Form {...form}>
@@ -87,7 +88,13 @@ export default function IssueCard({
                   <FormControl>
                     <Input
                       {...field}
-                      className="border-none px-0 text-lg font-semibold shadow-none focus-visible:ring-0"
+                      className="border-none px-0 font-semibold text-lg shadow-none focus-visible:ring-0"
+                      onBlur={() => {
+                        form.trigger("title");
+                        if (form.formState.isValid) {
+                          onSubmit(form.getValues());
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -104,6 +111,12 @@ export default function IssueCard({
                       control={form.control}
                       name="description"
                       content={issue?.description as string}
+                      onBlur={() => {
+                        form.trigger("description");
+                        if (form.formState.isValid) {
+                          onSubmit(form.getValues());
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,80 +124,6 @@ export default function IssueCard({
               )}
             />
           </div>
-        </div>
-        <div className="w-[250px] border-l p-2">
-          <h1 className="text-sm font-medium">Propertise</h1>
-          <div className="mt-5 space-y-4">
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Status" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {statuses.map((status) => (
-                        <SelectItem key={status.value} value={status.value}>
-                          {status.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Priority" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {priorities.map((priority) => (
-                        <SelectItem key={priority.value} value={priority.value}>
-                          {priority.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <div className="w-full cursor-pointer rounded-md p-2 px-2 hover:bg-gray-100">
-              {issue?.reporter && (
-                <div className="flex items-center gap-2">
-                  {issue?.reporter.image && (
-                    <Image
-                      src={issue?.reporter?.image}
-                      width={20}
-                      height={20}
-                      alt="avatar"
-                      className="rounded-full ring-2 ring-offset-1"
-                    />
-                  )}
-                  <span className="text-sm">{issue?.reporter?.name}</span>
-                </div>
-              )}
-            </div>
-          </div>
-          <Button type="submit" className="mt-5 w-full">
-            Update Issue
-          </Button>
         </div>
       </form>
     </Form>

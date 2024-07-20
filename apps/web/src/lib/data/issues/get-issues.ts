@@ -28,6 +28,10 @@ export const getIssues = async () => {
       where: eq(issue.workspaceId, workspaceId.workspaces[0]?.id),
       with: {
         reporter: true,
+        assignee: true,
+        workspace: true,
+        project: true,
+        team: true,
       },
     });
 
@@ -43,6 +47,10 @@ export const getIssueByIssueId = async ({ issueId }: { issueId: string }) => {
       where: eq(issue.issueId, issueId),
       with: {
         reporter: true,
+        assignee: true,
+        workspace: true,
+        project: true,
+        team: true,
       },
     });
     return issueDetails;

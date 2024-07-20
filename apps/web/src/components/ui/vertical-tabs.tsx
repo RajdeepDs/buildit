@@ -3,7 +3,7 @@ import { cn } from "@buildit/ui/utils";
 
 type VerticalTabsProps = {
   name: string;
-  href: string;
+  href?: string;
   pathname: string;
   icon?: string;
 };

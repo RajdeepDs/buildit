@@ -1,17 +1,16 @@
 import Link from "next/link";
-
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
+
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { priorities, statuses } from "@/configs/issue-types";
 import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { formatDate } from "@/lib/utils/date";
-import type { TIssue } from "@/types";
 
-import { getUserById } from "@/lib/data/user/get-user";
 import {
   Avatar,
+  Badge,
   ContextMenu,
   ContextMenuContent,
   ContextMenuGroup,
@@ -21,16 +20,24 @@ import {
 } from "@buildit/ui";
 import { Icons } from "@buildit/ui/icons";
 
-export default function IssueItem({ issue }: { issue: TIssue }) {
-  const updatedAt = issue?.updatedAt && formatDate(issue?.updatedAt);
-  const createdAt = issue?.createdAt && formatDate(issue?.createdAt);
+import type { TIssue } from "@/types";
 
-  const { data: assignee } = useQuery({
-    queryKey: ["assignee", { id: issue.assigneeId }],
-    queryFn: async () => {
-      return getUserById(issue.assigneeId || "");
-    },
-  });
+type IssueItemProps = Pick<
+  TIssue,
+  | "title"
+  | "issueId"
+  | "priority"
+  | "status"
+  | "assignee"
+  | "assigneeId"
+  | "updatedAt"
+  | "createdAt"
+  | "project"
+>;
+
+export default function IssueItem({ issue }: { issue: IssueItemProps }) {
+  const updatedAt = issue.updatedAt && formatDate(issue.updatedAt);
+  const createdAt = issue.createdAt && formatDate(issue.createdAt);
 
   const router = useRouter();
 
@@ -75,10 +82,11 @@ export default function IssueItem({ issue }: { issue: TIssue }) {
             <p className="text-sm text-surface">{issue.title}</p>
           </div>
           <div className="flex items-center gap-x-3">
+            {issue.project && <Badge size={"sm"}>{issue.project?.name}</Badge>}
             <span className="text-soft text-xs">{updatedAt}</span>
             <span className="text-soft text-xs">{createdAt}</span>
             {issue.assigneeId ? (
-              <Avatar imageSrc={assignee?.image} size="sm" />
+              <Avatar imageSrc={issue.assignee?.image} size="sm" />
             ) : (
               <Icons.userCircle2 className="h-5 w-5 text-soft" />
             )}

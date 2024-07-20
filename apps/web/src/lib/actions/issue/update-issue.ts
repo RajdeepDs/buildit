@@ -11,15 +11,11 @@ import { UpdateIssueSchema } from "@/schemas/issue";
 export const updateIssue = async ({
   title,
   description,
-  status,
-  priority,
   issueId,
 }: z.infer<typeof UpdateIssueSchema>) => {
   const validateFields = UpdateIssueSchema.parse({
     title,
     description,
-    status,
-    priority,
     issueId,
   });
 
@@ -36,7 +32,7 @@ export const updateIssue = async ({
   try {
     await db
       .update(issue)
-      .set({ title, description, status, priority, updatedAt: new Date() })
+      .set({ title, description, updatedAt: new Date() })
       .where(eq(issue.issueId, issueId));
     return { success: "Issue updated!" };
   } catch {

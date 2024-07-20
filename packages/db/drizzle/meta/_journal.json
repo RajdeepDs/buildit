@@ -22,6 +22,13 @@
       "when": 1721231895512,
       "tag": "0002_sweet_red_shift",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1721316082107,
+      "tag": "0003_organic_stardust",
+      "breakpoints": true
     }
   ]
 }

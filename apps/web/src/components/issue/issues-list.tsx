@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@buildit/ui";
 
 import { getIssues } from "@/lib/data/issues/get-issues";
-
-import type { TIssues } from "@/types";
-import { CreateIssueModal } from "../modals/create-issue-modal";
-
 import { Store } from "@/lib/store/my-issues-store";
+
+import { CreateIssueModal } from "../modals/create-issue-modal";
 import IssueItem from "./issue-item";
 import IssuesGroup from "./issues-group";
+
+import type { TIssue } from "@/types";
 
 export default function IssuesList({ store }: { store: Store }) {
   const { data: allIssues, error } = useQuery({
@@ -21,7 +21,7 @@ export default function IssuesList({ store }: { store: Store }) {
     refetchInterval: 4 * 1000,
   });
 
-  const [filteredIssues, setFilteredIssues] = useState<TIssues>([]);
+  const [filteredIssues, setFilteredIssues] = useState<TIssue[]>([]);
 
   const filteredStatus = store.filterByStatus;
   const filteredPriority = store.filterByPriority;

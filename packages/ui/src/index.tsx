@@ -22,3 +22,4 @@ export * from "./new/badge";
 export * from "./new/button";
 export * from "./new/combobox";
 export * from "./new/issue-modal";
+export * from "./new/project-modal";
