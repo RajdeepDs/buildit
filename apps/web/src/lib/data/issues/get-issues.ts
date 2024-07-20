@@ -47,6 +47,10 @@ export const getIssueByIssueId = async ({ issueId }: { issueId: string }) => {
       where: eq(issue.issueId, issueId),
       with: {
         reporter: true,
+        assignee: true,
+        workspace: true,
+        project: true,
+        team: true,
       },
     });
     return issueDetails;

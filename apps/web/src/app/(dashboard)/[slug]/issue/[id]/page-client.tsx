@@ -19,8 +19,11 @@ import {
 import { Icons } from "@buildit/ui/icons";
 
 import IssueCard from "@/components/issue/issue-card";
+import IssuePropertise from "@/components/issue/issue-propertise";
 import { deleteIssue } from "@/lib/actions/issue/delete-issue";
 import { getIssueByIssueId } from "@/lib/data/issues/get-issues";
+import { getProjects } from "@/lib/data/project/get-project";
+import { getTeams } from "@/lib/data/team/get-teams";
 
 export default function IssueClientPage() {
   const { slug, id } = useParams() as { slug: string; id: string };
@@ -30,6 +33,16 @@ export default function IssueClientPage() {
   const { data: issue, error } = useQuery({
     queryKey: ["issue", { id }],
     queryFn: async () => getIssueByIssueId({ issueId: id }),
+  });
+
+  const { data: projects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: async () => getProjects(),
+  });
+
+  const { data: teams } = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => getTeams(),
   });
 
   const mutation = useMutation({
@@ -49,8 +62,8 @@ export default function IssueClientPage() {
   if (error) return <div>Error: {error.message}</div>;
   if (issue)
     return (
-      <div className="h-full">
-        <div className="h-full">
+      <div className="flex h-full">
+        <div className="h-full flex-1">
           <nav className="border-b p-2 px-3">
             <Breadcrumb>
               <BreadcrumbList>
@@ -91,6 +104,10 @@ export default function IssueClientPage() {
             <IssueCard issue={issue} />
           </main>
         </div>
+        <aside className="w-[270px] border-l px-3">
+          <h1 className="p-2 font-medium text-sm text-strong">Propertise</h1>
+          <IssuePropertise issue={issue} projects={projects!} teams={teams!} />
+        </aside>
       </div>
     );
 }

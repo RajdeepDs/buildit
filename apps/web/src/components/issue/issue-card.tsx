@@ -2,41 +2,28 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { BlockEditor } from "@buildit/editor";
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@buildit/ui";
 
-import { priorities, statuses } from "@/configs/issue-types";
 import { updateIssue } from "@/lib/actions/issue/update-issue";
 import type { TIssue } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.any(),
-  status: z.enum(["backlog", "todo", "in progress", "done", "canceled"], {
-    message: "Invalid status",
-  }),
-  priority: z.enum(["urgent", "high", "medium", "low", "no priority"], {
-    message: "Invalid priority",
-  }),
 });
+
 export default function IssueCard({
   issue,
 }: {
@@ -47,8 +34,6 @@ export default function IssueCard({
     defaultValues: {
       title: issue?.title || "",
       description: issue?.description || "",
-      status: issue?.status || "backlog",
-      priority: issue?.priority || "no priority",
     },
   });
 
@@ -58,8 +43,6 @@ export default function IssueCard({
       updateIssue({
         title: values.title,
         description: JSON.parse(JSON.stringify(values.description)),
-        status: values.status,
-        priority: values.priority,
         issueId: issue?.issueId || "",
       }),
     onSuccess: () => {
@@ -111,80 +94,6 @@ export default function IssueCard({
               )}
             />
           </div>
-        </div>
-        <div className="w-[250px] border-l p-2">
-          <h1 className="font-medium text-sm">Propertise</h1>
-          <div className="mt-5 space-y-4">
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Status" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {statuses.map((status) => (
-                        <SelectItem key={status.value} value={status.value}>
-                          {status.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Priority" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {priorities.map((priority) => (
-                        <SelectItem key={priority.value} value={priority.value}>
-                          {priority.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <div className="w-full cursor-pointer rounded-md p-2 px-2 hover:bg-gray-100">
-              {issue?.reporter && (
-                <div className="flex items-center gap-2">
-                  {issue?.reporter.image && (
-                    <Image
-                      src={issue?.reporter?.image}
-                      width={20}
-                      height={20}
-                      alt="avatar"
-                      className="rounded-full ring-2 ring-offset-1"
-                    />
-                  )}
-                  <span className="text-sm">{issue?.reporter?.name}</span>
-                </div>
-              )}
-            </div>
-          </div>
-          <Button type="submit" className="mt-5 w-full">
-            Update Issue
-          </Button>
         </div>
       </form>
     </Form>

@@ -9,10 +9,18 @@ import { cn } from "../../lib/utils";
 
 export const ComboBoxTrigger = ({
   children,
-}: { children: React.ReactNode }) => {
+  className,
+}: { children: React.ReactNode; className?: string | undefined }) => {
   return (
     <Popover.Trigger asChild>
-      <button className="rounded border px-3 py-0.5 text-sm">{children}</button>
+      <button
+        className={cn(
+          "rounded border px-3 py-0.5 text-sm transition-colors duration-200 ease-in-out",
+          className,
+        )}
+      >
+        {children}
+      </button>
     </Popover.Trigger>
   );
 };
