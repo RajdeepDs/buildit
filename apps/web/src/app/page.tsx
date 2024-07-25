@@ -1,3 +1,4 @@
+import FeaturesSection from "@/components/marketing/features";
 import HeroSection from "@/components/marketing/hero";
 import JoinCommunity from "@/components/marketing/join-community";
 import NavBar from "@/components/marketing/nav";
@@ -27,6 +28,7 @@ export default async function Home() {
           seamlessly.
         </p>
       </section>
+      <FeaturesSection />
       <JoinCommunity />
       <section className="space-y-4 px-7 py-16 lg:flex lg:justify-between lg:py-32">
         <h1 className="font-cal text-2xl text-strong leading-12 lg:text-6xl">
