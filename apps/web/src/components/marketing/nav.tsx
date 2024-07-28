@@ -1,8 +1,11 @@
 import Image from "next/image";
 
+import { getSession } from "@/lib/data/get-session";
 import { Button } from "@buildit/ui";
 
-export default function NavBar(): JSX.Element {
+export default async function NavBar(): Promise<JSX.Element> {
+  const session = await getSession();
+
   return (
     <nav className="sticky top-4 z-50 flex items-center justify-between rounded-xl border border-soft bg-weak/60 p-3 backdrop-blur-xl md:p-4">
       <div className="flex items-center space-x-2">
@@ -15,7 +18,7 @@ export default function NavBar(): JSX.Element {
           className="text-sub hover:bg-soft"
           href={"/login"}
         >
-          Login
+          {session ? "Dashboard" : "Login"}
         </Button>
         <Button className="hidden ">Get BuildIt free</Button>
       </div>
