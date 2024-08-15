@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-soft;
+  }
+
+  body {
+    @apply bg-white text-strong font-sans;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+    font-family: 'Inter Variable', sans-serif;
+  }
+}

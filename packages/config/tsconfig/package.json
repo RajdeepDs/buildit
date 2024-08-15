@@ -1,0 +1,18 @@
+{
+  "name": "@buildit/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A package to share tsconfig presets around the workspace",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "type": "module",
+  "files": [
+    "./base.json",
+    "./next.json",
+    "./react.json",
+    "./build.json",
+    "./dom.json"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}

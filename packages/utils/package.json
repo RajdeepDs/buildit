@@ -1,0 +1,46 @@
+{
+  "name": "@buildit/utils",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Common utilities for BuildIt",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./filesystem": {
+      "types": "./dist/filesystem.d.ts",
+      "default": "./dist/filesystem.js"
+    },
+    "./url": {
+      "types": "./dist/url.d.ts",
+      "default": "./dist/url.js"
+    },
+    "./validations": {
+      "types": "./dist/validations/index.d.ts",
+      "default": "./dist/validations/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
+    },
+    "./types/configs": {
+      "types": "./dist/types/config.d.ts",
+      "default": "./dist/types/config.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "bun run rm -rf dist *.tsbuildinfo",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tsconfig": "workspace:^"
+  }
+}

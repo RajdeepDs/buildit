@@ -1,0 +1,3 @@
+{
+  "extends": ["@buildit/tsconfig/base.json"]
+}

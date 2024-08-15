@@ -1,0 +1,61 @@
+---
+import { Button } from '@buildit/ui/button'
+
+import BaseHead from '@/components/BaseHead.astro'
+import FeaturesSection from '@/components/features-section.astro'
+import HeroSection from '@/components/hero'
+import JoinCommunity from '@/components/join-community.astro'
+import Nav from '@/components/nav.astro'
+import PostHog from '@/components/posthog/PostHog.astro'
+import PoweredBy from '@/components/powered-by.astro'
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <BaseHead />
+    <PostHog />
+  </head>
+  <body>
+    <main class='mx-3 py-3 md:container md:mx-auto'>
+      <Nav client:load />
+      <HeroSection client:load />
+      <PoweredBy client:load />
+      <section
+        class='grid items-center justify-between space-y-4 px-7 py-16 md:py-32 lg:grid-cols-2 lg:flex-row'
+      >
+        <h1 class='font-cal text-4xl text-strong leading-12 md:text-7xl'>
+          Plan, <br class='hidden md:block' /> Execute &{' '}
+          <br class='hidden md:block' /> Deliver.
+        </h1>
+        <p class='font-bold text-soft text-xl tracking-wide md:text-4xl'>
+          Easier way to <span class='text-strong'>plan</span>, track, and manage
+          projects. Create your{' '}
+          <span class='text-strong'>issues</span> using one platform. Use one tool
+          to <span class='text-strong'>collaborate</span>, update progress, and
+          achieve <span class='text-strong'>goals</span>{' '}
+          seamlessly.
+        </p>
+      </section>
+      <FeaturesSection client:load />
+      <JoinCommunity client:load />
+      <section class='space-y-4 px-7 py-16 lg:flex lg:justify-between lg:py-32'>
+        <h1 class='font-cal text-2xl text-strong leading-12 lg:text-6xl'>
+          Join us Today! <br /> Get started with BuildIt.
+        </h1>
+        <div class='flex items-center space-x-4'>
+          <a href='/login'>
+            <Button color='secondary' className='md:h-14 md:px-6 md:text-lg'>
+              Login
+            </Button>
+          </a>
+          <a href='/signup'>
+            <Button className='md:h-14 md:px-6 md:text-lg'>
+              Get started free
+            </Button>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

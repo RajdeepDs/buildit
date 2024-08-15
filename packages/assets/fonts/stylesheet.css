@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Cal Sans';
+  src: url('./CalSans-SemiBold.woff2') format('woff');
+}
+
+:root {
+  --font-cal: 'Cal Sans';
+}
