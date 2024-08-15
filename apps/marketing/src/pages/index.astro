@@ -18,9 +18,9 @@ import PoweredBy from '@/components/powered-by.astro'
   </head>
   <body>
     <main class='mx-3 py-3 md:container md:mx-auto'>
-      <Nav client:load />
+      <Nav />
       <HeroSection client:load />
-      <PoweredBy client:load />
+      <PoweredBy />
       <section
         class='grid items-center justify-between space-y-4 px-7 py-16 md:py-32 lg:grid-cols-2 lg:flex-row'
       >
@@ -37,8 +37,8 @@ import PoweredBy from '@/components/powered-by.astro'
           seamlessly.
         </p>
       </section>
-      <FeaturesSection client:load />
-      <JoinCommunity client:load />
+      <FeaturesSection />
+      <JoinCommunity />
       <section class='space-y-4 px-7 py-16 lg:flex lg:justify-between lg:py-32'>
         <h1 class='font-cal text-2xl text-strong leading-12 lg:text-6xl'>
           Join us Today! <br /> Get started with BuildIt.

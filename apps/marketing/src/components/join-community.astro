@@ -1,5 +1,8 @@
 ---
 import { Image } from 'astro:assets'
+
+import github from '../../public/github.svg'
+import X from '../../public/X.svg'
 ---
 
 <section class='space-y-7 px-7 py-32'>
@@ -17,7 +20,7 @@ import { Image } from 'astro:assets'
       class='relative h-[140px] space-y-4 rounded-xl border border-soft bg-weak p-4'
     >
       <div class='flex items-center space-x-2'>
-        <Image src={'/github.svg'} width={30} height={30} alt='github' />
+        <Image src={github} width={30} height={30} alt='github' />
         <h1 class='font-semibold text-lg text-strong'>GitHub</h1>
       </div>
       <p class='font-medium text-soft text-xs md:text-sm'>
@@ -36,7 +39,7 @@ import { Image } from 'astro:assets'
       class='relative h-[140px] space-y-4 rounded-xl border border-soft bg-weak p-4'
     >
       <div class='flex items-center space-x-2'>
-        <Image src={'/X.svg'} width={20} height={20} alt='github' />
+        <Image src={X} width={20} height={20} alt='github' />
         <h1 class='font-semibold text-lg text-strong'>X/Twitter</h1>
       </div>
       <p class='font-medium text-soft text-xs md:text-sm'>
