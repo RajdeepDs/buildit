@@ -8,6 +8,7 @@ import type { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
+import { generateEmailVerificationCode } from '@buildit/auth/actions/email'
 import { signup } from '@buildit/auth/actions/signup'
 import { Button } from '@buildit/ui/button'
 import {
@@ -48,6 +49,17 @@ export default function SignUpForm(): JSX.Element {
           description:
             'Please verify your email to complete the sign-up process',
         })
+
+        if (success) {
+          await generateEmailVerificationCode(success, values.email)
+        } else {
+          toast({
+            title: "Couldn't generate email verification code!",
+            description: 'Please try again',
+          })
+        }
+        // TODO: Implement a resend email verification code feature
+
         redirect('/verify-email')
       }
       if (error) {
