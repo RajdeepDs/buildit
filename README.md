@@ -1,64 +1,47 @@
 <h1 align="center">BuildIt</h1>
 <p align="center" style="margin-top: 20px">
-    <p align="center">The Open Source Linear alternative
+    <p align="center">Empowering Product Development for Modern Teams
     <br/>
         <a href="https://www.buildit.codes"><strong>Learn more</strong></a> .
-        <a href="https://github.com/RajdeepDs/buildit/blob/main/README.md#local-development"><strong>Local Development</strong></a> .
         <a href="https://github.com/RajdeepDs/buildit/blob/main/CONTRIBUTING.md"><strong>Contributing Guide</strong></a>
     </p>
 </p>
 
 ## About this project
 
-BuildIt is an open-source collaborative project development, designed to empower teams of all sizes to achieve their goals. We believe effective communication and a flexible, user-friendly platform are crucial for successful project execution.
+BuildIt is a state-of-the-art product development tool designed to streamline the workflow of modern teams. Whether you are a small startup or a large enterprise, BuildIt provides the flexibility and functionality needed to manage your projects efficiently and effectively. Inspired by popular tools like Linear. As an open-source project, BuildIt offers transparency and community-driven innovation that proprietary tools can't match.
 
 Our vision is to create a powerful yet user-friendly project development tool that surpasses existing solutions. We are committed to providing a platform that fosters clear communication, efficient project execution, and a delightful user experience.
 
 ## Tech Stacks
 
-- [Typescript](https://www.typescriptlang.org/) - Language
-- [Next.js](https://nextjs.org/) - Framework
-- [Drizzle](https://orm.drizzle.team/) - ORM
-- [Tailwind](https://tailwindcss.com/) - CSS
-- [shadcn/ui](https://ui.shadcn.com/) - Component Library
-- [Auth.js](https://authjs.dev/) - Authentication
-- [Turso](https://turso.tech/) - Database
-- [Turborepo](https://turbo.build/repo) - Monorepo
-- [Vercel](https://vercel.com) - Hosting
+- [**Monorepo**](https://monorepo.tools/): BuildIt is a monorepo, giving you the ability to scale your project with ease.
+- [**TypeScript**](https://www.typescriptlang.org/): type-safety is a core principle of BuildIt.
+- [**Astrojs**](https://astro.build): for a clean slate to build your marketing website on top.
+- [**Next.js**](https://nextjs.org): Web application is included, giving you a solid foundation for your product.
+- [**Posthog**](https://posthog.com): for analytics and event tracking.
+- [**Sentry**](https://sentry.io): for error tracking and monitoring.
+- [**tRPC**](https://trpc.io) for a fully type-safe api.
+- [**Mintlify**](https://mintlify.com): for a clean, fast, and easy to use platform to document your project.
+- [**Turborepo**](https://turbo.build/repo): caching builds so you never have to run the same command twice.
+- [**Drizzle ORM**](https://orm.drizzle.team): providing a fully type-safe way to interact with your database.
+- [**Turso DB**](https://turso.tech): serverless database, with autoscaling, branching, and bottomless storage.
+- [**Uploadthing**](https://uploadthing.com/): for an easy, type-safe way of handling file uploads.
+- [**Unkey**](https://unkey.dev): for a fast way of rate-limiting the web app.
+- [**Playwright**](https://playwright.dev): for end-to-end testing of the applications.
+- [**Lucia auth**](https://lucia-auth.com): for authentication, giving you full flexibility and control over your user system.
+- [**Tailwind CSS**](https://tailwindcss.com): for styling, with [**Radix UI Colors**](https://www.radix-ui.com/colors) for automatic light/dark mode handling.
+- [**Shadcn UI**](https://ui.shadcn.com): full implementation in a dedicated package.
+- [**Storybook**](https://storybook.js.org): to develop, test and visualize your components in isolation.
+- [**Github Actions**](https://github.com/features/actions): for CI/CD, with automatic DB branching & code checks.
+- [**next-themes**](https://github.com/pacocoursey/next-themes): for easy light/dark mode handling in the web app.
+- [**Changesets**](https://github.com/changesets/changesets): for managing versioning and changelogs.
+- [**vite**](https://vitejs.dev): for bundling & storybook.
+- [**ts-reset**](https://github.com/total-typescript/ts-reset): for the apps, improving the types for common JavaScript APIs.
+- [**ESLint**](https://eslint.org/), [**Prettier**](https://prettier.io), [**Markdownlint**](https://github.com/DavidAnson/markdownlint), [**Cspell**](https://cspell.org), [**Husky**](https://github.com/typicode/husky), [**Lint-staged**](https://github.com/lint-staged/lint-staged) and [**Commitlint**](https://github.com/conventional-changelog/commitlint) for code quality.
+- **ESM Only**: because CJS should be left in the past.
 
-## Local Development
-
-### Requirements
-
-To run BuildIt locally, you need to have the following installed:
-
-- Node.js
-- Turso CLI (SQLite Database)
-- Pnpm (Package Manager)
-
-### Setup
-
-1. Fork this repository to your GitHub account.
-
-   After forking the repository, clone it to your local machine by using the following command:
-
-   ```bash
-   git clone https://github.com/<your-username>/buildit.git
-   ```
-
-2. Set up your `.env` file using the recommendations in the `.env.example` file. Alternatively, just run `cp .env.example .env` to get started.
-
-3. Install the dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-4. Run `pnpm dx` in the root directory to start the development server.
-
-5. Open a separate terminal and run `pnpm db:migrate` in the root directory to migrate the tables to the local database.
-
-6. Now you can access the application at `http://localhost:3000`.
+And much more!
 
 ## Contributing
 
@@ -66,7 +49,7 @@ We welcome contributions from the community. Please read our [Contributing Guide
 
 ## Repo Activity
 
-![Alt](https://repobeats.axiom.co/api/embed/78451f2019f8c597f0eee449ac52894758ec1001.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/78451f2019f8c597f0eee449ac52894758ec1001.svg 'Repobeats analytics image')
 
 ## License
 

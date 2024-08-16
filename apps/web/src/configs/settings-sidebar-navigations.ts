@@ -1,27 +1,27 @@
-type TTeam = {
-  teamId: string;
-  name: string;
-};
+interface TTeam {
+  teamId: string
+  name: string
+}
 
-export const getSettingsSidebar = (slug: string) => [
+export const getSettingsSidebar = () => [
   {
-    title: "User",
+    title: 'User',
     items: [
       {
-        title: "Profile",
-        href: `/${slug}/settings`,
+        title: 'Profile',
+        href: `/settings`,
       },
       {
-        title: "General",
-        href: `/${slug}/settings/general`,
+        title: 'General',
+        href: `/settings/general`,
       },
       {
-        title: "Members",
-        href: `/${slug}/settings/members`,
+        title: 'Members',
+        href: `/settings/members`,
       },
       // {
       //   title: "Appearance",
-      //   href: `/${slug}/settings/appearance`,
+      //   href: `/settings/appearance`,
       // },
     ],
   },
@@ -31,32 +31,32 @@ export const getSettingsSidebar = (slug: string) => [
   //   items: [
   //     {
   //       title: "Sessions",
-  //       href: `/${slug}/settings/sessions`,
+  //       href: `/settings/sessions`,
   //     },
   //   ],
   // },
-];
+]
 
-export const getSettingsTeamsNavigations = (slug: string, teams: TTeam[]) => [
+export const getSettingsTeamsNavigations = (teams: TTeam[]) => [
   {
-    title: "Teams",
-    icon: "users",
+    title: 'Teams',
+    icon: 'users',
     items: [
       ...teams.map((team) => ({
-        title: team?.name,
-        icon: "home",
+        title: team.name,
+        icon: 'home',
         button: false,
         subItems: [
           {
-            title: "General",
-            href: `/${slug}/settings/teams/${team.teamId}`,
+            title: 'General',
+            href: `/settings/teams/${team.teamId}`,
           },
           {
-            title: "Members",
-            href: `/${slug}/settings/teams/${team.teamId}/members`,
+            title: 'Members',
+            href: `/settings/teams/${team.teamId}/members`,
           },
         ],
       })),
     ],
   },
-];
+]

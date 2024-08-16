@@ -1,11 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
+import type { z } from 'zod'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+import { Button } from '@buildit/ui/button'
 import {
-  Button,
   Form,
   FormControl,
   FormDescription,
@@ -13,60 +12,56 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@buildit/ui";
+} from '@buildit/ui/form'
+import { Input } from '@buildit/ui/input'
+import { CreateTeamFormSchema } from '@buildit/utils/validations'
 
-import { createTeam } from "@/lib/actions/team/create-team";
-import type { MutationResult } from "@/lib/actions/types";
-import { CreateTeamFormSchema } from "@/schemas/getting-started";
+import { api } from '@/lib/trpc/react'
 
+/**
+ * The create team form component. This form is used to create a team. It is used in the onboarding process.
+ * @param props The props for the create team form component.
+ * @param props.nextStep The function to call when the form is submitted.
+ * @returns The create team form component.
+ */
 export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
   const form = useForm<z.infer<typeof CreateTeamFormSchema>>({
     resolver: zodResolver(CreateTeamFormSchema),
     defaultValues: {
-      teamName: "",
-      teamIdentifier: "",
+      teamName: '',
+      teamIdentifier: '',
     },
-  });
+  })
 
-  const mutation = useMutation({
-    mutationKey: ["createTeam"],
-    mutationFn: async (
-      values: z.infer<typeof CreateTeamFormSchema>,
-    ): Promise<MutationResult> => {
-      return createTeam({
-        teamName: values.teamName,
-        teamIdentifier: values.teamIdentifier,
-      });
-    },
+  const mutation = api.onboarding.create_team.useMutation({
     onSuccess: () => {
-      nextStep();
+      nextStep()
     },
-    onError: () => {
-      toast.error("Error creating team!");
-    },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof CreateTeamFormSchema>) => {
-    mutation.mutate(values);
-  };
+    mutation.mutate({
+      teamIdentifier: values.teamIdentifier,
+      teamName: values.teamName,
+    })
+  }
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
           <FormField
             control={form.control}
-            name="teamName"
+            name='teamName'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">Team name</FormLabel>
+                <FormLabel className='text-sub'>Team name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Acme Inc."
+                    placeholder='Acme Inc.'
                     required
                     {...field}
-                    className="bg-white"
+                    className='bg-white'
                   />
                 </FormControl>
                 <FormMessage />
@@ -75,17 +70,17 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
           />
           <FormField
             control={form.control}
-            name="teamIdentifier"
+            name='teamIdentifier'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">Team Identifier</FormLabel>
+                <FormLabel className='text-sub'>Team Identifier</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="ACME"
+                    placeholder='ACME'
                     required
                     maxLength={5}
                     {...field}
-                    className="bg-white uppercase"
+                    className='bg-white uppercase'
                   />
                 </FormControl>
                 <FormDescription>Will be used in issue IDs.</FormDescription>
@@ -95,8 +90,8 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
           />
 
           <Button
-            type="submit"
-            className="w-full"
+            type='submit'
+            className='w-full'
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Continue
@@ -104,5 +99,5 @@ export default function CreateTeamForm({ nextStep }: { nextStep: () => void }) {
         </form>
       </Form>
     </div>
-  );
+  )
 }

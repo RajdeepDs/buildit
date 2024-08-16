@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets'
+
+import Drizzle from '../../public/Drizzle.svg'
+import next from '../../public/next.svg'
+import Turso from '../../public/Turso.svg'
+import vercel from '../../public/vercel.svg'
+---
+
+<section
+  class='flex flex-col items-center space-y-4 py-36 md:space-y-6 md:py-40'
+>
+  <!-- Smaller Screens -->
+  <div class='flex items-center space-x-4 md:hidden md:space-x-16'>
+    <a href='https://vercel.com' target='_blank'>
+      <Image src={vercel} height={70} width={70} alt='vercel' />
+    </a>
+    <a href='https://nextjs.org/' target='_blank'>
+      <Image src={next} height={70} width={70} alt='next' />
+    </a>
+    <a href='https://turso.tech/' target='_blank'>
+      <Image src={Turso} height={70} width={70} alt='turso' />
+    </a>
+    <a href='https://orm.drizzle.team/' target='_blank'>
+      <Image src={Drizzle} height={70} width={70} alt='drizzle' />
+    </a>
+  </div>
+  <!-- Larger Screens -->
+  <div class='hidden items-center space-x-4 md:flex md:space-x-16'>
+    <a href='https://vercel.com' target='_blank'>
+      <Image src={vercel} height={120} width={120} alt='vercel' />
+    </a>
+    <a href='https://nextjs.org/' target='_blank'>
+      <Image src={next} height={120} width={120} alt='next' />
+    </a>
+    <a href='https://turso.tech/' target='_blank'>
+      <Image src={Turso} height={120} width={120} alt='turso' />
+    </a>
+    <a href='https://orm.drizzle.team/' target='_blank'>
+      <Image src={Drizzle} height={120} width={120} alt='drizzle' />
+    </a>
+  </div>
+  <p class='text-soft text-xs'>Powered by</p>
+</section>

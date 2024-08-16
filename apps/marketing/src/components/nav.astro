@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets'
+
+import { Button } from '@buildit/ui/button'
+
+import builditLogo from '../../public/buildit-logo.svg'
+---
+
+<nav
+  class='sticky top-4 z-50 flex items-center justify-between rounded-xl border border-soft bg-weak/60 p-3 backdrop-blur-xl md:p-4'
+>
+  <div class='flex items-center space-x-2'>
+    <Image src={builditLogo} alt='BuildIt logo' />
+    <h1 class='mt-1 font-cal text-xl'>BuildIt</h1>
+  </div>
+  <div class='flex items-center space-x-2'>
+    <Button variant={'ghost'} className='text-sub  hover:bg-soft'>
+      Login
+    </Button>
+    <Button className='hidden'>Get BuildIt free</Button>
+  </div>
+</nav>

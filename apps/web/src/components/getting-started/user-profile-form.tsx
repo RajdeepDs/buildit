@@ -1,85 +1,82 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
+import { useRouter } from 'next/navigation'
 
+import type { z } from 'zod'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+import { Button } from '@buildit/ui/button'
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  Textarea,
-} from "@buildit/ui";
+} from '@buildit/ui/form'
+import { Input } from '@buildit/ui/input'
+import { Textarea } from '@buildit/ui/textarea'
+import { useToast } from '@buildit/ui/toast'
+import { UserProfileFormSchema } from '@buildit/utils/validations'
 
-import { updateOnboarding } from "@/lib/actions/onboarding";
-import { updateProfile } from "@/lib/actions/settings/update-profile";
-import type { MutationResult } from "@/lib/actions/types";
-import { getWorkspaceSlug } from "@/lib/data/workspace/get-workspace-slug";
-import { UserProfileFormSchema } from "@/schemas/getting-started";
+import { api } from '@/lib/trpc/react'
 
+/**
+ * The user profile form component. This form is used to update the user's profile. It is used in the onboarding process.
+ * @returns The user profile form component.
+ */
 export default function UserProfileForm() {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof UserProfileFormSchema>>({
     resolver: zodResolver(UserProfileFormSchema),
     defaultValues: {
-      fullname: "",
-      username: "",
-      bio: "",
+      fullname: '',
+      username: '',
+      bio: '',
     },
-  });
-  const router = useRouter();
+  })
+  const router = useRouter()
 
-  const onboardingMutation = useMutation({
-    mutationKey: ["updateOnboarding"],
-    mutationFn: async () => updateOnboarding(),
+  const onboardingMutation = api.onboarding.update_onboarding.useMutation({
     onSuccess: () => {
-      toast.success("Thank you for completing your onboarding!");
+      toast({
+        title: 'Onboarding completed',
+        description: 'Thank you for completing your onboarding!',
+      })
     },
-  });
+  })
 
-  const mutation = useMutation({
-    mutationKey: ["updateUserProfile"],
-    mutationFn: async (
-      values: z.infer<typeof UserProfileFormSchema>,
-    ): Promise<MutationResult> => {
-      return updateProfile({
-        name: values.fullname,
-        username: values.username,
-        bio: values.bio || "",
-      });
+  const mutation = api.onboarding.update_user_profile.useMutation({
+    onSuccess: () => {
+      onboardingMutation.mutate()
+      router.push('/')
     },
-    onSuccess: async () => {
-      const workspaceSlug = await getWorkspaceSlug();
-      onboardingMutation.mutate();
-      router.push(`/${workspaceSlug}/my-issues`);
-    },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof UserProfileFormSchema>) => {
-    mutation.mutate(values);
-  };
+    mutation.mutate({
+      fullname: values.fullname,
+      username: values.username,
+      bio: values.bio,
+    })
+  }
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
           <FormField
             control={form.control}
-            name="fullname"
+            name='fullname'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">Full name</FormLabel>
+                <FormLabel className='text-sub'>Full name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="John Doe"
+                    placeholder='John Doe'
                     required
                     {...field}
-                    className="bg-white"
+                    className='bg-white'
                   />
                 </FormControl>
                 <FormMessage />
@@ -88,16 +85,16 @@ export default function UserProfileForm() {
           />
           <FormField
             control={form.control}
-            name="username"
+            name='username'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">User name</FormLabel>
+                <FormLabel className='text-sub'>User name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="johndoe"
+                    placeholder='johndoe'
                     required
                     {...field}
-                    className="bg-white"
+                    className='bg-white'
                   />
                 </FormControl>
                 <FormMessage />
@@ -106,15 +103,15 @@ export default function UserProfileForm() {
           />
           <FormField
             control={form.control}
-            name="bio"
+            name='bio'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">About</FormLabel>
+                <FormLabel className='text-sub'>About</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    className="bg-white"
-                    placeholder="Write something about yourself."
+                    className='bg-white'
+                    placeholder='Write something about yourself.'
                   />
                 </FormControl>
                 <FormMessage />
@@ -123,8 +120,8 @@ export default function UserProfileForm() {
           />
 
           <Button
-            type="submit"
-            className="w-full"
+            type='submit'
+            className='w-full'
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Submit
@@ -132,5 +129,5 @@ export default function UserProfileForm() {
         </form>
       </Form>
     </div>
-  );
+  )
 }

@@ -1,80 +1,78 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import slugify from "@sindresorhus/slugify";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import type { z } from 'zod'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import slugify from '@sindresorhus/slugify'
+import { useForm } from 'react-hook-form'
+
+import { Button } from '@buildit/ui/button'
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  InputWithContent,
-} from "@buildit/ui";
+} from '@buildit/ui/form'
+import { Input, InputWithContent } from '@buildit/ui/input'
+import { WorkspaceSetupFormSchema } from '@buildit/utils/validations'
 
-import type { MutationResult } from "@/lib/actions/types";
-import { createWorkspace } from "@/lib/actions/workspace/create-workspace";
-import { WorkspaceSetupFormSchema } from "@/schemas/getting-started";
+import { api } from '@/lib/trpc/react'
 
+/**
+ * The workspace setup form component. This form is used to create a workspace. It is used in the onboarding process.
+ * @param props The props for the workspace setup form component.
+ * @param props.nextStep The function to call when the form is submitted.
+ * @returns The workspace setup form component.
+ */
 export default function WorkspaceSetupForm({
   nextStep,
 }: {
-  nextStep: () => void;
+  nextStep: () => void
 }) {
   const form = useForm<z.infer<typeof WorkspaceSetupFormSchema>>({
     resolver: zodResolver(WorkspaceSetupFormSchema),
     defaultValues: {
-      workspaceName: "",
-      workspaceSlug: "",
+      workspaceName: '',
+      workspaceSlug: '',
     },
-  });
+  })
 
-  const mutation = useMutation({
-    mutationKey: ["createWorkspace"],
-    mutationFn: async (
-      values: z.infer<typeof WorkspaceSetupFormSchema>,
-    ): Promise<MutationResult> => {
-      return createWorkspace({
-        name: values.workspaceName,
-        slug: values.workspaceSlug,
-      });
-    },
+  const mutation = api.onboarding.workspace_setup.useMutation({
     onSuccess: () => {
-      nextStep();
+      nextStep()
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof WorkspaceSetupFormSchema>) => {
-    mutation.mutate(values);
-  };
+    mutation.mutate({
+      workspaceName: values.workspaceName,
+      workspaceSlug: values.workspaceSlug,
+    })
+  }
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
           <FormField
             control={form.control}
-            name="workspaceName"
+            name='workspaceName'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">Workspace name</FormLabel>
+                <FormLabel className='text-sub'>Workspace name</FormLabel>
                 <FormControl
-                  onChange={() =>
+                  onChange={() => {
                     form.setValue(
-                      "workspaceSlug",
-                      slugify(form.getValues("workspaceName")),
+                      'workspaceSlug',
+                      slugify(form.getValues('workspaceName')),
                     )
-                  }
+                  }}
                 >
                   <Input
-                    placeholder="Acme, Inc."
+                    placeholder='Acme, Inc.'
                     required
                     {...field}
-                    className="bg-white"
+                    className='bg-white'
                   />
                 </FormControl>
                 <FormMessage />
@@ -83,16 +81,16 @@ export default function WorkspaceSetupForm({
           />
           <FormField
             control={form.control}
-            name="workspaceSlug"
+            name='workspaceSlug'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sub">Workspace URL</FormLabel>
+                <FormLabel className='text-sub'>Workspace URL</FormLabel>
                 <FormControl>
                   <InputWithContent
-                    placeholder="acme"
+                    placeholder='acme'
                     required
-                    className="bg-white"
-                    content="buildit.codes"
+                    className='bg-white'
+                    content='buildit.codes'
                     {...field}
                   />
                 </FormControl>
@@ -101,8 +99,8 @@ export default function WorkspaceSetupForm({
             )}
           />
           <Button
-            type="submit"
-            className="w-full"
+            type='submit'
+            className='w-full'
             disabled={mutation.isPending || mutation.isSuccess}
           >
             Continue
@@ -110,5 +108,5 @@ export default function WorkspaceSetupForm({
         </form>
       </Form>
     </div>
-  );
+  )
 }

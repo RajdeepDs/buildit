@@ -1,40 +1,50 @@
 {
   "name": "@buildit/db",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "private": true,
+  "description": "A database package utilizing drizzle orm.",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "default": "./dist/schema/index.js"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "lint": "biome lint ./src",
-    "format": "biome format ./src",
-    "clean": "rm -rf .turbo node_modules",
-    "push": "drizzle-kit push",
-    "local": "turso dev --db-file local.db",
-    "studio": "drizzle-kit studio",
-    "migrate": "tsx src/migrate.ts",
-    "generate": "drizzle-kit generate"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "bun run rm -rf dist *.tsbuildinfo",
+    "db:check": "drizzle-kit check",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:drop": "drizzle-kit drop",
+    "db:pull": "drizzle-kit introspect",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:up": "drizzle-kit up",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@libsql/client": "^0.6.0",
-    "@t3-oss/env-core": "^0.9.2",
-    "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.30.8",
-    "drizzle-zod": "^0.5.1",
+    "@buildit/env": "workspace:^",
+    "@libsql/client": "^0.8.0",
+    "@neondatabase/serverless": "^0.9.4",
+    "drizzle-orm": "^0.32.0",
     "nanoid": "^5.0.7",
-    "uuid": "^9.0.1",
-    "zod": "^3.23.4"
+    "pg": "^8.12.0",
+    "postgres": "^3.4.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@buildit/eslint": "workspace:*",
     "@buildit/tsconfig": "workspace:*",
-    "@types/node": "^20",
-    "@types/uuid": "^9.0.8",
-    "drizzle-kit": "^0.21.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.7.2",
-    "typescript": "^5"
-  },
-  "browser": {
-    "crypto": false
+    "drizzle-kit": "^0.23.1"
   }
 }

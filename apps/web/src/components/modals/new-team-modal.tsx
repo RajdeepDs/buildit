@@ -1,25 +1,28 @@
-"use client";
+'use client'
 
+import React from 'react'
+
+import { Button } from '@buildit/ui/button'
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@buildit/ui";
+} from '@buildit/ui/dialog'
 
-import NewTeamForm from "../forms/new-team-form";
-import React from "react";
+import NewTeamForm from '@/components/forms/new-team-form'
+import { Icons } from '@/components/ui/icons'
 
 export const NewTeamModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button StartIcon="plus" size={"sm"}>
+        <Button size={'sm'}>
+          <Icons.plus className='h-4 w-4 mr-2 text-white' />
           New team
         </Button>
       </DialogTrigger>
@@ -31,5 +34,5 @@ export const NewTeamModal = () => {
         <NewTeamForm onOpenChange={setOpen} />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

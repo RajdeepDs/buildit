@@ -1,30 +1,36 @@
-import { integer, sqliteTable } from "drizzle-orm/sqlite-core";
-import { nanoid } from "nanoid";
-import { text } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
-import { users } from "../auth";
-import { team } from "../team";
+import { relations, sql } from 'drizzle-orm'
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { nanoid } from 'nanoid'
 
-export const project = sqliteTable("project", {
-  id: text("id")
+import { userTable } from '../auth'
+import { teamTable } from '../team'
+
+export const projectTable = sqliteTable('project', {
+  id: text('id')
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  name: text("name").notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(
-    sql`(CURRENT_TIMESTAMP)`
+  name: text('name').notNull(),
+  createdAt: integer('createdAt', { mode: 'timestamp_ms' }).default(
+    sql`(CURRENT_TIMESTAMP)`,
   ),
-  updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).default(
-    sql`(CURRENT_TIMESTAMP)`
+  updatedAt: integer('updatedAt', { mode: 'timestamp_ms' }).default(
+    sql`(CURRENT_TIMESTAMP)`,
   ),
-  admin: text("admin")
+  admin: text('admin')
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  teamId: text("teamId")
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+  teamId: text('teamId')
     .notNull()
-    .references(() => team.id, { onDelete: "cascade" }),
-});
+    .references(() => teamTable.id, { onDelete: 'cascade' }),
+})
 
-export const projectRelations = relations(project, ({ one }) => ({
-  user: one(users, { fields: [project.admin], references: [users.id] }),
-  team: one(team, { fields: [project.teamId], references: [team.id] }),
-}));
+export const projectRelations = relations(projectTable, ({ one }) => ({
+  user: one(userTable, {
+    fields: [projectTable.admin],
+    references: [userTable.id],
+  }),
+  team: one(teamTable, {
+    fields: [projectTable.teamId],
+    references: [teamTable.id],
+  }),
+}))

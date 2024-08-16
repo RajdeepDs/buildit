@@ -1,0 +1,36 @@
+{
+  "name": "@buildit/vite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vite presets for the workspace",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "bun run rm -rf dist *.tsbuildinfo",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "devDependencies": {
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tsconfig": "workspace:^",
+    "globby": "^14.0.2",
+    "rollup-plugin-preserve-directives": "^0.4.0",
+    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-external": "^4.3.1"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "@buildit/marketing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marketing website for BuildIt",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "type": "module",
+  "scripts": {
+    "build": "astro check && astro build",
+    "clean": "bun run rm -rf .astro dist *.tsbuildinfo playwright-report test-results",
+    "dev": "astro dev",
+    "lint": "eslint .  --max-warnings 0",
+    "start": "astro preview",
+    "sync": "astro sync",
+    "test:e2e": "playwright test",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.7",
+    "@buildit/assets": "workspace:^",
+    "@buildit/env": "workspace:^",
+    "@buildit/ui": "workspace:^",
+    "@fontsource-variable/inter": "^5.0.20",
+    "@t3-oss/env-core": "^0.10.1",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "astro": "^4.11.5",
+    "posthog-js": "^1.148.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.8.2",
+    "@astrojs/mdx": "^3.1.2",
+    "@astrojs/react": "^3.6.0",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.0",
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tailwind": "workspace:^",
+    "@buildit/tsconfig": "workspace:^",
+    "@playwright/test": "^1.45.2",
+    "@sentry/astro": "^8.18.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "dotenv": "^16.4.5",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.6"
+  }
+}

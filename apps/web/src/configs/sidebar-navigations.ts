@@ -1,64 +1,39 @@
-export const getNavigations = (slug: string) => {
+export const getNavigations = () => {
   return [
     {
-      name: "My issues",
-      icon: "issues",
-      href: `/${slug}/my-issues`,
+      name: 'My issues',
+      icon: 'issues',
+      href: `/`,
     },
     {
-      name: "Projects",
-      icon: "hexagon",
-      href: `/${slug}/projects`,
+      name: 'Projects',
+      icon: 'hexagon',
+      href: `/projects`,
     },
     {
-      name: "Teams",
-      icon: "team",
-      href: `/${slug}/teams`,
+      name: 'Teams',
+      icon: 'team',
+      href: `/teams`,
     },
-  ];
-};
+  ]
+}
 
-export const getTeamsNavigations = (slug: string, teamId: string) => {
+export const getTeamsNavigations = (teamId: string) => {
   return [
     {
-      name: "Active issues",
-      icon: "issues",
-      href: `/${slug}/team/${teamId}/active`,
+      name: 'Active issues',
+      icon: 'issues',
+      href: `/team/${teamId}/active`,
     },
     {
-      name: "Backlog issues",
-      icon: "backlog",
-      href: `/${slug}/team/${teamId}/backlog`,
+      name: 'Backlog issues',
+      icon: 'backlog',
+      href: `/team/${teamId}/backlog`,
     },
     {
-      name: "Projects",
-      icon: "hexagon",
-      href: `/${slug}/team/${teamId}/projects`,
+      name: 'Projects',
+      icon: 'hexagon',
+      href: `/team/${teamId}/projects`,
     },
-  ];
-};
-
-export const getFooterNavigations = (slug: string) => {
-  return [
-    {
-      name: "Invite people",
-      icon: "plus",
-      href: "/invite",
-    },
-    {
-      name: "Settings",
-      icon: "settings",
-      href: `/${slug}/settings`,
-    },
-    {
-      name: "Github",
-      icon: "github",
-      href: "https://github.com/RajdeepDs/buildit",
-    },
-    {
-      name: "Documentations",
-      icon: "book",
-      href: "",
-    },
-  ];
-};
+  ]
+}

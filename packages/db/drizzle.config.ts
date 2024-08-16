@@ -1,17 +1,14 @@
-import "dotenv/config";
+import type { Config } from 'drizzle-kit'
 
-import type { Config } from "drizzle-kit";
-
-import { env } from "./env";
+import { env } from '@buildit/env/web/db'
 
 export default {
-  schema: "./src/schema/index.ts",
-  out: "./drizzle",
-  dialect: "sqlite",
+  dialect: 'sqlite',
+  schema: './src/schema/index.ts',
+  out: './drizzle',
   dbCredentials: {
     url: env.DATABASE_URL,
     authToken: env.DATABASE_AUTH_TOKEN,
   },
-  driver: "turso",
-  strict: true,
-} satisfies Config;
+  driver: 'turso',
+} satisfies Config

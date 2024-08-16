@@ -1,8 +1,6 @@
 {
-  "extends": "@buildit/tsconfig/base.json",
   "compilerOptions": {
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "jsx": "react"
   },
-  "include": ["src", "*.ts"],
-  "exclude": ["node_modules"]
+  "extends": ["@buildit/tsconfig/dom.json"]
 }

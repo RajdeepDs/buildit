@@ -1,57 +1,57 @@
-import type { Priority, Status } from "@/types/config";
+import type { Priority, Status } from '@buildit/utils/types/configs'
 
 export const statuses: Status[] = [
   {
-    value: "backlog",
-    label: "Backlog",
-    icon: "backlog",
+    value: 'backlog',
+    label: 'Backlog',
+    icon: 'backlog',
   },
   {
-    value: "todo",
-    label: "Todo",
-    icon: "todo",
+    value: 'todo',
+    label: 'Todo',
+    icon: 'todo',
   },
   {
-    value: "in progress",
-    label: "In Progress",
-    icon: "inProgress",
+    value: 'in progress',
+    label: 'In Progress',
+    icon: 'inProgress',
   },
   {
-    value: "done",
-    label: "Done",
-    icon: "done",
+    value: 'done',
+    label: 'Done',
+    icon: 'done',
   },
   {
-    value: "canceled",
-    label: "Canceled",
-    icon: "canceled",
+    value: 'canceled',
+    label: 'Canceled',
+    icon: 'canceled',
   },
-];
+]
 
 export const priorities: Priority[] = [
   {
-    value: "no priority",
-    label: "No Priority",
-    icon: "minus",
+    value: 'no priority',
+    label: 'No Priority',
+    icon: 'minus',
   },
   {
-    value: "urgent",
-    label: "Urgent",
-    icon: "triangleAlert",
+    value: 'urgent',
+    label: 'Urgent',
+    icon: 'triangleAlert',
   },
   {
-    value: "high",
-    label: "High",
-    icon: "signalHigh",
+    value: 'high',
+    label: 'High',
+    icon: 'signalHigh',
   },
   {
-    value: "medium",
-    label: "Medium",
-    icon: "signalMedium",
+    value: 'medium',
+    label: 'Medium',
+    icon: 'signalMedium',
   },
   {
-    value: "low",
-    label: "Low",
-    icon: "signalLow",
+    value: 'low',
+    label: 'Low',
+    icon: 'signalLow',
   },
-];
+]

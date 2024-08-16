@@ -1,33 +1,12 @@
 {
-  "version": "6",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
       "version": "6",
-      "when": 1720336814944,
-      "tag": "0000_quiet_groot",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1721231465889,
-      "tag": "0001_luxuriant_susan_delgado",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1721231895512,
-      "tag": "0002_sweet_red_shift",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1721316082107,
-      "tag": "0003_organic_stardust",
+      "when": 1723307365205,
+      "tag": "0000_heavy_betty_brant",
       "breakpoints": true
     }
   ]

@@ -1,60 +1,105 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
-  "ui": "tui",
+  "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "VERCEL_URL",
+    "NODE_ENV",
+    "CI",
+    "SKIP_ENV_VALIDATION",
+    "PORT"
+  ],
   "tasks": {
-    "topo": {
-      "dependsOn": ["^topo"]
-    },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "next-env.d.ts",
-        ".output/**",
-        ".vercel/output/**"
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!CHANGELOG.md",
+        "!eslint.config.js",
+        "!playwright.config.ts",
+        "!e2e/**",
+        "!.env.example",
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ],
+      "outputs": ["dist/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^build", "build"],
+      "outputs": ["playwright-report/**", "test-results/**"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!CHANGELOG.md",
+        "!eslint.config.js",
+        "!.env.example",
+        ".env.test.local",
+        ".env.local",
+        ".env.test",
+        ".env"
       ]
     },
-    "dev": {
-      "persistent": true,
-      "cache": false
-    },
     "lint": {
-      "dependsOn": ["^topo"]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!CHANGELOG.md"]
     },
-    "format": {
-      "dependsOn": ["^topo"]
+    "//#lint": {
+      "inputs": [".commitlintrc.ts", "*.ts", "*.js", "tsconfig.json"]
     },
-    "lint:fix": {
-      "dependsOn": ["^topo"]
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!CHANGELOG.md"],
+      "outputs": ["*.tsbuildinfo"]
     },
-    "clean": {
-      "cache": false
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env.development.local",
+        ".env.local",
+        ".env.development",
+        ".env"
+      ]
     },
-    "@buildit/db#local": {
-      "cache": false
+    "start": {
+      "dependsOn": ["^build", "build"],
+      "cache": false,
+      "persistent": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ]
     },
-    "db:local": {
-      "dependsOn": ["@buildit/db#local"],
-      "cache": false
+    "db:migrate": {
+      "dependsOn": ["db:generate"],
+      "passThroughEnv": ["DATABASE_URL"],
+      "inputs": ["drizzle/**"]
     },
-    "@buildit/web#dev": {
-      "cache": false
+    "db:generate": {
+      "passThroughEnv": ["DATABASE_URL"],
+      "inputs": ["src/schema/**", "drizzle.config.ts"],
+      "outputs": ["drizzle/**"]
     },
-    "web": {
-      "dependsOn": ["@buildit/web#dev"],
-      "cache": false
+    "db:studio": {
+      "cache": false,
+      "persistent": true
     },
-    "dx": {
-      "dependsOn": ["db:local", "web"],
-      "cache": false
-    }
-  },
-  "globalEnv": [
-    "DATABASE_URL",
-    "DATABASE_AUTH_TOKEN",
-    "AUTH_SECRET",
-    "GITHUB_CLIENT_ID",
-    "GITHUB_CLIENT_SECRET"
-  ]
+    "db:check": { "cache": false },
+    "db:migrate:drop": { "cache": false },
+    "db:pull": { "cache": false },
+    "db:push": { "cache": false },
+    "db:up": { "cache": false },
+    "clean": { "cache": false },
+    "//#lint:spell": {
+      "outputs": [".cspellcache"]
+    },
+    "//#lint:md": {
+      "inputs": ["**/*.md"]
+    },
+    "sync": { "cache": false }
+  }
 }

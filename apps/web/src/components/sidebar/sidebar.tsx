@@ -1,44 +1,38 @@
-"use client";
+'use client'
 
-import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname } from 'next/navigation'
 
-import { getTeams } from "@/lib/data/team/get-teams";
-import { getUser } from "@/lib/data/user/get-user";
-import { getWorkspace } from "@/lib/data/workspace/get-workspace";
-import DashboardSidebar from "./dashboard-sidebar";
-import SettingsSidebar from "./settings-sidebar";
+import DashboardSidebar from '@/components/sidebar/dashboard-sidebar'
+import { api } from '@/lib/trpc/react'
 
-export default function Sidebar({ slug }: { slug: string }): JSX.Element {
-  const pathname = usePathname();
+import SettingsSidebar from './settings-sidebar'
 
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => getUser(),
-  });
+/**
+ * The sidebar component. This is where we will have the sidebar of the application.
+ * @returns The sidebar component.
+ */
+export default function Sidebar(): JSX.Element {
+  const pathname = usePathname()
 
-  const { data: workspace } = useQuery({
-    queryKey: ["workspace", { slug }],
-    queryFn: async () => getWorkspace({ workspaceSlug: slug! }),
-  });
+  const [{ data: user }, { data: workspace }, { data: teams }] = api.useQueries(
+    (query) => [
+      query.user.get_user(),
+      query.workspace.get_workspace(),
+      query.team.get_teams(),
+    ],
+  )
 
-  const { data: teams } = useQuery({
-    queryKey: ["teams"],
-    queryFn: async () => getTeams(),
-  });
+  if (!user || !workspace || !teams) {
+    return <></>
+  }
 
   return (
-    <aside className="w-[240px] bg-weak">
-      {!pathname.startsWith(`/${slug}/settings`) ? (
-        <DashboardSidebar
-          slug={slug}
-          user={user!}
-          teams={teams!}
-          workspace={workspace!}
-        />
+    <aside className='w-[240px] bg-weak'>
+      {!pathname.startsWith(`/settings`) ? (
+        <DashboardSidebar user={user} workspace={workspace} teams={teams} />
       ) : (
-        <SettingsSidebar slug={slug} workspace={workspace!} user={user!} />
+        <SettingsSidebar user={user} teams={teams} />
       )}
     </aside>
-  );
+  )
 }

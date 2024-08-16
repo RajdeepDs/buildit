@@ -1,11 +1,11 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-import { users } from "./user";
+import { userTable } from './user'
 
-export const sessions = sqliteTable("session", {
-  sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: text("userId")
+export const sessionTable = sqliteTable('session', {
+  id: text('id').notNull().primaryKey(),
+  userId: text('user_id')
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-});
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+  expiresAt: integer('expires_at').notNull(),
+})

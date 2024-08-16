@@ -1,31 +1,73 @@
 {
   "name": "@buildit/auth",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Auth package for BuildIt",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./env": "./env.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./providers/github": {
+      "types": "./dist/providers/github.d.ts",
+      "default": "./dist/providers/github.js"
+    },
+    "./providers/google": {
+      "types": "./dist/providers/google.d.ts",
+      "default": "./dist/providers/google.js"
+    },
+    "./actions/logout": {
+      "types": "./dist/actions/logout.d.ts",
+      "default": "./dist/actions/logout.js"
+    },
+    "./actions/signup": {
+      "types": "./dist/actions/signup.d.ts",
+      "default": "./dist/actions/signup.js"
+    },
+    "./actions/login": {
+      "types": "./dist/actions/login.d.ts",
+      "default": "./dist/actions/login.js"
+    },
+    "./actions/verifyEmail": {
+      "types": "./dist/actions/verify-email.d.ts",
+      "default": "./dist/actions/verify-email.js"
+    }
   },
-  "license": "MIT",
   "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "lint": "biome lint ./src",
-    "format": "biome format ./src",
-    "typecheck": "tsc --noEmit"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "bun run rm -rf dist *.tsbuildinfo",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@buildit/db": "workspace:*",
-    "@auth/drizzle-adapter": "^0.8.1",
-    "@t3-oss/env-nextjs": "^0.9.2",
-    "next": "14.2.3",
-    "next-auth": "5.0.0-beta.16",
-    "react": "^18",
-    "react-dom": "18",
-    "zod": "^3.23.4"
+    "@buildit/db": "workspace:^",
+    "@buildit/env": "workspace:^",
+    "@buildit/utils": "workspace:^",
+    "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@react-email/components": "^0.0.22",
+    "@react-email/render": "^0.0.17",
+    "arctic": "^1.9.2",
+    "lucia": "^3.2.0",
+    "next": "14.2.5",
+    "oslo": "^1.2.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^3.5.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@buildit/tsconfig": "workspace:*",
-    "typescript": "^5"
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tsconfig": "workspace:^",
+    "@types/bun": "^1.1.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "@buildit/docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Documentation website for BuildIt using Mintlify",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "type": "module",
+  "scripts": {
+    "dev": "mintlify dev --port=3002"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "mintlify": "^4.0.185"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

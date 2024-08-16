@@ -1,37 +1,40 @@
-import { relations, sql } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { nanoid } from "nanoid";
+import { relations, sql } from 'drizzle-orm'
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { nanoid } from 'nanoid'
 
-import { users } from "../auth/user";
-import { issue } from "../issue";
-import { workspaces } from "../workspace";
+import { userTable } from '../auth/user'
+import { issueTable } from '../issue'
+import { workspaceTable } from '../workspace'
 
-export const team = sqliteTable("team", {
-  id: text("id")
+export const teamTable = sqliteTable('team', {
+  id: text('id')
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  name: text("name").notNull(),
-  teamId: text("teamId").notNull().unique(),
-  issueCounter: integer("issueCounter").default(0).notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp_ms" }).default(
+  name: text('name').notNull(),
+  teamId: text('teamId').notNull().unique(),
+  issueCounter: integer('issueCounter').default(0).notNull(),
+  createdAt: integer('createdAt', { mode: 'timestamp_ms' }).default(
     sql`(CURRENT_TIMESTAMP)`,
   ),
-  updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).default(
+  updatedAt: integer('updatedAt', { mode: 'timestamp_ms' }).default(
     sql`(CURRENT_TIMESTAMP)`,
   ),
-  admin: text("admin")
+  admin: text('admin')
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  workspaceId: text("workspaceId").references(() => workspaces.id, {
-    onDelete: "cascade",
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+  workspaceId: text('workspaceId').references(() => workspaceTable.id, {
+    onDelete: 'cascade',
   }),
-});
+})
 
-export const teamRelations = relations(team, ({ one, many }) => ({
-  user: one(users, { fields: [team.admin], references: [users.id] }),
-  workspace: one(workspaces, {
-    fields: [team.workspaceId],
-    references: [workspaces.id],
+export const teamRelations = relations(teamTable, ({ one, many }) => ({
+  user: one(userTable, {
+    fields: [teamTable.admin],
+    references: [userTable.id],
   }),
-  issue: many(issue),
-}));
+  workspace: one(workspaceTable, {
+    fields: [teamTable.workspaceId],
+    references: [workspaceTable.id],
+  }),
+  issue: many(issueTable),
+}))

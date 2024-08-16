@@ -1,9 +1,11 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
-import sharedConfig from "@buildit/tailwind-config/tailwind.config";
+import { BuildItTailwindPreset } from '@buildit/tailwind'
 
-const config: Pick<Config, "presets"> = {
-  presets: [sharedConfig],
-};
+const config: Config = {
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  darkMode: 'class',
+  presets: [BuildItTailwindPreset],
+}
 
-export default config;
+export default config

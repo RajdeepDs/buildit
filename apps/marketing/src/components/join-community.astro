@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets'
+
+import github from '../../public/github.svg'
+import X from '../../public/X.svg'
+---
+
+<section class='space-y-7 px-7 py-32'>
+  <div class='flex flex-col items-center space-y-7 text-center'>
+    <h1 class='font-cal text-2xl text-strong md:text-5xl'>
+      Join our community
+    </h1>
+    <p class='font-medium text-sm text-soft lg:text-lg'>
+      Stay connected with BuildIt's latest updates and contributions.
+      <br class='hidden md:block' /> Explore our GitHub repo and follow us on Twitter.
+    </p>
+  </div>
+  <div class='grid gap-4 lg:grid-cols-2'>
+    <div
+      class='relative h-[140px] space-y-4 rounded-xl border border-soft bg-weak p-4'
+    >
+      <div class='flex items-center space-x-2'>
+        <Image src={github} width={30} height={30} alt='github' />
+        <h1 class='font-semibold text-lg text-strong'>GitHub</h1>
+      </div>
+      <p class='font-medium text-soft text-xs md:text-sm'>
+        Our source code is available on GitHub - feel free to contribute to it
+      </p>
+      <a
+        href={'https://github.com/RajdeepDs/buildit'}
+        target='_blank'
+        class='absolute bottom-4 flex items-center font-semibold text-sm text-sub'
+      >
+        Explore
+        <!-- <Icons.arrowRight class='ml-1 h-4 w-4' /> -->
+      </a>
+    </div>
+    <div
+      class='relative h-[140px] space-y-4 rounded-xl border border-soft bg-weak p-4'
+    >
+      <div class='flex items-center space-x-2'>
+        <Image src={X} width={20} height={20} alt='github' />
+        <h1 class='font-semibold text-lg text-strong'>X/Twitter</h1>
+      </div>
+      <p class='font-medium text-soft text-xs md:text-sm'>
+        Keep up to date with the latest releases, features and improvements.
+      </p>
+      <a
+        href={'https://twitter.com/Rajdeep__ds'}
+        target='_blank'
+        class='absolute bottom-4 flex items-center font-semibold text-sm text-sub'
+      >
+        Follow
+        <!-- <Icons.arrowRight class='ml-1 h-4 w-4' /> -->
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,13 @@
+{
+  "name": "@buildit/assets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BuildIt's assets package",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "files": [
+    "**/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}

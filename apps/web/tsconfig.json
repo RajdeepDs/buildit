@@ -1,16 +1,30 @@
 {
-  "extends": "@buildit/tsconfig/base.json",
+  "extends": ["@buildit/tsconfig/next.json"],
   "compilerOptions": {
-    "lib": ["es2022", "dom", "dom.iterable"],
-    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    },
-    "plugins": [{ "name": "next" }],
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-    "module": "esnext"
+      "@/*": ["src/*"]
+    }
   },
-  "include": [".", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.ctsx",
+    "**/*.mts",
+    "**/*.mtsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.cjs",
+    "**/*.cjsx",
+    "**/*.mjs",
+    "**/*.mjsx"
+  ]
 }
