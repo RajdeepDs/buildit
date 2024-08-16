@@ -5,15 +5,12 @@ import { cookies } from 'next/headers'
 import type { ActionResponse } from '../lib/types'
 
 import { generateId, Scrypt } from 'lucia'
-import { createDate, TimeSpan } from 'oslo'
-import { alphabet, generateRandomString } from 'oslo/crypto'
 import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
-import { emailVerificationCodesTable, userTable } from '@buildit/db/schema'
+import { userTable } from '@buildit/db/schema'
 import { SignUpSchema } from '@buildit/utils/validations'
 
-import { EmailTemplate, sendEmail } from '../lib/email'
 import { lucia } from '../lucia'
 
 /**
@@ -51,10 +48,10 @@ export async function signup(
       hashedPassword,
     })
 
-    const verificationCode = await generateEmailVerificationCode(userId, email)
-    await sendEmail(email, EmailTemplate.EmailVerification, {
-      code: verificationCode,
-    })
+    // const verificationCode = await generateEmailVerificationCode(userId, email)
+    // await sendEmail(email, EmailTemplate.EmailVerification, {
+    //   code: verificationCode,
+    // })
 
     const session = await lucia.createSession(userId, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
@@ -82,20 +79,20 @@ export async function signup(
  * @param email The user's email.
  * @returns The generated code.
  */
-async function generateEmailVerificationCode(
-  userId: string,
-  email: string,
-): Promise<string> {
-  await db
-    .delete(emailVerificationCodesTable)
-    .where(eq(emailVerificationCodesTable.userId, userId))
-  const code = generateRandomString(8, alphabet('0-9'))
+// async function generateEmailVerificationCode(
+//   userId: string,
+//   email: string,
+// ): Promise<string> {
+//   await db
+//     .delete(emailVerificationCodesTable)
+//     .where(eq(emailVerificationCodesTable.userId, userId))
+//   const code = generateRandomString(8, alphabet('0-9'))
 
-  await db.insert(emailVerificationCodesTable).values({
-    userId,
-    email,
-    code,
-    expires: createDate(new TimeSpan(10, 'm')), // 10 minutes
-  })
-  return code
-}
+//   await db.insert(emailVerificationCodesTable).values({
+//     userId,
+//     email,
+//     code,
+//     expires: createDate(new TimeSpan(10, 'm')), // 10 minutes
+//   })
+//   return code
+// }
