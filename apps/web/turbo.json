@@ -8,6 +8,7 @@
       "passThroughEnv": [
         "ANALYZE",
         "DATABASE_URL",
+        "DATABASE_AUTH_TOKEN",
         "UPLOADTHING_SECRET",
         "UPLOADTHING_APP_ID",
         "UNKEY_ROOT_KEY",
@@ -29,6 +30,7 @@
     "test:e2e": {
       "passThroughEnv": [
         "DATABASE_URL",
+        "DATABASE_AUTH_TOKEN",
         "UPLOADTHING_SECRET",
         "UPLOADTHING_APP_ID",
         "UNKEY_ROOT_KEY",
