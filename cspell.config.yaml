@@ -1,17 +1,18 @@
 $schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
-version: '0.2'
+version: "0.2"
 ignorePaths:
   - .git
   - bun.lockb
   - ./branch_out
   - .changeset
   - drizzle
-  - '**/*.svg'
+  - "**/*.svg"
 words:
   - acst
   - aest
   - akst
   - Anson
+  - apos
   - aren
   - astro
   - astrojs
@@ -37,6 +38,7 @@ words:
   - commitlintrc
   - compat
   - consts
+  - cooldown
   - crossorigin
   - ctsx
   - datetime
@@ -50,6 +52,7 @@ words:
   - Embla
   - esbenp
   - eslintcache
+  - fontsource
   - fullname
   - googleusercontent
   - hookform
@@ -90,6 +93,7 @@ words:
   - quickstart
   - Rajdeep
   - Ratelimit
+  - Repobeats
   - Roboto
   - shadcn
   - signup
@@ -126,13 +130,10 @@ words:
   - unkey
   - uploadthing
   - vaul
+  - vercel
   - viewports
   - vuepress
   - WITA
   - wscript
   - yoav
   - zustand
-  - fontsource
-  - apos
-  - vercel
-  - Repobeats

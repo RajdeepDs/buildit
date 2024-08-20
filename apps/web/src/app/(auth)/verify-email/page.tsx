@@ -14,6 +14,7 @@ export default async function VerifyEmail(): Promise<JSX.Element> {
   if (!user) {
     redirect('/login')
   }
+
   return (
     <div className='h-fit space-y-6 max-w-[319px]'>
       <div className='flex flex-col items-start space-y-1'>
@@ -23,7 +24,7 @@ export default async function VerifyEmail(): Promise<JSX.Element> {
         </h1>
       </div>
 
-      <VerifyCode email={user.email} />
+      <VerifyCode email={user.email} userId={user.id} />
     </div>
   )
 }
