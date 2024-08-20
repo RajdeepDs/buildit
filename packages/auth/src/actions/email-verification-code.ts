@@ -7,7 +7,7 @@ import { createDate, TimeSpan } from 'oslo'
 import { db, eq } from '@buildit/db'
 import { emailVerificationCodesTable } from '@buildit/db/schema'
 
-import { EmailTemplate, sendEmail } from '../lib/email'
+import { resend } from '../lib/email'
 
 /**
  * Generates an email verification code for the user.
@@ -39,8 +39,15 @@ export async function generateEmailVerificationCode(
     expires: createDate(new TimeSpan(10, 'm')),
   })
 
-  await sendEmail(email, EmailTemplate.EmailVerification, {
-    code,
+  // await sendEmail(email, EmailTemplate.EmailVerification, {
+  //   code,
+  // })
+
+  await resend.emails.send({
+    from: 'onboarding@resend.dev', // TODO: Update this to the correct email address
+    to: email,
+    subject: 'Verify your email address',
+    html: `Your email verification code is: ${code}`,
   })
 
   return { success: 'Email verification code generated successfully' }
