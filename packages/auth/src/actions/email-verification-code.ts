@@ -4,12 +4,12 @@ import type { ActionResponse } from '../lib/types'
 
 import { createDate, TimeSpan } from 'oslo'
 import { alphabet, generateRandomString } from 'oslo/crypto'
-import { EmailVerificationTemplate } from 'src/lib/email/templates/email-verification'
 
 import { db, eq } from '@buildit/db'
 import { emailVerificationCodesTable } from '@buildit/db/schema'
 
 import { resend } from '../lib/email'
+import { EmailVerificationTemplate } from '../lib/email/templates/email-verification'
 
 /**
  * Generates an email verification code for the user.
