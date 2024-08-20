@@ -3,6 +3,8 @@
 import type { ActionResponse } from '../lib/types'
 
 import { createDate, TimeSpan } from 'oslo'
+import { alphabet, generateRandomString } from 'oslo/crypto'
+import { EmailVerificationTemplate } from 'src/lib/email/templates/email-verification'
 
 import { db, eq } from '@buildit/db'
 import { emailVerificationCodesTable } from '@buildit/db/schema'
@@ -29,8 +31,8 @@ export async function generateEmailVerificationCode(
     .delete(emailVerificationCodesTable)
     .where(eq(emailVerificationCodesTable.userId, userId))
 
-  // const code = generateRandomString(8, alphabet('0-9'))
-  const code = '12345678'
+  const code = generateRandomString(8, alphabet('0-9'))
+  // const code = '12345678'
 
   await db.insert(emailVerificationCodesTable).values({
     userId,
@@ -47,7 +49,7 @@ export async function generateEmailVerificationCode(
     from: 'onboarding@resend.dev', // TODO: Update this to the correct email address
     to: email,
     subject: 'Verify your email address',
-    html: `Your email verification code is: ${code}`,
+    react: EmailVerificationTemplate({ code }),
   })
 
   return { success: 'Email verification code generated successfully' }
