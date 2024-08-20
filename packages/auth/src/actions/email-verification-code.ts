@@ -3,7 +3,6 @@
 import type { ActionResponse } from '../lib/types'
 
 import { createDate, TimeSpan } from 'oslo'
-import { alphabet, generateRandomString } from 'oslo/crypto'
 
 import { db, eq } from '@buildit/db'
 import { emailVerificationCodesTable } from '@buildit/db/schema'
@@ -31,8 +30,8 @@ export async function generateEmailVerificationCode(
     .delete(emailVerificationCodesTable)
     .where(eq(emailVerificationCodesTable.userId, userId))
 
-  const code = generateRandomString(8, alphabet('0-9'))
-  // const code = '12345678'
+  // const code = generateRandomString(8, alphabet('0-9'))
+  const code = '12345678'
 
   await db.insert(emailVerificationCodesTable).values({
     userId,
