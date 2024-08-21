@@ -48,10 +48,6 @@ jobs:
       AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
       AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
 
-      # Uploadthing
-      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
-      UPLOADTHING_APP_ID: ${{ secrets.UPLOADTHING_APP_ID }}
-
       # Unkey
       UNKEY_ROOT_KEY: ${{ secrets.UNKEY_ROOT_KEY }}
       UNKEY_NAMESPACE: ${{ secrets.UNKEY_NAMESPACE }}
@@ -59,12 +55,12 @@ jobs:
       # Sentry
       NEXT_PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
       SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: web
+      SENTRY_PROJECT: buildit
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       # Posthog
       NEXT_PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
-      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
 
     steps:
       - name: Checkout

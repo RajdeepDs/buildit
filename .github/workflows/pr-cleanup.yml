@@ -12,9 +12,14 @@ jobs:
         id: branch_name
         uses: tj-actions/branch-names@v8
 
-      - name: Delete Neon Branch
-        uses: neondatabase/delete-branch-action@v3
-        with:
-          project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch: web/pr-${{ github.event.number }}-${{ steps.branch_name.outputs.current_branch }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+      # Delete the branch from the Turso database
+      - name: Delete Turso DB
+        shell: bash
+        run: |
+          RESPONSE=$(curl -L -X DELETE 'https://api.turso.tech/v1/organizations/{organizationName}/databases/{databaseName}' \
+            -H 'Authorization: Bearer ${{secrets.TURSO_API_TOKEN}}')
+
+          if [ $? -ne 0 ]; then
+            echo "API call failed"
+            exit 1
+          fi

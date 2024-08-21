@@ -29,10 +29,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # We need these to create the Neon DB branch for this PR
-      NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }}
-      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-      NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+      # We need these to create the Turso DB branch for this PR
+      TURSO_API_TOKEN: ${{ secrets.TURSO_API_TOKEN }}
+      TURSO_EXISTING_DATABASE_NAME: ${{ secrets.TURSO_EXISTING_DATABASE_NAME }}
+      TURSO_GROUP_NAME: ${{ secrets.TURSO_GROUP_NAME }}
+      TURSO_ORGANIZATION_NAME: ${{ secrets.TURSO_ORGANIZATION_NAME }}
 
       # Auth Secret
       AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
@@ -44,10 +45,6 @@ jobs:
       # Google OAuth
       AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
       AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
-
-      # Uploadthing
-      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
-      UPLOADTHING_APP_ID: ${{ secrets.UPLOADTHING_APP_ID }}
 
       # Unkey
       UNKEY_ROOT_KEY: ${{ secrets.UNKEY_ROOT_KEY }}
@@ -61,7 +58,7 @@ jobs:
 
       # Posthog
       NEXT_PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
-      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
 
     steps:
       - name: Checkout
@@ -76,19 +73,22 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Create Neon DB Branch
-        id: create-branch
-        uses: neondatabase/create-branch-action@v4
+      # Create a new database for this PR
+      - name: Create Database
+        id: create-database
+        uses: tursodatabase/create-database-action@v1
         with:
-          project_id: ${{ env.NEON_PROJECT_ID }}
-          branch_name: web/pr-${{ github.event.number }}-${{ steps.branch_name.outputs.current_branch }}
-          username: ${{ env.NEON_DATABASE_USERNAME }}
-          api_key: ${{ env.NEON_API_KEY }}
+          organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
+          api_token: ${{ secrets.TURSO_API_TOKEN }}
+          existing_database_name: ${{ secrets.TURSO_EXISTING_DATABASE_NAME }}
+          new_database_name: ${{ github.ref_name }}
+          # optional
+          # group_name: ${{ secrets.TURSO_GROUP_NAME }}
 
       - name: Set DATABASE_URL
         shell: bash
         run: |
-          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ steps.create-database.outputs.hostname }}?sslmode=require" >> $GITHUB_ENV
 
       - name: Checks
         run: bun turbo lint typecheck build test:e2e --filter=@buildit/web
