@@ -102,28 +102,14 @@ export async function validateGoogleCallback(
 
     const { sub, email, picture, name } = parsedRes.data
 
-    const existingUser = await db.query.userTable.findFirst({
-      where: eq(userTable.email, email),
+    // Login
+    // check if the user exists on the oauth account table
+    const existingUser = await db.query.oauthAccountTable.findFirst({
+      where: (table, { and, eq }) =>
+        and(eq(table.providerId, 'google'), eq(table.providerUserId, sub)),
     })
-
     if (existingUser) {
-      // Account linking - Google account to an existing account
-      await db.transaction(async (tx) => {
-        await tx
-          .update(userTable)
-          .set({
-            image: picture,
-            name: name,
-          })
-          .where(eq(userTable.id, existingUser.id))
-
-        await tx.insert(oauthAccountTable).values({
-          providerId: 'google',
-          providerUserId: sub,
-          userId: existingUser.id,
-        })
-      })
-      const session = await lucia.createSession(existingUser.id, {})
+      const session = await lucia.createSession(existingUser.userId, {})
       const sessionCookie = lucia.createSessionCookie(session.id)
       cookies().set(
         sessionCookie.name,
@@ -136,36 +122,76 @@ export async function validateGoogleCallback(
           Location: '/',
         },
       })
+    } else {
+      // Sign up
+      // check if email exists or not
+      const existingEmail = await db.query.userTable.findFirst({
+        where: eq(userTable.email, email),
+      })
+
+      if (existingEmail) {
+        // email exists, link the account
+        // Account linking - GitHub account to an existing account
+        await db.transaction(async (tx) => {
+          await tx
+            .update(userTable)
+            .set({
+              image: picture,
+              name,
+            })
+            .where(eq(userTable.id, existingEmail.id))
+
+          await tx.insert(oauthAccountTable).values({
+            providerId: 'google',
+            providerUserId: sub,
+            userId: existingEmail.id,
+          })
+        })
+        const session = await lucia.createSession(existingEmail.id, {})
+        const sessionCookie = lucia.createSessionCookie(session.id)
+        cookies().set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        )
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: '/',
+          },
+        })
+      } else {
+        // email does not exist, create a new account
+        const userId = generateId(15)
+        await db.insert(userTable).values({
+          id: userId,
+          email,
+          image: picture,
+          name,
+        })
+        await db.insert(oauthAccountTable).values({
+          providerId: 'google',
+          providerUserId: sub,
+          userId,
+        })
+
+        const session = await lucia.createSession(userId, {})
+        const sessionCookie = lucia.createSessionCookie(session.id)
+
+        cookies().set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        )
+
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: '/getting-started',
+          },
+        })
+      }
     }
-
-    const userId = generateId(15)
-    await db.insert(userTable).values({
-      id: userId,
-      email,
-      image: picture,
-      name,
-    })
-    await db.insert(oauthAccountTable).values({
-      providerId: 'google',
-      providerUserId: sub,
-      userId,
-    })
-
-    const session = await lucia.createSession(userId, {})
-    const sessionCookie = lucia.createSessionCookie(session.id)
-
-    cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    )
-
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: '/',
-      },
-    })
   } catch (e) {
     if (e instanceof OAuth2RequestError) {
       return new Response(null, {
