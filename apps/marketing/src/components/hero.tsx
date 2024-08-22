@@ -15,7 +15,7 @@ export default function HeroSection(): JSX.Element {
           A product development tool designed to streamline the{' '}
           <br className='hidden md:block' /> workflow of modern teams.
         </p>
-        <a href='/'>
+        <a href='https://app.buildit.codes/signup'>
           <Button className='w-fit md:h-12 md:rounded-lg md:px-6 md:py-4 md:text-lg'>
             Get BuildIt free
           </Button>
