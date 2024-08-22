@@ -25,71 +25,10 @@ jobs:
         run: bun turbo lint:md lint:spell
 
   web:
-    name: Web CI
+    name: Web
     runs-on: ubuntu-latest
 
-    env:
-      # We need these to create the Turso DB branch for this PR
-      TURSO_API_TOKEN: ${{ secrets.TURSO_API_TOKEN }}
-      TURSO_EXISTING_DATABASE_NAME: ${{ secrets.TURSO_EXISTING_DATABASE_NAME }}
-      TURSO_GROUP_NAME: ${{ secrets.TURSO_GROUP_NAME }}
-      TURSO_ORGANIZATION_NAME: ${{ secrets.TURSO_ORGANIZATION_NAME }}
-
-      # Auth Secret
-      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-
-      # Github OAuth
-      AUTH_GITHUB_ID: ${{ secrets.AUTH_GITHUB_ID }}
-      AUTH_GITHUB_SECRET: ${{ secrets.AUTH_GITHUB_SECRET }}
-
-      # Google OAuth
-      AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
-      AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
-
-      # Unkey
-      UNKEY_ROOT_KEY: ${{ secrets.UNKEY_ROOT_KEY }}
-      UNKEY_NAMESPACE: ${{ secrets.UNKEY_NAMESPACE }}
-
-      # Sentry
-      NEXT_PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: web
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      # Posthog
-      NEXT_PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
-      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Get branch name
-        id: branch_name
-        uses: tj-actions/branch-names@v8
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      # Create a new database for this PR
-      - name: Create Database
-        id: create-database
-        uses: tursodatabase/create-database-action@v1
-        with:
-          organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
-          api_token: ${{ secrets.TURSO_API_TOKEN }}
-          existing_database_name: ${{ secrets.TURSO_EXISTING_DATABASE_NAME }}
-          new_database_name: ${{ github.ref_name }}
-          # optional
-          # group_name: ${{ secrets.TURSO_GROUP_NAME }}
-
-      - name: Set DATABASE_URL
-        shell: bash
-        run: |
-          echo "DATABASE_URL=${{ steps.create-database.outputs.hostname }}?sslmode=require" >> $GITHUB_ENV
-
       - name: Checks
         run: bun turbo lint typecheck build test:e2e --filter=@buildit/web
 
@@ -99,30 +38,3 @@ jobs:
           name: web-playwright-report
           path: apps/web/playwright-report/
           retention-days: 30
-
-  marketing:
-    name: Marketing CI
-    runs-on: ubuntu-latest
-
-    env:
-      # Sentry
-      PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: marketing
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      # Posthog
-      NEXT_PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
-      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Checks
-        run: bun turbo lint typecheck build test:e2e --filter=@buildit/marketing

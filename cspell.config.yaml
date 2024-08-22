@@ -1,12 +1,12 @@
 $schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
-version: "0.2"
+version: '0.2'
 ignorePaths:
   - .git
   - bun.lockb
   - ./branch_out
   - .changeset
   - drizzle
-  - "**/*.svg"
+  - '**/*.svg'
 words:
   - acst
   - aest
@@ -122,6 +122,7 @@ words:
   - Tuite
   - turborepo
   - turso
+  - tursodatabase
   - typecheck
   - typeof
   - typesafe

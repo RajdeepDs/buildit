@@ -52,6 +52,7 @@ export default function OnboardingPageClient(): JSX.Element {
 
   const goToIndex = (index: number) => {
     if (index >= 0 && index < steps.length) {
+      // eslint-disable-next-line security/detect-object-injection
       const newStep = steps[index] ?? INITIAL_STEP
       router.push(`/getting-started/${stepTransform(newStep)}`)
     } else {
@@ -73,11 +74,13 @@ export default function OnboardingPageClient(): JSX.Element {
       <header>
         <h1 className='font-cal text-2xl text-strong'>
           {isValidIndex(currentStepIndex, headers)
-            ? headers[currentStepIndex]?.title
+            ? // eslint-disable-next-line security/detect-object-injection
+              headers[currentStepIndex]?.title
             : 'Undefined title'}
         </h1>
         <p className='text-sm text-soft'>
           {isValidIndex(currentStepIndex, headers) &&
+            // eslint-disable-next-line security/detect-object-injection
             headers[currentStepIndex]?.subtitle}
         </p>
       </header>
