@@ -48,6 +48,7 @@ export default function SignUpForm(): JSX.Element {
           description:
             'Please verify your email to complete the sign-up process',
         })
+
         redirect('/verify-email')
       }
       if (error) {

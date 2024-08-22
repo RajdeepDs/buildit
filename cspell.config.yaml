@@ -12,6 +12,7 @@ words:
   - aest
   - akst
   - Anson
+  - apos
   - aren
   - astro
   - astrojs
@@ -37,6 +38,7 @@ words:
   - commitlintrc
   - compat
   - consts
+  - cooldown
   - crossorigin
   - ctsx
   - datetime
@@ -50,6 +52,7 @@ words:
   - Embla
   - esbenp
   - eslintcache
+  - fontsource
   - fullname
   - googleusercontent
   - hookform
@@ -90,6 +93,7 @@ words:
   - quickstart
   - Rajdeep
   - Ratelimit
+  - Repobeats
   - Roboto
   - shadcn
   - signup
@@ -118,6 +122,7 @@ words:
   - Tuite
   - turborepo
   - turso
+  - tursodatabase
   - typecheck
   - typeof
   - typesafe
@@ -126,13 +131,10 @@ words:
   - unkey
   - uploadthing
   - vaul
+  - vercel
   - viewports
   - vuepress
   - WITA
   - wscript
   - yoav
   - zustand
-  - fontsource
-  - apos
-  - vercel
-  - Repobeats

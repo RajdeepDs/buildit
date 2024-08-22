@@ -76,11 +76,11 @@
     },
     "db:migrate": {
       "dependsOn": ["db:generate"],
-      "passThroughEnv": ["DATABASE_URL"],
+      "passThroughEnv": ["DATABASE_URL", "DATABASE_AUTH_TOKEN"],
       "inputs": ["drizzle/**"]
     },
     "db:generate": {
-      "passThroughEnv": ["DATABASE_URL"],
+      "passThroughEnv": ["DATABASE_URL", "DATABASE_AUTH_TOKEN"],
       "inputs": ["src/schema/**", "drizzle.config.ts"],
       "outputs": ["drizzle/**"]
     },

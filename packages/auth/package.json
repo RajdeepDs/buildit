@@ -28,6 +28,10 @@
       "types": "./dist/actions/signup.d.ts",
       "default": "./dist/actions/signup.js"
     },
+    "./actions/email": {
+      "types": "./dist/actions/email-verification-code.d.ts",
+      "default": "./dist/actions/email-verification-code.js"
+    },
     "./actions/login": {
       "types": "./dist/actions/login.d.ts",
       "default": "./dist/actions/login.js"

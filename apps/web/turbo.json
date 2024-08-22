@@ -8,8 +8,7 @@
       "passThroughEnv": [
         "ANALYZE",
         "DATABASE_URL",
-        "UPLOADTHING_SECRET",
-        "UPLOADTHING_APP_ID",
+        "DATABASE_AUTH_TOKEN",
         "UNKEY_ROOT_KEY",
         "UNKEY_NAMESPACE",
         "AUTH_GITHUB_ID",
@@ -23,14 +22,14 @@
         "SENTRY_ORG",
         "SENTRY_PROJECT",
         "SENTRY_AUTH_TOKEN",
+        "RESEND_API_KEY",
         "NEXT_RUNTIME"
       ]
     },
     "test:e2e": {
       "passThroughEnv": [
         "DATABASE_URL",
-        "UPLOADTHING_SECRET",
-        "UPLOADTHING_APP_ID",
+        "DATABASE_AUTH_TOKEN",
         "UNKEY_ROOT_KEY",
         "UNKEY_NAMESPACE",
         "AUTH_GITHUB_ID",
@@ -44,6 +43,7 @@
         "SENTRY_ORG",
         "SENTRY_PROJECT",
         "SENTRY_AUTH_TOKEN",
+        "RESEND_API_KEY",
         "NEXT_RUNTIME"
       ]
     }
