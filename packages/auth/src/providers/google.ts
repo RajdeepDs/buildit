@@ -12,7 +12,6 @@ import { getBaseUrl } from '@buildit/utils/url'
 import { lucia } from '../lucia'
 
 const baseUrl = getBaseUrl()
-console.log('baseUrl', baseUrl)
 
 const google =
   env.AUTH_GOOGLE_ID !== undefined &&

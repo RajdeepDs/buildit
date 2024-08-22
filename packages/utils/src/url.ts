@@ -8,7 +8,7 @@ export function getBaseUrl() {
   }
 
   if (process.env['VERCEL_URL']) {
-    return `https://${process.env['VERCEL_URL']}`
+    return `https://app.buildit.codes`
   }
   return `http://localhost:${String(process.env['PORT'] ?? 3000)}`
 }
