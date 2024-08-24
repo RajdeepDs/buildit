@@ -1,3 +1,0 @@
-{
-  "extends": ["./tsconfig.json", "@buildit/tsconfig/build.json"]
-}

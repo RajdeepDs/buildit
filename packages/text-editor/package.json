@@ -1,0 +1,70 @@
+{
+  "name": "@buildit/text-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BuildIt text editor library",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./cn": {
+      "types": "./dist/utils/cn.d.ts",
+      "require": "./dist/utils/cn.cjs",
+      "default": "./dist/utils/cn.js"
+    },
+    "./editor": {
+      "types": "./dist/editor/index.d.ts",
+      "require": "./dist/editor/index.cjs",
+      "default": "./dist/editor/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build-storybook": "storybook build",
+    "clean": "bun run rm -rf dist storybook-static *.tsbuildinfo",
+    "dev": "vite build -w",
+    "lint": "eslint .  --max-warnings 0",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "test-storybook": "test-storybook",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
+    "@udecode/cn": "^33.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.435.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.1",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@buildit/assets": "workspace:^",
+    "@buildit/eslint": "workspace:^",
+    "@buildit/storybook": "workspace:^",
+    "@buildit/tailwind": "workspace:^",
+    "@buildit/tsconfig": "workspace:^",
+    "@buildit/vite": "workspace:^",
+    "@storybook/react": "^8.2.4",
+    "@storybook/test": "^8.2.4",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "globby": "^14.0.2",
+    "playwright": "^1.45.2",
+    "postcss": "^8.4.39",
+    "rollup-plugin-preserve-directives": "^0.4.0",
+    "storybook": "^8.2.4",
+    "tailwindcss": "^3.4.6",
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-external": "^4.3.1"
+  }
+}

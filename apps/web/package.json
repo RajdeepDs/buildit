@@ -21,6 +21,7 @@
     "@buildit/auth": "workspace:^",
     "@buildit/db": "workspace:^",
     "@buildit/env": "workspace:^",
+    "@buildit/text-editor": "workspace:^",
     "@buildit/ui": "workspace:^",
     "@buildit/utils": "workspace:^",
     "@sentry/nextjs": "^8.18.0",
