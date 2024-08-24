@@ -1,0 +1,54 @@
+{
+  "name": "@buildit/editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Text Editor Package for BuildIt Editor",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/components/editor/index.tsx"
+  },
+  "scripts": {
+    "clean": "bun run rm -rf *.tsbuildinfo",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@ariakit/react": "^0.4.10",
+    "@buildit/ui": "workspace:^",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-toolbar": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "@udecode/cn": "^33.0.0",
+    "@udecode/plate": "^36.5.7",
+    "@udecode/plate-basic-marks": "^36.0.0",
+    "@udecode/plate-block-quote": "^36.0.0",
+    "@udecode/plate-code-block": "^36.5.6",
+    "@udecode/plate-combobox": "^36.0.0",
+    "@udecode/plate-comments": "^36.0.0",
+    "@udecode/plate-date": "^36.5.0",
+    "@udecode/plate-heading": "^36.0.12",
+    "@udecode/plate-highlight": "^36.0.0",
+    "@udecode/plate-kbd": "^36.0.0",
+    "@udecode/plate-list": "^36.5.2",
+    "@udecode/plate-paragraph": "^36.0.0",
+    "class-variance-authority": "^0.7.0",
+    "lucide-react": "^0.435.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "slate": "^0.103.0",
+    "slate-history": "^0.109.0",
+    "slate-hyperscript": "^0.100.0",
+    "slate-react": "^0.109.0",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tailwind": "workspace:^",
+    "@buildit/tsconfig": "workspace:^"
+  }
+}
