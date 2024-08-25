@@ -8,6 +8,8 @@ import { Controller } from 'react-hook-form'
 
 import { platePlugins } from '../../lib/plate-plugins'
 import { Editor } from '../plate-ui/editor'
+import { FloatingToolbar } from '../plate-ui/floating-toolbar'
+import { FloatingToolbarButtons } from '../plate-ui/floating-toolbar-buttons'
 
 // The default value for the editor, if content is not given. This is an empty paragraph.
 const defaultValue = [
@@ -63,6 +65,9 @@ export default function BlockEditor({
               onBlur()
             }}
           />
+          <FloatingToolbar>
+            <FloatingToolbarButtons />
+          </FloatingToolbar>
         </Plate>
       )}
     />

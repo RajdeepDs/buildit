@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 import { cn, withRef } from '@udecode/cn'
 import { PlateLeaf } from '@udecode/plate-common'
 
@@ -11,7 +9,7 @@ export const CodeLeaf = withRef<typeof PlateLeaf>(
       <PlateLeaf
         asChild
         className={cn(
-          'whitespace-pre-wrap rounded-md bg-slate-100 px-[0.3em] py-[0.2em] font-mono text-sm dark:bg-slate-800',
+          'whitespace-pre-wrap rounded-md bg-weak border border-strong px-1 py-0.5 font-mono text-sm dark:bg-slate-800',
           className,
         )}
         ref={ref}

@@ -1,8 +1,5 @@
-import { type ComponentType, type SVGProps } from 'react'
+import type { PlateRenderElementProps } from '@udecode/plate-common'
 
-import type { PlateEditor } from '@udecode/plate-common'
-
-import { withRef } from '@udecode/cn'
 import { PlateElement, toggleNodeType } from '@udecode/plate-common'
 import { insertInlineDate } from '@udecode/plate-date'
 import { ELEMENT_H1, ELEMENT_H2, ELEMENT_H3 } from '@udecode/plate-heading'
@@ -11,8 +8,8 @@ import { ListStyleType, toggleIndentList } from '@udecode/plate-indent-list'
 import { Icons } from '../../components/icons'
 
 interface SlashCommandRule {
-  icon: ComponentType<SVGProps<SVGSVGElement>>
-  onSelect: (editor: PlateEditor) => void
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  onSelect: (editor: any) => void
   value: string
   keywords?: string[]
 }
@@ -69,31 +66,22 @@ const rules: SlashCommandRule[] = [
   },
 ]
 
-export const SlashInputElement = withRef<typeof PlateElement>(
-  ({ className, ...props }, ref) => {
-    const { children, editor, element } = props
-
-    return (
-      <PlateElement
-        as='span'
-        data-slate-value={element['value']}
-        ref={ref}
-        {...props}
-      >
-        <div className='border w-[200px]'>
-          {rules.map(({ icon: Icon, keywords, onSelect, value }) => (
-            <div
-              key={value}
-              className='flex items-center cursor-pointer p-2 hover:bg-sub bg-white '
-            >
-              <Icon aria-hidden className='mr-2 size-4' />
-              {value}
-            </div>
-          ))}
-        </div>
-
-        {children}
-      </PlateElement>
-    )
-  },
-)
+export const SlashInputElement = ({
+  className,
+  editor,
+  element,
+  children,
+  ...props
+}: PlateRenderElementProps) => {
+  return (
+    <PlateElement
+      element={element}
+      as='span'
+      data-slate-value={element['value']}
+      editor={editor}
+      {...props}
+    >
+      {children}
+    </PlateElement>
+  )
+}

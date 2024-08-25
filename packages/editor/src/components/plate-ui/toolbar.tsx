@@ -8,8 +8,7 @@ import * as ToolbarPrimitive from '@radix-ui/react-toolbar'
 import { cn, withCn, withRef, withVariants } from '@udecode/cn'
 import { cva } from 'class-variance-authority'
 
-import { Icons } from '@/components/icons'
-
+import { Icons } from '../../components/icons'
 import { Separator } from './separator'
 import { withTooltip } from './tooltip'
 
@@ -48,10 +47,11 @@ const toolbarButtonVariants = cva(
         default: 'h-10 px-3',
         lg: 'h-11 px-5',
         sm: 'h-9 px-2',
+        xs: 'px-2 h-6',
       },
       variant: {
         default:
-          'bg-transparent hover:bg-slate-100 hover:text-slate-500 aria-checked:bg-slate-100 aria-checked:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-400 dark:aria-checked:bg-slate-800 dark:aria-checked:text-slate-50',
+          'bg-transparent text-surface hover:bg-soft hover:text-strong aria-checked:bg-soft aria-checked:text-strong dark:hover:bg-slate-800 dark:hover:text-slate-400 dark:aria-checked:bg-slate-800 dark:aria-checked:text-slate-50',
         outline:
           'border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:hover:bg-slate-800 dark:hover:text-slate-50',
       },
@@ -78,7 +78,7 @@ const ToolbarButton = withTooltip(
     ) => {
       return typeof pressed === 'boolean' ? (
         <ToolbarToggleGroup
-          disabled={props.disabled}
+          disabled={props.disabled ?? false}
           type='single'
           value='single'
         >
@@ -88,7 +88,7 @@ const ToolbarButton = withTooltip(
                 size,
                 variant,
               }),
-              isDropdown && 'my-1 justify-between pr-1',
+              isDropdown && 'justify-between pr-1',
               className,
             )}
             ref={ref}
@@ -99,7 +99,10 @@ const ToolbarButton = withTooltip(
               <>
                 <div className='flex flex-1'>{children}</div>
                 <div>
-                  <Icons.arrowDown className='ml-0.5 size-4' data-icon />
+                  <Icons.arrowDown
+                    className='ml-0.5 size-4 text-sub'
+                    data-icon
+                  />
                 </div>
               </>
             ) : (
