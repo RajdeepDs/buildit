@@ -26,8 +26,8 @@ export default function EditorPage() {
     console.log('values:', values) // TODO: Implement the submit logic
   }
   return (
-    <div>
-      <h1>Editor Page</h1>
+    <div className='p-5'>
+      <h1 className='text-xl mb-5'>Editor Page</h1>
       {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

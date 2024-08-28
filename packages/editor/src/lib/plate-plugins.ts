@@ -38,6 +38,9 @@ import {
   ELEMENT_H6,
   KEYS_HEADING,
 } from '@udecode/plate-heading'
+import { createIndentPlugin } from '@udecode/plate-indent'
+import { createIndentListPlugin } from '@udecode/plate-indent-list'
+import { createListPlugin, createTodoListPlugin } from '@udecode/plate-list'
 import { createNodeIdPlugin } from '@udecode/plate-node-id'
 import {
   createParagraphPlugin,
@@ -82,6 +85,8 @@ export const plugins = createPlugins(
     createHeadingPlugin(),
     createBlockquotePlugin(),
     createCodeBlockPlugin(),
+    createListPlugin(),
+    createTodoListPlugin(),
 
     // Marks
     createBoldPlugin(),
@@ -91,6 +96,36 @@ export const plugins = createPlugins(
     createCodePlugin(),
     createSubscriptPlugin(),
     createSuperscriptPlugin(),
+
+    // Block Style
+    createIndentPlugin({
+      inject: {
+        props: {
+          validTypes: [
+            ELEMENT_PARAGRAPH,
+            ELEMENT_H1,
+            ELEMENT_H2,
+            ELEMENT_H3,
+            ELEMENT_BLOCKQUOTE,
+            ELEMENT_CODE_BLOCK,
+          ],
+        },
+      },
+    }),
+    createIndentListPlugin({
+      inject: {
+        props: {
+          validTypes: [
+            ELEMENT_PARAGRAPH,
+            ELEMENT_H1,
+            ELEMENT_H2,
+            ELEMENT_H3,
+            ELEMENT_BLOCKQUOTE,
+            ELEMENT_CODE_BLOCK,
+          ],
+        },
+      },
+    }),
 
     // Functionality
     createNodeIdPlugin(),

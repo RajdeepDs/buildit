@@ -9,6 +9,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { plugins } from '../../lib/plate-plugins'
 import { Editor as PlateEditor } from '../plate-ui/editor'
+import { FloatingToolbar } from '../plate-ui/floating-toolbar'
+import { FloatingToolbarButtons } from '../plate-ui/floating-toolbar-buttons'
 
 /**
  * The Rich Text Editor component.
@@ -32,6 +34,10 @@ export default function Editor() {
           )}
         >
           <PlateEditor focusRing={false} />
+
+          <FloatingToolbar>
+            <FloatingToolbarButtons />
+          </FloatingToolbar>
         </div>
       </Plate>
     </DndProvider>
