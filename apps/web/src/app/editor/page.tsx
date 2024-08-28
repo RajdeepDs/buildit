@@ -4,8 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import BlockEditor from '@buildit/editor'
-import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
+import Editor from '@buildit/editor'
 
 const formSchema = z.object({
   description: z.any(),
@@ -29,7 +28,7 @@ export default function EditorPage() {
   return (
     <div>
       <h1>Editor Page</h1>
-      <Form {...form}>
+      {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             name='description'
@@ -52,7 +51,9 @@ export default function EditorPage() {
             )}
           />
         </form>
-      </Form>
+      </Form> */}
+
+      <Editor />
     </div>
   )
 }

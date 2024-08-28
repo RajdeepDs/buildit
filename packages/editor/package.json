@@ -1,0 +1,53 @@
+{
+  "name": "@buildit/editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Text Editor Package for BuildIt Editor",
+  "license": "AGPL-3.0-or-later",
+  "author": "Rajdeep Das <rajdeepds626@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/components/editor/index.tsx"
+  },
+  "scripts": {
+    "clean": "bun run rm -rf *.tsbuildinfo",
+    "lint": "eslint .  --max-warnings 0",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "@udecode/cn": "^33.0.0",
+    "@udecode/plate-basic-marks": "^36.0.0",
+    "@udecode/plate-block-quote": "^36.0.0",
+    "@udecode/plate-break": "^36.5.6",
+    "@udecode/plate-code-block": "^36.5.6",
+    "@udecode/plate-common": "^36.3.9",
+    "@udecode/plate-dnd": "^36.0.8",
+    "@udecode/plate-heading": "^36.0.12",
+    "@udecode/plate-node-id": "^36.3.6",
+    "@udecode/plate-paragraph": "^36.0.0",
+    "@udecode/plate-reset-node": "^36.5.2",
+    "@udecode/plate-trailing-block": "^36.0.0",
+    "class-variance-authority": "^0.7.0",
+    "cmdk": "^1.0.0",
+    "lucide-react": "^0.436.0",
+    "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "slate": "^0.103.0",
+    "slate-history": "^0.109.0",
+    "slate-hyperscript": "^0.100.0",
+    "slate-react": "^0.109.0",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@buildit/eslint": "workspace:^",
+    "@buildit/tailwind": "workspace:^",
+    "@buildit/tsconfig": "workspace:^"
+  }
+}
