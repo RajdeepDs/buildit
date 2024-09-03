@@ -20,6 +20,7 @@
     "@buildit/assets": "workspace:^",
     "@buildit/auth": "workspace:^",
     "@buildit/db": "workspace:^",
+    "@buildit/editor": "workspace:^",
     "@buildit/env": "workspace:^",
     "@buildit/ui": "workspace:^",
     "@buildit/utils": "workspace:^",

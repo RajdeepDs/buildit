@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
 
 import { Toaster } from '@buildit/ui/toast'
+import { TooltipProvider } from '@buildit/ui/tooltip'
 
 import { PostHogReactProvider } from '@/lib/posthog/react'
 import { TRPCReactProvider } from '@/lib/trpc/react'
@@ -67,8 +68,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-            <Toaster />
+            <TooltipProvider>
+              <TRPCReactProvider>{children}</TRPCReactProvider>
+              <Toaster />
+            </TooltipProvider>
           </ThemeProvider>
         </body>
       </PostHogReactProvider>

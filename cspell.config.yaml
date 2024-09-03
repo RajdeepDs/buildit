@@ -12,6 +12,7 @@ words:
   - aest
   - akst
   - Anson
+  - antlr
   - apos
   - aren
   - astro
@@ -34,6 +35,7 @@ words:
   - codespace
   - codespaces
   - Colm
+  - Combobox
   - commitlint
   - commitlintrc
   - compat
@@ -46,16 +48,19 @@ words:
   - degit
   - didn
   - dotenv
+  - draggables
   - dsznajder
   - Duarte
   - Elsakaan
   - Embla
   - esbenp
   - eslintcache
+  - excalidraw
   - fontsource
   - fullname
   - googleusercontent
   - hookform
+  - hyperscript
   - ianvs
   - ixahmedxi
   - jiti
@@ -89,7 +94,10 @@ words:
   - pageview
   - peduarte
   - pids
+  - Pilcrow
   - posthog
+  - prismjs
+  - protobuf
   - quickstart
   - Rajdeep
   - Ratelimit
@@ -126,7 +134,9 @@ words:
   - typecheck
   - typeof
   - typesafe
+  - udecode
   - unauthed
+  - Ungroup
   - unifiedjs
   - unkey
   - uploadthing
@@ -138,3 +148,7 @@ words:
   - wscript
   - yoav
   - zustand
+  - colours
+  - colour
+  - atrule
+  - Invisibles
