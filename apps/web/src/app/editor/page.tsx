@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import Editor from '@buildit/editor'
+import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 
 const formSchema = z.object({
   description: z.any(),
@@ -28,7 +29,7 @@ export default function EditorPage() {
   return (
     <div className='p-5'>
       <h1 className='text-xl mb-5'>Editor Page</h1>
-      {/* <Form {...form}>
+      <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             name='description'
@@ -36,7 +37,7 @@ export default function EditorPage() {
             render={() => (
               <FormItem>
                 <FormControl>
-                  <BlockEditor
+                  <Editor
                     name='description'
                     control={form.control}
                     onBlur={() => {
@@ -51,9 +52,7 @@ export default function EditorPage() {
             )}
           />
         </form>
-      </Form> */}
-
-      <Editor />
+      </Form>
     </div>
   )
 }
