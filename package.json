@@ -43,6 +43,7 @@
     }
   },
   "dependencies": {
+    "buildit": ".",
     "resend": "^3.5.0"
   },
   "devDependencies": {

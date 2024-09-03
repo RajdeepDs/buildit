@@ -38,8 +38,10 @@ import {
   ELEMENT_H6,
   KEYS_HEADING,
 } from '@udecode/plate-heading'
+import { createHorizontalRulePlugin } from '@udecode/plate-horizontal-rule'
 import { createIndentPlugin } from '@udecode/plate-indent'
 import { createIndentListPlugin } from '@udecode/plate-indent-list'
+import { createKbdPlugin } from '@udecode/plate-kbd'
 import { createListPlugin, createTodoListPlugin } from '@udecode/plate-list'
 import { createNodeIdPlugin } from '@udecode/plate-node-id'
 import {
@@ -87,6 +89,7 @@ export const plugins = createPlugins(
     createCodeBlockPlugin(),
     createListPlugin(),
     createTodoListPlugin(),
+    createHorizontalRulePlugin(),
 
     // Marks
     createBoldPlugin(),
@@ -96,6 +99,7 @@ export const plugins = createPlugins(
     createCodePlugin(),
     createSubscriptPlugin(),
     createSuperscriptPlugin(),
+    createKbdPlugin(),
 
     // Block Style
     createIndentPlugin({

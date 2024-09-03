@@ -25,6 +25,8 @@ import {
   ELEMENT_H5,
   ELEMENT_H6,
 } from '@udecode/plate-heading'
+import { ELEMENT_HR } from '@udecode/plate-horizontal-rule'
+import { MARK_KBD } from '@udecode/plate-kbd'
 import {
   ELEMENT_LI,
   ELEMENT_OL,
@@ -39,18 +41,16 @@ import { CodeLeaf } from '../components/plate-ui/code-leaf'
 import { CodeLineElement } from '../components/plate-ui/code-line-element'
 import { CodeSyntaxLeaf } from '../components/plate-ui/code-syntax-leaf'
 import { HeadingElement } from '../components/plate-ui/heading-element'
+import { HrElement } from '../components/plate-ui/hr-element'
+import { KbdLeaf } from '../components/plate-ui/kbd-leaf'
 import { ListElement } from '../components/plate-ui/list-element'
 import { ParagraphElement } from '../components/plate-ui/paragraph-element'
 import { withPlaceholders } from '../components/plate-ui/placeholder'
 import { TodoListElement } from '../components/plate-ui/todo-list-element'
-import { withDraggables } from '../components/plate-ui/with-draggables'
 
 export const createPlateUI = (
   overrideByKey?: Partial<Record<string, PlatePluginComponent>>,
-  {
-    draggable,
-    placeholder,
-  }: { draggable?: boolean; placeholder?: boolean } = {},
+  { placeholder }: { placeholder?: boolean } = {},
 ) => {
   let components: Record<string, PlatePluginComponent> = {
     [ELEMENT_BLOCKQUOTE]: BlockquoteElement,
@@ -65,6 +65,7 @@ export const createPlateUI = (
     [ELEMENT_UL]: withProps(ListElement, { variant: 'ul' }),
     [ELEMENT_OL]: withProps(ListElement, { variant: 'ol' }),
     [ELEMENT_TODO_LI]: TodoListElement,
+    [ELEMENT_HR]: HrElement,
     [MARK_BOLD]: withProps(PlateLeaf, { as: 'strong' }),
     [MARK_CODE]: CodeLeaf,
     [MARK_ITALIC]: withProps(PlateLeaf, { as: 'em' }),
@@ -72,6 +73,7 @@ export const createPlateUI = (
     [MARK_SUBSCRIPT]: withProps(PlateLeaf, { as: 'sub' }),
     [MARK_SUPERSCRIPT]: withProps(PlateLeaf, { as: 'sup' }),
     [MARK_UNDERLINE]: withProps(PlateLeaf, { as: 'u' }),
+    [MARK_KBD]: KbdLeaf,
     [ELEMENT_CODE_BLOCK]: CodeBlockElement,
     [ELEMENT_CODE_LINE]: CodeLineElement,
     [ELEMENT_CODE_SYNTAX]: CodeSyntaxLeaf,
@@ -84,9 +86,6 @@ export const createPlateUI = (
   }
   if (placeholder) {
     components = withPlaceholders(components)
-  }
-  if (draggable) {
-    components = withDraggables(components)
   }
 
   return components
