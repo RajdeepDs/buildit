@@ -13,11 +13,15 @@ import PostHog from '@/components/posthog/PostHog.astro'
     <PostHog />
   </head>
   <body class=''>
-    <MarketingLayout>
-      <div class='grid gap-8'>
-        <Hero />
-      </div>
-    </MarketingLayout>
-    <DotPattern className='opacity-50' />
+    <DotPattern className='opacity-50'>
+      <MarketingLayout>
+        <div class='grid gap-8'>
+          <Hero />
+          <Hero />
+          <Hero />
+          <Hero />
+        </div>
+      </MarketingLayout>
+    </DotPattern>
   </body>
 </html>
