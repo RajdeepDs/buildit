@@ -1,0 +1,51 @@
+---
+import { Badge } from '@buildit/ui/badge'
+import { Button } from '@buildit/ui/button'
+
+import { Icons } from '@/components/ui/icons'
+---
+
+<div
+  class='my-10 flex w-full flex-col justify-center gap-1 px-3 py-4 text-center md:my-20 md:p-6 z-10'
+>
+  <div class='mb-5'>
+    <Badge
+      variant={'outline'}
+      className='rounded-full hover:cursor-pointer backdrop-blur-[2px]'
+    >
+      <a
+        href='https://github.com/RajdeepDs/buildit'
+        rel='noreferrer'
+        target='_blank'
+        class='flex items-center'
+      >
+        Proudly Open Source
+        <Icons.chevronRight className='w-4 h-4 ml-1' />
+      </a>
+    </Badge>
+  </div>
+  <div class='grid gap-6'>
+    <h1 class='font-cal text-3xl text-strong md:text-7xl'>
+      Build better <br /> Together with BuildIt
+    </h1>
+    <p class='font-medium text-base text-soft md:text-xl'>
+      A product development tool designed to streamline the{' '}
+      <br class='hidden md:block' /> workflow of modern teams.
+    </p>
+    <div class='my-4 grid gap-2 sm:grid-cols-2'>
+      <div class='text-center sm:block sm:text-right'>
+        <a href='https://app.buildit.codes/join'>
+          <Button className='w-48 sm:w-auto'> Join waitlist! </Button>
+        </a>
+      </div>
+      <div class='text-center sm:block sm:text-left'>
+        <a href='https://github.com/RajdeepDs/buildit'>
+          <Button variant={'secondary'} className='w-48 sm:w-auto'>
+            <Icons.star className='w-4 h-4 mr-2 text-sub' />
+            Star on Github
+          </Button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

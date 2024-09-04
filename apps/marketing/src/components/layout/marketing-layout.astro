@@ -1,0 +1,16 @@
+---
+import MarketingFooter from './marketing-footer.astro'
+import MarketingHeader from './marketing-header.astro'
+---
+
+<main
+  class='flex min-h-screen w-full flex-col items-center justify-center gap-8 p-4 md:p-12'
+>
+  <MarketingHeader />
+
+  <div class=''>
+    <slot />
+  </div>
+  <!-- Footer -->
+  <MarketingFooter />
+</main>
