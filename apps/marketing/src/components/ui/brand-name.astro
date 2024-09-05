@@ -1,9 +1,13 @@
 ---
 import { Image } from 'astro:assets'
 import builditLogo from 'public/buildit-logo.svg'
+
+import { cn } from '@/lib/utils'
+
+const { className } = Astro.props
 ---
 
-<div class='flex items-center'>
+<div class={cn('flex items-center', className)}>
   <a href='/' class='flex items-center gap-2 font-cal'>
     <Image src={builditLogo} alt='BuildIt logo' />
     <h1 class='mt-1 text-xl'>BuildIt</h1>

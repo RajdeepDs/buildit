@@ -8,12 +8,12 @@ import BrandName from '../ui/brand-name.astro'
 
 <header
   class={cn(
-    'sticky top-3 z-10 flex w-full items-center justify-between gap-8 rounded-full border border-border px-2.5 py-1.5 backdrop-blur-lg md:top-6',
+    'sticky top-3 z-10 flex w-full items-center justify-between gap-8 rounded-lg border border-border px-2.5 py-1.5 backdrop-blur-lg md:top-6',
     'mx-auto w-full max-w-4xl',
   )}
 >
-  <BrandName />
+  <BrandName className='ml-2.5' />
   <div class=''>
-    <Button className='rounded-full'>Get Early Access</Button>
+    <Button className='rounded-md'>Get Early Access</Button>
   </div>
 </header>
