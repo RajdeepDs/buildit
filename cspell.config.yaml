@@ -17,6 +17,7 @@ words:
   - aren
   - astro
   - astrojs
+  - atrule
   - autodocs
   - autoplay
   - awst
@@ -28,6 +29,7 @@ words:
   - bvaughn
   - Byrom
   - callees
+  - catchline
   - cjsx
   - classname
   - clsx
@@ -35,6 +37,8 @@ words:
   - codespace
   - codespaces
   - Colm
+  - colour
+  - colours
   - Combobox
   - commitlint
   - commitlintrc
@@ -62,6 +66,7 @@ words:
   - hookform
   - hyperscript
   - ianvs
+  - Invisibles
   - ixahmedxi
   - jiti
   - johndoe
@@ -71,6 +76,7 @@ words:
   - libsql
   - lockb
   - lucide
+  - magicui
   - Malyavko
   - microbundle
   - mikestead
@@ -83,6 +89,8 @@ words:
   - neonctl
   - neondatabase
   - nextjs
+  - noopener
+  - noreferrer
   - nuxt
   - nzst
   - onwarn
@@ -144,15 +152,10 @@ words:
   - vercel
   - viewports
   - vuepress
+  - waitlist
   - WITA
   - wscript
   - yoav
   - zustand
-  - colours
-  - colour
-  - atrule
-  - Invisibles
-  - magicui
-  - noreferrer
-  - waitlist
-  - noopener
+  - COBE
+  - cobe
