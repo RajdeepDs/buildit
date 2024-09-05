@@ -1,12 +1,48 @@
 ---
+import { Button } from '@buildit/ui/button'
+
 import BrandName from '../ui/brand-name.astro'
+import { Icons } from '../ui/icons'
+import Shell from '../ui/shell.astro'
 ---
 
-<footer class='w-full mx-auto max-w-4xl border'>
-  <div class=''>
-    Footer
-    <div class=''>
-      <BrandName />
+<footer class='w-full mx-auto max-w-4xl'>
+  <Shell className='grid gap-6'>
+    <div class='grid grid-cols-2 gap-6 md:grid-cols-5'>
+      <div class='col-span-2 flex flex-col gap-2'>
+        <BrandName />
+        <p class='text-sm text-soft font-light'>
+          Our vision is to create a powerful yet user friendly product
+          development tool for modern teams.
+        </p>
+      </div>
     </div>
-  </div>
+    <div class='flex items-center justify-between'>
+      <div class='flex items-center gap-2'>
+        <a
+          href='https://github.com/RajdeepDs/buildit'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button variant={'secondary'} size={'icon'}>
+            <Icons.github className='w-4 h-4' />
+          </Button>
+        </a>
+        <a
+          href='https://x.com/Rajdeep__ds'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button variant={'secondary'} size={'icon'}>
+            <Icons.x className='w-4 h-4' />
+          </Button>
+        </a>
+      </div>
+      <div class='hidden'>
+        <Button variant={'secondary'} size={'icon'}>
+          <Icons.star className='w-4 h-4' />
+        </Button>
+      </div>
+    </div>
+  </Shell>
 </footer>
