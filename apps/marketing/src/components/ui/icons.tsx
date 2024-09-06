@@ -3,10 +3,14 @@ import type { LucideIcon, LucideProps } from 'lucide-react'
 import {
   BellDot,
   ChevronRight,
+  CircleDotDashed,
   Globe,
+  Kanban,
+  MessageSquareDot,
   Orbit,
   RefreshCcw,
   Star,
+  Workflow,
 } from 'lucide-react'
 
 export type Icon = LucideIcon
@@ -19,6 +23,10 @@ export const Icons = {
   bellDot: BellDot,
   sync: RefreshCcw,
   orbit: Orbit,
+  issue: CircleDotDashed,
+  kanban: Kanban,
+  message: MessageSquareDot,
+  workflow: Workflow,
   github: (props: LucideProps) => (
     <svg viewBox='0 0 438.549 438.549' {...props}>
       <path

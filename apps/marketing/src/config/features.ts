@@ -41,4 +41,32 @@ export const cardConfig = {
       },
     ],
   },
-}
+  workflow: {
+    icon: 'workflow',
+    title: 'Empower your Development Workflow',
+    description:
+      'Streamline your process with powerful, intuitive tools built for modern dev teams',
+    features: [
+      {
+        icon: 'issue',
+        catchline: 'Effortless Issue Management',
+        description:
+          'Create, assign, and track issues with ease. Customizable fields and powerful search keep your team organized and focused on what matters.',
+      },
+      {
+        icon: 'kanban',
+        catchline: 'Visualize Your Progress',
+        description:
+          'Organize work into projects and sprints. Our flexible Kanban boards and milestone tracking keep your team aligned and on schedule.',
+        badge: 'Coming Soon',
+      },
+      {
+        icon: 'message',
+        catchline: 'Seamless Team Communication',
+        description:
+          'Foster collaboration with real-time updates, in-context discussions, and @mentions. Keep everyone in the loop, no matter where they are.',
+        badge: 'Coming Soon',
+      },
+    ],
+  },
+} satisfies Record<string, Feature>

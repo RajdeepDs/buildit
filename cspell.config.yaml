@@ -34,6 +34,8 @@ words:
   - classname
   - clsx
   - cmdk
+  - cobe
+  - COBE
   - codespace
   - codespaces
   - Colm
@@ -72,6 +74,7 @@ words:
   - johndoe
   - jscoverage
   - jspm
+  - Kanban
   - kohler
   - libsql
   - lockb
@@ -157,5 +160,3 @@ words:
   - wscript
   - yoav
   - zustand
-  - COBE
-  - cobe

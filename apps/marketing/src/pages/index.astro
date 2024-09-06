@@ -1,4 +1,6 @@
 ---
+import { Button } from '@buildit/ui/button'
+
 import BaseHead from '@/components/BaseHead.astro'
 import Hero from '@/components/hero.astro'
 import MarketingLayout from '@/components/layout/marketing-layout.astro'
@@ -6,6 +8,8 @@ import DotPattern from '@/components/magicui/dot-pattern'
 import PostHog from '@/components/posthog/PostHog.astro'
 import PoweredBy from '@/components/powered-by.astro'
 import Realtime from '@/components/realtime'
+import { Icons } from '@/components/ui/icons'
+import Workflow from '@/components/workflow'
 ---
 
 <!doctype html>
@@ -14,13 +18,29 @@ import Realtime from '@/components/realtime'
     <BaseHead />
     <PostHog />
   </head>
-  <body class=''>
+  <body>
     <DotPattern className='opacity-40'>
       <MarketingLayout>
-        <div class='grid gap-8'>
+        <div class='grid gap-12'>
           <Hero />
           <PoweredBy />
           <Realtime client:load />
+          <Workflow client:load />
+          <div class='flex flex-col text-center items-center'>
+            <h1 class='font-cal text-surface'>
+              Ready to Supercharge Your Development Process?
+            </h1>
+            <p class='text-sub'>
+              Join thousands of developers who are streamlining their workflow
+              with BuildIt
+            </p>
+            <a href='https://app.buildit.codes/join'>
+              <Button className='w-fit mt-4' variant={'default'}>
+                Start for Free
+                <Icons.chevronRight className='w-4 h-4 ml-2' />
+              </Button>
+            </a>
+          </div>
         </div>
       </MarketingLayout>
     </DotPattern>

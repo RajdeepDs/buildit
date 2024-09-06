@@ -38,10 +38,13 @@ import Shell from '../ui/shell'
           </Button>
         </a>
       </div>
-      <div class='hidden'>
-        <Button variant={'secondary'} size={'icon'}>
+      <div class=''>
+        <Button variant={'secondary'} size={'icon'} className='hidden'>
           <Icons.star className='w-4 h-4' />
         </Button>
+        <p class='text-xs text-soft/70'>
+          &copy; {new Date().getFullYear()} BuildIt. All rights reserved.
+        </p>
       </div>
     </div>
   </Shell>
