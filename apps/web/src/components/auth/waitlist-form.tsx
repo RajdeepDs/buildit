@@ -1,7 +1,5 @@
 'use client'
 
-import { useTransition } from 'react'
-
 import type { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,6 +18,8 @@ import { Input } from '@buildit/ui/input'
 import { useToast } from '@buildit/ui/toast'
 import { JoinWaitlistSchema } from '@buildit/utils/validations'
 
+import { api } from '@/lib/trpc/react'
+
 /**
  * The waitlist form component, which will allow the user to join the waitlist to get early access of BuildIt.
  * @returns JSX.Element
@@ -35,12 +35,23 @@ export default function WaitlistForm(): JSX.Element {
     },
   })
 
-  const [isPending, startTransition] = useTransition()
+  const mutation = api.join.join_waitlist.useMutation({
+    onSuccess({ message }) {
+      toast({
+        title: 'Thank you for joining the waitlist!',
+        description: message,
+      })
+    },
+    onError({ message }) {
+      toast({
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
 
   const onSubmit = (values: z.infer<typeof JoinWaitlistSchema>) => {
-    startTransition(async () => {
-      console.log('Values:', values)
-    })
+    mutation.mutate(values)
   }
 
   return (
@@ -80,7 +91,7 @@ export default function WaitlistForm(): JSX.Element {
           )}
         />
 
-        <Button type='submit' className='w-full' disabled={isPending}>
+        <Button type='submit' className='w-full' disabled={mutation.isPending}>
           Join Waitlist!
         </Button>
       </form>

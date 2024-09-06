@@ -21,7 +21,7 @@ export const VerifyEmailSchema = z.object({
 export type VerifyEmailInput = z.infer<typeof VerifyEmailSchema>
 
 export const JoinWaitlistSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email format'),
 })
 
