@@ -25,9 +25,17 @@
     "@t3-oss/env-core": "^0.10.1",
     "@total-typescript/ts-reset": "^0.5.1",
     "astro": "^4.11.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "cobe": "^0.6.3",
+    "framer-motion": "^11.5.2",
+    "lucide-react": "^0.438.0",
     "posthog-js": "^1.148.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-spring": "^9.7.4",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {

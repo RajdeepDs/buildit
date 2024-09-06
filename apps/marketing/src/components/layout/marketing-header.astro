@@ -1,0 +1,19 @@
+---
+import { Button } from '@buildit/ui/button'
+
+import { cn } from '@/lib/utils'
+
+import BrandName from '../ui/brand-name.astro'
+---
+
+<header
+  class={cn(
+    'sticky top-3 z-10 flex w-full items-center justify-between gap-8 rounded-lg border border-border px-2.5 py-1.5 backdrop-blur-lg md:top-6',
+    'mx-auto w-full max-w-4xl',
+  )}
+>
+  <BrandName className='ml-2.5' />
+  <a href='https://app.buildit.codes/join'>
+    <Button className='rounded-md'>Get Early Access</Button>
+  </a>
+</header>
