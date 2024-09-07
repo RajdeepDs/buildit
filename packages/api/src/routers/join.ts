@@ -32,7 +32,7 @@ export const joinRouter = createRouter({
         email: input.email,
       })
       return {
-        message: 'Joined in the waitlist successfully',
+        message: 'Wait till we get back to you!',
       }
     }),
 })

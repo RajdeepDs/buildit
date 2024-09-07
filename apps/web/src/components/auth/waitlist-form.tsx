@@ -1,5 +1,8 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+
 import type { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,6 +29,20 @@ import { api } from '@/lib/trpc/react'
  */
 export default function WaitlistForm(): JSX.Element {
   const { toast } = useToast()
+  const params = useSearchParams()
+  const [showMessage, setShowMessage] = useState(false)
+
+  useEffect(() => {
+    if (params.get('message') === 'not-allowed') {
+      setShowMessage(true)
+    }
+    if (showMessage) {
+      toast({
+        title: 'You are not allowed to login!',
+        description: 'Please wait till we get back to you.',
+      })
+    }
+  }, [params, showMessage, toast])
 
   const form = useForm<z.infer<typeof JoinWaitlistSchema>>({
     resolver: zodResolver(JoinWaitlistSchema),
@@ -41,12 +58,14 @@ export default function WaitlistForm(): JSX.Element {
         title: 'Thank you for joining the waitlist!',
         description: message,
       })
+      form.reset()
     },
     onError({ message }) {
       toast({
         title: 'Something went wrong!',
         description: message,
       })
+      form.reset()
     },
   })
 

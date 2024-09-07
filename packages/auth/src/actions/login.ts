@@ -7,7 +7,8 @@ import type { ActionResponse } from '../lib/types'
 import { Scrypt } from 'lucia'
 import { z } from 'zod'
 
-import { db } from '@buildit/db'
+import { db, eq } from '@buildit/db'
+import { waitlistTable } from '@buildit/db/schema'
 import { SignInSchema } from '@buildit/utils/validations'
 
 import { lucia } from '../lucia'
@@ -26,6 +27,22 @@ export async function login(
     SignInSchema.safeParse({ values })
 
     const { email, password } = values
+
+    const waitlistUser = await db.query.waitlistTable.findFirst({
+      where: eq(waitlistTable.email, email),
+    })
+
+    if (!waitlistUser) {
+      return {
+        error: 'Please join the waitlist.',
+      }
+    }
+
+    if (waitlistUser.status !== 'allowed') {
+      return {
+        error: 'You are not allowed to login. Please wait for an invitation.',
+      }
+    }
 
     const existingUser = await db.query.userTable.findFirst({
       where: (table, { eq }) => eq(table.email, email),
