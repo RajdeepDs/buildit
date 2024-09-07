@@ -74,8 +74,6 @@ export async function signup(
     )
     return { success: userId }
   } catch (error) {
-    console.log('Error:', error)
-
     return {
       error:
         error instanceof z.ZodError

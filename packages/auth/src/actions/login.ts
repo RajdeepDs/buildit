@@ -73,8 +73,6 @@ export async function login(
     )
     return { success: 'Logged in successfully' }
   } catch (error) {
-    console.log('Error:', error)
-
     return {
       error:
         error instanceof z.ZodError

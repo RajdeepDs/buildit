@@ -111,7 +111,7 @@ export default function WaitlistForm(): JSX.Element {
         />
 
         <Button type='submit' className='w-full' disabled={mutation.isPending}>
-          Join Waitlist!
+          Submit
         </Button>
       </form>
     </Form>

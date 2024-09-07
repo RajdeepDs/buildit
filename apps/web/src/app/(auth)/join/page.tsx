@@ -19,7 +19,7 @@ export default async function JoinPage(): Promise<JSX.Element> {
       <div className='flex flex-col items-start space-y-1'>
         <p className='font-semibold text-lg text-strong'>Plan it. Build it.</p>
         <h1 className='font-cal text-soft/75 text-xl tracking-wide'>
-          Join the waitlist!
+          Join our waitlist!
         </h1>
       </div>
       <WaitlistForm />
