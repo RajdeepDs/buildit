@@ -4,7 +4,7 @@ import { generateState, GitHub, OAuth2RequestError } from 'arctic'
 import { generateId } from 'lucia'
 
 import { db, eq } from '@buildit/db'
-import { oauthAccountTable, userTable } from '@buildit/db/schema'
+import { oauthAccountTable, userTable, waitlistTable } from '@buildit/db/schema'
 import { env } from '@buildit/env/web/server'
 
 import { lucia } from '../lucia'
@@ -88,6 +88,30 @@ export async function validateGithubCallback(
           status: 400,
         },
       )
+    }
+
+    // Check if the user is in the waitlist
+    const waitlistUser = await db.query.waitlistTable.findFirst({
+      where: eq(waitlistTable.email, githubUser.email),
+    })
+
+    if (!waitlistUser) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: '/join',
+        },
+      })
+    }
+
+    if (waitlistUser.status !== 'allowed') {
+      // If the user is not allowed, redirect to the join page with a message
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: '/join?message=not-allowed',
+        },
+      })
     }
 
     // Login

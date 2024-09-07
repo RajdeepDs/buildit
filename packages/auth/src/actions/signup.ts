@@ -8,7 +8,7 @@ import { generateId, Scrypt } from 'lucia'
 import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
-import { userTable } from '@buildit/db/schema'
+import { userTable, waitlistTable } from '@buildit/db/schema'
 import { SignUpSchema } from '@buildit/utils/validations'
 
 import { lucia } from '../lucia'
@@ -27,6 +27,23 @@ export async function signup(
     SignUpSchema.safeParse({ values })
 
     const { email, password } = values
+
+    const waitlistUser = await db.query.waitlistTable.findFirst({
+      where: eq(waitlistTable.email, email),
+    })
+
+    if (!waitlistUser) {
+      return {
+        error: 'Please join the waitlist.',
+      }
+    }
+
+    if (waitlistUser.status !== 'allowed') {
+      return {
+        error:
+          'You are not allowed to create an account. Please wait for an invitation.',
+      }
+    }
 
     const existingUser = await db.query.userTable.findFirst({
       where: eq(userTable.email, email),
@@ -57,8 +74,6 @@ export async function signup(
     )
     return { success: userId }
   } catch (error) {
-    console.log('Error:', error)
-
     return {
       error:
         error instanceof z.ZodError
