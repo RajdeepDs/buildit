@@ -35,14 +35,14 @@ export const MentionInputElement = withRef<typeof PlateElement>(
         >
           <span
             className={cn(
-              'inline-block rounded-md bg-soft px-1.5 py-0.5 align-baseline text-sm',
+              'inline-block rounded-md bg-soft px-1 py-0.5 align-baseline text-sm',
               className,
             )}
           >
             <InlineComboboxInput />
           </span>
 
-          <InlineComboboxContent className='my-1.5'>
+          <InlineComboboxContent className='my-1.5' gutter={5}>
             <InlineComboboxEmpty>No results found</InlineComboboxEmpty>
 
             {MENTIONABLES.map((item) => (

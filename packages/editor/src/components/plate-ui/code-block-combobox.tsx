@@ -89,50 +89,19 @@ const languages: { label: string; value: string }[] = [
   { label: 'SVG', value: 'svg' },
   { label: 'TSX', value: 'tsx' },
   { label: 'TypeScript', value: 'typescript' },
-  { label: 'WebAssembly', value: 'wasm' },
-  { label: 'ANTLR4', value: 'antlr4' },
   { label: 'C', value: 'c' },
-  { label: 'CMake', value: 'cmake' },
-  { label: 'CoffeeScript', value: 'coffeescript' },
-  { label: 'C#', value: 'csharp' },
-  { label: 'Dart', value: 'dart' },
-  { label: 'Django', value: 'django' },
-  { label: 'Docker', value: 'docker' },
-  { label: 'EJS', value: 'ejs' },
-  { label: 'Erlang', value: 'erlang' },
   { label: 'Go', value: 'go' },
-  { label: 'Groovy', value: 'groovy' },
   { label: 'Java', value: 'java' },
-  { label: 'Kotlin', value: 'kotlin' },
-  { label: 'LaTeX', value: 'latex' },
-  { label: 'Less', value: 'less' },
-  { label: 'Lua', value: 'lua' },
-  { label: 'Makefile', value: 'makefile' },
-  { label: 'Markup', value: 'markup' },
-  { label: 'MATLAB', value: 'matlab' },
-  { label: 'Mermaid', value: 'mermaid' },
-  { label: 'Objective-C', value: 'objectivec' },
-  { label: 'Perl', value: 'perl' },
   { label: 'PHP', value: 'php' },
   { label: 'PowerShell', value: 'powershell' },
-  { label: '.properties', value: 'properties' },
-  { label: 'Protocol Buffers', value: 'protobuf' },
   { label: 'Python', value: 'python' },
-  { label: 'R', value: 'r' },
-  { label: 'Ruby', value: 'ruby' },
-  { label: 'Sass (Sass)', value: 'sass' },
-  // FIXME: Error with current scala grammar
-  { label: 'Scala', value: 'scala' },
-  { label: 'Scheme', value: 'scheme' },
-  { label: 'Sass (Scss)', value: 'scss' },
   { label: 'Shell', value: 'shell' },
-  { label: 'Swift', value: 'swift' },
-  { label: 'XML', value: 'xml' },
   { label: 'YAML', value: 'yaml' },
 ]
 
 /**
- *
+ * The code block combobox component.
+ * @returns JSX.Element
  */
 export function CodeBlockCombobox() {
   const state = useCodeBlockComboboxState()
@@ -147,7 +116,7 @@ export function CodeBlockCombobox() {
       <PopoverTrigger asChild>
         <Button
           aria-expanded={open}
-          className='h-5 justify-between px-1 text-xs'
+          className='h-6 justify-between px-1 text-xs text-sub outline-none'
           role='combobox'
           size='sm'
           variant='ghost'
@@ -156,15 +125,15 @@ export function CodeBlockCombobox() {
             ? languages.find((language) => language.value === state.value)
                 ?.label
             : 'Plain Text'}
-          <Icons.chevronsUpDown className='ml-2 size-4 shrink-0 opacity-50' />
+          <Icons.chevronsUpDown className='ml-2 size-3 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[200px] p-0'>
         <Command>
-          <CommandInput placeholder='Search language...' />
+          <CommandInput placeholder='Search language...' className='' />
           <CommandEmpty>No language found.</CommandEmpty>
 
-          <CommandList>
+          <CommandList className='h-32'>
             {languages.map((language) => (
               <CommandItem
                 className='cursor-pointer'

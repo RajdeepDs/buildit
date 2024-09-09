@@ -12,7 +12,8 @@ import { MarkToolbarButton } from './mark-toolbar-button'
 import { TurnIntoDropdownMenu } from './turn-into-dropdown-menu'
 
 /**
- *
+ * The floating toolbar buttons.
+ * @returns JSX.Element
  */
 export function FloatingToolbarButtons() {
   const readOnly = useEditorReadOnly()

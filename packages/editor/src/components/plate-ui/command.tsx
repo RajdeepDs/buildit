@@ -14,9 +14,10 @@ export const Command = withCn(
 )
 
 /**
- *
- * @param root0
- * @param root0.children
+ * The CommandDialog component is a styled version of the Command component.
+ * @param props - The props of the CommandDialog component.
+ * @param props.children - The children of the CommandDialog component.
+ * @returns JSX.Element
  */
 export function CommandDialog({ children, ...props }: DialogProps) {
   return (
@@ -32,11 +33,11 @@ export function CommandDialog({ children, ...props }: DialogProps) {
 
 export const CommandInput = withRef<typeof CommandPrimitive.Input>(
   ({ className, ...props }, ref) => (
-    <div className='flex items-center border-b px-3' cmdk-input-wrapper=''>
+    <div className='flex items-center border-b px-2' cmdk-input-wrapper=''>
       <Icons.search className='mr-2 size-4 shrink-0 opacity-50' />
       <CommandPrimitive.Input
         className={cn(
-          'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-slate-400',
+          'flex h-8 p-0 focus:ring-0 border-none w-full rounded-md bg-transparent text-sm outline-none placeholder:text-soft disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         ref={ref}
@@ -48,7 +49,7 @@ export const CommandInput = withRef<typeof CommandPrimitive.Input>(
 
 export const CommandList = withCn(
   CommandPrimitive.List,
-  'max-h-[500px] overflow-y-auto overflow-x-hidden',
+  'overflow-y-auto overflow-x-hidden',
 )
 
 export const CommandEmpty = withCn(
@@ -68,7 +69,7 @@ export const CommandSeparator = withCn(
 
 export const CommandItem = withCn(
   CommandPrimitive.Item,
-  'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-slate-100 data-[selected=true]:text-slate-900 data-[disabled=true]:opacity-50 dark:data-[selected=true]:bg-slate-800 dark:data-[selected=true]:text-slate-50',
+  'relative hover:bg-weak text-sub flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 aria-selected:bg-weak aria-selected:text-strong',
 )
 
 export const CommandShortcut = withCn(

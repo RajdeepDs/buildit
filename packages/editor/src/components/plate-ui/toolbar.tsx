@@ -51,9 +51,9 @@ const toolbarButtonVariants = cva(
       },
       variant: {
         default:
-          'bg-transparent text-surface hover:bg-soft hover:text-strong aria-checked:bg-soft aria-checked:text-strong dark:hover:bg-slate-800 dark:hover:text-slate-400 dark:aria-checked:bg-slate-800 dark:aria-checked:text-slate-50',
+          'bg-transparent text-soft hover:bg-weak hover:text-surface aria-checked:bg-weak aria-checked:text-surface',
         outline:
-          'border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+          'border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900',
       },
     },
   },
@@ -78,7 +78,7 @@ const ToolbarButton = withTooltip(
     ) => {
       return typeof pressed === 'boolean' ? (
         <ToolbarToggleGroup
-          disabled={props.disabled}
+          disabled={props.disabled ?? false}
           type='single'
           value='single'
         >
@@ -88,7 +88,7 @@ const ToolbarButton = withTooltip(
                 size,
                 variant,
               }),
-              isDropdown && 'my-1 justify-between pr-1',
+              isDropdown && 'justify-between pr-1',
               className,
             )}
             ref={ref}

@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
   useOpenState,
 } from './dropdown-menu'
+import { Separator } from './separator'
 import { ToolbarButton } from './toolbar'
 
 const items = [
@@ -111,15 +112,17 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
     <DropdownMenu modal={false} {...openState} {...props}>
       <DropdownMenuTrigger asChild>
         <ToolbarButton
-          className='lg:min-w-[130px] hover:bg-soft'
+          className='lg:min-w-[130px]'
           isDropdown
           pressed={openState.open}
           tooltip='Turn into'
           size={'xs'}
         >
-          <SelectedItemIcon className='size-4 lg:hidden text-surface' />
+          <SelectedItemIcon className='size-4 lg:hidden' />
         </ToolbarButton>
       </DropdownMenuTrigger>
+
+      <Separator orientation='vertical' className='h-4 bg-soft' />
 
       <DropdownMenuContent align='start' className='w-[450px]'>
         <DropdownMenuLabel>Turn into</DropdownMenuLabel>

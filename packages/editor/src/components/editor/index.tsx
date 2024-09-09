@@ -81,7 +81,7 @@ export default function Editor() {
           '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
         )}
       >
-        <PlateEditor placeholder='Type...' />
+        <PlateEditor placeholder='Type...' focusRing={false} />
         <FloatingToolbar>
           <FloatingToolbarButtons />
         </FloatingToolbar>

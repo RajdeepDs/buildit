@@ -271,7 +271,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
     <Portal>
       <ComboboxPopover
         className={cn(
-          'z-[500] max-h-[288px] w-[300px] overflow-y-auto rounded-md bg-white shadow-md dark:bg-slate-950',
+          'border border-soft rounded bg-white z-[500] shadow-md w-[300px] max-h-[288px] overflow-y-auto',
           className,
         )}
         {...props}
@@ -289,7 +289,7 @@ const comboboxItemVariants = cva(
     variants: {
       interactive: {
         false: '',
-        true: 'cursor-pointer transition-colors hover:bg-slate-100 hover:text-slate-900 data-[active-item=true]:bg-slate-100 data-[active-item=true]:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50 dark:data-[active-item=true]:bg-slate-800 dark:data-[active-item=true]:text-slate-50',
+        true: 'cursor-pointer transition-colors hover:bg-weak hover:text-surface data-[active-item=true]:bg-weak data-[active-item=true]:text-surface',
       },
     },
   },
@@ -316,7 +316,8 @@ const InlineComboboxItem = ({
   const search = filter && store.useState('value')
 
   const visible = useMemo(
-    () => !filter || filter({ keywords, value }, search as string),
+    () =>
+      !filter || filter({ keywords: keywords ?? [], value }, search as string),
     [filter, value, keywords, search],
   )
 
@@ -324,7 +325,12 @@ const InlineComboboxItem = ({
 
   return (
     <ComboboxItem
-      className={cn(comboboxItemVariants(), className)}
+      className={cn(
+        'data-[data-active-item=true]:bg-black ',
+        comboboxItemVariants({ interactive: true }),
+        className,
+      )}
+      focusOnHover={true}
       onClick={(event) => {
         removeInput(true)
         onClick?.(event)

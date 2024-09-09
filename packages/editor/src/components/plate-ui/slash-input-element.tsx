@@ -19,7 +19,7 @@ interface SlashCommandRule {
   icon: ComponentType<SVGProps<SVGSVGElement>>
   onSelect: (editor: PlateEditor) => void
   value: string
-  keywords?: string[]
+  keywords?: string[] | undefined
 }
 
 const rules: SlashCommandRule[] = [
@@ -90,21 +90,20 @@ export const SlashInputElement = withRef<typeof PlateElement>(
             <InlineComboboxInput />
           </span>
 
-          <InlineComboboxContent>
-            <InlineComboboxEmpty>
-              No matching commands found
-            </InlineComboboxEmpty>
+          <InlineComboboxContent gutter={5}>
+            <InlineComboboxEmpty>Not found</InlineComboboxEmpty>
 
             {rules.map(({ icon: Icon, keywords, onSelect, value }) => (
               <InlineComboboxItem
                 key={value}
-                keywords={keywords}
+                keywords={keywords!}
                 onClick={() => {
                   onSelect(editor)
                 }}
+                focusOnHover={true}
                 value={value}
               >
-                <Icon aria-hidden className='mr-2 size-4' />
+                <Icon aria-hidden className='mr-2 size-4 text-sub' />
                 {value}
               </InlineComboboxItem>
             ))}

@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 import { cn, withRef } from '@udecode/cn'
 import { useCodeBlockElementState } from '@udecode/plate-code-block/react'
 import { PlateElement } from '@udecode/plate-common/react'
@@ -21,10 +19,6 @@ export const CodeBlockElement = withRef<typeof PlateElement>(
         ref={ref}
         {...props}
       >
-        <pre className='overflow-x-auto rounded-md bg-slate-100 px-6 py-8 font-mono text-sm leading-[normal] [tab-size:2] dark:bg-slate-800'>
-          <code>{children}</code>
-        </pre>
-
         {state.syntax && (
           <div
             className='absolute right-2 top-2 z-10 select-none'
@@ -33,6 +27,9 @@ export const CodeBlockElement = withRef<typeof PlateElement>(
             <CodeBlockCombobox />
           </div>
         )}
+        <pre className='overflow-x-auto rounded-md bg-weak p-6 font-mono text-sm leading-[normal] [tab-size:2] dark:bg-slate-800'>
+          <code>{children}</code>
+        </pre>
       </PlateElement>
     )
   },
