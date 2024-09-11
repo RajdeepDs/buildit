@@ -17,9 +17,14 @@ export const TooltipContent = withCn(
   withProps(TooltipPrimitive.Content, {
     sideOffset: 4,
   }),
-  'z-50 overflow-hidden rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-950 shadow-md dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50',
+  'z-50 overflow-hidden rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-950 shadow-md dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50',
 )
 
+/**
+ * Tooltip component that wraps the component with a tooltip.
+ * @param Component Component to wrap
+ * @returns Component with tooltip
+ */
 export function withTooltip<
   T extends React.ComponentType<any> | keyof HTMLElementTagNameMap,
 >(Component: T) {

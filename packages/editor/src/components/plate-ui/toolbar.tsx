@@ -51,7 +51,7 @@ const toolbarButtonVariants = cva(
       },
       variant: {
         default:
-          'bg-transparent text-soft hover:bg-weak hover:text-surface aria-checked:bg-weak aria-checked:text-surface',
+          'bg-transparent text-sub hover:bg-soft hover:text-surface aria-checked:bg-soft aria-checked:text-surface',
         outline:
           'border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900',
       },

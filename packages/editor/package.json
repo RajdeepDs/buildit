@@ -34,6 +34,7 @@
     "@udecode/plate-horizontal-rule": "^37.0.0",
     "@udecode/plate-indent": "^37.0.0",
     "@udecode/plate-indent-list": "^37.0.0",
+    "@udecode/plate-kbd": "^37.0.0",
     "@udecode/plate-list": "^37.0.0",
     "@udecode/plate-mention": "^37.0.0",
     "@udecode/plate-node-id": "^37.0.0",
