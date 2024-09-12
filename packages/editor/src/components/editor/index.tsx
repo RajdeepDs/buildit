@@ -37,6 +37,8 @@ import {
 import { HEADING_KEYS, HEADING_LEVELS } from '@udecode/plate-heading'
 import { HeadingPlugin } from '@udecode/plate-heading/react'
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react'
+import { IndentPlugin } from '@udecode/plate-indent'
+import { IndentListPlugin } from '@udecode/plate-indent-list/react'
 import { ListPlugin, TodoListPlugin } from '@udecode/plate-list/react'
 import { MentionInputPlugin, MentionPlugin } from '@udecode/plate-mention/react'
 import { NodeIdPlugin } from '@udecode/plate-node-id'
@@ -56,7 +58,10 @@ import { HeadingElement } from '../plate-ui/heading-element'
 import { HrElement } from '../plate-ui/hr-element'
 import { MentionElement } from '../plate-ui/mention-element'
 import { MentionInputElement } from '../plate-ui/mention-input-element'
+import { ParagraphElement } from '../plate-ui/paragraph-element'
+import { withPlaceholders } from '../plate-ui/placeholder'
 import { SlashInputElement } from '../plate-ui/slash-input-element'
+import { TodoListElement } from '../plate-ui/todo-list-element'
 
 /**
  * Editor component.
@@ -81,7 +86,7 @@ export default function Editor() {
           '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
         )}
       >
-        <PlateEditor placeholder='Type...' focusRing={false} />
+        <PlateEditor focusRing={false} />
         <FloatingToolbar>
           <FloatingToolbarButtons />
         </FloatingToolbar>
@@ -118,6 +123,26 @@ export const useMyEditor = () => {
       SuperscriptPlugin,
 
       // Block Style
+      IndentPlugin.configure({
+        inject: {
+          targetPlugins: [
+            ParagraphPlugin.key,
+            BlockquotePlugin.key,
+            CodeBlockPlugin.key,
+            ...HEADING_LEVELS,
+          ],
+        },
+      }),
+      IndentListPlugin.extend({
+        inject: {
+          targetPlugins: [
+            ParagraphPlugin.key,
+            BlockquotePlugin.key,
+            CodeBlockPlugin.key,
+            ...HEADING_LEVELS,
+          ],
+        },
+      }),
 
       // Functionality
       ExitBreakPlugin.configure({
@@ -190,15 +215,8 @@ export const useMyEditor = () => {
         },
       }),
     ],
-    value: [
-      {
-        id: '1',
-        type: ParagraphPlugin.key,
-        children: [{ text: 'Hello, World!' }],
-      },
-    ],
     override: {
-      components: {
+      components: withPlaceholders({
         [BlockquotePlugin.key]: BlockquoteElement,
         [CodeBlockPlugin.key]: CodeBlockElement,
         [CodeLinePlugin.key]: CodeLineElement,
@@ -213,6 +231,9 @@ export const useMyEditor = () => {
         [SlashInputPlugin.key]: SlashInputElement,
         [MentionPlugin.key]: MentionElement,
         [MentionInputPlugin.key]: MentionInputElement,
+        [ParagraphPlugin.key]: ParagraphElement,
+        [TodoListPlugin.key]: TodoListElement,
+
         [BoldPlugin.key]: withProps(PlateLeaf, { as: 'strong' }),
         [CodePlugin.key]: CodeLeaf,
         [ItalicPlugin.key]: withProps(PlateLeaf, { as: 'em' }),
@@ -220,8 +241,15 @@ export const useMyEditor = () => {
         [SubscriptPlugin.key]: withProps(PlateLeaf, { as: 'sub' }),
         [SuperscriptPlugin.key]: withProps(PlateLeaf, { as: 'sup' }),
         [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
-      },
+      }),
     },
+    value: [
+      {
+        id: '1',
+        type: ParagraphPlugin.key,
+        children: [{ text: 'Hello, World!' }],
+      },
+    ],
   })
   return editor
 }
