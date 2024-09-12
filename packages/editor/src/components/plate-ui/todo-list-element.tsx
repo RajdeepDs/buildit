@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { cn, withRef } from '@udecode/cn'
 import { PlateElement } from '@udecode/plate-common/react'
 import {
@@ -22,7 +20,7 @@ export const TodoListElement = withRef<typeof PlateElement>(
         {...props}
       >
         <div
-          className='mr-1.5 flex select-none items-center justify-center'
+          className='mr-1 flex select-none items-center justify-center'
           contentEditable={false}
         >
           <Checkbox {...checkboxProps} />
@@ -30,7 +28,7 @@ export const TodoListElement = withRef<typeof PlateElement>(
         <span
           className={cn(
             'flex-1 focus:outline-none',
-            state.checked && 'text-slate-500 line-through dark:text-slate-400',
+            state.checked && 'text-soft line-through',
           )}
           contentEditable={!state.readOnly}
           suppressContentEditableWarning

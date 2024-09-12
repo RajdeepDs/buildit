@@ -70,14 +70,6 @@ const rules: SlashCommandRule[] = [
     },
     value: 'Numbered list',
   },
-  // {
-  //   icon: Icons.add,
-  //   keywords: ['inline', 'date'],
-  //   onSelect: (editor) => {
-  //     editor.getTransforms(DatePlugin).insert.date()
-  //   },
-  //   value: 'Date',
-  // },
 ]
 
 export const SlashInputElement = withRef<typeof PlateElement>(
