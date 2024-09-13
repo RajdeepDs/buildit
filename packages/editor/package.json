@@ -43,6 +43,7 @@
     "@udecode/plate-node-id": "^37.0.0",
     "@udecode/plate-reset-node": "^37.0.0",
     "@udecode/plate-slash-command": "^37.0.0",
+    "@udecode/plate-tabbable": "^38.0.0",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
     "lucide-react": "^0.436.0",

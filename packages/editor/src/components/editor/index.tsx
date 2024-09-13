@@ -3,6 +3,8 @@
 
 import { useRef } from 'react'
 
+import type { Control } from 'react-hook-form'
+
 import { cn, withProps } from '@udecode/cn'
 import { AutoformatPlugin } from '@udecode/plate-autoformat/react'
 import {
@@ -29,6 +31,7 @@ import {
 import {
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
+  someNode,
 } from '@udecode/plate-common'
 import {
   createPlateEditor,
@@ -47,7 +50,9 @@ import { MentionInputPlugin, MentionPlugin } from '@udecode/plate-mention/react'
 import { NodeIdPlugin } from '@udecode/plate-node-id'
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react'
 import { SlashInputPlugin, SlashPlugin } from '@udecode/plate-slash-command'
+import { TabbablePlugin } from '@udecode/plate-tabbable/react'
 import Prism from 'prismjs'
+import { Controller } from 'react-hook-form'
 
 import { autoformatRules } from '../../lib/autoformat-rules'
 import { BlockquoteElement } from '../plate-ui/blockquote-element'
@@ -67,39 +72,68 @@ import { withPlaceholders } from '../plate-ui/placeholder'
 import { SlashInputElement } from '../plate-ui/slash-input-element'
 import { TodoListElement } from '../plate-ui/todo-list-element'
 
+interface EditorProps {
+  control: Control
+  onBlur: () => void
+  name: string
+  content: string
+}
+
 /**
- * Editor component.
- * @returns JSX.Element
+ * The Editor component.
+ * @param props The props for the editor component.
+ * @param props.content The initial content of the editor.
+ * @param props.onBlur The callback function to call when the content changes.
+ * @param props.control The control object from react-hook-form.
+ * @param props.name The name of the editor.
+ * @returns The editor component.
  */
-export default function Editor() {
+export default function Editor({
+  content,
+  onBlur,
+  control,
+  name,
+}: EditorProps) {
   const containerRef = useRef(null)
-  const editor = useMyEditor()
+  const editor = useMyEditor(content)
 
   return (
-    <Plate
-      editor={editor}
-      onChange={({ value }) => {
-        localStorage.setItem('editorContent', JSON.stringify(value))
-      }}
-    >
-      <div
-        ref={containerRef}
-        className={cn(
-          'relative',
-          // Block selection
-          '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
-        )}
-      >
-        <PlateEditor focusRing={false} autoFocus />
-        <FloatingToolbar>
-          <FloatingToolbarButtons />
-        </FloatingToolbar>
-      </div>
-    </Plate>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Plate
+          editor={editor}
+          onChange={({ value }) => {
+            localStorage.setItem('editorContent', JSON.stringify(value))
+          }}
+        >
+          <div
+            ref={containerRef}
+            className={cn(
+              'relative',
+              // Block selection
+              '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
+            )}
+          >
+            <PlateEditor
+              focusRing={false}
+              autoFocus
+              onBlur={() => {
+                onBlur()
+              }}
+            />
+            <FloatingToolbar>
+              <FloatingToolbarButtons />
+            </FloatingToolbar>
+          </div>
+        </Plate>
+      )}
+    />
   )
 }
 
-export const useMyEditor = () => {
+export const useMyEditor = (content: string) => {
   const editor = createPlateEditor({
     plugins: [
       // Nodes
@@ -129,6 +163,7 @@ export const useMyEditor = () => {
       HighlightPlugin,
 
       // Block Style
+
       IndentPlugin.configure({
         inject: {
           targetPlugins: [
@@ -226,6 +261,26 @@ export const useMyEditor = () => {
           ],
         },
       }),
+      //! Fix: Tabbable Plugin is not working - when pressing tab, the focus is not moving to the next element instead it is focusing the browser's window
+      TabbablePlugin.configure(({ editor }) => ({
+        options: {
+          query: () => {
+            if (isSelectionAtBlockStart(editor)) return false
+
+            return !someNode(editor, {
+              match: (n) => {
+                return !!(
+                  n.type &&
+                  ([TodoListPlugin.key, CodeBlockPlugin.key].includes(
+                    n.type as string,
+                  ) ||
+                    n[IndentListPlugin.key])
+                )
+              },
+            })
+          },
+        },
+      })),
     ],
     override: {
       components: withPlaceholders({
@@ -254,13 +309,7 @@ export const useMyEditor = () => {
         [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
       }),
     },
-    value: [
-      {
-        id: '1',
-        type: ParagraphPlugin.key,
-        children: [{ text: 'Hello, World!' }],
-      },
-    ],
+    value: JSON.parse(content),
   })
   return editor
 }
