@@ -23,20 +23,20 @@ import {
   UnderlinePlugin,
 } from '@udecode/plate-basic-marks/react'
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react'
+import { insertEmptyCodeBlock } from '@udecode/plate-code-block'
 import {
   CodeBlockPlugin,
   CodeLinePlugin,
-  insertEmptyCodeBlock,
-} from '@udecode/plate-code-block'
+} from '@udecode/plate-code-block/react'
 import {
   getParentNode,
   insertNodes,
   isBlock,
   isElement,
   isType,
-  ParagraphPlugin,
   setNodes,
 } from '@udecode/plate-common'
+import { ParagraphPlugin } from '@udecode/plate-core/react'
 import { HEADING_KEYS } from '@udecode/plate-heading'
 import { HighlightPlugin } from '@udecode/plate-highlight/react'
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react'
@@ -247,7 +247,7 @@ export const autoformatLists: AutoformatRule[] = [
     format: (editor) => {
       formatList(editor, NumberedListPlugin.key)
     },
-    match: ['^\\d+\\.$ ', '^\\d+\\)$ '],
+    match: [String.raw`^\d+\.$ `, String.raw`^\d+\)$ `],
     matchByRegex: true,
     mode: 'block',
     preFormat,
@@ -291,7 +291,7 @@ export const autoformatIndentLists: AutoformatRule[] = [
         listStyleType: ListStyleType.Decimal,
       })
     },
-    match: ['^\\d+\\.$ ', '^\\d+\\)$ '],
+    match: [String.raw`^\d+\.$ `, String.raw`^\d+\)$ `],
     matchByRegex: true,
     mode: 'block',
     type: 'list',

@@ -27,11 +27,21 @@ export default function EditorPage() {
     console.log('Submitted Values:', values) // TODO: Implement the submit logic
   }
 
-  const defaultValue = JSON.stringify([{ children: [{ text: '' }], type: 'p' }])
+  const value = [
+    {
+      type: 'p',
+      children: [
+        {
+          text: '',
+        },
+      ],
+    },
+  ]
 
-  const value = JSON.parse(
-    localStorage.getItem('editorContent') ?? defaultValue,
-  )
+  const localValue =
+    typeof window !== 'undefined' && localStorage.getItem('editorContent')
+
+  const content = localValue ? JSON.parse(localValue) : value
 
   return (
     <div className='p-5'>
@@ -45,7 +55,7 @@ export default function EditorPage() {
               <FormItem>
                 <FormControl>
                   <Editor
-                    content={value}
+                    content={content}
                     onBlur={() => {
                       void form.trigger('description')
                       if (form.formState.isValid) {

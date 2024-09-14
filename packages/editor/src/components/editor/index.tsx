@@ -43,13 +43,16 @@ import { HEADING_KEYS, HEADING_LEVELS } from '@udecode/plate-heading'
 import { HeadingPlugin } from '@udecode/plate-heading/react'
 import { HighlightPlugin } from '@udecode/plate-highlight/react'
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react'
-import { IndentPlugin } from '@udecode/plate-indent'
 import { IndentListPlugin } from '@udecode/plate-indent-list/react'
+import { IndentPlugin } from '@udecode/plate-indent/react'
 import { TodoListPlugin } from '@udecode/plate-list/react'
 import { MentionInputPlugin, MentionPlugin } from '@udecode/plate-mention/react'
 import { NodeIdPlugin } from '@udecode/plate-node-id'
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react'
-import { SlashInputPlugin, SlashPlugin } from '@udecode/plate-slash-command'
+import {
+  SlashInputPlugin,
+  SlashPlugin,
+} from '@udecode/plate-slash-command/react'
 import { TabbablePlugin } from '@udecode/plate-tabbable/react'
 import Prism from 'prismjs'
 
