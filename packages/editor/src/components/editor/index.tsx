@@ -3,7 +3,7 @@
 
 import { useRef } from 'react'
 
-import type { Control } from 'react-hook-form'
+import type { Value } from '@udecode/plate-common'
 
 import { cn, withProps } from '@udecode/cn'
 import { AutoformatPlugin } from '@udecode/plate-autoformat/react'
@@ -52,7 +52,6 @@ import { ResetNodePlugin } from '@udecode/plate-reset-node/react'
 import { SlashInputPlugin, SlashPlugin } from '@udecode/plate-slash-command'
 import { TabbablePlugin } from '@udecode/plate-tabbable/react'
 import Prism from 'prismjs'
-import { Controller } from 'react-hook-form'
 
 import { autoformatRules } from '../../lib/autoformat-rules'
 import { BlockquoteElement } from '../plate-ui/blockquote-element'
@@ -73,10 +72,8 @@ import { SlashInputElement } from '../plate-ui/slash-input-element'
 import { TodoListElement } from '../plate-ui/todo-list-element'
 
 interface EditorProps {
-  control: Control
   onBlur: () => void
-  name: string
-  content: string
+  content: Value
 }
 
 /**
@@ -84,56 +81,43 @@ interface EditorProps {
  * @param props The props for the editor component.
  * @param props.content The initial content of the editor.
  * @param props.onBlur The callback function to call when the content changes.
- * @param props.control The control object from react-hook-form.
- * @param props.name The name of the editor.
  * @returns The editor component.
  */
-export default function Editor({
-  content,
-  onBlur,
-  control,
-  name,
-}: EditorProps) {
+export default function Editor({ content, onBlur }: EditorProps) {
   const containerRef = useRef(null)
   const editor = useMyEditor(content)
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <Plate
-          editor={editor}
-          onChange={({ value }) => {
-            localStorage.setItem('editorContent', JSON.stringify(value))
+    <Plate
+      editor={editor}
+      onChange={({ value }) => {
+        localStorage.setItem('editorContent', JSON.stringify(value))
+      }}
+    >
+      <div
+        ref={containerRef}
+        className={cn(
+          'relative',
+          // Block selection
+          '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
+        )}
+      >
+        <PlateEditor
+          focusRing={false}
+          autoFocus
+          onBlur={() => {
+            onBlur()
           }}
-        >
-          <div
-            ref={containerRef}
-            className={cn(
-              'relative',
-              // Block selection
-              '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
-            )}
-          >
-            <PlateEditor
-              focusRing={false}
-              autoFocus
-              onBlur={() => {
-                onBlur()
-              }}
-            />
-            <FloatingToolbar>
-              <FloatingToolbarButtons />
-            </FloatingToolbar>
-          </div>
-        </Plate>
-      )}
-    />
+        />
+        <FloatingToolbar>
+          <FloatingToolbarButtons />
+        </FloatingToolbar>
+      </div>
+    </Plate>
   )
 }
 
-export const useMyEditor = (content: string) => {
+export const useMyEditor = (content: Value) => {
   const editor = createPlateEditor({
     plugins: [
       // Nodes
@@ -309,7 +293,7 @@ export const useMyEditor = (content: string) => {
         [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
       }),
     },
-    value: JSON.parse(content),
+    value: content,
   })
   return editor
 }
