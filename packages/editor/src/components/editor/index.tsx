@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use client'
 
 import { useRef } from 'react'
 
+import type { Value } from '@udecode/plate-common'
+
 import { cn, withProps } from '@udecode/cn'
+import { AutoformatPlugin } from '@udecode/plate-autoformat/react'
 import {
   BoldPlugin,
   CodePlugin,
@@ -27,6 +31,7 @@ import {
 import {
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
+  someNode,
 } from '@udecode/plate-common'
 import {
   createPlateEditor,
@@ -36,14 +41,22 @@ import {
 } from '@udecode/plate-common/react'
 import { HEADING_KEYS, HEADING_LEVELS } from '@udecode/plate-heading'
 import { HeadingPlugin } from '@udecode/plate-heading/react'
+import { HighlightPlugin } from '@udecode/plate-highlight/react'
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react'
-import { ListPlugin, TodoListPlugin } from '@udecode/plate-list/react'
+import { IndentListPlugin } from '@udecode/plate-indent-list/react'
+import { IndentPlugin } from '@udecode/plate-indent/react'
+import { TodoListPlugin } from '@udecode/plate-list/react'
 import { MentionInputPlugin, MentionPlugin } from '@udecode/plate-mention/react'
 import { NodeIdPlugin } from '@udecode/plate-node-id'
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react'
-import { SlashInputPlugin, SlashPlugin } from '@udecode/plate-slash-command'
+import {
+  SlashInputPlugin,
+  SlashPlugin,
+} from '@udecode/plate-slash-command/react'
+import { TabbablePlugin } from '@udecode/plate-tabbable/react'
 import Prism from 'prismjs'
 
+import { autoformatRules } from '../../lib/autoformat-rules'
 import { BlockquoteElement } from '../plate-ui/blockquote-element'
 import { CodeBlockElement } from '../plate-ui/code-block-element'
 import { CodeLeaf } from '../plate-ui/code-leaf'
@@ -56,15 +69,26 @@ import { HeadingElement } from '../plate-ui/heading-element'
 import { HrElement } from '../plate-ui/hr-element'
 import { MentionElement } from '../plate-ui/mention-element'
 import { MentionInputElement } from '../plate-ui/mention-input-element'
+import { ParagraphElement } from '../plate-ui/paragraph-element'
+import { withPlaceholders } from '../plate-ui/placeholder'
 import { SlashInputElement } from '../plate-ui/slash-input-element'
+import { TodoListElement } from '../plate-ui/todo-list-element'
+
+interface EditorProps {
+  onBlur: () => void
+  content: Value
+}
 
 /**
- * Editor component.
- * @returns JSX.Element
+ * The Editor component.
+ * @param props The props for the editor component.
+ * @param props.content The initial content of the editor.
+ * @param props.onBlur The callback function to call when the content changes.
+ * @returns The editor component.
  */
-export default function Editor() {
+export default function Editor({ content, onBlur }: EditorProps) {
   const containerRef = useRef(null)
-  const editor = useMyEditor()
+  const editor = useMyEditor(content)
 
   return (
     <Plate
@@ -81,7 +105,13 @@ export default function Editor() {
           '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4',
         )}
       >
-        <PlateEditor placeholder='Type...' focusRing={false} />
+        <PlateEditor
+          focusRing={false}
+          autoFocus
+          onBlur={() => {
+            onBlur()
+          }}
+        />
         <FloatingToolbar>
           <FloatingToolbarButtons />
         </FloatingToolbar>
@@ -90,7 +120,7 @@ export default function Editor() {
   )
 }
 
-export const useMyEditor = () => {
+export const useMyEditor = (content: Value) => {
   const editor = createPlateEditor({
     plugins: [
       // Nodes
@@ -101,8 +131,9 @@ export const useMyEditor = () => {
           prism: Prism,
         },
       }),
+      CodeLinePlugin,
+      CodeSyntaxPlugin,
       HorizontalRulePlugin,
-      ListPlugin,
       TodoListPlugin,
       SlashPlugin,
       MentionPlugin,
@@ -116,10 +147,38 @@ export const useMyEditor = () => {
       CodePlugin,
       SubscriptPlugin,
       SuperscriptPlugin,
+      HighlightPlugin,
 
       // Block Style
 
+      IndentPlugin.configure({
+        inject: {
+          targetPlugins: [
+            ParagraphPlugin.key,
+            BlockquotePlugin.key,
+            CodeBlockPlugin.key,
+            ...HEADING_LEVELS,
+          ],
+        },
+      }),
+      IndentListPlugin.extend({
+        inject: {
+          targetPlugins: [
+            ParagraphPlugin.key,
+            BlockquotePlugin.key,
+            CodeBlockPlugin.key,
+            ...HEADING_LEVELS,
+          ],
+        },
+      }),
+
       // Functionality
+      AutoformatPlugin.configure({
+        options: {
+          rules: autoformatRules,
+          enableUndoOnDelete: true,
+        },
+      }),
       ExitBreakPlugin.configure({
         options: {
           rules: [
@@ -189,16 +248,29 @@ export const useMyEditor = () => {
           ],
         },
       }),
-    ],
-    value: [
-      {
-        id: '1',
-        type: ParagraphPlugin.key,
-        children: [{ text: 'Hello, World!' }],
-      },
+      //! Fix: Tabbable Plugin is not working - when pressing tab, the focus is not moving to the next element instead it is focusing the browser's window
+      TabbablePlugin.configure(({ editor }) => ({
+        options: {
+          query: () => {
+            if (isSelectionAtBlockStart(editor)) return false
+
+            return !someNode(editor, {
+              match: (n) => {
+                return !!(
+                  n.type &&
+                  ([TodoListPlugin.key, CodeBlockPlugin.key].includes(
+                    n.type as string,
+                  ) ||
+                    n[IndentListPlugin.key])
+                )
+              },
+            })
+          },
+        },
+      })),
     ],
     override: {
-      components: {
+      components: withPlaceholders({
         [BlockquotePlugin.key]: BlockquoteElement,
         [CodeBlockPlugin.key]: CodeBlockElement,
         [CodeLinePlugin.key]: CodeLineElement,
@@ -213,6 +285,8 @@ export const useMyEditor = () => {
         [SlashInputPlugin.key]: SlashInputElement,
         [MentionPlugin.key]: MentionElement,
         [MentionInputPlugin.key]: MentionInputElement,
+        [ParagraphPlugin.key]: ParagraphElement,
+        [TodoListPlugin.key]: TodoListElement,
         [BoldPlugin.key]: withProps(PlateLeaf, { as: 'strong' }),
         [CodePlugin.key]: CodeLeaf,
         [ItalicPlugin.key]: withProps(PlateLeaf, { as: 'em' }),
@@ -220,8 +294,9 @@ export const useMyEditor = () => {
         [SubscriptPlugin.key]: withProps(PlateLeaf, { as: 'sub' }),
         [SuperscriptPlugin.key]: withProps(PlateLeaf, { as: 'sup' }),
         [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
-      },
+      }),
     },
+    value: content,
   })
   return editor
 }

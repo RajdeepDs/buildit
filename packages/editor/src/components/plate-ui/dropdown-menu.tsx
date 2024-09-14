@@ -71,7 +71,7 @@ export const DropdownMenuContent = withRef<
 const menuItemVariants = cva(
   cn(
     'relative flex h-9 cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors',
-    'focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50',
+    'focus:bg-soft hover:bg-soft focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
   ),
   {
     variants: {
@@ -93,7 +93,7 @@ export const DropdownMenuCheckboxItem = withRef<
 >(({ children, className, ...props }, ref) => (
   <DropdownMenuPrimitive.CheckboxItem
     className={cn(
-      'relative flex select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50',
+      'relative flex select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-soft focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       'cursor-pointer',
       className,
     )}
@@ -117,8 +117,8 @@ export const DropdownMenuRadioItem = withRef<
 >(({ children, className, hideIcon, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioItem
     className={cn(
-      'relative flex select-none items-center rounded-sm pl-8 pr-2 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50',
-      'h-9 cursor-pointer px-2 data-[state=checked]:bg-slate-100 data-[state=checked]:text-slate-900 dark:data-[state=checked]:bg-slate-800 dark:data-[state=checked]:text-slate-50',
+      'relative flex select-none items-center rounded-sm pl-8 pr-2 text-sm outline-none transition-colors focus:bg-weak focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'h-9 cursor-pointer px-2 data-[state=checked]:bg-weak data-[state=checked]:text-slate-900',
       className,
     )}
     ref={ref}

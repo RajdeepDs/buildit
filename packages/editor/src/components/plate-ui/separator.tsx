@@ -4,7 +4,7 @@ import * as SeparatorPrimitive from '@radix-ui/react-separator'
 import { withProps, withVariants } from '@udecode/cn'
 import { cva } from 'class-variance-authority'
 
-const separatorVariants = cva('shrink-0 bg-sub dark:bg-slate-800', {
+const separatorVariants = cva('shrink-0 bg-soft dark:bg-slate-800', {
   defaultVariants: {
     orientation: 'horizontal',
   },

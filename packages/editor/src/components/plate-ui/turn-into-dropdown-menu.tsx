@@ -1,30 +1,30 @@
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
 
-import { BlockquotePlugin } from '@udecode/plate-block-quote/react'
+import { cn } from '@udecode/cn'
 import {
   collapseSelection,
   getNodeEntries,
   isBlock,
-  ParagraphPlugin,
 } from '@udecode/plate-common'
 import {
   focusEditor,
+  ParagraphPlugin,
   useEditorRef,
   useEditorSelector,
 } from '@udecode/plate-common/react'
 import { HEADING_KEYS } from '@udecode/plate-heading'
 
+import { Separator } from '@buildit/ui/separator'
+
 import { Icons } from '../icons'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
   useOpenState,
 } from './dropdown-menu'
-import { Separator } from './separator'
 import { ToolbarButton } from './toolbar'
 
 const items = [
@@ -39,37 +39,22 @@ const items = [
     icon: Icons.h1,
     label: 'Heading 1',
     value: HEADING_KEYS.h1,
+    className: 'text-base font-bold',
   },
   {
     description: 'Heading 2',
     icon: Icons.h2,
     label: 'Heading 2',
     value: HEADING_KEYS.h2,
+    className: 'text-sm font-bold',
   },
   {
     description: 'Heading 3',
     icon: Icons.h3,
     label: 'Heading 3',
     value: HEADING_KEYS.h3,
+    className: 'text-xs font-bold',
   },
-  {
-    description: 'Quote (⌘+⇧+.)',
-    icon: Icons.blockquote,
-    label: 'Quote',
-    value: BlockquotePlugin.key,
-  },
-  // {
-  //   value: 'ul',
-  //   label: 'Bulleted list',
-  //   description: 'Bulleted list',
-  //   icon: Icons.ul,
-  // },
-  // {
-  //   value: 'ol',
-  //   label: 'Numbered list',
-  //   description: 'Numbered list',
-  //   icon: Icons.ol,
-  // },
 ]
 
 const defaultItem = items.find((item) => item.value === ParagraphPlugin.key)!
@@ -124,33 +109,19 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
 
       <Separator orientation='vertical' className='h-4 bg-soft' />
 
-      <DropdownMenuContent align='start' className='w-[450px]'>
-        <DropdownMenuLabel>Turn into</DropdownMenuLabel>
-
+      <DropdownMenuContent align='start' className='w-[450px]' sideOffset={8}>
         <DropdownMenuRadioGroup
           className='flex flex-col gap-0.5'
           onValueChange={(type) => {
-            // if (type === 'ul' || type === 'ol') {
-            //   if (settingsStore.get.checkedId(IndentListPlugin.key)) {
-            //     toggleIndentList(editor, {
-            //       listStyleType: type === 'ul' ? 'disc' : 'decimal',
-            //     });
-            //   } else if (settingsStore.get.checkedId('list')) {
-            //     toggleList(editor, { type });
-            //   }
-            // } else {
-            //   unwrapList(editor);
             editor.tf.toggle.block({ type })
-            // }
-
             collapseSelection(editor)
             focusEditor(editor)
           }}
           value={value}
         >
-          {items.map(({ label, value: itemValue }) => (
+          {items.map(({ label, value: itemValue, className }) => (
             <DropdownMenuRadioItem
-              className='min-w-[500px]'
+              className={cn('min-w-[500px]', className)}
               key={itemValue}
               value={itemValue}
             >

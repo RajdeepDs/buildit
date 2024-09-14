@@ -75,6 +75,7 @@ const Editor = React.forwardRef<HTMLDivElement, EditorProps>(
             }),
             className,
           )}
+          data-plate-selectable
           readOnly={disabled ?? readOnly}
           {...props}
         />

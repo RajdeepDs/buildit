@@ -8,7 +8,7 @@ import Editor from '@buildit/editor'
 import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 
 const formSchema = z.object({
-  description: z.any(),
+  description: z.string().nullable(),
 })
 
 /**
@@ -24,8 +24,25 @@ export default function EditorPage() {
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log('values:', values) // TODO: Implement the submit logic
+    console.log('Submitted Values:', values) // TODO: Implement the submit logic
   }
+
+  const value = [
+    {
+      type: 'p',
+      children: [
+        {
+          text: '',
+        },
+      ],
+    },
+  ]
+
+  const localValue =
+    typeof window !== 'undefined' && localStorage.getItem('editorContent')
+
+  const content = localValue ? JSON.parse(localValue) : value
+
   return (
     <div className='p-5'>
       <h1 className='text-xl mb-5'>Editor Page</h1>
@@ -38,12 +55,15 @@ export default function EditorPage() {
               <FormItem>
                 <FormControl>
                   <Editor
-                    name='description'
-                    control={form.control}
+                    content={content}
                     onBlur={() => {
                       void form.trigger('description')
                       if (form.formState.isValid) {
-                        onSubmit(form.getValues())
+                        if (typeof window !== 'undefined') {
+                          onSubmit({
+                            description: localStorage.getItem('editorContent'),
+                          })
+                        }
                       }
                     }}
                   />
