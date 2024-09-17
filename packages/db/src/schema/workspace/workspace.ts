@@ -10,7 +10,6 @@ export const workspaceTable = sqliteTable('workspace', {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   name: text('name').notNull(),
-  slug: text('slug').notNull().unique(),
   createdAt: integer('createdAt', { mode: 'timestamp_ms' }).default(
     sql`(CURRENT_TIMESTAMP)`,
   ),

@@ -1,7 +1,6 @@
 import type { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import slugify from '@sindresorhus/slugify'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@buildit/ui/button'
@@ -13,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@buildit/ui/form'
-import { Input, InputWithContent } from '@buildit/ui/input'
+import { Input } from '@buildit/ui/input'
 import { WorkspaceSetupFormSchema } from '@buildit/utils/validations'
 
 import { api } from '@/lib/trpc/react'
@@ -33,7 +32,6 @@ export default function WorkspaceSetupForm({
     resolver: zodResolver(WorkspaceSetupFormSchema),
     defaultValues: {
       workspaceName: '',
-      workspaceSlug: '',
     },
   })
 
@@ -46,7 +44,6 @@ export default function WorkspaceSetupForm({
   const onSubmit = (values: z.infer<typeof WorkspaceSetupFormSchema>) => {
     mutation.mutate({
       workspaceName: values.workspaceName,
-      workspaceSlug: values.workspaceSlug,
     })
   }
 
@@ -60,38 +57,12 @@ export default function WorkspaceSetupForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className='text-sub'>Workspace name</FormLabel>
-                <FormControl
-                  onChange={() => {
-                    form.setValue(
-                      'workspaceSlug',
-                      slugify(form.getValues('workspaceName')),
-                    )
-                  }}
-                >
+                <FormControl>
                   <Input
                     placeholder='Acme, Inc.'
                     required
                     {...field}
                     className='bg-white'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='workspaceSlug'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='text-sub'>Workspace URL</FormLabel>
-                <FormControl>
-                  <InputWithContent
-                    placeholder='acme'
-                    required
-                    className='bg-white'
-                    content='buildit.codes'
-                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
