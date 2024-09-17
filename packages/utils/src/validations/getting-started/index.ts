@@ -4,9 +4,6 @@ export const WorkspaceSetupFormSchema = z.object({
   workspaceName: z
     .string()
     .min(3, 'Workspace name must be at least 3 characters'),
-  workspaceSlug: z
-    .string()
-    .min(3, 'Workspace URL must be at least 3 characters'),
 })
 
 export const CreateTeamFormSchema = z.object({

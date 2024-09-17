@@ -22,7 +22,6 @@ export const onboardingRouter = createRouter({
     .mutation(async ({ ctx, input }) => {
       await db.insert(workspaceTable).values({
         name: input.workspaceName,
-        slug: input.workspaceSlug,
         userId: ctx.user.id,
       })
       return {
