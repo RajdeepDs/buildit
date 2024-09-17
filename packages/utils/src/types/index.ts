@@ -12,7 +12,6 @@ export interface TUser {
 export interface TWorkspace {
   id: string
   name: string
-  slug: string
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
