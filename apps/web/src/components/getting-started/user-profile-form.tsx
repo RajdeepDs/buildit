@@ -110,7 +110,7 @@ export default function UserProfileForm() {
                 <FormControl>
                   <Textarea
                     {...field}
-                    className='bg-white'
+                    className='bg-white min-h-[80px]'
                     placeholder='Write something about yourself.'
                   />
                 </FormControl>
