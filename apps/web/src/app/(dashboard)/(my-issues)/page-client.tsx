@@ -8,6 +8,7 @@ import {
   BreadcrumbSeparator,
 } from '@buildit/ui/breadcrumb'
 
+import IssueList from '@/components/issues/issue-list'
 import { Icons } from '@/components/ui/icons'
 import SubHeader from '@/components/ui/sub-header'
 import useMyIssuesStore from '@/lib/store/my-issues-store'
@@ -37,7 +38,7 @@ export default function MyIssuesClientPage(): JSX.Element {
         <SubHeader store={store} />
       </nav>
       <main className='h-svh w-full space-x-4 border-t'>
-        {/* The issues list */}
+        <IssueList store={store} />
       </main>
     </div>
   )
