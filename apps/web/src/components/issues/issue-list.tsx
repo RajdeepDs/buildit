@@ -47,8 +47,7 @@ export default function IssueList({ store }: { store: Store }): JSX.Element {
     }
   }, [allIssues, filteredStatus, store.search, filteredPriority])
 
-  // TODO: Infer the types of the groupBy parameter
-  const groupIssues = (issues: any, groupBy: any) => {
+  const groupIssues = (issues: TIssue[], groupBy: string) => {
     if (groupBy === 'noGrouping') {
       return { Uncategorized: issues }
     }
@@ -69,7 +68,6 @@ export default function IssueList({ store }: { store: Store }): JSX.Element {
     return <div>Error: {error.message}</div>
   }
 
-  console.log(allIssues)
   return (
     <div className='h-full'>
       {allIssues?.length == 0 ? (
@@ -87,7 +85,7 @@ export default function IssueList({ store }: { store: Store }): JSX.Element {
           <div key={group}>
             <IssuesGroup group={group} />
             <ul className='list-none'>
-              {groupedIssues[group].map((issue: any) => (
+              {groupedIssues[group].map((issue: TIssue) => (
                 <li key={issue.id}>
                   <IssueItem issue={issue} />
                 </li>
