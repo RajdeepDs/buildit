@@ -1,4 +1,5 @@
 import { onboardingRouter } from './routers/getting-started'
+import { issuesRouter } from './routers/issues'
 import { joinRouter } from './routers/join'
 import { projectRouter } from './routers/projects'
 import { teamRouter } from './routers/teams'
@@ -13,6 +14,7 @@ export const appRouter = createRouter({
   team: teamRouter,
   project: projectRouter,
   join: joinRouter,
+  issues: issuesRouter,
 })
 
 export type AppRouter = typeof appRouter
