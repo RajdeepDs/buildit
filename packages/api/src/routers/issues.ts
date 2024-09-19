@@ -25,6 +25,9 @@ export const issuesRouter = createRouter({
 
     const issues = await db.query.issueTable.findMany({
       where: eq(issueTable.workspaceId, workspace.id),
+      with: {
+        assignee: true,
+      },
     })
 
     return issues

@@ -7,6 +7,7 @@ import type { TIssue } from '@buildit/utils/types'
 
 import { api } from '@/lib/trpc/react'
 
+import IssuesGroup from './issue-group'
 import IssueItem from './issue-item'
 
 /**
@@ -82,25 +83,18 @@ export default function IssueList({ store }: { store: Store }): JSX.Element {
           </div>
         </div>
       ) : (
-        // Object.keys(groupedIssues).map((group) => (
-        //   <div key={group}>
-        //     <IssuesGroup group={group} />
-        //     <ul className='list-none'>
-        //       {groupedIssues[group].map((issue: any) => (
-        //         <li key={issue.id}>
-        //           <IssueItem issue={issue} />
-        //         </li>
-        //       ))}
-        //     </ul>
-        //   </div>
-        // ))
-        <ul>
-          {filteredIssues.map((issue) => (
-            <li key={issue.issueId}>
-              <IssueItem issue={issue} />
-            </li>
-          ))}
-        </ul>
+        Object.keys(groupedIssues).map((group) => (
+          <div key={group}>
+            <IssuesGroup group={group} />
+            <ul className='list-none'>
+              {groupedIssues[group].map((issue: any) => (
+                <li key={issue.id}>
+                  <IssueItem issue={issue} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
       )}
     </div>
   )
