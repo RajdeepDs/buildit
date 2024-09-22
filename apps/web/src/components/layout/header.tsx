@@ -4,9 +4,8 @@ import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
 
+import { Icons } from '@/components/ui/icons'
 import { getNavigations } from '@/configs/layout-navigations'
-
-import { Icons } from '../ui/icons'
 
 /**
  * The header of the entire layout of the application.

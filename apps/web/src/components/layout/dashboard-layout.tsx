@@ -4,8 +4,8 @@ import { useState } from 'react'
 
 import { cn } from '@buildit/ui/cn'
 
-import Sidebar from '../sidebar/sidebar'
-import Header from './header'
+import Header from '@/components/layout/header'
+import Sidebar from '@/components/sidebar/sidebar'
 
 /**
  * The dashboard layout of the entire application.
