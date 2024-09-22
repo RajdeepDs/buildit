@@ -29,7 +29,7 @@ export default function DashboardLayout({
         hover={hover}
         onHoverChange={setHover}
       />
-      <div className='flex w-full flex-grow overflow-hidden pr-3'>
+      <div className='flex w-full flex-grow overflow-hidden'>
         {hidden ? (
           <div
             className={cn(
@@ -45,7 +45,7 @@ export default function DashboardLayout({
             <Sidebar />
           </aside>
         )}
-        {children}
+        <div className={cn('w-full', hidden && 'px-3')}>{children}</div>
       </div>
     </div>
   )

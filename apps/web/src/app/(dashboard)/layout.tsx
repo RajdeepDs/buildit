@@ -24,7 +24,7 @@ export default async function DashboardRootLayout({
   }
 
   return (
-    <div className='flex bg-weak h-dvh pb-3 '>
+    <div className='flex bg-weak h-dvh pb-3'>
       <DashboardLayout>
         <main className='flex w-full flex-col flex-grow overflow-hidden bg-white rounded'>
           {children}
