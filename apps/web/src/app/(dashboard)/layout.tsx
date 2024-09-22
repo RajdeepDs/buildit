@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 
 import { auth } from '@buildit/auth'
 
-import Sidebar from '@/components/sidebar/sidebar'
+import Header from '@/components/layout/header'
 
 /**
  * The dashboard layout of the entire application. This is where we wrap the entire application with the sidebar.
@@ -24,12 +24,14 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className='flex h-dvh'>
+    <div className='flex h-dvh flex-col bg-weak px-3 pb-3'>
       {/* Sidebar component */}
-      <Sidebar />
+      {/* <Sidebar />
       <main className='flex w-full flex-grow flex-col overflow-hidden bg-white'>
         {children}
-      </main>
+      </main> */}
+      <Header />
+      <main className='bg-white h-full rounded'>{children}</main>
     </div>
   )
 }
