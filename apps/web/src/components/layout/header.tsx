@@ -10,9 +10,24 @@ import { Icons } from '../ui/icons'
 
 /**
  * The header of the entire layout of the application.
+ * @param props The props to the header.
+ * @param props.open The state of the sidebar.
+ * @param props.onOpenChange The function to change the state of the sidebar.
+ * @param props.hover The state of the hover.
+ * @param props.onHoverChange The function to change the state of the hover.
  * @returns The header of the application.
  */
-export default function Header(): JSX.Element {
+export default function Header({
+  open,
+  onOpenChange,
+  hover,
+  onHoverChange,
+}: {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  hover: boolean
+  onHoverChange: (open: boolean) => void
+}): JSX.Element {
   const pathname = usePathname()
 
   const navigations = getNavigations()
@@ -25,8 +40,18 @@ export default function Header(): JSX.Element {
   const HeaderIcon = Icons[currentNavigation?.icon as keyof typeof Icons]
 
   return (
-    <header className='grid grid-cols-5 items-center py-2'>
-      <Button variant={'ghost'} size={'icon'} className='size-6 hover:bg-soft'>
+    <header className='grid grid-cols-5 items-center py-2 px-3'>
+      <Button
+        variant={'ghost'}
+        size={'icon'}
+        className='size-6 hover:bg-soft'
+        onClick={() => {
+          onOpenChange(!open)
+        }}
+        onMouseEnter={() => {
+          onHoverChange(!hover)
+        }}
+      >
         <Icons.panelLeft className='size-4 text-sub' />
       </Button>
       <nav className='flex items-center col-start-3 justify-center gap-2'>
