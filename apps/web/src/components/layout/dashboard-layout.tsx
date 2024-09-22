@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import type { SidebarStore } from '@/lib/store/sidebar-store'
 
 import { cn } from '@buildit/ui/cn'
 
 import Header from '@/components/layout/header'
 import Sidebar from '@/components/sidebar/sidebar'
+import useSidebarStore from '@/lib/store/sidebar-store'
 
 /**
  * The dashboard layout of the entire application.
@@ -18,16 +19,18 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }): JSX.Element {
-  const [hidden, setHidden] = useState(false)
-  const [hover, setHover] = useState(false)
+  const store = useSidebarStore() as SidebarStore
+
+  const hidden = store.hidden
+  const hover = store.hover
 
   return (
     <div className='flex flex-col w-full'>
       <Header
         open={hidden}
-        onOpenChange={setHidden}
+        onOpenChange={store.setHidden}
         hover={hover}
-        onHoverChange={setHover}
+        onHoverChange={store.setHover}
       />
       <div className='flex w-full flex-grow overflow-hidden'>
         {hidden ? (
