@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { TIssue } from '@buildit/utils/types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
+import { Checkbox } from '@buildit/ui/checkbox'
 import { cn } from '@buildit/ui/cn'
 
 import { Icons } from '@/components/ui/icons'
@@ -48,13 +49,25 @@ const IssueItem = ({
     <Link href={`/issue/${issue.issueId}`}>
       <div
         className={cn(
-          'grid grid-cols-[500px_2fr] border-x p-3',
+          ' grid grid-cols-[500px_2fr] border-x p-3',
           isFirst && 'rounded-t-lg border-t',
           isLast ? 'rounded-b-lg border-b' : 'border-b',
         )}
       >
-        <div className='grid grid-cols-[100px_2fr] gap-2 items-center'>
-          <div className='grid grid-cols-[20px_1fr_20px] gap-2 items-center'>
+        <div className='grid grid-cols-[minmax(130px,_150px)_2fr] gap-2 items-center'>
+          <div className='group grid grid-cols-[20px_20px_1fr_20px] gap-2 items-center'>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
+              role='checkbox'
+              aria-checked='false'
+              className='invisible group-hover:visible'
+            >
+              <Checkbox className='data-[state=checked]:visible' />
+            </button>
+
             <PriorityIcon className='size-4 text-sub' />
             <p className='text-sm text-soft'>{issue.issueId}</p>
             <StatusIcon className='size-4 text-sub' />
