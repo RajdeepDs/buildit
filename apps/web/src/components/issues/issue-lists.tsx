@@ -2,7 +2,7 @@
 
 import { api } from '@/lib/trpc/react'
 
-import IssueItem from './issue-items'
+import IssueItem from './issue-item'
 
 /**
  * Issue List component to display all the issues

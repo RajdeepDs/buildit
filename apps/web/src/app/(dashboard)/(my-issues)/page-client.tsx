@@ -1,6 +1,7 @@
 'use client'
 
 import IssueList from '@/components/issues/issue-lists'
+import FloatingToolbar from '@/components/ui/floating-toolbar'
 import useMyIssuesStore from '@/lib/store/my-issues-store'
 
 /**
@@ -11,8 +12,11 @@ export default function MyIssuesClientPage(): JSX.Element {
   const store = useMyIssuesStore() // TODO: Implement store and use it
   return (
     <>
-      <div className='w-full p-2'>
+      <div className='relative w-full h-full p-2'>
         <IssueList />
+        <div className='absolute bottom-2 w-full flex justify-center'>
+          <FloatingToolbar />
+        </div>
       </div>
     </>
   )
