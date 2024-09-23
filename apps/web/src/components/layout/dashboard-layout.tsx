@@ -32,7 +32,7 @@ export default function DashboardLayout({
         hover={hover}
         onHoverChange={store.setHover}
       />
-      <div className='flex w-full flex-grow overflow-hidden'>
+      <div className='w-full h-full flex'>
         {hidden ? (
           <div
             className={cn(

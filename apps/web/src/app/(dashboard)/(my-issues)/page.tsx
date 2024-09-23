@@ -6,7 +6,7 @@ import MyIssuesClientPage from './page-client'
  */
 export default function MyIssuesPage(): JSX.Element {
   return (
-    <div className='h-full w-full py-3'>
+    <div className='h-full w-full'>
       <MyIssuesClientPage />
     </div>
   )
