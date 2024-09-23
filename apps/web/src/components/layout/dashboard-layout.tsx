@@ -48,7 +48,7 @@ export default function DashboardLayout({
             <Sidebar />
           </aside>
         )}
-        <div className={cn('w-full', hidden && 'px-3')}>{children}</div>
+        <div className={cn('w-full pr-3', hidden && 'px-3')}>{children}</div>
       </div>
     </div>
   )
