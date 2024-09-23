@@ -27,7 +27,7 @@ export default function Sidebar(): JSX.Element {
   }
 
   return (
-    <aside className='w-[240px] bg-weak'>
+    <aside className='w-[240px] '>
       {!pathname.startsWith(`/settings`) ? (
         <DashboardSidebar user={user} workspace={workspace} teams={teams} />
       ) : (
