@@ -13,7 +13,7 @@ export default function MyIssuesClientPage(): JSX.Element {
   return (
     <>
       <div className='relative w-full h-full p-2'>
-        <IssueList />
+        <IssueList store={store} />
         <div className='absolute bottom-2 w-full flex justify-center'>
           <FloatingToolbar />
         </div>

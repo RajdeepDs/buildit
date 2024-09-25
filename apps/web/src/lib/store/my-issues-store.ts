@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export interface Store {
+export interface MyIssuesStore {
   search: string
   setSearch: (search: string) => void
   filterByStatus: string
@@ -11,7 +11,7 @@ export interface Store {
   setGroupBy: (groupBy: string) => void
 }
 
-const useMyIssuesStore = create<Store>((set) => ({
+const useMyIssuesStore = create<MyIssuesStore>((set) => ({
   search: '',
   setSearch: (search) => {
     set({ search })
