@@ -32,7 +32,7 @@ export default function DashboardLayout({
         hover={hover}
         onHoverChange={store.setHover}
       />
-      <div className='flex w-full flex-grow overflow-hidden'>
+      <div className='w-full h-full flex'>
         {hidden ? (
           <div
             className={cn(
@@ -48,7 +48,7 @@ export default function DashboardLayout({
             <Sidebar />
           </aside>
         )}
-        <div className={cn('w-full', hidden && 'px-3')}>{children}</div>
+        <div className={cn('w-full pr-3', hidden && 'px-3')}>{children}</div>
       </div>
     </div>
   )

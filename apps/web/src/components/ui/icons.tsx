@@ -25,6 +25,7 @@ import {
   Clipboard,
   Code,
   Code2,
+  Command,
   Copy,
   Dot,
   ExternalLink,
@@ -163,4 +164,5 @@ export const Icons = {
   arrowUpDown: ArrowUpDown,
   x: X,
   userCircle2: UserCircle2,
+  command: Command,
 }
