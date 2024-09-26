@@ -38,7 +38,7 @@ export default function IssueList({
           </div>
         </div>
       ) : (
-        <>
+        <div>
           {allIssues?.map((issue, index) => (
             <IssueItem
               key={issue.id}
@@ -47,7 +47,7 @@ export default function IssueList({
               isLast={index === allIssues.length - 1}
             />
           ))}
-        </>
+        </div>
       )}
     </>
   )

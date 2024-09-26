@@ -1,93 +1,137 @@
 'use client'
 
-import React from 'react'
-
-import type { Store } from '@/lib/store/my-issues-store'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@buildit/ui/button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@buildit/ui/dropdown-menu'
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@buildit/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
-import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import {
+  filterOptions,
+  priorityOptions,
+  statusOptions,
+} from '@/configs/filter-settings'
 
-import CustomizeFilter from './customize-filter'
+import { Icons } from './icons'
 
 /**
  * The filter menu component. It contains the filter by status and filter by priority.
- * @param props The component props.
- * @param props.store The store.
  * @returns The filter menu component.
  */
-export default function FilterMenu({ store }: { store: Store }) {
-  const [open, setOpen] = React.useState(false)
+export default function FilterMenu() {
+  const [open, setOpen] = useState(false)
+  const [selectedFilter, setSelectedFilter] = useState('')
+  const [selectedValue, setSelectedValue] = useState('')
+  const [inputValue, setInputValue] = useState('')
+  const commandRef = useRef<HTMLDivElement>(null)
 
-  const handleSelectStatus = (status: string) => {
-    store.setFilterByStatus(status)
+  const handleFilterSelect = (currentValue: string) => {
+    setSelectedFilter(currentValue)
+    setSelectedValue('')
+    setInputValue('')
+  }
+
+  const handleValueSelect = (currentValue: string) => {
+    setSelectedValue(currentValue)
+    setSelectedFilter('')
+    setInputValue('')
     setOpen(false)
   }
-  const handleSelectPriority = (priority: string) => {
-    store.setFilterByPriority(priority)
-    setOpen(false)
+
+  const getCurrentOptions = () => {
+    switch (selectedFilter) {
+      case 'status':
+        return statusOptions
+      case 'priority':
+        return priorityOptions
+      default:
+        return filterOptions
+    }
   }
 
-  const filteredStatus = store.filterByStatus
-  const filteredPriority = store.filterByPriority
+  const handleSelect = (currentValue: string) => {
+    if (!selectedFilter) {
+      handleFilterSelect(currentValue)
+    } else {
+      handleValueSelect(currentValue)
+    }
+  }
 
-  const selectedStatus = statuses.find(
-    (status) => status.value === filteredStatus,
-  )?.label
+  const resetFilter = () => {
+    setSelectedFilter('')
+    setSelectedValue('')
+    setInputValue('')
+    if (commandRef.current) {
+      const inputElement = commandRef.current.querySelector('input')
+      if (inputElement) {
+        inputElement.value = ''
+      }
+    }
+  }
 
-  const selectedPriority = priorities.find(
-    (priority) => priority.value === filteredPriority,
-  )?.label
+  useEffect(() => {
+    if (!open && selectedFilter && !selectedValue) {
+      resetFilter()
+    }
+  }, [open, selectedFilter, selectedValue])
+
+  const currentOptions = getCurrentOptions()
 
   return (
-    <div className='flex items-center space-x-4'>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant={'secondary'} className='text-sub' size={'sm'}>
-            <Icons.listFilter className='h-4 w-4 mr-2 text-sub' />
-            Filter
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='start' className='w-[200px]'>
-          <DropdownMenuItem
-            onClick={() => {
-              handleSelectStatus('backlog')
-            }}
-          >
-            <Icons.status className='mr-2 h-4 w-4 text-sub' />
-            Status
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              handleSelectPriority('no priority')
-            }}
-          >
-            <Icons.signalHigh className='mr-2 h-4 w-4 text-sub' />
-            Priority
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      {filteredStatus && (
-        <CustomizeFilter
-          filterType='Status'
-          selectedFilter={selectedStatus ?? ''}
-          onFilterChange={handleSelectStatus}
-        />
-      )}
-      {filteredPriority && (
-        <CustomizeFilter
-          filterType='Priority'
-          selectedFilter={selectedPriority ?? ''}
-          onFilterChange={handleSelectPriority}
-        />
-      )}
-    </div>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant={'secondary'}
+          className='text-sub'
+          size={'sm'}
+          role='combobox'
+          aria-expanded={open}
+        >
+          <Icons.listFilter className='size-4 text-sub mr-2' />
+          Filter
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className='w-[200px] p-0' align={'start'}>
+        <Command ref={commandRef}>
+          <CommandInput
+            placeholder={`Search ${selectedFilter || 'filter'}...`}
+            className='px-0'
+            value={inputValue}
+            onValueChange={setInputValue}
+          />
+          <CommandList>
+            <CommandEmpty>No {selectedFilter || 'filter'} found.</CommandEmpty>
+            <CommandGroup>
+              {currentOptions.length > 0 ? (
+                currentOptions.map((option) => {
+                  const Icon =
+                    Icons[option.icon as keyof typeof Icons] || Icons.listFilter
+                  return (
+                    <CommandItem
+                      key={option.value}
+                      onSelect={() => {
+                        handleSelect(option.value)
+                      }}
+                    >
+                      <Icon className='size-4 text-sub mr-2' />
+                      {option.label}
+                    </CommandItem>
+                  )
+                })
+              ) : (
+                <CommandItem disabled>No options available</CommandItem>
+              )}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   )
 }

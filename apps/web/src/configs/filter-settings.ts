@@ -1,39 +1,70 @@
 import type { FilterSettings } from '@buildit/utils/types/configs'
 
-export const groupingOptions: FilterSettings[] = [
+export const filterOptions: FilterSettings[] = [
   {
     label: 'Status',
     value: 'status',
+    icon: 'backlog',
   },
   {
     label: 'Priority',
     value: 'priority',
-  },
-  {
-    label: 'No grouping',
-    value: 'noGrouping',
+    icon: 'high',
   },
 ]
 
-export const orderingOptions: FilterSettings[] = [
+export const statusOptions: FilterSettings[] = [
   {
-    label: 'No ordering',
-    value: 'noOrdering',
+    value: 'backlog',
+    label: 'Backlog',
+    icon: 'backlog',
   },
   {
-    label: 'Status',
-    value: 'status',
+    value: 'todo',
+    label: 'Todo',
+    icon: 'todo',
   },
   {
-    label: 'Priority',
-    value: 'priority',
+    value: 'in progress',
+    label: 'In Progress',
+    icon: 'inProgress',
   },
   {
-    label: 'Last updated',
-    value: 'lastUpdated',
+    value: 'done',
+    label: 'Done',
+    icon: 'done',
   },
   {
-    label: 'Last created',
-    value: 'lastCreated',
+    value: 'canceled',
+    label: 'Canceled',
+    icon: 'canceled',
+  },
+]
+
+export const priorityOptions: FilterSettings[] = [
+  {
+    value: 'no priority',
+    label: 'No Priority',
+    icon: 'minus',
+  },
+  {
+    value: 'urgent',
+    label: 'Urgent',
+    icon: 'triangleAlert',
+  },
+  {
+    value: 'high',
+    label: 'High',
+    icon: 'signalHigh',
+  },
+  {
+    value: 'medium',
+    label: 'Medium',
+    icon: 'signalMedium',
+  },
+  {
+    value: 'low',
+    label: 'Low',
+    icon: 'signalLow',
   },
 ]
