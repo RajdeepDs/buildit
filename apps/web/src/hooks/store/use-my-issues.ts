@@ -1,17 +1,13 @@
 import useMyIssuesStore from '@/lib/store/my-issues-store'
 
 export const useMyIssues = () => {
-  const filterByStatus = useMyIssuesStore((state) => state.filterByStatus)
-  const setFilterByStatus = useMyIssuesStore((state) => state.setFilterByStatus)
-  const filterByPriority = useMyIssuesStore((state) => state.filterByPriority)
-  const setFilterByPriority = useMyIssuesStore(
-    (state) => state.setFilterByPriority,
-  )
+  const filters = useMyIssuesStore((state) => state.filters)
+  const addOrUpdateFilter = useMyIssuesStore((state) => state.addOrUpdateFilter)
+  const removeFilter = useMyIssuesStore((state) => state.removeFilter)
 
   return {
-    filterByStatus,
-    setFilterByStatus,
-    filterByPriority,
-    setFilterByPriority,
+    filters,
+    addOrUpdateFilter,
+    removeFilter,
   }
 }

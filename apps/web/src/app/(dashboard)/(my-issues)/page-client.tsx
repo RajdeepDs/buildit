@@ -6,15 +6,12 @@ import IssueList from '@/components/issues/issue-lists'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { useFloatingToolbar } from '@/hooks/store'
-import useMyIssuesStore from '@/lib/store/my-issues-store'
 
 /**
  * The My Issues client page.
  * @returns Next.js RSC page.
  */
 export default function MyIssuesClientPage(): JSX.Element {
-  const store = useMyIssuesStore()
-
   const { isOpen } = useFloatingToolbar()
 
   return (
@@ -26,7 +23,7 @@ export default function MyIssuesClientPage(): JSX.Element {
           {/* <DisplayMenu /> */}
         </div>
 
-        <IssueList store={store} />
+        <IssueList />
 
         <div
           className={cn(

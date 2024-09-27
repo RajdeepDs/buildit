@@ -18,6 +18,7 @@ import {
   priorityOptions,
   statusOptions,
 } from '@/configs/filter-settings'
+import { useMyIssues } from '@/hooks/store'
 
 import { Icons } from './icons'
 
@@ -25,12 +26,15 @@ import { Icons } from './icons'
  * The filter menu component. It contains the filter by status and filter by priority.
  * @returns The filter menu component.
  */
-export default function FilterMenu() {
+export default function FilterMenu(): JSX.Element {
   const [open, setOpen] = useState(false)
-  const [selectedFilter, setSelectedFilter] = useState('')
-  const [selectedValue, setSelectedValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const commandRef = useRef<HTMLDivElement>(null)
+
+  const { addOrUpdateFilter } = useMyIssues()
+
+  const [selectedFilter, setSelectedFilter] = useState('')
+  const [selectedValue, setSelectedValue] = useState('')
 
   const handleFilterSelect = (currentValue: string) => {
     setSelectedFilter(currentValue)
@@ -40,6 +44,9 @@ export default function FilterMenu() {
 
   const handleValueSelect = (currentValue: string) => {
     setSelectedValue(currentValue)
+
+    addOrUpdateFilter({ filter: selectedFilter, value: currentValue })
+
     setSelectedFilter('')
     setInputValue('')
     setOpen(false)
@@ -82,6 +89,10 @@ export default function FilterMenu() {
     }
   }, [open, selectedFilter, selectedValue])
 
+  const getIcon = (iconName: string) => {
+    return Icons[iconName as keyof typeof Icons] || Icons.listFilter
+  }
+
   const currentOptions = getCurrentOptions()
 
   return (
@@ -111,8 +122,7 @@ export default function FilterMenu() {
             <CommandGroup>
               {currentOptions.length > 0 ? (
                 currentOptions.map((option) => {
-                  const Icon =
-                    Icons[option.icon as keyof typeof Icons] || Icons.listFilter
+                  const Icon = getIcon(option.icon)
                   return (
                     <CommandItem
                       key={option.value}

@@ -1,24 +1,14 @@
 'use client'
 
-import type { MyIssuesStore } from '@/lib/store/my-issues-store'
-
 import { api } from '@/lib/trpc/react'
 
 import IssueItem from './issue-item'
 
 /**
  * The Issue list component to display a list of issues. And empty state for Issues Page
- * @param props The component properties.
- * @param props.store The store to use.
  * @returns JSX Element.
  */
-export default function IssueList({
-  store,
-}: {
-  store: MyIssuesStore
-}): JSX.Element {
-  console.log(store)
-
+export default function IssueList(): JSX.Element {
   const { data: allIssues, error } = api.issues.get_issues.useQuery()
 
   if (error) {
