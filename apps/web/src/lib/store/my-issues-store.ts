@@ -1,3 +1,5 @@
+import type { TIssue } from '@buildit/utils/types'
+
 import { create } from 'zustand'
 
 export interface Filter {
@@ -9,8 +11,8 @@ export interface MyIssuesStore {
   filters: Filter[]
   addOrUpdateFilter: (newFilter: Filter) => void
   removeFilter: (filterType: string) => void
-  groupBy: string
-  setGroupBy: (group: string) => void
+  groupBy: keyof TIssue | 'No Grouping'
+  setGroupBy: (group: keyof TIssue | 'No Grouping') => void
 }
 
 const useMyIssuesStore = create<MyIssuesStore>((set) => ({
@@ -39,7 +41,7 @@ const useMyIssuesStore = create<MyIssuesStore>((set) => ({
     }))
   },
 
-  groupBy: '',
+  groupBy: 'No Grouping',
   setGroupBy: (group) => {
     set(() => ({
       groupBy: group,
