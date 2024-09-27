@@ -8,7 +8,6 @@ import { Separator } from '@buildit/ui/separator'
 import { Icons } from '@/components/ui/icons'
 
 import CustomizeFilter from './customize-filter'
-import FilterMenu from './filter-menu'
 
 /**
  * Floating toolbar component. This component is used to display all the display and other filter functionalities.
@@ -27,10 +26,12 @@ export default function FloatingToolbar({
         {filters.map((filter) => (
           <CustomizeFilter key={filter.filter} filter={filter} />
         ))}
-        <FilterMenu />
-        <Separator orientation='vertical' className='h-6' />
-        <Button size={'icon'} variant={'secondary'} className='h-8 rounded'>
-          <Icons.plus className='size-4 text-sub' />
+        {filters.length > 0 && (
+          <Separator orientation='vertical' className='h-6' />
+        )}
+        <Button size={'sm'} variant={'secondary'} className='text-sub'>
+          <Icons.plus className='size-4 mr-2 text-sub' />
+          Create Issue
         </Button>
       </div>
     </div>

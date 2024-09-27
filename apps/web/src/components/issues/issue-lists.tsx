@@ -5,6 +5,7 @@ import type { TIssue } from '@buildit/utils/types'
 import { useMyIssues } from '@/hooks/store'
 import { api } from '@/lib/trpc/react'
 
+import IssuesGroup from './issue-group'
 import IssueItem from './issue-item'
 
 /**
@@ -17,7 +18,7 @@ export default function IssueList(): JSX.Element {
   const { filters, groupBy } = useMyIssues()
 
   if (error) {
-    console.log(error)
+    console.error(error)
   }
 
   const filterIssues = (issues: typeof allIssues) => {
@@ -75,7 +76,7 @@ export default function IssueList(): JSX.Element {
         <div>
           {Object.entries(groupedIssues).map(([group, issues]) => (
             <div key={group}>
-              {group && <h2 className='text-lg font-bold mb-2'>{group}</h2>}
+              <IssuesGroup group={group} count={issues.length} />
               {issues.map((issue, index) => (
                 <IssueItem
                   key={issue.id}
