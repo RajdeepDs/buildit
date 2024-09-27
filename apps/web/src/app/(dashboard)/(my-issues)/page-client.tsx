@@ -5,7 +5,7 @@ import { cn } from '@buildit/ui/cn'
 import IssueList from '@/components/issues/issue-lists'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
-import { useFloatingToolbar } from '@/hooks/store'
+import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
 
 /**
  * The My Issues client page.
@@ -13,6 +13,7 @@ import { useFloatingToolbar } from '@/hooks/store'
  */
 export default function MyIssuesClientPage(): JSX.Element {
   const { isOpen } = useFloatingToolbar()
+  const { filters } = useMyIssues()
 
   return (
     <>
@@ -28,12 +29,12 @@ export default function MyIssuesClientPage(): JSX.Element {
         <div
           className={cn(
             'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
-            isOpen
+            isOpen || filters.length > 0
               ? 'flex opacity-100 translate-y-0 h-auto'
               : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
           )}
         >
-          <FloatingToolbar />
+          <FloatingToolbar filters={filters} />
         </div>
       </div>
     </>
