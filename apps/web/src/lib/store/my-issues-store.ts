@@ -9,6 +9,8 @@ export interface MyIssuesStore {
   filters: Filter[]
   addOrUpdateFilter: (newFilter: Filter) => void
   removeFilter: (filterType: string) => void
+  groupBy: string
+  setGroupBy: (group: string) => void
 }
 
 const useMyIssuesStore = create<MyIssuesStore>((set) => ({
@@ -34,6 +36,13 @@ const useMyIssuesStore = create<MyIssuesStore>((set) => ({
   removeFilter: (filterType) => {
     set((state) => ({
       filters: state.filters.filter((filter) => filter.filter !== filterType),
+    }))
+  },
+
+  groupBy: '',
+  setGroupBy: (group) => {
+    set(() => ({
+      groupBy: group,
     }))
   },
 }))

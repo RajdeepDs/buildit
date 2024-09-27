@@ -5,9 +5,14 @@ export const useMyIssues = () => {
   const addOrUpdateFilter = useMyIssuesStore((state) => state.addOrUpdateFilter)
   const removeFilter = useMyIssuesStore((state) => state.removeFilter)
 
+  const groupBy = useMyIssuesStore((state) => state.groupBy)
+  const setGroupBy = useMyIssuesStore((state) => state.setGroupBy)
+
   return {
     filters,
     addOrUpdateFilter,
     removeFilter,
+    groupBy,
+    setGroupBy,
   }
 }

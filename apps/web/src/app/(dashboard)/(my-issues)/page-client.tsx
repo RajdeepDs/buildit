@@ -3,6 +3,7 @@
 import { cn } from '@buildit/ui/cn'
 
 import IssueList from '@/components/issues/issue-lists'
+import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
@@ -18,10 +19,9 @@ export default function MyIssuesClientPage(): JSX.Element {
   return (
     <>
       <div className='relative w-full h-full p-2 flex flex-col space-y-2'>
-        {/* Filter & Display options */}
         <div className='flex justify-between items-center'>
           <FilterMenu />
-          {/* <DisplayMenu /> */}
+          <DisplayMenu />
         </div>
 
         <IssueList />
