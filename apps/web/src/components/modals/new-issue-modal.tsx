@@ -1,6 +1,8 @@
 'use client'
 
-import React from 'react'
+import { useState } from 'react'
+
+import { Button } from '@buildit/ui/button'
 
 import {
   ComboBox,
@@ -11,6 +13,7 @@ import {
 import {
   Modal,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalTitle,
   ModalTrigger,
@@ -18,30 +21,27 @@ import {
 } from '@/components/ui/modal'
 import { api } from '@/lib/trpc/react'
 
-import NewProjectForm from '../forms/new-project-form'
+import NewIssueForm from '../forms/new-issue-form'
 
-export const NewProjectModal = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
   const { data: teams, isLoading } = api.team.get_teams.useQuery()
+  const [open, setOpen] = useState(false)
+  const [openTeam, setOpenTeam] = useState(false)
 
-  const [open, setOpen] = React.useState(false)
-  const [openTeam, setOpenTeam] = React.useState(false)
-
-  const [team, setTeam] = React.useState(teams?.[0])
+  const [team, setTeam] = useState(teams?.at(0))
 
   if (isLoading) return <></>
+
+  console.log(teams?.at(0))
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger asChild>{children}</ModalTrigger>
       <ModalContent>
         <VisuallyHide>
-          <ModalTitle>Create Project</ModalTitle>
+          <ModalTitle>Create Issue</ModalTitle>
         </VisuallyHide>
-        <ModalHeader name='New project'>
+        <ModalHeader name='New issue'>
           {teams && teams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
               <ComboBoxTrigger>{team?.name}</ComboBoxTrigger>
@@ -63,7 +63,10 @@ export const NewProjectModal = ({
             <p className='text-sm'>{team?.name}</p>
           )}
         </ModalHeader>
-        <NewProjectForm team={team} onOpenChange={setOpen} />
+        <NewIssueForm />
+        <ModalFooter>
+          <Button size={'sm'}>Submit</Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   )

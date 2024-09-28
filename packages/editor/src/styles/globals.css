@@ -7,13 +7,13 @@
 }
 @layer base {
   * {
-    @apply border-border;
+    @apply border-soft;
   }
   /*html {*/
   /*  @apply scroll-smooth;*/
   /*}*/
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-strong;
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
@@ -37,7 +37,7 @@
   }
 
   .step:before {
-    @apply absolute inline-flex h-9 w-9 items-center justify-center rounded-full border-4 border-background bg-muted text-center -indent-px font-mono text-base font-medium;
+    @apply absolute inline-flex h-9 w-9 items-center justify-center rounded-full border-4 border-white bg-weak text-center -indent-px font-mono text-base font-medium;
     @apply ml-[-50px] mt-[-4px];
     content: counter(step);
   }
