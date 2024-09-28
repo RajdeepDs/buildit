@@ -3,9 +3,11 @@
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
+import { cn } from '@buildit/ui/cn'
 
 import { Icons } from '@/components/ui/icons'
 import { getNavigations } from '@/configs/layout-navigations'
+import { useFloatingToolbar } from '@/hooks/store'
 
 /**
  * The header of the entire layout of the application.
@@ -30,6 +32,8 @@ export default function Header({
   const pathname = usePathname()
 
   const navigations = getNavigations()
+
+  const { isOpen, setOpen } = useFloatingToolbar()
 
   const currentNavigation = navigations.find(
     (navigation) => navigation.href === pathname,
@@ -57,6 +61,19 @@ export default function Header({
         <HeaderIcon className='size-4 text-sub' />
         <h1 className='text-sm font-medium text-sub'>{title}</h1>
       </nav>
+      {/* Floating toolbar button - if the button is clicked then the floating toolbar will show continuously otherwise not*/}
+      <div className='flex col-start-5 items-center justify-end'>
+        <Button
+          variant={'ghost'}
+          size={'icon'}
+          className={cn('size-6 hover:bg-soft', isOpen && 'bg-soft')}
+          onClick={() => {
+            setOpen(!isOpen)
+          }}
+        >
+          <Icons.menu className='size-4 text-sub' />
+        </Button>
+      </div>
     </header>
   )
 }

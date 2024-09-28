@@ -47,6 +47,7 @@ import {
   Lock,
   LogOut,
   Maximize2,
+  Menu,
   Minimize2,
   Minus,
   MoreHorizontal,
@@ -165,4 +166,5 @@ export const Icons = {
   x: X,
   userCircle2: UserCircle2,
   command: Command,
+  menu: Menu,
 }

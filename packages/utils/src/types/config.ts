@@ -13,6 +13,7 @@ export interface Priority {
 export interface FilterSettings {
   value: string
   label: string
+  icon: string
 }
 
 export type TSettingsSidebar = {

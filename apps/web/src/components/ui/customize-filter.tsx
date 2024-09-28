@@ -1,59 +1,90 @@
+'use client'
+
+import { useCallback, useMemo } from 'react'
+
+import type { Filter } from '@/lib/store/my-issues-store'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@buildit/ui/dropdown-menu'
-import { Separator } from '@buildit/ui/separator'
 
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import {
+  filterOptions as Filters,
+  priorityOptions,
+  statusOptions,
+} from '@/configs/filter-settings'
+import { useMyIssues } from '@/hooks/store'
 
 /**
- * The customize filter component. It contains the filter type, selected filter and filter options.
- * @param props The component props.
- * @param props.filterType The filter type.
- * @param props.selectedFilter The selected filter.
- * @param props.onFilterChange The on filter change function.
- * @returns The customize filter component.
+ * The customize filter component, to modify the existing filters
+ * @param props The props object
+ * @param props.filter The Filter prop
+ * @returns React component
  */
-export default function CustomizeFilter({
-  filterType,
-  selectedFilter,
-  onFilterChange,
-}: {
-  filterType: string
-  selectedFilter: string
-  onFilterChange: (status: string) => void
-}): JSX.Element {
-  const handleSelectFilter = (filter: string) => {
-    onFilterChange(filter)
+export default function CustomizeFilter({ filter }: { filter: Filter }) {
+  const { addOrUpdateFilter, removeFilter } = useMyIssues()
+  const selectedFilter = filter.filter
+  const selectedValue = filter.value
+
+  const filterOptions = useMemo(() => {
+    if (selectedFilter === 'status') return statusOptions
+    if (selectedFilter === 'priority') return priorityOptions
+    return []
+  }, [selectedFilter])
+
+  const handleSelectFilter = useCallback(
+    (value: string) => {
+      if (value === '') {
+        removeFilter(selectedFilter)
+      } else {
+        addOrUpdateFilter({ filter: selectedFilter, value })
+      }
+    },
+    [selectedFilter, removeFilter, addOrUpdateFilter],
+  )
+
+  const getIcon = (iconName: string | undefined) => {
+    return iconName ? Icons[iconName as keyof typeof Icons] : Icons.listFilter
   }
 
-  let filterOptions: { label: string; value: string; icon: string }[] = []
-
-  if (filterType === 'Status') {
-    filterOptions = statuses
+  if (!selectedFilter) {
+    return null
   }
 
-  if (filterType === 'Priority') {
-    filterOptions = priorities
-  }
+  const filterType = Filters.find((filter) => filter.value === selectedFilter)
+
+  const FilterIcon = getIcon(filterType?.icon)
+
+  const FilterLabel = filterType?.label ?? 'Unknown Filter'
+
+  const filterOption = filterOptions.find(
+    (option) => option.value === selectedValue,
+  )
+  const FilterOptionLabel = filterOption?.label ?? 'Select Value'
+  const FilterOptionIcon = getIcon(filterOption?.icon)
 
   return (
-    <div className='flex items-center space-x-1 rounded-md border px-1 text-sm'>
-      <p className='cursor-default'>{filterType}</p>
-      <Separator orientation='vertical' className='h-5' />
-      <p className='cursor-default'>is</p>
-      <Separator orientation='vertical' className='h-5' />
+    <div className='flex items-center rounded-md border text-sm divide-x'>
+      <div className='flex items-center gap-2 text-sub px-3 py-1'>
+        <FilterIcon className='size-4 text-sub' />
+        {FilterLabel}
+      </div>
+      <p className='cursor-default text-sub px-3 py-1'>is</p>
       <DropdownMenu>
-        <DropdownMenuTrigger className='outline-none'>
-          {selectedFilter}
+        <DropdownMenuTrigger
+          className='outline-none flex items-center gap-2 px-3 py-1 hover:bg-weak'
+          aria-haspopup='listbox'
+        >
+          <FilterOptionIcon className='size-4 text-sub' />
+          {FilterOptionLabel}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {filterOptions.map((option) => {
-            const Icon = Icons[option.icon as keyof typeof Icons]
-
+            const Icon = getIcon(option.icon)
             return (
               <DropdownMenuItem
                 key={option.value}
@@ -68,13 +99,15 @@ export default function CustomizeFilter({
           })}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Separator orientation='vertical' className='h-5' />
-      <Icons.canceled
-        className='h-4 w-4 cursor-pointer text-sub'
+      <button
+        className='rounded-e-md py-1.5 px-2 hover:bg-weak'
+        aria-label='Remove filter'
         onClick={() => {
           handleSelectFilter('')
         }}
-      />
+      >
+        <Icons.x className='size-4 text-sub' />
+      </button>
     </div>
   )
 }
