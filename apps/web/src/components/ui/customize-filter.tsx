@@ -10,10 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@buildit/ui/dropdown-menu'
-import { Separator } from '@buildit/ui/separator'
 
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import {
+  filterOptions as Filters,
+  priorityOptions,
+  statusOptions,
+} from '@/configs/filter-settings'
 import { useMyIssues } from '@/hooks/store'
 
 /**
@@ -28,8 +31,8 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
   const selectedValue = filter.value
 
   const filterOptions = useMemo(() => {
-    if (selectedFilter === 'status') return statuses
-    if (selectedFilter === 'priority') return priorities
+    if (selectedFilter === 'status') return statusOptions
+    if (selectedFilter === 'priority') return priorityOptions
     return []
   }, [selectedFilter])
 
@@ -44,23 +47,40 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
     [selectedFilter, removeFilter, addOrUpdateFilter],
   )
 
-  const getIcon = (iconName: string) => {
-    return Icons[iconName as keyof typeof Icons]
+  const getIcon = (iconName: string | undefined) => {
+    return iconName ? Icons[iconName as keyof typeof Icons] : Icons.listFilter
   }
 
   if (!selectedFilter) {
     return null
   }
 
+  const filterType = Filters.find((filter) => filter.value === selectedFilter)
+
+  const FilterIcon = getIcon(filterType?.icon)
+
+  const FilterLabel = filterType?.label ?? 'Unknown Filter'
+
+  const filterOption = filterOptions.find(
+    (option) => option.value === selectedValue,
+  )
+  const FilterOptionLabel = filterOption?.label ?? 'Select Value'
+  const FilterOptionIcon = getIcon(filterOption?.icon)
+
   return (
-    <div className='flex items-center space-x-1 rounded-md border px-1 text-sm'>
-      <p className='cursor-default'>{selectedFilter}</p>
-      <Separator orientation='vertical' className='h-5' />
-      <p className='cursor-default'>is</p>
-      <Separator orientation='vertical' className='h-5' />
+    <div className='flex items-center rounded-md border text-sm divide-x'>
+      <div className='flex items-center gap-2 text-sub px-3 py-1'>
+        <FilterIcon className='size-4 text-sub' />
+        {FilterLabel}
+      </div>
+      <p className='cursor-default text-sub px-3 py-1'>is</p>
       <DropdownMenu>
-        <DropdownMenuTrigger className='outline-none' aria-haspopup='listbox'>
-          {selectedValue || 'Select Value'}
+        <DropdownMenuTrigger
+          className='outline-none flex items-center gap-2 px-3 py-1 hover:bg-weak'
+          aria-haspopup='listbox'
+        >
+          <FilterOptionIcon className='size-4 text-sub' />
+          {FilterOptionLabel}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {filterOptions.map((option) => {
@@ -79,14 +99,15 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
           })}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Separator orientation='vertical' className='h-5' />
-      <Icons.canceled
-        className='h-4 w-4 cursor-pointer text-sub'
+      <button
+        className='rounded-e-md py-1.5 px-2 hover:bg-weak'
         aria-label='Remove filter'
         onClick={() => {
           handleSelectFilter('')
         }}
-      />
+      >
+        <Icons.x className='size-4 text-sub' />
+      </button>
     </div>
   )
 }

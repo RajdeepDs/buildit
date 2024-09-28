@@ -2,7 +2,7 @@
 
 import { cn } from '@buildit/ui/cn'
 
-import IssueList from '@/components/issues/issue-lists'
+import IssueList from '@/components/issues/issue-list'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'

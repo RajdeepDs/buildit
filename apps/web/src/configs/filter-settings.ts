@@ -9,7 +9,7 @@ export const filterOptions: FilterSettings[] = [
   {
     label: 'Priority',
     value: 'priority',
-    icon: 'high',
+    icon: 'signalHigh',
   },
 ]
 
