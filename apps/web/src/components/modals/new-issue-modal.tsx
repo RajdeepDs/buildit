@@ -41,18 +41,22 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     defaultValues: {
       title: '',
       description: '',
+      status: 'todo',
+      priority: 'no priority',
     },
   })
 
   const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
     const localContent = localStorage.getItem('editorContent')
-    const descriptionContent = localContent ? JSON.parse(localContent) : null
-
-    console.log('Submitted Values:', {
-      ...values,
-      description: descriptionContent,
-    })
-
+    const descriptionContent = localContent
+    if (!values.title) {
+      console.error('Title is required.')
+    } else {
+      console.log('Submitted Values:', {
+        ...values,
+        description: descriptionContent,
+      })
+    }
     localStorage.removeItem('editorContent')
     form.reset()
     setOpen(!open)
