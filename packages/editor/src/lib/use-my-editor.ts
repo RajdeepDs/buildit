@@ -60,7 +60,6 @@ import { HrElement } from '../components/plate-ui/hr-element'
 import { MentionElement } from '../components/plate-ui/mention-element'
 import { MentionInputElement } from '../components/plate-ui/mention-input-element'
 import { ParagraphElement } from '../components/plate-ui/paragraph-element'
-import { withPlaceholders } from '../components/plate-ui/placeholder'
 import { SlashInputElement } from '../components/plate-ui/slash-input-element'
 import { TodoListElement } from '../components/plate-ui/todo-list-element'
 import { autoformatRules } from './autoformat-rules'
@@ -215,7 +214,7 @@ export const useMyEditor = (content: Value) => {
       })),
     ],
     override: {
-      components: withPlaceholders({
+      components: {
         [BlockquotePlugin.key]: BlockquoteElement,
         [CodeBlockPlugin.key]: CodeBlockElement,
         [CodeLinePlugin.key]: CodeLineElement,
@@ -239,7 +238,7 @@ export const useMyEditor = (content: Value) => {
         [SubscriptPlugin.key]: withProps(PlateLeaf, { as: 'sub' }),
         [SuperscriptPlugin.key]: withProps(PlateLeaf, { as: 'sup' }),
         [UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
-      }),
+      },
     },
     value: content,
   })

@@ -42,11 +42,11 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({ form }) => {
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder='Title'
+                  placeholder='Issue Title'
                   required
                   autoComplete='off'
                   {...field}
-                  className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 p-0'
+                  className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 p-0 text-base'
                 />
               </FormControl>
               <FormMessage />

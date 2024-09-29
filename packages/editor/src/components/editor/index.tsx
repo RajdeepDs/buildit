@@ -61,8 +61,8 @@ export default function Editor({
           onBlur={onBlur}
           variant={'ghost'}
           readOnly={readOnly}
-          className='p-0'
-          placeholder=''
+          className='p-0 min-h-[300px]'
+          placeholder='Add description...'
         />
         <FloatingToolbar>
           <FloatingToolbarButtons />

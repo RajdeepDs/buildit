@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 
-import type { z } from 'zod'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { type z } from 'zod'
 
 import { Button } from '@buildit/ui/button'
 import { CreateIssueSchema } from '@buildit/utils/validations'
@@ -30,7 +29,8 @@ import { api } from '@/lib/trpc/react'
 import NewIssueForm from '../forms/new-issue-form'
 
 export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
-  const { data: teams, isLoading } = api.team.get_teams.useQuery()
+  const { data: teams } = api.team.get_teams.useQuery()
+
   const [open, setOpen] = useState(false)
   const [openTeam, setOpenTeam] = useState(false)
 
@@ -55,9 +55,10 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
 
     localStorage.removeItem('editorContent')
     form.reset()
+    setOpen(!open)
   }
 
-  if (isLoading) return null
+  if (!teams) return null
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -67,7 +68,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
           <ModalTitle>Create Issue</ModalTitle>
         </VisuallyHide>
         <ModalHeader name='New issue'>
-          {teams && teams.length > 1 ? (
+          {teams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
               <ComboBoxTrigger>{team?.name}</ComboBoxTrigger>
               <ComboBoxContent className='w-[200px]'>
@@ -85,7 +86,9 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
               </ComboBoxContent>
             </ComboBox>
           ) : (
-            <p className='text-sm'>{team?.name}</p>
+            <p className='text-sm px-1.5 py-0.5 border rounded-md'>
+              {team?.teamId}
+            </p>
           )}
         </ModalHeader>
         <NewIssueForm form={form} />
