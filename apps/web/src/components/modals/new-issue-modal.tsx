@@ -2,7 +2,13 @@
 
 import { useState } from 'react'
 
+import type { z } from 'zod'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
 import { Button } from '@buildit/ui/button'
+import { CreateIssueSchema } from '@buildit/utils/validations'
 
 import {
   ComboBox,
@@ -30,9 +36,28 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
 
   const [team, setTeam] = useState(teams?.at(0))
 
-  if (isLoading) return <></>
+  const form = useForm<z.infer<typeof CreateIssueSchema>>({
+    resolver: zodResolver(CreateIssueSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+    },
+  })
 
-  console.log(teams?.at(0))
+  const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
+    const localContent = localStorage.getItem('editorContent')
+    const descriptionContent = localContent ? JSON.parse(localContent) : null
+
+    console.log('Submitted Values:', {
+      ...values,
+      description: descriptionContent,
+    })
+
+    localStorage.removeItem('editorContent')
+    form.reset()
+  }
+
+  if (isLoading) return null
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -63,9 +88,11 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
             <p className='text-sm'>{team?.name}</p>
           )}
         </ModalHeader>
-        <NewIssueForm />
+        <NewIssueForm form={form} />
         <ModalFooter>
-          <Button size={'sm'}>Submit</Button>
+          <Button size={'sm'} onClick={form.handleSubmit(onSubmit)}>
+            Submit
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

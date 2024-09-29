@@ -88,7 +88,10 @@ export const SlashInputElement = withRef<typeof PlateElement>(
             <InlineComboboxInput />
           </span>
 
-          <InlineComboboxContent gutter={5}>
+          <InlineComboboxContent
+            gutter={5}
+            className='z-50 pointer-events-auto'
+          >
             <InlineComboboxEmpty>Not found</InlineComboboxEmpty>
 
             {rules.map(({ icon: Icon, keywords, onSelect, value }) => {

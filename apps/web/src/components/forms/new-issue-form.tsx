@@ -1,8 +1,8 @@
+import type { CreateIssueSchema } from '@buildit/utils/validations'
+import type { UseFormReturn } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
+import Editor from '@buildit/editor'
 import {
   Form,
   FormControl,
@@ -11,52 +11,67 @@ import {
   FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { CreateIssueSchema } from '@buildit/utils/validations'
 
-/**
- * The new issue form. This is the form that is used to create a new issue.
- * @param props The props.
- * @param props.onOpenChange The function to change the open state of the modal.
- * @param props.team The team.
- * @returns The new issue form.
- */
-export default function NewIssueForm(): JSX.Element {
-  const form = useForm<z.infer<typeof CreateIssueSchema>>({
-    resolver: zodResolver(CreateIssueSchema),
-    defaultValues: {
-      title: '',
-      description: '',
-    },
-  })
+const defaultEditorValue = [
+  {
+    type: 'p',
+    children: [
+      {
+        text: '',
+      },
+    ],
+  },
+]
 
-  const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
-    console.log('Submitted Values:', values) // TODO: Implement the submit logic
-  }
+interface NewIssueFormProps {
+  form: UseFormReturn<z.infer<typeof CreateIssueSchema>>
+}
+
+const NewIssueForm: React.FC<NewIssueFormProps> = ({ form }) => {
+  const localValue =
+    typeof window !== 'undefined' && localStorage.getItem('editorContent')
+  const content = localValue ? JSON.parse(localValue) : defaultEditorValue
 
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-          <FormField
-            control={form.control}
-            name='title'
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder='Title'
-                    required
-                    autoComplete='off'
-                    {...field}
-                    className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 px-0'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form className='space-y-2'>
+        <FormField
+          control={form.control}
+          name='title'
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder='Title'
+                  required
+                  autoComplete='off'
+                  {...field}
+                  className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 p-0'
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name='description'
+          control={form.control}
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <Editor
+                  content={content}
+                  onChange={(value) => {
+                    localStorage.setItem('editorContent', JSON.stringify(value))
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   )
 }
+
+export default NewIssueForm
