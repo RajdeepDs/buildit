@@ -13,3 +13,7 @@ export const CreateIssueSchema = z.object({
 })
 
 export type CreateIssuePayload = z.infer<typeof CreateIssueSchema>
+
+export const CreateIssueInputSchema = CreateIssueSchema.extend({
+  teamId: z.string(),
+})

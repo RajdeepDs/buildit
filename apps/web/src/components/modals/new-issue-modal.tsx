@@ -54,14 +54,32 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     },
   })
 
+  const mutation = api.issues.create_issue.useMutation({
+    onSuccess: (error) => {
+      console.log('Issue created', error)
+    },
+    onError: (error) => {
+      console.error('Error creating issue:', error)
+    },
+  })
+
   const onSubmit = (values: CreateIssuePayload) => {
     const localContent = localStorage.getItem('editorContent')
     const descriptionContent = localContent
 
-    console.log('Submitted Values:', {
-      ...values,
+    if (!team) {
+      console.error('Team not found')
+      return
+    }
+
+    mutation.mutate({
+      title: values.title,
       description: descriptionContent,
-      teamId: team?.id,
+      status: values.status,
+      priority: values.priority,
+      assigneeId: values.assigneeId,
+      projectId: values.projectId,
+      teamId: team.id,
     })
 
     localStorage.removeItem('editorContent')
