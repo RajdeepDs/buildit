@@ -99,6 +99,16 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     setOpen(!open)
   }
 
+  const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
+    const error = errors.title?.message
+    if (error) {
+      toast({
+        title: error,
+        description: 'Please enter a title before submitting',
+      })
+    }
+  })
+
   if (!allTeams || !allProjects || !team) return null
 
   return (
@@ -133,9 +143,9 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
           )}
         </ModalHeader>
         <NewIssueForm form={form} team={team} projects={allProjects} />
-        <ModalFooter>
-          <Button size={'sm'} onClick={form.handleSubmit(onSubmit)}>
-            Submit
+        <ModalFooter className='pt-2'>
+          <Button size={'sm'} onClick={handleSubmit}>
+            Create issue
           </Button>
         </ModalFooter>
       </ModalContent>

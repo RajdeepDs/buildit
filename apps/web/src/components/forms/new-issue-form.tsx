@@ -7,13 +7,7 @@ import type { z } from 'zod'
 
 import Editor from '@buildit/editor'
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@buildit/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
 
 import { priorityOptions, statusOptions } from '@/configs/filter-settings'
@@ -76,7 +70,6 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />

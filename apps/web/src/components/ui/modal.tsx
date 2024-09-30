@@ -85,7 +85,7 @@ export const ModalHeader = ({
           )}
         </button>
         <Dialog.Close className='cursor-pointer rounded p-0.5 hover:bg-soft/75'>
-          <Icons.x className='h-4 w-4' />
+          <Icons.x className='h-4 w-4 text-sub' />
         </Dialog.Close>
       </div>
     </nav>
