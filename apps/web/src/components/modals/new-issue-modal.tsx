@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@buildit/ui/button'
+import { toast } from '@buildit/ui/toast'
 import { CreateIssueSchema } from '@buildit/utils/validations'
 
 import NewIssueForm from '@/components/forms/new-issue-form'
@@ -55,11 +56,18 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
   })
 
   const mutation = api.issues.create_issue.useMutation({
-    onSuccess: (error) => {
-      console.log('Issue created', error)
+    onSuccess: ({ message }) => {
+      toast({
+        title: 'Issue created',
+        description: message,
+      })
     },
-    onError: (error) => {
-      console.error('Error creating issue:', error)
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
     },
   })
 
@@ -68,7 +76,11 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     const descriptionContent = localContent
 
     if (!team) {
-      console.error('Team not found')
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: 'Team not found',
+      })
       return
     }
 

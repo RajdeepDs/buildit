@@ -92,7 +92,7 @@ export const issuesRouter = createRouter({
         .where(eq(teamTable.id, input.teamId))
 
       return {
-        message: 'Issue created successfully',
+        message: `${issueId} - ${input.title}`,
       }
     }),
 })
