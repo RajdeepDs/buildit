@@ -33,6 +33,8 @@ export default function IssueList(): JSX.Element {
             return issue.status === filter.value
           case 'priority':
             return issue.priority === filter.value
+          case 'teams':
+            return issue.teamId === filter.value
           default:
             return true
         }

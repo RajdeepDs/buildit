@@ -98,7 +98,6 @@ export default function FilterMenu(): JSX.Element {
   }
 
   const currentOptions = getCurrentOptions()
-  console.log('Current Options: ', currentOptions)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
