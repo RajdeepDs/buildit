@@ -1,5 +1,7 @@
 import type { FilterSettings } from '@buildit/utils/types/configs'
 
+import { api } from '@/lib/trpc/react'
+
 export const filterOptions: FilterSettings[] = [
   {
     label: 'Status',
@@ -10,6 +12,11 @@ export const filterOptions: FilterSettings[] = [
     label: 'Priority',
     value: 'priority',
     icon: 'signalHigh',
+  },
+  {
+    label: 'Teams',
+    value: 'teams',
+    icon: 'team',
   },
 ]
 
@@ -69,42 +76,21 @@ export const priorityOptions: FilterSettings[] = [
   },
 ]
 
-type DisplaySettings = Omit<FilterSettings, 'icon'>
+export const useTeamsOptions = () => {
+  const { data: teams, isLoading, error } = api.team.get_teams.useQuery()
 
-export const groupingOptions: DisplaySettings[] = [
-  {
-    label: 'Status',
-    value: 'status',
-  },
-  {
-    label: 'Priority',
-    value: 'priority',
-  },
-  {
-    label: 'No grouping',
-    value: 'noGrouping',
-  },
-]
+  if (isLoading) {
+    return []
+  }
 
-export const orderingOptions: DisplaySettings[] = [
-  {
-    label: 'No ordering',
-    value: 'noOrdering',
-  },
-  {
-    label: 'Status',
-    value: 'status',
-  },
-  {
-    label: 'Priority',
-    value: 'priority',
-  },
-  {
-    label: 'Last updated',
-    value: 'lastUpdated',
-  },
-  {
-    label: 'Last created',
-    value: 'lastCreated',
-  },
-]
+  if (error) {
+    return []
+  }
+  return (
+    teams?.map((team) => ({
+      value: team.id,
+      label: team.name,
+      icon: 'team',
+    })) ?? []
+  )
+}

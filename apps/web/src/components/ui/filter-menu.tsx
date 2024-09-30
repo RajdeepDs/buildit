@@ -13,14 +13,14 @@ import {
 } from '@buildit/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
+import { Icons } from '@/components/ui/icons'
 import {
   filterOptions,
   priorityOptions,
   statusOptions,
+  useTeamsOptions,
 } from '@/configs/filter-settings'
 import { useMyIssues } from '@/hooks/store'
-
-import { Icons } from './icons'
 
 /**
  * The filter menu component. It contains the filter by status and filter by priority.
@@ -32,6 +32,8 @@ export default function FilterMenu(): JSX.Element {
   const commandRef = useRef<HTMLDivElement>(null)
 
   const { addOrUpdateFilter } = useMyIssues()
+
+  const teamOptions = useTeamsOptions()
 
   const [selectedFilter, setSelectedFilter] = useState('')
   const [selectedValue, setSelectedValue] = useState('')
@@ -58,6 +60,8 @@ export default function FilterMenu(): JSX.Element {
         return statusOptions
       case 'priority':
         return priorityOptions
+      case 'teams':
+        return teamOptions
       default:
         return filterOptions
     }
@@ -94,6 +98,7 @@ export default function FilterMenu(): JSX.Element {
   }
 
   const currentOptions = getCurrentOptions()
+  console.log('Current Options: ', currentOptions)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

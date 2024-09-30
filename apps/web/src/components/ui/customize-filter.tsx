@@ -16,6 +16,7 @@ import {
   filterOptions as Filters,
   priorityOptions,
   statusOptions,
+  useTeamsOptions,
 } from '@/configs/filter-settings'
 import { useMyIssues } from '@/hooks/store'
 
@@ -27,14 +28,17 @@ import { useMyIssues } from '@/hooks/store'
  */
 export default function CustomizeFilter({ filter }: { filter: Filter }) {
   const { addOrUpdateFilter, removeFilter } = useMyIssues()
+  const teamOptions = useTeamsOptions()
+
   const selectedFilter = filter.filter
   const selectedValue = filter.value
 
   const filterOptions = useMemo(() => {
     if (selectedFilter === 'status') return statusOptions
     if (selectedFilter === 'priority') return priorityOptions
+    if (selectedFilter === 'teams') return teamOptions
     return []
-  }, [selectedFilter])
+  }, [selectedFilter, teamOptions])
 
   const handleSelectFilter = useCallback(
     (value: string) => {

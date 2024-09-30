@@ -11,7 +11,7 @@ import { Label } from '@buildit/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
 import { Icons } from '@/components/ui/icons'
-import { groupingOptions } from '@/configs/filter-settings'
+import { groupingOptions } from '@/configs/display-settings'
 import { useMyIssues } from '@/hooks/store'
 
 /**
