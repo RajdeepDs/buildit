@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import type { TTeam } from '@buildit/utils/types'
+import type { TProject, TTeam } from '@buildit/utils/types'
 import type { CreateIssueSchema } from '@buildit/utils/validations'
 import type { UseFormReturn } from 'react-hook-form'
 import type { z } from 'zod'
@@ -40,12 +40,18 @@ const defaultEditorValue = [
 interface NewIssueFormProps {
   form: UseFormReturn<z.infer<typeof CreateIssueSchema>>
   team: Pick<TTeam, 'user' | 'name' | 'teamId'>
+  projects: Pick<TProject, 'id' | 'name'>[]
 }
 
-const NewIssueForm: React.FC<NewIssueFormProps> = ({ form, team }) => {
+const NewIssueForm: React.FC<NewIssueFormProps> = ({
+  form,
+  team,
+  projects,
+}) => {
   const [openStatus, setOpenStatus] = useState(false)
   const [openPriority, setOpenPriority] = useState(false)
   const [openAssignee, setOpenAssignee] = useState(false)
+  const [openProject, setOpenProject] = useState(false)
 
   const assignee = team.user
 
@@ -227,6 +233,58 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({ form, team }) => {
                         {assignee.name}
                       </ComboBoxItem>
                     )}
+                  </ComboBoxContent>
+                </ComboBox>
+              )
+            }}
+          />
+          <FormField
+            name='projectId'
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <ComboBox open={openProject} onOpenChange={setOpenProject}>
+                  <ComboBoxTrigger>
+                    {field.value ? (
+                      <div className='flex items-center'>
+                        <Icons.hexagon className='mr-2 h-4 w-4 text-soft' />
+                        {
+                          projects.find((project) => project.id === field.value)
+                            ?.name
+                        }
+                      </div>
+                    ) : (
+                      <div className='flex items-center space-x-2'>
+                        <Icons.hexagon className='h-4 w-4 text-soft' />
+                        <p>No Project</p>
+                      </div>
+                    )}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent placeholder='Assign to...'>
+                    <ComboBoxItem
+                      key='no project'
+                      value='no project'
+                      onSelect={() => {
+                        field.onChange('')
+                        setOpenProject(false)
+                      }}
+                    >
+                      <Icons.hexagon className='mr-2 h-4 w-4 text-soft' />
+                      No Project
+                    </ComboBoxItem>
+                    {projects.map((project) => (
+                      <ComboBoxItem
+                        key={project.id}
+                        value={project.id}
+                        onSelect={() => {
+                          field.onChange(project.id)
+                          setOpenProject(false)
+                        }}
+                      >
+                        <Icons.hexagon className='mr-2 h-4 w-4 text-soft' />
+                        {project.name}
+                      </ComboBoxItem>
+                    ))}
                   </ComboBoxContent>
                 </ComboBox>
               )

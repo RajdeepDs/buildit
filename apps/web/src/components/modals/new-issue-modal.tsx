@@ -31,6 +31,7 @@ import { api } from '@/lib/trpc/react'
 
 export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
   const { data: allTeams } = api.team.get_teams.useQuery()
+  const { data: allProjects } = api.project.get_projects.useQuery()
 
   const [open, setOpen] = useState(false)
   const [openTeam, setOpenTeam] = useState(false)
@@ -68,7 +69,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     setOpen(!open)
   }
 
-  if (!allTeams) return null
+  if (!allTeams || !allProjects || !team) return null
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -80,7 +81,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
         <ModalHeader name='New issue'>
           {allTeams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
-              <ComboBoxTrigger>{team?.name}</ComboBoxTrigger>
+              <ComboBoxTrigger>{team.name}</ComboBoxTrigger>
               <ComboBoxContent className='w-[200px]'>
                 {allTeams.map((team) => (
                   <ComboBoxItem
@@ -97,11 +98,11 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
             </ComboBox>
           ) : (
             <p className='text-sm px-1.5 py-0.5 border rounded-md'>
-              {team?.teamId}
+              {team.teamId}
             </p>
           )}
         </ModalHeader>
-        <NewIssueForm form={form} team={team!} />
+        <NewIssueForm form={form} team={team} projects={allProjects} />
         <ModalFooter>
           <Button size={'sm'} onClick={form.handleSubmit(onSubmit)}>
             Submit
