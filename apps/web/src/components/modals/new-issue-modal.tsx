@@ -1,14 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import type { TTeam } from '@buildit/utils/types'
+import type { CreateIssuePayload } from '@buildit/utils/validations'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { type z } from 'zod'
 
 import { Button } from '@buildit/ui/button'
 import { CreateIssueSchema } from '@buildit/utils/validations'
 
+import NewIssueForm from '@/components/forms/new-issue-form'
 import {
   ComboBox,
   ComboBoxContent,
@@ -26,17 +29,21 @@ import {
 } from '@/components/ui/modal'
 import { api } from '@/lib/trpc/react'
 
-import NewIssueForm from '../forms/new-issue-form'
-
 export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
-  const { data: teams } = api.team.get_teams.useQuery()
+  const { data: allTeams } = api.team.get_teams.useQuery()
 
   const [open, setOpen] = useState(false)
   const [openTeam, setOpenTeam] = useState(false)
 
-  const [team, setTeam] = useState(teams?.at(0))
+  const [team, setTeam] = useState<TTeam | undefined>(undefined)
 
-  const form = useForm<z.infer<typeof CreateIssueSchema>>({
+  useEffect(() => {
+    if (allTeams?.length) {
+      setTeam(allTeams[0])
+    }
+  }, [allTeams])
+
+  const form = useForm<CreateIssuePayload>({
     resolver: zodResolver(CreateIssueSchema),
     defaultValues: {
       title: '',
@@ -46,23 +53,22 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof CreateIssueSchema>) => {
+  const onSubmit = (values: CreateIssuePayload) => {
     const localContent = localStorage.getItem('editorContent')
     const descriptionContent = localContent
-    if (!values.title) {
-      console.error('Title is required.')
-    } else {
-      console.log('Submitted Values:', {
-        ...values,
-        description: descriptionContent,
-      })
-    }
+
+    console.log('Submitted Values:', {
+      ...values,
+      description: descriptionContent,
+      teamId: team?.id,
+    })
+
     localStorage.removeItem('editorContent')
     form.reset()
     setOpen(!open)
   }
 
-  if (!teams) return null
+  if (!allTeams) return null
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -72,11 +78,11 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
           <ModalTitle>Create Issue</ModalTitle>
         </VisuallyHide>
         <ModalHeader name='New issue'>
-          {teams.length > 1 ? (
+          {allTeams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
               <ComboBoxTrigger>{team?.name}</ComboBoxTrigger>
               <ComboBoxContent className='w-[200px]'>
-                {teams.map((team) => (
+                {allTeams.map((team) => (
                   <ComboBoxItem
                     key={team.id}
                     onSelect={() => {
