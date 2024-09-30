@@ -1,10 +1,12 @@
 import { useState } from 'react'
 
+import type { TTeam } from '@buildit/utils/types'
 import type { CreateIssueSchema } from '@buildit/utils/validations'
 import type { UseFormReturn } from 'react-hook-form'
 import type { z } from 'zod'
 
 import Editor from '@buildit/editor'
+import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
   Form,
   FormControl,
@@ -37,11 +39,15 @@ const defaultEditorValue = [
 
 interface NewIssueFormProps {
   form: UseFormReturn<z.infer<typeof CreateIssueSchema>>
+  team: Pick<TTeam, 'user' | 'name' | 'teamId'>
 }
 
-const NewIssueForm: React.FC<NewIssueFormProps> = ({ form }) => {
+const NewIssueForm: React.FC<NewIssueFormProps> = ({ form, team }) => {
   const [openStatus, setOpenStatus] = useState(false)
   const [openPriority, setOpenPriority] = useState(false)
+  const [openAssignee, setOpenAssignee] = useState(false)
+
+  const assignee = team.user
 
   const localValue =
     typeof window !== 'undefined' && localStorage.getItem('editorContent')
@@ -154,6 +160,73 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({ form }) => {
                         </ComboBoxItem>
                       )
                     })}
+                  </ComboBoxContent>
+                </ComboBox>
+              )
+            }}
+          />
+          <FormField
+            name='assigneeId'
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <ComboBox open={openAssignee} onOpenChange={setOpenAssignee}>
+                  <ComboBoxTrigger>
+                    {field.value ? (
+                      assignee && (
+                        <div className='flex items-center'>
+                          <Avatar className='size-4 mr-2'>
+                            <AvatarImage
+                              src={assignee.image ?? ''}
+                              alt={assignee.name ?? ''}
+                            />
+                            <AvatarFallback>
+                              {assignee.name?.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <p className='text-sm'>{assignee.name}</p>
+                        </div>
+                      )
+                    ) : (
+                      <div className='flex items-center space-x-2'>
+                        <Icons.userCircle2 className='h-4 w-4 text-soft' />
+                        <p>No assignee</p>
+                      </div>
+                    )}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent placeholder='Assign to...'>
+                    <ComboBoxItem
+                      key='unassigned'
+                      value='unassigned'
+                      onSelect={() => {
+                        field.onChange('')
+                        setOpenAssignee(false)
+                      }}
+                    >
+                      <Icons.userCircle2 className='mr-2 h-4 w-4 text-soft' />
+                      No assignee
+                    </ComboBoxItem>
+                    {assignee && (
+                      <ComboBoxItem
+                        key={assignee.id}
+                        value={assignee.id}
+                        onSelect={() => {
+                          field.onChange(assignee.id)
+                          setOpenAssignee(false)
+                        }}
+                      >
+                        <Avatar className='size-4 mr-2'>
+                          <AvatarImage
+                            src={assignee.image ?? ''}
+                            alt={assignee.name ?? ''}
+                          />
+                          <AvatarFallback>
+                            {assignee.name?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        {assignee.name}
+                      </ComboBoxItem>
+                    )}
                   </ComboBoxContent>
                 </ComboBox>
               )

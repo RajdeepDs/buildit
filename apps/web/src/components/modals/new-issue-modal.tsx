@@ -101,7 +101,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
             </p>
           )}
         </ModalHeader>
-        <NewIssueForm form={form} />
+        <NewIssueForm form={form} team={team!} />
         <ModalFooter>
           <Button size={'sm'} onClick={form.handleSubmit(onSubmit)}>
             Submit
