@@ -18,6 +18,11 @@ export const filterOptions: FilterSettings[] = [
     value: 'teams',
     icon: 'team',
   },
+  {
+    label: 'Assignee',
+    value: 'assignee',
+    icon: 'userCircle2',
+  },
 ]
 
 export const statusOptions: FilterSettings[] = [
@@ -92,5 +97,35 @@ export const useTeamsOptions = () => {
       label: team.name,
       icon: 'team',
     })) ?? []
+  )
+}
+
+export const useAssigneeOptions = () => {
+  const { data: teams, isLoading, error } = api.team.get_teams.useQuery()
+
+  if (isLoading) {
+    return []
+  }
+
+  if (error) {
+    return []
+  }
+
+  return (
+    teams
+      ?.map((team) => {
+        // Ensure team and user are defined before mapping
+        if (team.user) {
+          return {
+            value: team.user.id,
+            label: team.user.name,
+            image: team.user.image,
+            icon: 'image',
+          }
+        } else {
+          return null
+        }
+      })
+      .filter(Boolean) ?? []
   )
 }

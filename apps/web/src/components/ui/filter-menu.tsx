@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Button } from '@buildit/ui/button'
 import {
   Command,
@@ -18,6 +19,7 @@ import {
   filterOptions,
   priorityOptions,
   statusOptions,
+  useAssigneeOptions,
   useTeamsOptions,
 } from '@/configs/filter-settings'
 import { useMyIssues } from '@/hooks/store'
@@ -34,6 +36,7 @@ export default function FilterMenu(): JSX.Element {
   const { addOrUpdateFilter } = useMyIssues()
 
   const teamOptions = useTeamsOptions()
+  const assigneeOptions = useAssigneeOptions()
 
   const [selectedFilter, setSelectedFilter] = useState('')
   const [selectedValue, setSelectedValue] = useState('')
@@ -62,6 +65,8 @@ export default function FilterMenu(): JSX.Element {
         return priorityOptions
       case 'teams':
         return teamOptions
+      case 'assignee':
+        return assigneeOptions
       default:
         return filterOptions
     }
@@ -134,7 +139,18 @@ export default function FilterMenu(): JSX.Element {
                         handleSelect(option.value)
                       }}
                     >
-                      <Icon className='size-4 text-sub mr-2' />
+                      {option.icon === 'image' ? (
+                        <Avatar className='size-4 mr-2'>
+                          {'image' in option && (
+                            <AvatarImage src={option.image ?? ''} />
+                          )}
+                          <AvatarFallback>
+                            <Icons.userCircle2 className='size-4 text-sub' />
+                          </AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <Icon className='size-4 text-sub mr-2' />
+                      )}
                       {option.label}
                     </CommandItem>
                   )
