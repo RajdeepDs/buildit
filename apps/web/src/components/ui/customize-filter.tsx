@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react'
 
 import type { Filter } from '@/lib/store/my-issues-store'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +17,8 @@ import {
   filterOptions as Filters,
   priorityOptions,
   statusOptions,
+  useAssigneeOptions,
+  useTeamsOptions,
 } from '@/configs/filter-settings'
 import { useMyIssues } from '@/hooks/store'
 
@@ -27,14 +30,19 @@ import { useMyIssues } from '@/hooks/store'
  */
 export default function CustomizeFilter({ filter }: { filter: Filter }) {
   const { addOrUpdateFilter, removeFilter } = useMyIssues()
+  const teamOptions = useTeamsOptions()
+  const assigneeOptions = useAssigneeOptions()
+
   const selectedFilter = filter.filter
   const selectedValue = filter.value
 
   const filterOptions = useMemo(() => {
     if (selectedFilter === 'status') return statusOptions
     if (selectedFilter === 'priority') return priorityOptions
+    if (selectedFilter === 'teams') return teamOptions
+    if (selectedFilter === 'assignee') return assigneeOptions
     return []
-  }, [selectedFilter])
+  }, [selectedFilter, teamOptions, assigneeOptions])
 
   const handleSelectFilter = useCallback(
     (value: string) => {
@@ -48,7 +56,9 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
   )
 
   const getIcon = (iconName: string | undefined) => {
-    return iconName ? Icons[iconName as keyof typeof Icons] : Icons.listFilter
+    return iconName !== 'image'
+      ? Icons[iconName as keyof typeof Icons]
+      : Icons.listFilter
   }
 
   if (!selectedFilter) {
@@ -64,7 +74,9 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
   const filterOption = filterOptions.find(
     (option) => option.value === selectedValue,
   )
+
   const FilterOptionLabel = filterOption?.label ?? 'Select Value'
+
   const FilterOptionIcon = getIcon(filterOption?.icon)
 
   return (
@@ -79,7 +91,16 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
           className='outline-none flex items-center gap-2 px-3 py-1 hover:bg-weak'
           aria-haspopup='listbox'
         >
-          <FilterOptionIcon className='size-4 text-sub' />
+          {filterOption?.icon === 'image' ? (
+            <Avatar className='size-4'>
+              <AvatarImage src={(filterOption as { image: string }).image} />
+              <AvatarFallback>
+                <Icons.userCircle2 className='size-4 text-sub' />
+              </AvatarFallback>
+            </Avatar>
+          ) : (
+            <FilterOptionIcon className='size-4 text-sub' />
+          )}
           {FilterOptionLabel}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -92,7 +113,16 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
                   handleSelectFilter(option.value)
                 }}
               >
-                <Icon className='mr-2 h-4 w-4 text-sub' />
+                {option.icon === 'image' ? (
+                  <Avatar className='size-4 mr-2'>
+                    <AvatarImage src={(option as { image: string }).image} />
+                    <AvatarFallback>
+                      <Icons.userCircle2 className='size-4 text-sub' />
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <Icon className='size-4 text-sub mr-2' />
+                )}
                 {option.label}
               </DropdownMenuItem>
             )
