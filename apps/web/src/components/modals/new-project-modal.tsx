@@ -12,7 +12,9 @@ import {
   Modal,
   ModalContent,
   ModalHeader,
+  ModalTitle,
   ModalTrigger,
+  VisuallyHide,
 } from '@/components/ui/modal'
 import { api } from '@/lib/trpc/react'
 
@@ -36,6 +38,9 @@ export const NewProjectModal = ({
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger asChild>{children}</ModalTrigger>
       <ModalContent>
+        <VisuallyHide>
+          <ModalTitle>Create Project</ModalTitle>
+        </VisuallyHide>
         <ModalHeader name='New project'>
           {teams && teams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>

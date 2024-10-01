@@ -2,31 +2,10 @@
 
 import React from 'react'
 
-import * as Popover from '@radix-ui/react-popover'
 import { Command } from 'cmdk'
 
 import { cn } from '@buildit/ui/cn'
-
-export const ComboBoxTrigger = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode
-  className?: string | undefined
-}) => {
-  return (
-    <Popover.Trigger asChild>
-      <button
-        className={cn(
-          'rounded border px-3 py-0.5 text-sm transition-colors duration-200 ease-in-out',
-          className,
-        )}
-      >
-        {children}
-      </button>
-    </Popover.Trigger>
-  )
-}
+import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
 export const ComboBox = ({
   children,
@@ -38,13 +17,13 @@ export const ComboBox = ({
   onOpenChange: (open: boolean) => void
 }) => {
   return (
-    <Popover.Root open={open} onOpenChange={onOpenChange}>
+    <Popover open={open} onOpenChange={onOpenChange}>
       {children}
-    </Popover.Root>
+    </Popover>
   )
 }
 
-export const ComboBoxContent = ({
+export const ComboBoxTrigger = ({
   children,
   className,
 }: {
@@ -52,29 +31,47 @@ export const ComboBoxContent = ({
   className?: string | undefined
 }) => {
   return (
-    <Popover.Portal>
-      <Popover.Content
+    <PopoverTrigger asChild>
+      <button
         className={cn(
-          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 -slate-950 z-50 w-72 rounded-md border border-slate-200 bg-white shadow-md outline-none data-[state=closed]:animate-out data-[state=open]:animate-in dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50',
+          'rounded border flex items-center px-3 py-0.5 text-sm transition-colors duration-200 ease-in-out',
           className,
         )}
-        sideOffset={5}
-        align='start'
       >
-        <Command>
-          <div className='flex items-center justify-start space-x-2 border-b p-2'>
-            <Command.Input
-              placeholder='Search...'
-              className='w-full text-sm outline-none'
-            />
-          </div>
-          <Command.List className='p-1'>
-            <Command.Empty className='text-sm'>No results found!</Command.Empty>
-            {children}
-          </Command.List>
-        </Command>
-      </Popover.Content>
-    </Popover.Portal>
+        {children}
+      </button>
+    </PopoverTrigger>
+  )
+}
+
+export const ComboBoxContent = ({
+  children,
+  className,
+  placeholder,
+}: {
+  children: React.ReactNode
+  className?: string | undefined
+  placeholder?: string
+}) => {
+  return (
+    <PopoverContent
+      className={cn(className, 'p-0 min-w-[200px] w-0 max-w-[300px]:')}
+      sideOffset={5}
+      align='start'
+    >
+      <Command>
+        <div className='flex items-center justify-start space-x-2 border-b p-2'>
+          <Command.Input
+            placeholder={placeholder ? placeholder : 'Search...'}
+            className='w-full text-sm outline-none border-none focus:ring-0 p-0'
+          />
+        </div>
+        <Command.List className='p-1'>
+          <Command.Empty className='text-sm'>No results found!</Command.Empty>
+          {children}
+        </Command.List>
+      </Command>
+    </PopoverContent>
   )
 }
 

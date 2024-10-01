@@ -7,6 +7,7 @@ import { Separator } from '@buildit/ui/separator'
 
 import { Icons } from '@/components/ui/icons'
 
+import { NewIssueModal } from '../modals/new-issue-modal'
 import CustomizeFilter from './customize-filter'
 
 /**
@@ -29,10 +30,12 @@ export default function FloatingToolbar({
         {filters.length > 0 && (
           <Separator orientation='vertical' className='h-6' />
         )}
-        <Button size={'sm'} variant={'secondary'} className='text-sub'>
-          <Icons.plus className='size-4 mr-2 text-sub' />
-          Create Issue
-        </Button>
+        <NewIssueModal>
+          <Button size={'sm'} variant={'secondary'} className='text-sub'>
+            <Icons.plus className='size-4 mr-2 text-sub' />
+            Create Issue
+          </Button>
+        </NewIssueModal>
       </div>
     </div>
   )
