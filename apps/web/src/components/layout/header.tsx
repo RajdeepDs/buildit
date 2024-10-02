@@ -1,13 +1,15 @@
 'use client'
 
+import { useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 
 import { Icons } from '@/components/ui/icons'
-import { getNavigations } from '@/configs/layout-navigations'
 import { useFloatingToolbar } from '@/hooks/store'
+import { useNavigation } from '@/hooks/use-navigation'
+import { api } from '@/lib/trpc/react'
 
 /**
  * The header of the entire layout of the application.
@@ -31,16 +33,24 @@ export default function Header({
 }): JSX.Element {
   const pathname = usePathname()
 
-  const navigations = getNavigations()
+  const teamId = useMemo(() => pathname.split('/')[2], [pathname])
+
+  const { currentNavigation, isTeamPage } = useNavigation(pathname)
+
+  // Fetch team data only if on a team page and teamId is available
+  const { data: teamQuery } = api.team.get_team_by_teamId.useQuery(
+    { teamId: teamId! },
+    { enabled: !!teamId && isTeamPage },
+  )
+  const teamName = teamQuery?.name ?? teamId
 
   const { isOpen, setOpen } = useFloatingToolbar()
 
-  const currentNavigation = navigations.find(
-    (navigation) => navigation.href === pathname,
+  const title = useMemo(() => currentNavigation?.name, [currentNavigation])
+  const HeaderIcon = useMemo(
+    () => Icons[currentNavigation?.icon as keyof typeof Icons],
+    [currentNavigation],
   )
-
-  const title = currentNavigation?.name
-  const HeaderIcon = Icons[currentNavigation?.icon as keyof typeof Icons]
 
   return (
     <header className='grid grid-cols-5 items-center py-2 px-3'>
@@ -57,11 +67,19 @@ export default function Header({
       >
         <Icons.panelLeft className='size-4 text-sub' />
       </Button>
+
       <nav className='flex items-center col-start-3 justify-center gap-2'>
-        <HeaderIcon className='size-4 text-sub' />
+        {<HeaderIcon className='size-4 text-sub' />}
+        {isTeamPage && teamName && (
+          <>
+            <h1 className='text-sm font-medium text-sub'>{teamName}</h1>
+            <Icons.chevronRight className='size-4 text-sub' />
+          </>
+        )}
         <h1 className='text-sm font-medium text-sub'>{title}</h1>
       </nav>
-      {/* Floating toolbar button - if the button is clicked then the floating toolbar will show continuously otherwise not*/}
+
+      {/* Floating toolbar button */}
       <div className='flex col-start-5 items-center justify-end'>
         <Button
           variant={'ghost'}

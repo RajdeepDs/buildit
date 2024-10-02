@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server'
+import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
 import { teamTable, workspaceTable } from '@buildit/db/schema'
@@ -26,6 +27,18 @@ export const teamRouter = createRouter({
     })
     return teams
   }),
+  get_team_by_teamId: protectedProcedure
+    .input(z.object({ teamId: z.string() }))
+    .query(async ({ input }) => {
+      const team = await db.query.teamTable.findFirst({
+        where: eq(teamTable.teamId, input.teamId),
+        with: {
+          workspace: true,
+          user: true,
+        },
+      })
+      return team
+    }),
   create_team: protectedProcedure
     .input(CreateTeamFormSchema)
     .mutation(async ({ ctx, input }) => {

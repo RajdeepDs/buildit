@@ -1,5 +1,7 @@
 'use client'
 
+import React from 'react'
+
 import type { SidebarStore } from '@/lib/store/sidebar-store'
 
 import { cn } from '@buildit/ui/cn'
@@ -18,7 +20,7 @@ export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
-}): JSX.Element {
+}): React.JSX.Element {
   const store = useSidebarStore() as SidebarStore
 
   const hidden = store.hidden
