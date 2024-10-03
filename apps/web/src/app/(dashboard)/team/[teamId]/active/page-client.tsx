@@ -2,27 +2,18 @@
 
 import { cn } from '@buildit/ui/cn'
 
-import IssueList from '@/components/issues/issue-list'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
-import { api } from '@/lib/trpc/react'
 
 /**
- * The My Issues client page.
+ * The Active issues client page.
  * @returns Next.js RSC page.
  */
-export default function MyIssuesClientPage(): JSX.Element {
+export default function ActiveIssuesClientPage(): JSX.Element {
   const { isOpen } = useFloatingToolbar()
   const { filters } = useMyIssues()
-
-  const { data: allIssues, error } = api.issues.get_issues.useQuery()
-
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
-
   return (
     <>
       <div className='relative w-full h-full p-2 flex flex-col space-y-2'>
@@ -31,7 +22,7 @@ export default function MyIssuesClientPage(): JSX.Element {
           <DisplayMenu />
         </div>
 
-        <IssueList allIssues={allIssues} />
+        {/* <IssueList /> */}
 
         <div
           className={cn(
