@@ -3,23 +3,22 @@
 import type { TIssue } from '@buildit/utils/types'
 
 import { useMyIssues } from '@/hooks/store'
-import { api } from '@/lib/trpc/react'
 
 import IssuesGroup from './issue-group'
 import IssueItem from './issue-item'
 
 /**
  * The Issue list component to display a list of issues. And empty state for Issues Page
+ * @param props The props for the component.
+ * @param props.allIssues The list of all issues.
  * @returns JSX Element.
  */
-export default function IssueList(): JSX.Element {
-  const { data: allIssues, error } = api.issues.get_issues.useQuery()
-
+export default function IssueList({
+  allIssues,
+}: {
+  allIssues: TIssue[] | undefined
+}): JSX.Element {
   const { filters, groupBy } = useMyIssues()
-
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
 
   const filterIssues = (issues: typeof allIssues) => {
     if (filters.length === 0) {
