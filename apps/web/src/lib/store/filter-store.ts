@@ -52,5 +52,3 @@ export const createFilterStore = (pathname: string) =>
       },
     ),
   )
-
-// export const useMyIssuesFilterStore = createFilterStore('my-issues')

@@ -22,7 +22,7 @@ import {
   useAssigneeOptions,
   useTeamsOptions,
 } from '@/configs/filter-settings'
-import { useFilterStore } from '@/hooks/store/use-filter-store'
+import { useFilterStore } from '@/hooks/store'
 
 /**
  * The filter menu component. It contains the filter by status and filter by priority.
