@@ -16,33 +16,33 @@ type Operator =
 type FilterCondition = Record<
   string,
   {
-    [key in Operator]?: any
+    [key in Operator]?: string
   }
 >
 
-interface FilterQuery {
+export interface FilterQuery {
   [key: string]: FilterCondition | FilterQuery
 }
 
 export interface FilterStore {
-  and: FilterQuery
-  setFilter: (type: string, operator: Operator, value: any) => void
+  and: FilterQuery[]
+  setFilter: (
+    type: string,
+    operator: Operator,
+    value: FilterCondition | FilterQuery,
+  ) => void
 }
 
 export const createFilterStore = (pathname: string) =>
   create<FilterStore>()(
     persist(
       (set) => ({
-        and: {},
+        and: [],
         setFilter: (type, operator, value) => {
           set((state) => {
+            const newFilter = { [type]: { [operator]: value } }
             return {
-              ...state.and, // keep the existing filters and add the new one
-              and: {
-                [type]: {
-                  [operator]: value,
-                },
-              },
+              and: [...state.and, newFilter], // keep the existing filters and add the new one
             }
           })
         },

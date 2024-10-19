@@ -3,10 +3,9 @@
 import { cn } from '@buildit/ui/cn'
 
 import IssueList from '@/components/issues/issue-list'
-import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
-import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
+import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -15,7 +14,7 @@ import { api } from '@/lib/trpc/react'
  */
 export default function MyIssuesClientPage(): JSX.Element {
   const { isOpen } = useFloatingToolbar()
-  const { filters } = useMyIssues()
+  const { and } = useFilterStore()
 
   const { data: allIssues, error } = api.issues.get_issues.useQuery()
 
@@ -28,7 +27,7 @@ export default function MyIssuesClientPage(): JSX.Element {
       <div className='relative w-full h-full p-2 flex flex-col space-y-2'>
         <div className='flex justify-between items-center'>
           <FilterMenu />
-          <DisplayMenu />
+          {/* <DisplayMenu /> */}
         </div>
 
         <IssueList allIssues={allIssues} />
@@ -36,12 +35,12 @@ export default function MyIssuesClientPage(): JSX.Element {
         <div
           className={cn(
             'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
-            isOpen || filters.length > 0
+            isOpen
               ? 'flex opacity-100 translate-y-0 h-auto'
               : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
           )}
         >
-          <FloatingToolbar filters={filters} />
+          <FloatingToolbar filters={and} />
         </div>
       </div>
     </>

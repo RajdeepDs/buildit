@@ -2,7 +2,9 @@
 
 import type { TIssue } from '@buildit/utils/types'
 
-import { useMyIssues } from '@/hooks/store'
+// import { useMyIssues } from '@/hooks/store'
+
+import { useMyIssues } from '@/hooks/store/use-my-issues'
 
 import IssuesGroup from './issue-group'
 import IssueItem from './issue-item'

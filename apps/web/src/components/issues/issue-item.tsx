@@ -56,6 +56,7 @@ const IssueItem = ({
       >
         <div className='grid grid-cols-[minmax(130px,_150px)_2fr] gap-2 items-center'>
           <div className='group grid grid-cols-[20px_20px_1fr_20px] gap-2 items-center'>
+            {/* Fix: button cannot be descendant of Button  */}
             <button
               onClick={(e) => {
                 e.stopPropagation()
