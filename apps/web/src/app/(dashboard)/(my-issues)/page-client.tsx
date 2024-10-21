@@ -15,7 +15,6 @@ import { api } from '@/lib/trpc/react'
 export default function MyIssuesClientPage(): JSX.Element {
   const { isOpen } = useFloatingToolbar()
   const { and } = useFilterStore()
-  console.log(and)
 
   const { data: allIssues, error } = api.issues.get_issues.useQuery()
 

@@ -53,6 +53,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
       if (value === '') {
         removeFilter(filterKey)
       } else {
+        // Todo: Add the selected filter to update the store
         // updateFilter({ filter: selectedFilter, value })
       }
     },
