@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import type { FilterQuery } from '@/lib/store/filter-store'
 
@@ -18,6 +18,7 @@ import {
   useAssigneeOptions,
   useTeamsOptions,
 } from '@/configs/filter-settings'
+import { useFilterStore } from '@/hooks/store'
 
 import { Icons } from './icons'
 
@@ -30,6 +31,7 @@ import { Icons } from './icons'
 export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
+  const { removeFilter } = useFilterStore()
 
   const filterDetails = useMemo(() => traverseFilterQuery(filter), [filter])
   const filterKey = filterDetails.map((detail) => detail.key).join('-')
@@ -45,6 +47,17 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     if (filterKey === 'assignee') return assigneeOptions
     return []
   }, [filterKey, teamOptions, assigneeOptions])
+
+  const handleSelectFilter = useCallback(
+    (value: string) => {
+      if (value === '') {
+        removeFilter(filterKey)
+      } else {
+        // updateFilter({ filter: selectedFilter, value })
+      }
+    },
+    [filterKey, removeFilter],
+  )
 
   const getIcon = (iconName: string | undefined) => {
     return iconName !== 'image'
@@ -121,7 +134,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
         className='rounded-e-md py-1.5 px-2 hover:bg-weak'
         aria-label='Remove filter'
         onClick={() => {
-          // handleSelectFilter('')
+          handleSelectFilter('')
         }}
       >
         <Icons.x className='size-4 text-sub' />

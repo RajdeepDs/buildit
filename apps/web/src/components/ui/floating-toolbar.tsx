@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import type { FilterQuery } from '@/lib/store/filter-store'
 
 import { Button } from '@buildit/ui/button'
@@ -21,18 +23,22 @@ export default function FloatingToolbar({
 }: {
   filters: FilterQuery[]
 }): JSX.Element {
+  const [currentFilters, setCurrentFilters] = useState(filters)
+
+  useEffect(() => {
+    setCurrentFilters(filters)
+  }, [filters])
+
   return (
     <div className='bg-weak/20 p-2 border rounded-md shadow-md z-50'>
       <div className='flex items-center gap-2'>
-        {filters.map((filter) => {
-          return (
-            <CustomizeFilter
-              key={Object.keys(filter).join('-')}
-              filter={filter}
-            />
-          )
-        })}
-        {filters.length > 0 && (
+        {currentFilters.map((filter) => (
+          <CustomizeFilter
+            key={Object.keys(filter).join('-')}
+            filter={filter}
+          />
+        ))}
+        {currentFilters.length > 0 && (
           <Separator orientation='vertical' className='h-6' />
         )}
         <NewIssueModal>

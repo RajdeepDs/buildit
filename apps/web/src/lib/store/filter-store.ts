@@ -31,9 +31,10 @@ export interface FilterStore {
     operator: Operator,
     value: FilterCondition | FilterQuery,
   ) => void
+  removeFilter: (type: string) => void
 }
 
-export const createFilterStore = (pathname: string) =>
+const createFilterStore = (pathname: string) =>
   create<FilterStore>()(
     persist(
       (set) => ({
@@ -46,9 +47,18 @@ export const createFilterStore = (pathname: string) =>
             }
           })
         },
+        removeFilter: (type) => {
+          set((state) => {
+            return {
+              and: state.and.filter((filter) => !filter[type]), // remove the filter with the given type
+            }
+          })
+        },
       }),
       {
         name: `filter${pathname}`,
       },
     ),
   )
+
+export default createFilterStore
