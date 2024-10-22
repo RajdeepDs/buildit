@@ -1,6 +1,6 @@
 import { SidebarProvider } from '@buildit/ui/sidebar'
 
-import { AppSidebar } from '@/components/app-sidebar'
+import { AppSidebar } from '@/components/sidebar/sidebar'
 
 /**
  *

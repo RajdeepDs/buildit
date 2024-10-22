@@ -1,19 +1,54 @@
-'use client'
+import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
 
-import { usePathname } from 'next/navigation'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@buildit/ui/sidebar'
 
-import DashboardSidebar from '@/components/sidebar/dashboard-sidebar'
 import { api } from '@/lib/trpc/react'
 
-import SettingsSidebar from './settings-sidebar'
+import SidebarHeaderNav from './sidebar-header'
+
+// Menu items.
+const items = [
+  {
+    title: 'Home',
+    url: '#',
+    icon: Home,
+  },
+  {
+    title: 'Inbox',
+    url: '#',
+    icon: Inbox,
+  },
+  {
+    title: 'Calendar',
+    url: '#',
+    icon: Calendar,
+  },
+  {
+    title: 'Search',
+    url: '#',
+    icon: Search,
+  },
+  {
+    title: 'Settings',
+    url: '#',
+    icon: Settings,
+  },
+]
 
 /**
  * The sidebar component. This is where we will have the sidebar of the application.
  * @returns The sidebar component.
  */
-export default function Sidebar(): JSX.Element {
-  const pathname = usePathname()
-
+export function AppSidebar() {
   const [{ data: user }, { data: workspace }, { data: teams }] = api.useQueries(
     (query) => [
       query.user.get_user(),
@@ -25,14 +60,28 @@ export default function Sidebar(): JSX.Element {
   if (!user || !workspace || !teams) {
     return <></>
   }
-
   return (
-    <aside className='w-[240px] '>
-      {!pathname.startsWith(`/settings`) ? (
-        <DashboardSidebar user={user} workspace={workspace} teams={teams} />
-      ) : (
-        <SettingsSidebar user={user} teams={teams} />
-      )}
-    </aside>
+    <Sidebar>
+      <SidebarHeaderNav user={user} workspace={workspace} />
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   )
 }

@@ -4,7 +4,7 @@ import React from 'react'
 
 import { SidebarProvider } from '@buildit/ui/sidebar'
 
-import { AppSidebar } from '../app-sidebar'
+import { AppSidebar } from '../sidebar/sidebar'
 
 /**
  * The dashboard layout of the entire application.
