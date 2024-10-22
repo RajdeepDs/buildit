@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
 
 import {
@@ -6,6 +8,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -13,7 +16,8 @@ import {
 
 import { api } from '@/lib/trpc/react'
 
-import SidebarHeaderNav from './sidebar-header'
+import { Icons } from '../ui/icons'
+import WorkspaceSwitcher from './workspace-switcher'
 
 // Menu items.
 const items = [
@@ -62,7 +66,19 @@ export function AppSidebar() {
   }
   return (
     <Sidebar>
-      <SidebarHeaderNav user={user} workspace={workspace} />
+      <SidebarHeader>
+        <WorkspaceSwitcher user={user} workspace={workspace} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href={'/'}>
+                <Icons.search className='h-4 w-4 text-soft' />
+                <span>Search</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
