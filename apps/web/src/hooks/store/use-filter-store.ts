@@ -34,7 +34,11 @@ export const useFilterStore = (): FilterStore => {
   // Access the Zustand store state and actions, assuming store is defined
   const and = useIssuesFilterStore((state) => state.and)
   const setFilter = useIssuesFilterStore((state) => state.setFilter)
+  const updateFilter = useIssuesFilterStore((state) => state.updateFilter)
   const removeFilter = useIssuesFilterStore((state) => state.removeFilter)
 
-  return { and, setFilter, removeFilter }
+  const groupBy = useIssuesFilterStore((state) => state.groupBy)
+  const setGroupBy = useIssuesFilterStore((state) => state.setGroupBy)
+
+  return { and, setFilter, updateFilter, removeFilter, groupBy, setGroupBy }
 }

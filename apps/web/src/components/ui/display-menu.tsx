@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
 import { Icons } from '@/components/ui/icons'
 import { groupingOptions } from '@/configs/display-settings'
-import { useMyIssues } from '@/hooks/store'
+import { useFilterStore } from '@/hooks/store'
 
 /**
  * The display menu component. It contains the grouping and ordering options.
@@ -22,7 +22,7 @@ export default function DisplayMenu() {
   const [open, setOpen] = useState(false)
   const [grouping, setGrouping] = useState('noGrouping')
 
-  const { setGroupBy } = useMyIssues()
+  const { setGroupBy } = useFilterStore()
 
   const handleSelectGrouping = (group: string) => {
     setGroupBy(group)

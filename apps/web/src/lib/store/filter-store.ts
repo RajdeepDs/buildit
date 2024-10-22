@@ -1,3 +1,5 @@
+import type { TIssue } from '@buildit/utils/types'
+
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -31,7 +33,14 @@ export interface FilterStore {
     operator: Operator,
     value: FilterCondition | FilterQuery,
   ) => void
+  updateFilter: (
+    type: string,
+    operator: Operator,
+    value: FilterCondition | FilterQuery,
+  ) => void
   removeFilter: (type: string) => void
+  groupBy: keyof TIssue | 'No Grouping'
+  setGroupBy: (group: keyof TIssue | 'No Grouping') => void
 }
 
 const createFilterStore = (pathname: string) =>
@@ -47,6 +56,19 @@ const createFilterStore = (pathname: string) =>
             }
           })
         },
+        updateFilter: (type, operator, value) => {
+          set((state) => {
+            const newFilter = { [type]: { [operator]: value } }
+            return {
+              and: state.and.map((filter) => {
+                if (filter[type]) {
+                  return newFilter // update the filter with the given type
+                }
+                return filter
+              }),
+            }
+          })
+        },
         removeFilter: (type) => {
           set((state) => {
             return {
@@ -54,9 +76,19 @@ const createFilterStore = (pathname: string) =>
             }
           })
         },
+        groupBy: 'No Grouping',
+        setGroupBy: (group) => {
+          set(() => ({
+            groupBy: group,
+          }))
+        },
       }),
       {
         name: `filter${pathname}`,
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(([key]) => key !== 'groupBy'),
+          ),
       },
     ),
   )
