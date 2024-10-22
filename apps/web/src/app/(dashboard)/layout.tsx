@@ -26,7 +26,7 @@ export default async function DashboardRootLayout({
   return (
     <div className='flex bg-weak h-dvh pb-3'>
       <DashboardLayout>
-        <main className='h-full bg-white rounded-md'>{children}</main>
+        <main className='h-full w-full bg-white'>{children}</main>
       </DashboardLayout>
     </div>
   )
