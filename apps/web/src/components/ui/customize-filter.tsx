@@ -53,7 +53,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
       if (value === '') {
         removeFilter(filterKey)
       } else {
-        updateFilter(filterKey, 'in', value)
+        updateFilter(filterKey, 'in', [value])
       }
     },
     [filterKey, removeFilter, updateFilter],
