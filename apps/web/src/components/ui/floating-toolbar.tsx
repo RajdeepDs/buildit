@@ -1,6 +1,8 @@
 'use client'
 
-import type { Filter } from '@/lib/store/my-issues-store'
+import { useEffect, useState } from 'react'
+
+import type { FilterQuery } from '@/lib/store/filter-store'
 
 import { Button } from '@buildit/ui/button'
 import { Separator } from '@buildit/ui/separator'
@@ -19,15 +21,24 @@ import CustomizeFilter from './customize-filter'
 export default function FloatingToolbar({
   filters,
 }: {
-  filters: Filter[]
+  filters: FilterQuery[]
 }): JSX.Element {
+  const [currentFilters, setCurrentFilters] = useState(filters)
+
+  useEffect(() => {
+    setCurrentFilters(filters)
+  }, [filters])
+
   return (
     <div className='bg-weak/20 p-2 border rounded-md shadow-md z-50'>
       <div className='flex items-center gap-2'>
-        {filters.map((filter) => (
-          <CustomizeFilter key={filter.filter} filter={filter} />
+        {currentFilters.map((filter) => (
+          <CustomizeFilter
+            key={Object.keys(filter).join('-')}
+            filter={filter}
+          />
         ))}
-        {filters.length > 0 && (
+        {currentFilters.length > 0 && (
           <Separator orientation='vertical' className='h-6' />
         )}
         <NewIssueModal>

@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from 'react'
 
-import type { Filter } from '@/lib/store/my-issues-store'
+import type { FilterQuery } from '@/lib/store/filter-store'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
@@ -12,15 +12,15 @@ import {
   DropdownMenuTrigger,
 } from '@buildit/ui/dropdown-menu'
 
-import { Icons } from '@/components/ui/icons'
 import {
-  filterOptions as Filters,
   priorityOptions,
   statusOptions,
   useAssigneeOptions,
   useTeamsOptions,
 } from '@/configs/filter-settings'
-import { useMyIssues } from '@/hooks/store'
+import { useFilterStore } from '@/hooks/store'
+
+import { Icons } from './icons'
 
 /**
  * The customize filter component, to modify the existing filters
@@ -28,31 +28,36 @@ import { useMyIssues } from '@/hooks/store'
  * @param props.filter The Filter prop
  * @returns React component
  */
-export default function CustomizeFilter({ filter }: { filter: Filter }) {
-  const { addOrUpdateFilter, removeFilter } = useMyIssues()
+export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
+  const { removeFilter } = useFilterStore()
 
-  const selectedFilter = filter.filter
-  const selectedValue = filter.value
+  const filterDetails = useMemo(() => traverseFilterQuery(filter), [filter])
+  const filterKey = filterDetails.map((detail) => detail.key).join('-')
+  const filterOperator = filterDetails
+    .map((detail) => detail.operator)
+    .join('-')
+  const filterValue = filterDetails.map((detail) => detail.value).join('-')
 
   const filterOptions = useMemo(() => {
-    if (selectedFilter === 'status') return statusOptions
-    if (selectedFilter === 'priority') return priorityOptions
-    if (selectedFilter === 'teams') return teamOptions
-    if (selectedFilter === 'assignee') return assigneeOptions
+    if (filterKey === 'status') return statusOptions
+    if (filterKey === 'priority') return priorityOptions
+    if (filterKey === 'teams') return teamOptions
+    if (filterKey === 'assignee') return assigneeOptions
     return []
-  }, [selectedFilter, teamOptions, assigneeOptions])
+  }, [filterKey, teamOptions, assigneeOptions])
 
   const handleSelectFilter = useCallback(
     (value: string) => {
       if (value === '') {
-        removeFilter(selectedFilter)
+        removeFilter(filterKey)
       } else {
-        addOrUpdateFilter({ filter: selectedFilter, value })
+        // Todo: Add the selected filter to update the store
+        // updateFilter({ filter: selectedFilter, value })
       }
     },
-    [selectedFilter, removeFilter, addOrUpdateFilter],
+    [filterKey, removeFilter],
   )
 
   const getIcon = (iconName: string | undefined) => {
@@ -60,19 +65,14 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
       ? Icons[iconName as keyof typeof Icons]
       : Icons.listFilter
   }
-
-  if (!selectedFilter) {
-    return null
-  }
-
-  const filterType = Filters.find((filter) => filter.value === selectedFilter)
+  const filterType = filterOptions.find(
+    (filter) => filter.value === filterValue,
+  )
 
   const FilterIcon = getIcon(filterType?.icon)
 
-  const FilterLabel = filterType?.label ?? 'Unknown Filter'
-
   const filterOption = filterOptions.find(
-    (option) => option.value === selectedValue,
+    (option) => option.value === filterValue,
   )
 
   const FilterOptionLabel = filterOption?.label ?? 'Select Value'
@@ -83,9 +83,11 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
     <div className='flex items-center rounded-md border text-sm divide-x'>
       <div className='flex items-center gap-2 text-sub px-3 py-1'>
         <FilterIcon className='size-4 text-sub' />
-        {FilterLabel}
+        {filterKey}
       </div>
-      <p className='cursor-default text-sub px-3 py-1'>is</p>
+      <p className='cursor-default text-sub px-3 py-1'>
+        {filterOperator === 'in' ? <>is</> : <>{filterOperator}</>}{' '}
+      </p>
       <DropdownMenu>
         <DropdownMenuTrigger
           className='outline-none flex items-center gap-2 px-3 py-1 hover:bg-weak'
@@ -110,7 +112,7 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
               <DropdownMenuItem
                 key={option.value}
                 onClick={() => {
-                  handleSelectFilter(option.value)
+                  // handleSelectFilter(option.value)
                 }}
               >
                 {option.icon === 'image' ? (
@@ -140,4 +142,37 @@ export default function CustomizeFilter({ filter }: { filter: Filter }) {
       </button>
     </div>
   )
+}
+
+interface FilterDetail {
+  key: string
+  operator: string
+  value: any
+}
+
+const traverseFilterQuery = (query: FilterQuery): FilterDetail[] => {
+  const result: FilterDetail[] = []
+
+  if (!query || typeof query !== 'object') return result
+
+  Object.keys(query).forEach((key) => {
+    const value = query[key]
+
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      // This is a FilterCondition object
+      Object.keys(value).forEach((operator) => {
+        const conditionValue = value[operator]
+        result.push({
+          key,
+          operator,
+          value: conditionValue,
+        })
+      })
+    } else if (typeof value === 'object') {
+      console.log(`Nested query for key: ${key}`)
+      result.push(...traverseFilterQuery(value as FilterQuery))
+    }
+  })
+
+  return result
 }

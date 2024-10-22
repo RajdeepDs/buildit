@@ -22,7 +22,7 @@ import {
   useAssigneeOptions,
   useTeamsOptions,
 } from '@/configs/filter-settings'
-import { useMyIssues } from '@/hooks/store'
+import { useFilterStore } from '@/hooks/store'
 
 /**
  * The filter menu component. It contains the filter by status and filter by priority.
@@ -33,7 +33,7 @@ export default function FilterMenu(): JSX.Element {
   const [inputValue, setInputValue] = useState('')
   const commandRef = useRef<HTMLDivElement>(null)
 
-  const { addOrUpdateFilter } = useMyIssues()
+  const { setFilter } = useFilterStore()
 
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
@@ -50,7 +50,8 @@ export default function FilterMenu(): JSX.Element {
   const handleValueSelect = (currentValue: string) => {
     setSelectedValue(currentValue)
 
-    addOrUpdateFilter({ filter: selectedFilter, value: currentValue })
+    // Todo: Add the selected filter to the store
+    setFilter(selectedFilter, 'in', [currentValue]) // Added the new filter to the store
 
     setSelectedFilter('')
     setInputValue('')
