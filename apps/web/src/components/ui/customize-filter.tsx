@@ -31,7 +31,7 @@ import { Icons } from './icons'
 export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
-  const { removeFilter } = useFilterStore()
+  const { updateFilter, removeFilter } = useFilterStore()
 
   const filterDetails = useMemo(() => traverseFilterQuery(filter), [filter])
   const filterKey = filterDetails.map((detail) => detail.key).join('-')
@@ -53,11 +53,10 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
       if (value === '') {
         removeFilter(filterKey)
       } else {
-        // Todo: Add the selected filter to update the store
-        // updateFilter({ filter: selectedFilter, value })
+        updateFilter(filterKey, 'in', value)
       }
     },
-    [filterKey, removeFilter],
+    [filterKey, removeFilter, updateFilter],
   )
 
   const getIcon = (iconName: string | undefined) => {
@@ -112,7 +111,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
               <DropdownMenuItem
                 key={option.value}
                 onClick={() => {
-                  // handleSelectFilter(option.value)
+                  handleSelectFilter(option.value)
                 }}
               >
                 {option.icon === 'image' ? (

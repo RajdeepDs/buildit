@@ -50,8 +50,8 @@ export default function FilterMenu(): JSX.Element {
   const handleValueSelect = (currentValue: string) => {
     setSelectedValue(currentValue)
 
-    // Todo: Add the selected filter to the store
-    setFilter(selectedFilter, 'in', [currentValue]) // Added the new filter to the store
+    // Set the filter
+    setFilter(selectedFilter, 'in', [currentValue])
 
     setSelectedFilter('')
     setInputValue('')

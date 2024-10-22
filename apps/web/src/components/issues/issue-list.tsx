@@ -2,6 +2,7 @@
 
 import type { TIssue } from '@buildit/utils/types'
 
+import { useFilterStore } from '@/hooks/store'
 // import { useMyIssues } from '@/hooks/store'
 
 import { useMyIssues } from '@/hooks/store/use-my-issues'
@@ -20,7 +21,8 @@ export default function IssueList({
 }: {
   allIssues: TIssue[] | undefined
 }): JSX.Element {
-  const { filters, groupBy } = useMyIssues()
+  const { filters } = useMyIssues()
+  const { groupBy } = useFilterStore()
 
   const filterIssues = (issues: typeof allIssues) => {
     if (filters.length === 0) {
