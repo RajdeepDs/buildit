@@ -1,3 +1,5 @@
+'use client'
+
 import { useTransition } from 'react'
 
 import type { TUser, TWorkspace } from '@buildit/utils/types'
