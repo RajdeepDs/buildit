@@ -2,10 +2,11 @@
 
 import { cn } from '@buildit/ui/cn'
 
+import Header from '@/components/layout/header'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
-import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
+import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
 
 /**
  * The Active issues client page.
@@ -13,10 +14,11 @@ import { useFloatingToolbar, useMyIssues } from '@/hooks/store'
  */
 export default function ActiveIssuesClientPage(): JSX.Element {
   const { isOpen } = useFloatingToolbar()
-  const { filters } = useMyIssues()
+  const { and } = useFilterStore()
   return (
     <>
       <div className='relative w-full h-full p-2 flex flex-col space-y-2'>
+        <Header />
         <div className='flex justify-between items-center'>
           <FilterMenu />
           <DisplayMenu />
@@ -27,12 +29,12 @@ export default function ActiveIssuesClientPage(): JSX.Element {
         <div
           className={cn(
             'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
-            isOpen || filters.length > 0
+            isOpen || and.length > 0
               ? 'flex opacity-100 translate-y-0 h-auto'
               : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
           )}
         >
-          <FloatingToolbar filters={filters} />
+          <FloatingToolbar filters={and} />
         </div>
       </div>
     </>

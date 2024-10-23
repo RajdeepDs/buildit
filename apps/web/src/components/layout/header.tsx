@@ -3,6 +3,13 @@
 import { useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@buildit/ui/breadcrumb'
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
@@ -40,15 +47,19 @@ export default function Header(): JSX.Element {
       <div className='flex items-center gap-3'>
         <SidebarTrigger />
         <Separator orientation='vertical' className='h-5 mr-1' />
-        <nav className='flex items-center col-start-3 justify-center gap-2'>
-          {isTeamPage && teamName && (
-            <>
-              <h1 className='text-sm font-medium text-sub'>{teamName}</h1>
-              <Icons.chevronRight className='size-4 text-sub' />
-            </>
-          )}
-          <h1 className='text-sm font-medium text-sub'>{title}</h1>
-        </nav>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              {isTeamPage && teamName && (
+                <>
+                  <BreadcrumbItem>{teamName}</BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </>
+              )}
+              <BreadcrumbPage>{title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
 
       {/* Floating toolbar button */}

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { SidebarProvider } from '@buildit/ui/sidebar'
+import { SidebarInset, SidebarProvider } from '@buildit/ui/sidebar'
 
 import { AppSidebar } from '../sidebar/sidebar'
 
@@ -21,7 +21,7 @@ export default function DashboardLayout({
     <div className='flex w-full'>
       <SidebarProvider>
         <AppSidebar />
-        {children}
+        <SidebarInset>{children}</SidebarInset>
       </SidebarProvider>
     </div>
   )
