@@ -1,4 +1,4 @@
-export const getNavigations = () => {
+export const getHomeNavigations = () => {
   return [
     {
       name: 'My issues',
