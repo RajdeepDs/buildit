@@ -1,52 +1,19 @@
 import Link from 'next/link'
 
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
-
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
 
+import HomeNav from '@/components/sidebar/home-nav'
+import TeamsNav from '@/components/sidebar/teams-nav'
+import WorkspaceSwitcher from '@/components/sidebar/workspace-switcher'
+import { Icons } from '@/components/ui/icons'
 import { api } from '@/lib/trpc/react'
-
-import { Icons } from '../ui/icons'
-import WorkspaceSwitcher from './workspace-switcher'
-
-// Menu items.
-const items = [
-  {
-    title: 'Home',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Inbox',
-    url: '#',
-    icon: Inbox,
-  },
-  {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
-  },
-]
 
 /**
  * The sidebar component. This is where we will have the sidebar of the application.
@@ -80,23 +47,8 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <HomeNav />
+        <TeamsNav teams={teams} />
       </SidebarContent>
     </Sidebar>
   )

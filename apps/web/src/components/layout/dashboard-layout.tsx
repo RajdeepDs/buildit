@@ -18,7 +18,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }): React.JSX.Element {
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex w-full'>
       <SidebarProvider>
         <AppSidebar />
         {children}

@@ -1,5 +1,8 @@
+import { useTransition } from 'react'
+
 import type { TUser, TWorkspace } from '@buildit/utils/types'
 
+import { logout } from '@buildit/auth/actions/logout'
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Button } from '@buildit/ui/button'
 import {
@@ -16,7 +19,7 @@ import {
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
 
-import { Icons } from '../ui/icons'
+import { Icons } from '@/components/ui/icons'
 
 interface SidebarHeaderNavProps {
   user: Pick<TUser, 'id' | 'name' | 'email' | 'image'>
@@ -34,6 +37,13 @@ export default function WorkspaceSwitcher({
   user,
   workspace,
 }: SidebarHeaderNavProps): JSX.Element {
+  const [_, startTransition] = useTransition()
+
+  const onLogOut = () => {
+    startTransition(async () => {
+      await logout()
+    })
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -104,10 +114,13 @@ export default function WorkspaceSwitcher({
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className='w-32 p-1 rounded-md'>
-                    <div className='flex items-center gap-2 px-2 py-1 rounded hover:bg-weak cursor-default'>
+                    <button
+                      className='w-full flex items-center gap-2 px-2 py-1 rounded hover:bg-weak cursor-default'
+                      onClick={onLogOut}
+                    >
                       <Icons.logOut className='size-4 text-sub' />
                       <span className='text-xs text-surface'>Log out</span>
-                    </div>
+                    </button>
                   </PopoverContent>
                 </Popover>
               </div>
@@ -123,7 +136,10 @@ export default function WorkspaceSwitcher({
             </div>
             <DropdownMenuSeparator className='bg-soft my-0' />
             <div className='m-1'>
-              <DropdownMenuItem className='focus:bg-soft/50 text-surface'>
+              <DropdownMenuItem
+                className='focus:bg-soft/50 text-surface'
+                onClick={onLogOut}
+              >
                 <span className='text-sm'>Log out</span>
               </DropdownMenuItem>
             </div>
