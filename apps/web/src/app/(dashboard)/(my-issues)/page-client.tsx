@@ -6,6 +6,7 @@ import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 import { Sidebar, SidebarContent, SidebarHeader } from '@buildit/ui/sidebar'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@buildit/ui/tabs'
 
 import IssueList from '@/components/issues/issue-list'
 import Header from '@/components/layout/header'
@@ -59,7 +60,7 @@ export default function MyIssuesClientPage(): JSX.Element {
           <div
             className={cn(
               'flex-1 transition-all ease-in-out duration-300',
-              sidebarOpen ? 'pr-72 mr-2' : 'pr-0',
+              sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
             )}
           >
             <IssueList allIssues={allIssues} />
@@ -68,7 +69,7 @@ export default function MyIssuesClientPage(): JSX.Element {
           <div
             className={cn(
               'absolute top-0 right-0 h-full bg-white border rounded-md transition-all ease-in-out duration-300',
-              sidebarOpen ? 'w-72 opacity-100' : 'w-0 opacity-0',
+              sidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0',
             )}
           >
             <Sidebar collapsible='none' className='w-full'>
@@ -78,8 +79,27 @@ export default function MyIssuesClientPage(): JSX.Element {
                   <Badge>{allIssues?.length}</Badge>
                 </div>
               </SidebarHeader>
-              <SidebarContent className='p-2'>
-                {/* summary of my issues */}
+              <SidebarContent
+                className={cn(
+                  'p-3 transition-opacity duration-300 ease-in-out overflow-hidden',
+                  sidebarOpen ? 'opacity-100' : 'opacity-0',
+                )}
+              >
+                <Tabs
+                  defaultValue='labels'
+                  className='flex flex-col gap-2 text-center '
+                >
+                  <TabsList className='p-0.5 w-full gap-2.5'>
+                    <TabsTrigger value='labels'>Labels</TabsTrigger>
+                    <TabsTrigger value='priority'>Priority</TabsTrigger>
+                    <TabsTrigger value='projects'>Projects</TabsTrigger>
+                    <TabsTrigger value='teams'>Teams</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value='labels'>No Labels used</TabsContent>
+                  <TabsContent value='priority'>No Prioriy used</TabsContent>
+                  <TabsContent value='projects'>No Projects used</TabsContent>
+                  <TabsContent value='teams'>No Teams used</TabsContent>
+                </Tabs>
               </SidebarContent>
             </Sidebar>
           </div>
