@@ -51,7 +51,7 @@ const IssueItem = ({
         className={cn(
           ' grid grid-cols-[500px_2fr] border-x p-3 bg-white hover:bg-weak/50 transition-colors duration-200',
           isFirst && 'rounded-t-lg border-t',
-          isLast ? 'rounded-b-lg border-b' : 'border-b',
+          isLast ? 'rounded-b-lg border-b mb-2' : 'border-b',
         )}
       >
         <div className='grid grid-cols-[minmax(130px,_150px)_2fr] gap-2 items-center'>

@@ -95,8 +95,9 @@ export default function MyIssuesClientPage(): JSX.Element {
                     <TabsTrigger value='projects'>Projects</TabsTrigger>
                     <TabsTrigger value='teams'>Teams</TabsTrigger>
                   </TabsList>
+                  {/* Todo: Add functionality for all of these*/}
                   <TabsContent value='labels'>No Labels used</TabsContent>
-                  <TabsContent value='priority'>No Prioriy used</TabsContent>
+                  <TabsContent value='priority'>No Priority used</TabsContent>
                   <TabsContent value='projects'>No Projects used</TabsContent>
                   <TabsContent value='teams'>No Teams used</TabsContent>
                 </Tabs>
