@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 
 import {
@@ -10,21 +10,23 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@buildit/ui/breadcrumb'
-import { Button } from '@buildit/ui/button'
-import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
 import { SidebarTrigger } from '@buildit/ui/sidebar'
 
-import { Icons } from '@/components/ui/icons'
-import { useFloatingToolbar } from '@/hooks/store'
 import { useNavigation } from '@/hooks/use-navigation'
 import { api } from '@/lib/trpc/react'
 
 /**
  * The header of the entire layout of the application.
+ * @param props The props to the header.
+ * @param props.children The children of the header.
  * @returns The header of the application.
  */
-export default function Header(): JSX.Element {
+export default function Header({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element {
   const pathname = usePathname()
 
   const teamId = useMemo(() => pathname.split('/')[2], [pathname])
@@ -37,8 +39,6 @@ export default function Header(): JSX.Element {
     { enabled: !!teamId && isTeamPage },
   )
   const teamName = teamQuery?.name ?? teamId
-
-  const { isOpen, setOpen } = useFloatingToolbar()
 
   const title = useMemo(() => currentNavigation?.name, [currentNavigation])
 
@@ -61,20 +61,7 @@ export default function Header(): JSX.Element {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-
-      {/* Floating toolbar button */}
-      <div className='flex col-start-5 items-center justify-end'>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          className={cn('size-6 hover:bg-soft', isOpen && 'bg-soft')}
-          onClick={() => {
-            setOpen(!isOpen)
-          }}
-        >
-          <Icons.menu className='size-4 text-sub' />
-        </Button>
-      </div>
+      {children}
     </header>
   )
 }
