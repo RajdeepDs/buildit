@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from '@buildit/ui/sidebar'
 
 import HomeNav from '@/components/sidebar/home-nav'
@@ -52,6 +53,7 @@ export function AppSidebar() {
         <HomeNav />
         <TeamsNav teams={teams} />
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   )
 }
