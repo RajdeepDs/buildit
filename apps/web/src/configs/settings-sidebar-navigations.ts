@@ -3,39 +3,39 @@ interface TTeam {
   name: string
 }
 
-export const getSettingsSidebar = () => [
-  {
-    title: 'User',
-    items: [
-      {
-        title: 'Profile',
-        href: `/settings`,
-      },
-      {
-        title: 'General',
-        href: `/settings/general`,
-      },
-      {
-        title: 'Members',
-        href: `/settings/members`,
-      },
-      // {
-      //   title: "Appearance",
-      //   href: `/settings/appearance`,
-      // },
-    ],
-  },
-  // {
-  //   title: "Security",
-  //   icon: "lock",
-  //   items: [
-  //     {
-  //       title: "Sessions",
-  //       href: `/settings/sessions`,
-  //     },
-  //   ],
-  // },
-]
+export const getSettingsMyAccount = () => {
+  return [
+    {
+      title: 'Profile',
+      icon: 'userCircle2',
+    },
+    {
+      title: 'Preferences',
+      icon: 'sliders',
+    },
+    {
+      title: 'Security',
+      icon: 'lock',
+    },
+  ]
+}
+
+export const getSettingsWorkspace = () => {
+  return [
+    {
+      title: 'General',
+      icon: 'home',
+    },
+    {
+      title: 'Members',
+      icon: 'team',
+    },
+    {
+      title: 'Upgrade plan',
+      icon: 'inProgress',
+    },
+  ]
+}
 
 export const getSettingsTeamsNavigations = (teams: TTeam[]) => [
   {
