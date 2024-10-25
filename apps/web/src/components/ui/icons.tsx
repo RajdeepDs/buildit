@@ -63,6 +63,7 @@ import {
   Rows3,
   Search,
   Settings,
+  ShieldCheck,
   SignalHigh,
   SignalLow,
   SignalMedium,
@@ -167,4 +168,5 @@ export const Icons = {
   userCircle2: UserCircle2,
   command: Command,
   menu: Menu,
+  shieldCheck: ShieldCheck,
 }

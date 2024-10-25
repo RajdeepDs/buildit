@@ -1,12 +1,11 @@
 'use client'
 
-import { Button } from '@buildit/ui/button'
-
 import ProfileForm from '@/components/forms/profile-form'
 import { api } from '@/lib/trpc/react'
 
 import SettingsHeader from './header'
 import ChangeEmail from './modals/change-email'
+import ChangePassword from './modals/change-password'
 import SubHeader from './sub-header'
 
 /**
@@ -32,9 +31,7 @@ export default function Profile(): JSX.Element {
           title='Password'
           description='Change your password to login to your account.'
         >
-          <Button variant={'secondary'} size={'sm'} className='font-normal'>
-            Change password
-          </Button>
+          <ChangePassword />
         </SubHeader>
       </div>
     </div>

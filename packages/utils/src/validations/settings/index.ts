@@ -19,3 +19,11 @@ export const ChangeEmailSchema = z.object({
 })
 
 export type ChangeEmailInput = z.infer<typeof ChangeEmailSchema>
+
+export const ChangePasswordSchema = z.object({
+  currentPassword: z.string().min(8, 'Password must be at least 8 characters'),
+  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
+})
+
+export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>

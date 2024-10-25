@@ -27,7 +27,7 @@ export default function ChangeEmail({
         className='overflow-hidden p-6 sm:rounded-xl'
       >
         <div className='flex flex-col'>
-          <Label className='font-normal'>
+          <Label className='font-normal text-sm'>
             Your current email is{' '}
             <span className='font-semibold '>{email}.</span>
           </Label>
