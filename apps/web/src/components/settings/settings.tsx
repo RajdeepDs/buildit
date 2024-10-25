@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
-import { Separator } from '@buildit/ui/separator'
 import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
 import MyAccountNav from '@/components/settings/my-account'
@@ -21,6 +20,8 @@ import {
   getSettingsMyAccount,
   getSettingsWorkspace,
 } from '@/configs/settings-sidebar-navigations'
+
+import SettingsHeader from './header'
 
 interface SettingsProps {
   user: Pick<TUser, 'name' | 'email' | 'image'>
@@ -90,10 +91,7 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
             </SidebarContent>
           </Sidebar>
           <main className='flex flex-col flex-1 overflow-hidden p-9'>
-            <header className='mb-2'>
-              <h1 className='text-lg font-semibold text-sub'>{selectedItem}</h1>
-            </header>
-            <Separator />
+            <SettingsHeader title={selectedItem} />
             <div className='mt-4'>{getContent()}</div>
           </main>
         </SidebarProvider>
