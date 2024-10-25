@@ -14,7 +14,7 @@ export const getSettingsMyAccount = () => {
       icon: 'sliders',
     },
     {
-      title: 'Security',
+      title: 'Account security',
       icon: 'lock',
     },
   ]

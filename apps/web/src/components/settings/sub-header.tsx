@@ -5,7 +5,7 @@ import { Label } from '@buildit/ui/label'
 interface SubHeaderProps {
   title: string
   description: string | undefined
-  children: ReactNode
+  children?: ReactNode
 }
 
 /**

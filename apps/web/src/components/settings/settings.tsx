@@ -16,6 +16,7 @@ import SettingsHeader from '@/components/settings/header'
 import MyAccountNav from '@/components/settings/my-account'
 import Preferences from '@/components/settings/preferences'
 import Profile from '@/components/settings/profile'
+import Security from '@/components/settings/security'
 import WorkspaceNav from '@/components/settings/workspace-nav'
 import { Icons } from '@/components/ui/icons'
 import {
@@ -44,8 +45,8 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
         return <Profile />
       case 'Preferences':
         return <Preferences />
-      case 'Security':
-        return <div>Security</div>
+      case 'Account security':
+        return <Security />
       case 'General':
         return <div>General</div>
       case 'Members':
