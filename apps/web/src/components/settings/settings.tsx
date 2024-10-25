@@ -12,7 +12,9 @@ import {
 } from '@buildit/ui/dialog'
 import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
+import SettingsHeader from '@/components/settings/header'
 import MyAccountNav from '@/components/settings/my-account'
+import Preferences from '@/components/settings/preferences'
 import Profile from '@/components/settings/profile'
 import WorkspaceNav from '@/components/settings/workspace-nav'
 import { Icons } from '@/components/ui/icons'
@@ -20,8 +22,6 @@ import {
   getSettingsMyAccount,
   getSettingsWorkspace,
 } from '@/configs/settings-sidebar-navigations'
-
-import SettingsHeader from './header'
 
 interface SettingsProps {
   user: Pick<TUser, 'name' | 'email' | 'image'>
@@ -43,7 +43,7 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
       case 'My profile':
         return <Profile />
       case 'Preferences':
-        return <div>Preferences</div>
+        return <Preferences />
       case 'Security':
         return <div>Security</div>
       case 'General':

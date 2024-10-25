@@ -1,12 +1,11 @@
 'use client'
 
 import ProfileForm from '@/components/forms/profile-form'
+import SettingsHeader from '@/components/settings/header'
+import ChangeEmail from '@/components/settings/modals/change-email'
+import ChangePassword from '@/components/settings/modals/change-password'
+import SubHeader from '@/components/settings/sub-header'
 import { api } from '@/lib/trpc/react'
-
-import SettingsHeader from './header'
-import ChangeEmail from './modals/change-email'
-import ChangePassword from './modals/change-password'
-import SubHeader from './sub-header'
 
 /**
  * The profile component. This component is used to display the user's profile.
