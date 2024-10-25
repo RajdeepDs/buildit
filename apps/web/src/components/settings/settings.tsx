@@ -12,6 +12,7 @@ import {
 } from '@buildit/ui/dialog'
 import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
+import WorkspaceGeneral from '@/components/settings/general'
 import SettingsHeader from '@/components/settings/header'
 import MyAccountNav from '@/components/settings/my-account'
 import Preferences from '@/components/settings/preferences'
@@ -48,7 +49,7 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
       case 'Account security':
         return <Security />
       case 'General':
-        return <div>General</div>
+        return <WorkspaceGeneral />
       case 'Members':
         return <div>Members</div>
       case 'Upgrade plan':

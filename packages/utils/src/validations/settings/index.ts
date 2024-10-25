@@ -27,3 +27,9 @@ export const ChangePasswordSchema = z.object({
 })
 
 export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>
+
+export const ChangeWorkspaceNameSchema = z.object({
+  name: z.string().min(3, 'Name must be at least 3 characters'),
+})
+
+export type ChangeWorkspaceNameInput = z.infer<typeof ChangeWorkspaceNameSchema>
