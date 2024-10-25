@@ -1,5 +1,11 @@
 import { Button } from '@buildit/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@buildit/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@buildit/ui/dialog'
 
 import ChangePasswordForm from '@/components/forms/change-password-form'
 import { Icons } from '@/components/ui/icons'
@@ -17,6 +23,10 @@ export default function ChangePassword(): JSX.Element {
         </Button>
       </DialogTrigger>
       <DialogContent className='overflow-hidden p-6 lg:w-[350px] sm:rounded-xl'>
+        <DialogTitle className='sr-only'>Change password</DialogTitle>
+        <DialogDescription className='sr-only'>
+          Change password dialog to change user password.
+        </DialogDescription>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col text-center text-sm gap-2'>
             <Icons.shieldCheck className='size-5 mx-auto' />

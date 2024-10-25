@@ -1,5 +1,11 @@
 import { Button } from '@buildit/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@buildit/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@buildit/ui/dialog'
 import { Label } from '@buildit/ui/label'
 
 import ChangeEmailForm from '@/components/forms/change-email-form'
@@ -26,6 +32,10 @@ export default function ChangeEmail({
         isClose={false}
         className='overflow-hidden p-6 sm:rounded-xl'
       >
+        <DialogTitle className='sr-only'>Change email</DialogTitle>
+        <DialogDescription className='sr-only'>
+          Change email dialog to change user email.
+        </DialogDescription>
         <div className='flex flex-col'>
           <Label className='font-normal text-sm'>
             Your current email is{' '}
