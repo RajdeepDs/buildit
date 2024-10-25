@@ -6,7 +6,7 @@ interface TTeam {
 export const getSettingsMyAccount = () => {
   return [
     {
-      title: 'Profile',
+      title: 'My profile',
       icon: 'userCircle2',
     },
     {

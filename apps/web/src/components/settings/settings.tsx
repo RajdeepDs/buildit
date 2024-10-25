@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import type { TUser } from '@buildit/utils/types'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Button } from '@buildit/ui/button'
 import {
   Dialog,
@@ -11,16 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarProvider,
-} from '@buildit/ui/sidebar'
+import { Separator } from '@buildit/ui/separator'
+import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
 import MyAccountNav from '@/components/settings/my-account'
+import Profile from '@/components/settings/profile'
 import WorkspaceNav from '@/components/settings/workspace-nav'
 import { Icons } from '@/components/ui/icons'
 import {
@@ -39,9 +33,29 @@ interface SettingsProps {
  * @returns The settings dialog component.
  */
 export default function Settings({ user }: SettingsProps): JSX.Element {
-  const [selectedItem, setSelectedItem] = useState('Profile')
+  const [selectedItem, setSelectedItem] = useState('My profile')
   const myAccountNav = getSettingsMyAccount()
   const workspaceNav = getSettingsWorkspace()
+
+  const getContent = () => {
+    switch (selectedItem) {
+      case 'My profile':
+        return <Profile />
+      case 'Preferences':
+        return <div>Preferences</div>
+      case 'Security':
+        return <div>Security</div>
+      case 'General':
+        return <div>General</div>
+      case 'Members':
+        return <div>Members</div>
+      case 'Upgrade plan':
+        return <div>Upgrade plan</div>
+      default:
+        return <div>Select menu item</div>
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -61,26 +75,9 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
         </DialogDescription>
         <SidebarProvider className='items-start'>
           <Sidebar collapsible='none' className='hidden md:flex bg-weak'>
-            <SidebarHeader>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <div className='w-full flex items-center gap-2 px-2'>
-                    {user.image && (
-                      <Avatar className='size-7 rounded-full'>
-                        <AvatarImage src={user.image} />
-                        <AvatarFallback>{user.name}</AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div className='flex flex-col items-start'>
-                      <span className='text-sm font-semibold'>{user.name}</span>
-                      <span className='text-xs text-sub'>{user.email}</span>
-                    </div>
-                  </div>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarHeader>
             <SidebarContent>
               <MyAccountNav
+                user={user}
                 nav={myAccountNav}
                 selectedItem={selectedItem}
                 setSelectedItem={setSelectedItem}
@@ -92,6 +89,13 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
               />
             </SidebarContent>
           </Sidebar>
+          <main className='flex flex-col flex-1 overflow-hidden p-9'>
+            <header className='mb-2'>
+              <h1 className='text-lg font-semibold text-sub'>{selectedItem}</h1>
+            </header>
+            <Separator />
+            <div className='mt-4'>{getContent()}</div>
+          </main>
         </SidebarProvider>
       </DialogContent>
     </Dialog>
