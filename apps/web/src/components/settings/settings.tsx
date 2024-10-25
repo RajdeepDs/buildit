@@ -69,7 +69,10 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
           Settings
         </Button>
       </DialogTrigger>
-      <DialogContent className='overflow-hidden p-0 md:max-h-[700px] md:max-w-[800px] lg:max-w-[1200px] sm:rounded-xl'>
+      <DialogContent
+        className='overflow-hidden p-0 md:max-h-[700px] md:max-w-[800px] lg:max-w-[1200px] sm:rounded-xl'
+        isClose={false}
+      >
         <DialogTitle className='sr-only'>Settings</DialogTitle>
         <DialogDescription className='sr-only'>
           Settings dialog to manage user settings.
