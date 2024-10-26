@@ -19,6 +19,7 @@ import MyAccountNav from '@/components/settings/my-account'
 import Preferences from '@/components/settings/preferences'
 import Profile from '@/components/settings/profile'
 import Security from '@/components/settings/security'
+import UpgradePlan from '@/components/settings/upgrade-plan'
 import WorkspaceNav from '@/components/settings/workspace-nav'
 import { Icons } from '@/components/ui/icons'
 import {
@@ -54,7 +55,7 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
       case 'Members':
         return <Members />
       case 'Upgrade plan':
-        return <div>Upgrade plan</div>
+        return <UpgradePlan />
       default:
         return <div>Select menu item</div>
     }
