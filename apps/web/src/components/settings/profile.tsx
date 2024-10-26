@@ -29,7 +29,7 @@ export default function Profile(): JSX.Element {
           title='Password'
           description='Change your password to login to your account.'
         >
-          <ChangePassword />
+          <ChangePassword user={user} />
         </SubHeader>
       </div>
     </div>

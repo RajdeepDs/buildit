@@ -19,13 +19,25 @@ export const ChangeEmailSchema = z.object({
 
 export type ChangeEmailInput = z.infer<typeof ChangeEmailSchema>
 
-export const ChangePasswordSchema = z.object({
-  currentPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
-})
+export const ChangePasswordSchema = (isPassword: boolean) =>
+  z
+    .object({
+      currentPassword: isPassword
+        ? z.string().min(8, 'Password must be at least 8 characters')
+        : z.string().optional(),
+      newPassword: z.string().min(8, 'Password must be at least 8 characters'),
+      confirmPassword: z
+        .string()
+        .min(8, 'Password must be at least 8 characters'),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ['confirmPassword'],
+    })
 
-export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>
+export type ChangePasswordInput = z.infer<
+  ReturnType<typeof ChangePasswordSchema>
+>
 
 export const ChangeWorkspaceNameSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),

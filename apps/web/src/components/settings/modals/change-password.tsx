@@ -10,11 +10,25 @@ import {
 import ChangePasswordForm from '@/components/forms/change-password-form'
 import { Icons } from '@/components/ui/icons'
 
+interface ChangePasswordProps {
+  user:
+    | {
+        hashedPassword: string | null
+      }
+    | undefined
+}
+
 /**
  * This component is used to display the change user's email in a dialog.
+ * @param props The props object.
+ * @param props.user The user object.
  * @returns The change email component.
  */
-export default function ChangePassword(): JSX.Element {
+export default function ChangePassword({
+  user,
+}: ChangePasswordProps): JSX.Element {
+  const isPassword = user?.hashedPassword ? true : false
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -37,7 +51,7 @@ export default function ChangePassword(): JSX.Element {
               </p>
             </div>
           </div>
-          <ChangePasswordForm />
+          <ChangePasswordForm isPassword={isPassword} />
         </div>
       </DialogContent>
     </Dialog>

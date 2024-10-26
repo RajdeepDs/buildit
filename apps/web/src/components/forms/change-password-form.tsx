@@ -12,48 +12,79 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
+import { toast } from '@buildit/ui/toast'
 import { ChangePasswordSchema } from '@buildit/utils/validations'
+
+import { api } from '@/lib/trpc/react'
 
 /**
  * This is a form component that is used to change the user's password.
+ * @param props The props object.
+ * @param props.isPassword The boolean value to check if the user has password.
  * @returns The change password form component.
  */
-export default function ChangePasswordForm(): JSX.Element {
+export default function ChangePasswordForm({
+  isPassword,
+}: {
+  isPassword: boolean
+}): JSX.Element {
   const form = useForm<ChangePasswordInput>({
-    resolver: zodResolver(ChangePasswordSchema),
+    resolver: zodResolver(ChangePasswordSchema(isPassword)),
     defaultValues: {
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
     },
   })
+
+  const mutations = api.settings.update_password.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        title: 'Updated!',
+        description: message,
+      })
+      form.reset()
+    },
+    onError: ({ message }) => {
+      toast({
+        title: 'Error!',
+        description: message,
+        variant: 'destructive',
+      })
+      form.reset()
+    },
+  })
   const onSubmit = (values: ChangePasswordInput) => {
-    console.log(values)
+    mutations.mutate(values)
   }
   return (
     <Form {...form}>
       <form className='space-y-3' onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name='currentPassword'
-          render={({ field }) => (
-            <FormItem className='space-y-1 flex flex-col'>
-              <FormLabel className='text-xs text-sub'>
-                Enter your current password
-              </FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type='password'
-                  placeholder='Current password'
-                  className='bg-weak h-8 shadow-none'
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        {isPassword && (
+          <FormField
+            control={form.control}
+            name='currentPassword'
+            render={({ field }) => (
+              <FormItem className='space-y-1 flex flex-col'>
+                <FormLabel className='text-xs text-sub'>
+                  Enter your current password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type='password'
+                    placeholder='Current password'
+                    className='bg-weak h-8 shadow-none'
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name='newPassword'
@@ -70,6 +101,7 @@ export default function ChangePasswordForm(): JSX.Element {
                   className='bg-weak h-8 shadow-none'
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -89,10 +121,11 @@ export default function ChangePasswordForm(): JSX.Element {
                   className='bg-weak h-8 shadow-none'
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='w-full' size={'sm'}>
+        <Button className='w-full' size={'sm'} disabled={mutations.isPending}>
           Change password
         </Button>
       </form>
