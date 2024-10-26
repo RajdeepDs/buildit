@@ -3,7 +3,7 @@
 import type { ChangeWorkspaceNameInput } from '@buildit/utils/validations'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormState } from 'react-hook-form'
 
 import {
   Form,
@@ -14,22 +14,50 @@ import {
   FormLabel,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
+import { toast } from '@buildit/ui/toast'
 import { ChangeWorkspaceNameSchema } from '@buildit/utils/validations'
+
+import { api } from '@/lib/trpc/react'
 
 /**
  * The workspace form component. This component is used to display the change workspace details
+ * @param props The props object.
+ * @param props.workspace_name The workspace name.
  * @returns The change workspace form component.
  */
-export default function WorkspaceForm(): JSX.Element {
+export default function WorkspaceForm({
+  workspace_name,
+}: {
+  workspace_name: string
+}): JSX.Element {
   const form = useForm<ChangeWorkspaceNameInput>({
     resolver: zodResolver(ChangeWorkspaceNameSchema),
     defaultValues: {
-      name: '',
+      name: workspace_name,
     },
   })
+
+  const mutation = api.settings.update_workspaceName.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        title: 'Updated!',
+        description: message,
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'Error!',
+        description: 'An error occurred while updating the workspace name.',
+      })
+    },
+  })
+
   const onSubmit = (values: ChangeWorkspaceNameInput) => {
-    console.log(values)
+    mutation.mutate(values)
   }
+
+  const { isDirty } = useFormState({ control: form.control })
+
   return (
     <Form {...form}>
       <form className='w-full' onSubmit={form.handleSubmit(onSubmit)}>
@@ -44,6 +72,11 @@ export default function WorkspaceForm(): JSX.Element {
                   {...field}
                   placeholder='Workspace name'
                   className='bg-weak h-8 shadow-none w-1/4'
+                  onBlur={() => {
+                    if (isDirty) {
+                      onSubmit(form.getValues())
+                    }
+                  }}
                 />
               </FormControl>
               <FormDescription className='text-xs font-light text-soft'>

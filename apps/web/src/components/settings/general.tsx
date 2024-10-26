@@ -11,15 +11,22 @@ import { Separator } from '@buildit/ui/separator'
 import WorkspaceForm from '@/components/forms/workspace-form'
 import SubHeader from '@/components/settings/sub-header'
 import { Icons } from '@/components/ui/icons'
+import { api } from '@/lib/trpc/react'
 
 /**
  * The workspace settings component. This component is used to display the workspace settings.
  * @returns The workspace settings component.
  */
 export default function WorkspaceGeneral(): JSX.Element {
+  const { data: workspace } = api.workspace.get_workspace.useQuery()
+
+  if (!workspace) {
+    return <>Loading...</>
+  }
+
   return (
     <div className='flex flex-col space-y-4 items-start'>
-      <WorkspaceForm />
+      <WorkspaceForm workspace_name={workspace.name} />
       <Separator />
       <SubHeader
         title='Delete workspace'

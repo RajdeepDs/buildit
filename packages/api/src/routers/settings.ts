@@ -3,8 +3,11 @@ import { Scrypt } from 'lucia'
 import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
-import { userTable } from '@buildit/db/schema'
-import { ProfileFormSchema } from '@buildit/utils/validations'
+import { userTable, workspaceTable } from '@buildit/db/schema'
+import {
+  ChangeWorkspaceNameSchema,
+  ProfileFormSchema,
+} from '@buildit/utils/validations'
 
 import { createRouter, protectedProcedure } from '../trpc'
 
@@ -76,6 +79,21 @@ export const settingsRouter = createRouter({
 
       return {
         message: 'Your password has been updated.',
+      }
+    }),
+
+  update_workspaceName: protectedProcedure
+    .input(ChangeWorkspaceNameSchema)
+    .mutation(async ({ input, ctx }) => {
+      await db
+        .update(workspaceTable)
+        .set({
+          name: input.name,
+        })
+        .where(eq(workspaceTable.userId, ctx.user.id))
+
+      return {
+        message: 'Your workspace name has been updated.',
       }
     }),
 })
