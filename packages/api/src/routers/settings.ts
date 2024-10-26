@@ -2,8 +2,8 @@ import { TRPCError } from '@trpc/server'
 import { Scrypt } from 'lucia'
 import { z } from 'zod'
 
-import { db, eq } from '@buildit/db'
-import { userTable, workspaceTable } from '@buildit/db/schema'
+import { db, eq, ne } from '@buildit/db'
+import { sessionTable, userTable, workspaceTable } from '@buildit/db/schema'
 import {
   ChangeWorkspaceNameSchema,
   ProfileFormSchema,
@@ -96,4 +96,10 @@ export const settingsRouter = createRouter({
         message: 'Your workspace name has been updated.',
       }
     }),
+  logout_all_devices: protectedProcedure.mutation(async ({ ctx }) => {
+    await db.delete(sessionTable).where(ne(sessionTable.id, ctx.session.id))
+    return {
+      message: 'You have been logged out of all devices.',
+    }
+  }),
 })
