@@ -3,6 +3,8 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from '@buildit/ui/alert-dialog'
 import { Button } from '@buildit/ui/button'
@@ -43,6 +45,10 @@ export default function WorkspaceGeneral(): JSX.Element {
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className='overflow-hidden p-6 lg:w-[450px] sm:rounded-xl'>
+          <AlertDialogTitle className='sr-only'>Delete</AlertDialogTitle>
+          <AlertDialogDescription className='sr-only'>
+            Delete this workspace
+          </AlertDialogDescription>
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col text-center text-sm gap-2'>
               <Icons.triangleAlert className='size-5 mx-auto text-error' />
