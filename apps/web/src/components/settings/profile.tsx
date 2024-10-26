@@ -2,7 +2,6 @@
 
 import ProfileForm from '@/components/forms/profile-form'
 import SettingsHeader from '@/components/settings/header'
-import ChangeEmail from '@/components/settings/modals/change-email'
 import ChangePassword from '@/components/settings/modals/change-password'
 import SubHeader from '@/components/settings/sub-header'
 import { api } from '@/lib/trpc/react'
@@ -23,9 +22,9 @@ export default function Profile(): JSX.Element {
       <div className='mb-6'>{user && <ProfileForm user={user} />}</div>
       <SettingsHeader title='Account Security' />
       <div className='space-y-6'>
-        <SubHeader title='Email' description={user?.email}>
+        {/* <SubHeader title='Email' description={user?.email}>
           <ChangeEmail email={user?.email} />
-        </SubHeader>
+        </SubHeader> */}
         <SubHeader
           title='Password'
           description='Change your password to login to your account.'

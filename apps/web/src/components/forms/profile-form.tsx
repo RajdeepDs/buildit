@@ -1,8 +1,10 @@
+'use client'
+
 import type { TUser } from '@buildit/utils/types'
 import type { ProfileFormInput } from '@buildit/utils/validations'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormState } from 'react-hook-form'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
@@ -13,7 +15,10 @@ import {
   FormLabel,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
+import { toast } from '@buildit/ui/toast'
 import { ProfileFormSchema } from '@buildit/utils/validations'
+
+import { api } from '@/lib/trpc/react'
 
 interface ProfileFormProps {
   user: Pick<TUser, 'id' | 'name' | 'username' | 'email' | 'bio' | 'image'>
@@ -31,13 +36,30 @@ export default function ProfileForm({ user }: ProfileFormProps): JSX.Element {
     defaultValues: {
       name: user.name ?? '',
       username: user.username ?? '',
-      email: user.email,
+    },
+  })
+
+  const mutation = api.settings.update_profile.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        title: 'Saved!',
+        description: message,
+      })
+    },
+    onError: () => {
+      toast({
+        title: "Couldn't save!",
+        description: 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      })
     },
   })
 
   const onSubmit = (values: ProfileFormInput) => {
-    console.log(values)
+    mutation.mutate(values)
   }
+
+  const { isDirty } = useFormState({ control: form.control })
 
   return (
     <Form {...form}>
@@ -61,6 +83,11 @@ export default function ProfileForm({ user }: ProfileFormProps): JSX.Element {
                       {...field}
                       className='bg-weak h-8 shadow-none'
                       placeholder='Full name'
+                      onBlur={() => {
+                        if (isDirty) {
+                          onSubmit(form.getValues())
+                        }
+                      }}
                     />
                   </FormControl>
                 </FormItem>
@@ -77,6 +104,11 @@ export default function ProfileForm({ user }: ProfileFormProps): JSX.Element {
                       {...field}
                       className='bg-weak h-8 shadow-none'
                       placeholder='Username'
+                      onBlur={() => {
+                        if (isDirty) {
+                          onSubmit(form.getValues())
+                        }
+                      }}
                     />
                   </FormControl>
                 </FormItem>
