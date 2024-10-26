@@ -1,5 +1,6 @@
-import { Button } from '@buildit/ui/button'
 import { Input } from '@buildit/ui/input'
+
+import InviteMember from '@/components/settings/modals/invite-member'
 
 /**
  * MembersOptions component. This component is used to display the filter out the members.
@@ -12,8 +13,7 @@ export default function MembersOptions(): JSX.Element {
         placeholder='Search by name or email'
         className='bg-weak h-8 w-1/3 shadow-none'
       />
-
-      <Button size={'sm'}>Invite member</Button>
+      <InviteMember />
     </div>
   )
 }

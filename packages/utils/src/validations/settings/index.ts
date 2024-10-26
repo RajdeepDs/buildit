@@ -33,3 +33,9 @@ export const ChangeWorkspaceNameSchema = z.object({
 })
 
 export type ChangeWorkspaceNameInput = z.infer<typeof ChangeWorkspaceNameSchema>
+
+export const InviteMemberSchema = z.object({
+  email: z.string().email('Invalid email format'),
+})
+
+export type InviteMemberInput = z.infer<typeof InviteMemberSchema>

@@ -79,6 +79,7 @@ import {
   Underline,
   User2,
   UserCircle2,
+  UserRoundPlus,
   Users,
   X,
   XCircle,
@@ -169,4 +170,5 @@ export const Icons = {
   command: Command,
   menu: Menu,
   shieldCheck: ShieldCheck,
+  userRoundPlus: UserRoundPlus,
 }
