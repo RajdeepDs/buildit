@@ -14,6 +14,7 @@ import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
 import WorkspaceGeneral from '@/components/settings/general'
 import SettingsHeader from '@/components/settings/header'
+import Members from '@/components/settings/members'
 import MyAccountNav from '@/components/settings/my-account'
 import Preferences from '@/components/settings/preferences'
 import Profile from '@/components/settings/profile'
@@ -51,7 +52,7 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
       case 'General':
         return <WorkspaceGeneral />
       case 'Members':
-        return <div>Members</div>
+        return <Members />
       case 'Upgrade plan':
         return <div>Upgrade plan</div>
       default:
