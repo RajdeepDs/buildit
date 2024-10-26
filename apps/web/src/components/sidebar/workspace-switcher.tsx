@@ -21,6 +21,7 @@ import {
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
 
+import Settings from '@/components/settings/settings'
 import { Icons } from '@/components/ui/icons'
 
 interface SidebarHeaderNavProps {
@@ -87,14 +88,7 @@ export default function WorkspaceSwitcher({
                 </div>
               </div>
               <div className='flex items-center gap-2'>
-                <Button
-                  variant={'secondary'}
-                  size={'sm'}
-                  className='w-fit h-7 text-sub'
-                >
-                  <Icons.settings className='size-4 mr-2 text-sub' />
-                  Settings
-                </Button>
+                <Settings user={user} />
                 <Button
                   variant={'secondary'}
                   size={'sm'}

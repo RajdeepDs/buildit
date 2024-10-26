@@ -63,6 +63,7 @@ import {
   Rows3,
   Search,
   Settings,
+  ShieldCheck,
   SignalHigh,
   SignalLow,
   SignalMedium,
@@ -78,6 +79,7 @@ import {
   Underline,
   User2,
   UserCircle2,
+  UserRoundPlus,
   Users,
   X,
   XCircle,
@@ -167,4 +169,6 @@ export const Icons = {
   userCircle2: UserCircle2,
   command: Command,
   menu: Menu,
+  shieldCheck: ShieldCheck,
+  userRoundPlus: UserRoundPlus,
 }
