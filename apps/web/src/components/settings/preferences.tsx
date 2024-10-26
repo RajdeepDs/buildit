@@ -26,7 +26,6 @@ export default function Preferences(): JSX.Element {
           <SelectContent>
             <SelectItem value='system'>System settings</SelectItem>
             <SelectItem value='light'>Light</SelectItem>
-            <SelectItem value='dark'>Dark</SelectItem>
           </SelectContent>
         </Select>
       </SubHeader>
