@@ -16,10 +16,10 @@ import DisplayMenu from '@/components/ui/display-menu'
 import { Icons } from '@/components/ui/icons'
 
 /**
- * The Projects client page.
+ * The Team Projects client page.
  * @returns Next.js RSC page.
  */
-export default function ProjectsClientPage(): JSX.Element {
+export default function TeamProjectsClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // TODO: Implement filters functionality for projects

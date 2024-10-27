@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import ProjectsClientPage from './page-client'
+import TeamProjectsClientPage from './page-client'
 
 export const metadata: Metadata = {
   title: 'Projects',
@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 }
 
 /**
- * The Projects page. This is the where all the projects shown.
+ * The Team Projects page. This is the where all the projects shown created by a particular team.
  * @returns Next.js RSC page.
  */
-export default function ProjectPage(): JSX.Element {
+export default function TeamProjectPage(): JSX.Element {
   return (
     <div className='h-full w-full'>
-      <ProjectsClientPage />
+      <TeamProjectsClientPage />
     </div>
   )
 }

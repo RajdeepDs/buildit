@@ -49,7 +49,7 @@ export default function TeamItem({ team }: TeamsItemProps): JSX.Element {
       <ContextMenuTrigger>
         <Link
           href={`team/${team.teamId}/active`}
-          className='flex cursor-pointer items-center justify-between border-b px-5 py-2 hover:bg-weak'
+          className='flex cursor-pointer items-center justify-between border rounded-lg bg-white p-3 hover:bg-weak mb-2'
         >
           <div className='flex items-center space-x-4'>
             <h2 className='font-medium'>{team.name}</h2>
