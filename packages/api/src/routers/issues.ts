@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server'
+import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
 import { issueTable, teamTable, workspaceTable } from '@buildit/db/schema'
@@ -12,12 +13,21 @@ const getWorkspace = async (userId: string) => {
   })
 }
 
-const getTeam = async (teamId: string) => {
+const getTeam = async (id: string) => {
   return await db.query.teamTable.findFirst({
-    where: eq(teamTable.id, teamId),
+    where: eq(teamTable.id, id),
     columns: {
       teamId: true,
       issueCounter: true,
+    },
+  })
+}
+
+const getTeamByTeamId = async (teamId: string) => {
+  return await db.query.teamTable.findFirst({
+    where: eq(teamTable.teamId, teamId),
+    columns: {
+      id: true,
     },
   })
 }
@@ -47,6 +57,39 @@ export const issuesRouter = createRouter({
 
     return issues
   }),
+
+  get_issues_by_team: protectedProcedure
+    .input(z.object({ teamId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const workspace = await getWorkspace(ctx.user.id)
+
+      if (!workspace) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Workspace not found',
+          cause: 'The user does not have a workspace',
+        })
+      }
+
+      const issues = await db.query.issueTable.findMany({
+        where: eq(issueTable.workspaceId, workspace.id),
+        with: {
+          assignee: true,
+        },
+      })
+
+      const team = await getTeamByTeamId(input.teamId)
+
+      if (!team) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Team not found',
+          cause: 'The team does not exist',
+        })
+      }
+
+      return issues.filter((issue) => issue.teamId === team.id)
+    }),
 
   create_issue: protectedProcedure
     .input(CreateIssueInputSchema)

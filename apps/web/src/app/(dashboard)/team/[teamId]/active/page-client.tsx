@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
@@ -22,12 +23,20 @@ import { api } from '@/lib/trpc/react'
  * @returns Next.js RSC page.
  */
 export default function ActiveIssuesClientPage(): JSX.Element {
+  const pathname = usePathname()
+
+  const teamId = useMemo(() => pathname.split('/')[2], [pathname])
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const { isOpen } = useFloatingToolbar()
   const { and } = useFilterStore()
 
-  const { data: allIssues, isLoading, error } = api.issues.get_issues.useQuery()
+  const {
+    data: allIssues,
+    isLoading,
+    error,
+  } = api.issues.get_issues_by_team.useQuery({ teamId: teamId! })
 
   if (isLoading) {
     return <div>Loading issues...</div>
