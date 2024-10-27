@@ -19,10 +19,10 @@ import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
 import { api } from '@/lib/trpc/react'
 
 /**
- * The Active issues client page.
+ * The Backlog issues client page.
  * @returns Next.js RSC page.
  */
-export default function ActiveIssuesClientPage(): JSX.Element {
+export default function BacklogIssuesClientPage(): JSX.Element {
   const pathname = usePathname()
 
   const teamId = useMemo(() => pathname.split('/')[2], [pathname])
@@ -46,9 +46,7 @@ export default function ActiveIssuesClientPage(): JSX.Element {
     return <div className='text-red-600'>Error: {error.message}</div>
   }
 
-  const issues = allIssues?.filter(
-    (issue) => issue.status === 'todo' || issue.status === 'in progress',
-  )
+  const issues = allIssues?.filter((issue) => issue.status === 'backlog')
 
   return (
     <>
@@ -88,7 +86,7 @@ export default function ActiveIssuesClientPage(): JSX.Element {
             <Sidebar collapsible='none' className='w-full'>
               <SidebarHeader className='border-b'>
                 <div className='flex items-center justify-between'>
-                  <h1 className='font-medium text-sm'>Active issues</h1>
+                  <h1 className='font-medium text-sm'>Backlog issues</h1>
                   <Badge>{issues?.length}</Badge>
                 </div>
               </SidebarHeader>
