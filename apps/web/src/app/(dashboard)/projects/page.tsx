@@ -13,7 +13,7 @@ export const metadata: Metadata = {
  */
 export default function ProjectPage(): JSX.Element {
   return (
-    <div className='h-full w-full py-3'>
+    <div className='h-full w-full'>
       <ProjectsClientPage />
     </div>
   )
