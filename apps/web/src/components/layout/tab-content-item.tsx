@@ -1,6 +1,6 @@
 import { Badge } from '@buildit/ui/badge'
 
-import { statuses } from '@/configs/issue-types'
+import { priorities, statuses } from '@/configs/issue-types'
 
 import { Icons } from '../ui/icons'
 
@@ -29,6 +29,8 @@ export default function TabContentItem({
     switch (label) {
       case 'Status':
         return statuses.find((status) => status.value === item)
+      case 'Priority':
+        return priorities.find((priority) => priority.value === item)
       default:
         return null
     }

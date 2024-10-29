@@ -15,6 +15,7 @@ import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
+import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { api } from '@/lib/trpc/react'
 
@@ -31,6 +32,7 @@ export default function MyIssuesClientPage(): JSX.Element {
   const { data: allIssues, isLoading, error } = api.issues.get_issues.useQuery()
 
   const { statuses, statusCount } = useStatusSummary(allIssues)
+  const { priorities, priorityCount } = usePrioritySummary(allIssues)
 
   if (isLoading) {
     return <div>Loading issues...</div>
@@ -51,7 +53,16 @@ export default function MyIssuesClientPage(): JSX.Element {
         />
       ),
     },
-    { label: 'Priority', content: 'No Priority used' },
+    {
+      label: 'Priority',
+      content: (
+        <TabContentItem
+          label='Priority'
+          items={priorities}
+          itemCount={priorityCount}
+        />
+      ),
+    },
     { label: 'Projects', content: 'No Projects used' },
     { label: 'Teams', content: 'No Teams used' },
   ]
