@@ -137,7 +137,7 @@ export default function BacklogIssuesClientPage(): JSX.Element {
           </div>
           {/* Sliding sidebar */}
           <SlidingSidebar
-            label='Active issues'
+            label='Backlog issues'
             sidebarOpen={sidebarOpen}
             issuesCount={issues?.length}
           >
