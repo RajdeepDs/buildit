@@ -5,6 +5,7 @@ import { cn } from '@buildit/ui/cn'
 import { Sidebar, SidebarContent, SidebarHeader } from '@buildit/ui/sidebar'
 
 interface SlidingSidebarProps {
+  label: string
   sidebarOpen: boolean
   issuesCount: number | undefined
   children: ReactNode
@@ -16,9 +17,11 @@ interface SlidingSidebarProps {
  * @param props.sidebarOpen The sidebar open state.
  * @param props.issuesCount The count of issues.
  * @param props.children The children of the component.
+ * @param props.label The label of the sidebar.
  * @returns The sliding sidebar component.
  */
 export default function SlidingSidebar({
+  label,
   sidebarOpen,
   issuesCount,
   children,
@@ -33,7 +36,7 @@ export default function SlidingSidebar({
       <Sidebar collapsible='none' className='w-full'>
         <SidebarHeader className='border-b'>
           <div className='flex items-center justify-between'>
-            <h1 className='font-medium text-sm'>My issues</h1>
+            <h1 className='font-medium text-sm'>{label}</h1>
             <Badge>{issuesCount}</Badge>
           </div>
         </SidebarHeader>

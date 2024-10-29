@@ -125,6 +125,7 @@ export default function MyIssuesClientPage(): JSX.Element {
         </div>
         {/* Sliding sidebar */}
         <SlidingSidebar
+          label='My issues'
           sidebarOpen={sidebarOpen}
           issuesCount={allIssues?.length}
         >
