@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
@@ -17,6 +17,7 @@ import { Icons } from '@/components/ui/icons'
 import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
+import { useTeamsSummary } from '@/hooks/use-teams-summary'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -33,6 +34,59 @@ export default function MyIssuesClientPage(): JSX.Element {
 
   const { statuses, statusCount } = useStatusSummary(allIssues)
   const { priorities, priorityCount } = usePrioritySummary(allIssues)
+  const { teams, teamCount } = useTeamsSummary(allIssues)
+
+  const { data: allTeams } = api.team.get_teams.useQuery()
+
+  const teamNamesWithCount = useMemo(
+    () =>
+      allTeams
+        ?.filter((team) => teams.includes(team.id))
+        .map((team) => ({
+          name: team.name,
+          count: teamCount[team.id] ?? 0,
+        })),
+    [allTeams, teams, teamCount],
+  )
+
+  const tabsData = useMemo(
+    () => [
+      {
+        label: 'Status',
+        content: (
+          <TabContentItem
+            label='Status'
+            items={statuses}
+            itemCount={statusCount}
+          />
+        ),
+      },
+      {
+        label: 'Priority',
+        content: (
+          <TabContentItem
+            label='Priority'
+            items={priorities}
+            itemCount={priorityCount}
+          />
+        ),
+      },
+      { label: 'Projects', content: 'No Projects used' },
+      {
+        label: 'Teams',
+        content: (
+          <TabContentItem
+            label='Teams'
+            items={teamNamesWithCount?.map((team) => team.name) ?? []}
+            itemCount={Object.fromEntries(
+              teamNamesWithCount?.map(({ name, count }) => [name, count]) ?? [],
+            )}
+          />
+        ),
+      },
+    ],
+    [statuses, statusCount, priorities, priorityCount, teamNamesWithCount],
+  )
 
   if (isLoading) {
     return <div>Loading issues...</div>
@@ -42,78 +96,51 @@ export default function MyIssuesClientPage(): JSX.Element {
     return <div className='text-red-600'>Error: {error.message}</div>
   }
 
-  const tabsData = [
-    {
-      label: 'Status',
-      content: (
-        <TabContentItem
-          label='Status'
-          items={statuses}
-          itemCount={statusCount}
-        />
-      ),
-    },
-    {
-      label: 'Priority',
-      content: (
-        <TabContentItem
-          label='Priority'
-          items={priorities}
-          itemCount={priorityCount}
-        />
-      ),
-    },
-    { label: 'Projects', content: 'No Projects used' },
-    { label: 'Teams', content: 'No Teams used' },
-  ]
-
   return (
-    <>
-      <div className='h-full flex flex-col gap-2'>
-        <Header>
-          <Button
-            variant={'ghost'}
-            size={'icon'}
-            className='size-7'
-            onClick={() => {
-              setSidebarOpen(!sidebarOpen)
-            }}
-          >
-            <Icons.panelRight className='size-4 text-sub' />
-          </Button>
-        </Header>
-        <div className='flex justify-between items-center'>
-          <FilterMenu />
-          <DisplayMenu />
-        </div>
-        <div className='relative flex h-full w-full overflow-hidden'>
-          <div
-            className={cn(
-              'flex-1 transition-all ease-in-out duration-300',
-              sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
-            )}
-          >
-            <IssueList allIssues={allIssues} />
-          </div>
-          {/* Sliding sidebar */}
-          <SlidingSidebar
-            sidebarOpen={sidebarOpen}
-            issuesCount={allIssues?.length}
-          >
-            <SlidingSidebarTabs tabsData={tabsData} />
-          </SlidingSidebar>
-        </div>
+    <div className='h-full flex flex-col gap-2'>
+      <Header>
+        <Button
+          variant={'ghost'}
+          size={'icon'}
+          className='size-7'
+          onClick={() => {
+            setSidebarOpen((prev) => !prev)
+          }}
+        >
+          <Icons.panelRight className='size-4 text-sub' />
+        </Button>
+      </Header>
+      <div className='flex justify-between items-center'>
+        <FilterMenu />
+        <DisplayMenu />
+      </div>
+      <div className='relative flex h-full w-full overflow-hidden'>
         <div
           className={cn(
-            'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
-            isOpen || and.length > 0
-              ? 'flex opacity-100 translate-y-0 h-auto'
-              : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
+            'flex-1 transition-all ease-in-out duration-300',
+            sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
           )}
         >
-          <FloatingToolbar filters={and} />
+          <IssueList allIssues={allIssues} />
         </div>
+        {/* Sliding sidebar */}
+        <SlidingSidebar
+          sidebarOpen={sidebarOpen}
+          issuesCount={allIssues?.length}
+        >
+          <SlidingSidebarTabs tabsData={tabsData} />
+        </SlidingSidebar>
       </div>
-    </>
+      <div
+        className={cn(
+          'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
+          isOpen || and.length > 0
+            ? 'flex opacity-100 translate-y-0 h-auto'
+            : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
+        )}
+      >
+        <FloatingToolbar filters={and} />
+      </div>
+    </div>
   )
 }

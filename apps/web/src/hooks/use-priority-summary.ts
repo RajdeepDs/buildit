@@ -22,7 +22,7 @@ export function usePrioritySummary(allIssues: TIssue[] | undefined) {
           acc.priorities.push(priority)
         }
         // Increment the count for the priority
-        acc.priorityCount[priority] = (acc.priorityCount[priority] || 0) + 1
+        acc.priorityCount[priority] = (acc.priorityCount[priority] ?? 0) + 1
         return acc
       },
       { priorities: [], priorityCount: {} },

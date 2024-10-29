@@ -1,8 +1,9 @@
+import { useMemo } from 'react'
+
 import { Badge } from '@buildit/ui/badge'
 
+import { Icons } from '@/components/ui/icons'
 import { priorities, statuses } from '@/configs/issue-types'
-
-import { Icons } from '../ui/icons'
 
 interface TabContentItemProps {
   label: string
@@ -23,36 +24,44 @@ export default function TabContentItem({
   items,
   itemCount,
 }: TabContentItemProps): JSX.Element {
-  const sortedItems = items.sort()
+  const sortedItems = useMemo(() => items.sort(), [items])
 
-  const getOptions = (item: string) => {
-    switch (label) {
-      case 'Status':
-        return statuses.find((status) => status.value === item)
-      case 'Priority':
-        return priorities.find((priority) => priority.value === item)
-      default:
-        return null
+  const getOptions = useMemo(() => {
+    return (item: string) => {
+      switch (label) {
+        case 'Status':
+          return statuses.find((status) => status.value === item)?.icon
+        case 'Priority':
+          return priorities.find((priority) => priority.value === item)?.icon
+        case 'Teams':
+          return 'team' // Default team icon
+        default:
+          return null
+      }
     }
-  }
+  }, [label])
 
   return (
     <div className='flex flex-col gap-1'>
       {sortedItems.length > 0 ? (
         sortedItems.map((item) => {
           const option = getOptions(item)
-          const Icon = Icons[option?.icon as keyof typeof Icons]
+          const Icon = option ? Icons[option as keyof typeof Icons] : null
+
           return (
             <div
               key={item}
-              className='flex items-center justify-between p-2 border rounded-md bg-white hover:bg-weak'
+              className='flex items-center justify-between p-2.5 border border-soft rounded-md bg-white hover:bg-weak'
             >
               <div className='flex items-center gap-2'>
-                <Icon className='size-4 text-sub' />
+                {Icon && <Icon className='size-4 text-sub' />}
                 <span className='capitalize text-surface'>{item}</span>
               </div>
               {itemCount?.[item] !== undefined && (
-                <Badge variant={'secondary'} className='text-sub'>
+                <Badge
+                  variant={'secondary'}
+                  className='w-6 items-center flex justify-center p-0 text-sub'
+                >
                   {itemCount[item]}
                 </Badge>
               )}

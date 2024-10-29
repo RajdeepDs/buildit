@@ -22,7 +22,7 @@ export function useStatusSummary(allIssues: TIssue[] | undefined) {
           acc.statuses.push(status)
         }
         // Increment the count for the status
-        acc.statusCount[status] = (acc.statusCount[status] || 0) + 1
+        acc.statusCount[status] = (acc.statusCount[status] ?? 0) + 1
         return acc
       },
       { statuses: [], statusCount: {} },
