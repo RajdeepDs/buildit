@@ -3,6 +3,8 @@ import type { TIssue } from '@buildit/utils/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { allDisplayProperties } from '@/configs/display-settings'
+
 type Operator =
   | 'eq'
   | 'ne'
@@ -41,6 +43,8 @@ export interface FilterStore {
   removeFilter: (type: string) => void
   groupBy: keyof TIssue | 'No Grouping'
   setGroupBy: (group: keyof TIssue | 'No Grouping') => void
+  displayProperties: string[]
+  setDisplayProperties: (property: string) => void
 }
 
 const createFilterStore = (pathname: string) =>
@@ -82,12 +86,22 @@ const createFilterStore = (pathname: string) =>
             groupBy: group,
           }))
         },
+        displayProperties: allDisplayProperties,
+        setDisplayProperties: (property) => {
+          set((state) => ({
+            displayProperties: state.displayProperties.includes(property)
+              ? state.displayProperties.filter((prop) => prop !== property)
+              : [...state.displayProperties, property],
+          }))
+        },
       }),
       {
         name: `filter${pathname}`,
         partialize: (state) =>
           Object.fromEntries(
-            Object.entries(state).filter(([key]) => key !== 'groupBy'),
+            Object.entries(state).filter(
+              ([key]) => key !== 'groupBy' && key !== 'displayProperties',
+            ),
           ),
       },
     ),
