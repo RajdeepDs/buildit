@@ -8,6 +8,7 @@ import { cn } from '@buildit/ui/cn'
 
 import { Icons } from '@/components/ui/icons'
 import { priorities, statuses } from '@/configs/issue-types'
+import { useFilterStore } from '@/hooks/store'
 import { formatDate } from '@/lib/date'
 
 type IssueItemProps = Pick<
@@ -32,6 +33,7 @@ const IssueItem = ({
   isFirst: boolean
   isLast: boolean
 }) => {
+  const { displayProperties } = useFilterStore()
   const priorityIconName = priorities.find(
     (priority) => priority.value === issue.priority,
   )?.icon
@@ -45,6 +47,9 @@ const IssueItem = ({
   const updatedAt = issue.updatedAt ? formatDate(issue.updatedAt) : undefined
   const createdAt = issue.createdAt ? formatDate(issue.createdAt) : undefined
 
+  const renderDisplayProperty = (property: string, content: React.ReactNode) =>
+    displayProperties.includes(property) ? content : null
+
   return (
     <Link href={`/issue/${issue.issueId}`}>
       <div
@@ -53,6 +58,7 @@ const IssueItem = ({
           isFirst && 'rounded-t-lg border-t',
           isLast ? 'rounded-b-lg border-b mb-2' : 'border-b',
         )}
+        role='listitem'
       >
         <div className='grid grid-cols-[minmax(130px,_150px)_2fr] gap-2 items-center'>
           <div className='group grid grid-cols-[20px_20px_1fr_20px] gap-2 items-center'>
@@ -69,23 +75,44 @@ const IssueItem = ({
               <Checkbox className='data-[state=checked]:visible' />
             </button>
 
-            <PriorityIcon className='size-4 text-sub' />
-            <p className='text-sm text-soft'>{issue.issueId}</p>
-            <StatusIcon className='size-4 text-sub' />
+            {renderDisplayProperty(
+              'priority',
+              <PriorityIcon className='size-4 text-sub' />,
+            )}
+            {renderDisplayProperty(
+              'id',
+              <p className='text-sm text-soft'>{issue.issueId}</p>,
+            )}
+            {renderDisplayProperty(
+              'status',
+              <StatusIcon className='size-4 text-sub' />,
+            )}
           </div>
           <p className='text-sub text-sm font-medium'>{issue.title}</p>
         </div>
         <div className='flex items-center justify-end gap-3'>
-          <span className='text-soft text-xs'>{updatedAt}</span>
-          <span className='text-soft text-xs'>{createdAt}</span>
-          {issue.assigneeId && issue.assignee && (
-            <Avatar className='size-5'>
-              <AvatarImage
-                src={issue.assignee.image ?? ''}
-                alt={issue.assignee.name ?? ''}
-              />
-              <AvatarFallback>{issue.assignee.name?.charAt(0)}</AvatarFallback>
-            </Avatar>
+          {renderDisplayProperty(
+            'updated',
+            <span className='text-soft text-xs'>{updatedAt}</span>,
+          )}
+          {renderDisplayProperty(
+            'created',
+            <span className='text-soft text-xs'>{createdAt}</span>,
+          )}
+          {displayProperties.includes('assignee') && (
+            <>
+              {issue.assigneeId && issue.assignee && (
+                <Avatar className='size-5'>
+                  <AvatarImage
+                    src={issue.assignee.image ?? ''}
+                    alt={issue.assignee.name ?? ''}
+                  />
+                  <AvatarFallback>
+                    {issue.assignee.name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+            </>
           )}
         </div>
       </div>

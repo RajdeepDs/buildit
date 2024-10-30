@@ -46,7 +46,7 @@ export default function DisplayMenu() {
       <PopoverContent align='end' className='p-0'>
         <div className='flex flex-col'>
           <div className='flex items-center justify-between p-3'>
-            <Label className='flex items-center text-xs'>
+            <Label className='flex items-center text-xs select-none'>
               <Icons.rows3 className='mr-2 size-4 text-sub' />
               Grouping
             </Label>
@@ -80,8 +80,8 @@ export default function DisplayMenu() {
             </DropdownMenu>
           </div>
           <Separator />
-          <div className='flex flex-col gap-2 p-3'>
-            <Label className='text-xs'>Display properties</Label>
+          <div className='flex flex-col gap-3 p-3'>
+            <Label className='select-none text-xs'>Display properties</Label>
             <div className='flex flex-wrap gap-1'>
               {allDisplayProperties.map((property) => (
                 <Badge
@@ -94,7 +94,7 @@ export default function DisplayMenu() {
                   onClick={() => {
                     setDisplayProperties(property)
                   }}
-                  className='cursor-pointer'
+                  className={`select-none cursor-pointer text-surface py-1 font-medium ${property === 'id' ? 'uppercase' : 'capitalize'}`}
                 >
                   {property}
                 </Badge>
