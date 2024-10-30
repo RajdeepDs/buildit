@@ -39,3 +39,12 @@ export const orderingOptions: DisplaySettings[] = [
     value: 'lastCreated',
   },
 ]
+
+export const allDisplayProperties = [
+  'priority',
+  'id',
+  'status',
+  'created',
+  'updated',
+  'assignee',
+]

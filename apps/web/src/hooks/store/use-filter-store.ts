@@ -40,5 +40,21 @@ export const useFilterStore = (): FilterStore => {
   const groupBy = useIssuesFilterStore((state) => state.groupBy)
   const setGroupBy = useIssuesFilterStore((state) => state.setGroupBy)
 
-  return { and, setFilter, updateFilter, removeFilter, groupBy, setGroupBy }
+  const displayProperties = useIssuesFilterStore(
+    (state) => state.displayProperties,
+  )
+  const setDisplayProperties = useIssuesFilterStore(
+    (state) => state.setDisplayProperties,
+  )
+
+  return {
+    and,
+    setFilter,
+    updateFilter,
+    removeFilter,
+    groupBy,
+    setGroupBy,
+    displayProperties,
+    setDisplayProperties,
+  }
 }

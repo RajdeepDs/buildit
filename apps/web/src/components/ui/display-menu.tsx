@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
 import {
   DropdownMenu,
@@ -9,9 +10,13 @@ import {
 } from '@buildit/ui/dropdown-menu'
 import { Label } from '@buildit/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
+import { Separator } from '@buildit/ui/separator'
 
 import { Icons } from '@/components/ui/icons'
-import { groupingOptions } from '@/configs/display-settings'
+import {
+  allDisplayProperties,
+  groupingOptions,
+} from '@/configs/display-settings'
 import { useFilterStore } from '@/hooks/store'
 
 /**
@@ -22,12 +27,12 @@ export default function DisplayMenu() {
   const [open, setOpen] = useState(false)
   const [grouping, setGrouping] = useState('noGrouping')
 
-  const { setGroupBy } = useFilterStore()
+  const { setGroupBy, displayProperties, setDisplayProperties } =
+    useFilterStore()
 
   const handleSelectGrouping = (group: string) => {
     setGroupBy(group)
     setGrouping(group)
-    setOpen(!open)
   }
 
   return (
@@ -38,11 +43,11 @@ export default function DisplayMenu() {
           Display
         </Button>
       </PopoverTrigger>
-      <PopoverContent align='end'>
-        <div className='flex flex-col space-y-3'>
-          <div className='flex items-center justify-between'>
-            <Label className='flex items-center '>
-              <Icons.rows3 className='mr-2 h-4 w-4 text-sub' />
+      <PopoverContent align='end' className='p-0'>
+        <div className='flex flex-col'>
+          <div className='flex items-center justify-between p-3'>
+            <Label className='flex items-center text-xs select-none'>
+              <Icons.rows3 className='mr-2 size-4 text-sub' />
               Grouping
             </Label>
             <DropdownMenu>
@@ -50,7 +55,7 @@ export default function DisplayMenu() {
                 <Button
                   variant={'secondary'}
                   size={'sm'}
-                  className='flex justify-between'
+                  className='flex justify-between h-7 focus:ring-0'
                 >
                   {
                     groupingOptions.find((option) => option.value === grouping)
@@ -73,6 +78,28 @@ export default function DisplayMenu() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+          </div>
+          <Separator />
+          <div className='flex flex-col gap-3 p-3'>
+            <Label className='select-none text-xs'>Display properties</Label>
+            <div className='flex flex-wrap gap-1'>
+              {allDisplayProperties.map((property) => (
+                <Badge
+                  key={property}
+                  variant={
+                    displayProperties.includes(property)
+                      ? 'outline'
+                      : 'secondary'
+                  }
+                  onClick={() => {
+                    setDisplayProperties(property)
+                  }}
+                  className={`select-none cursor-pointer text-surface py-1 font-medium ${property === 'id' ? 'uppercase' : 'capitalize'}`}
+                >
+                  {property}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
       </PopoverContent>
