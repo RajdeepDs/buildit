@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { TIssue } from '@buildit/utils/types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
+import { Checkbox } from '@buildit/ui/checkbox'
 import { cn } from '@buildit/ui/cn'
 
 import { priorities, statuses } from '@/configs/issue-types'
@@ -72,7 +73,13 @@ export default function IssueItem({
         role='listitem'
       >
         <div className='flex items-center w-full'>
-          <div className='flex items-center space-x-2'>
+          <div className='group flex items-center space-x-2'>
+            <Checkbox
+              onClick={(e) => {
+                e.stopPropagation()
+              }}
+              className='group-hover:opacity-100 opacity-0 transition-opacity duration-150 ease-in-out'
+            />
             {renderDisplayProperty(
               'priority',
               <PriorityIcon
