@@ -47,6 +47,14 @@ export const useFilterStore = (): FilterStore => {
     (state) => state.setDisplayProperties,
   )
 
+  const selectedIssues = useIssuesFilterStore((state) => state.selectedIssues)
+  const setSelectedIssues = useIssuesFilterStore(
+    (state) => state.setSelectedIssues,
+  )
+  const clearSelectedIssues = useIssuesFilterStore(
+    (state) => state.clearSelectedIssues,
+  )
+
   return {
     and,
     setFilter,
@@ -56,5 +64,8 @@ export const useFilterStore = (): FilterStore => {
     setGroupBy,
     displayProperties,
     setDisplayProperties,
+    selectedIssues,
+    setSelectedIssues,
+    clearSelectedIssues,
   }
 }
