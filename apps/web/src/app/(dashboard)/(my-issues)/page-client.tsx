@@ -134,7 +134,7 @@ export default function MyIssuesClientPage(): JSX.Element {
       </div>
       <div
         className={cn(
-          'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
+          'absolute bottom-5 inset-x-0 justify-center transition-all duration-300 overflow-hidden',
           isOpen || and.length > 0
             ? 'flex opacity-100 translate-y-0 h-auto'
             : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
