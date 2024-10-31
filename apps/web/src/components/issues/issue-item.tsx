@@ -14,6 +14,7 @@ import { Icons } from '../ui/icons'
 
 type IssueItemProps = Pick<
   TIssue,
+  | 'id'
   | 'title'
   | 'issueId'
   | 'priority'
@@ -45,7 +46,8 @@ export default function IssueItem({
   isLast: boolean
   maxIssueIdWidth: number
 }) {
-  const { displayProperties } = useFilterStore()
+  const { displayProperties, selectedIssues, setSelectedIssues } =
+    useFilterStore()
   const priorityIconName = priorities.find(
     (priority) => priority.value === issue.priority,
   )?.icon
@@ -77,8 +79,9 @@ export default function IssueItem({
             <Checkbox
               onClick={(e) => {
                 e.stopPropagation()
+                setSelectedIssues(issue.id)
               }}
-              className='group-hover:opacity-100 opacity-0 transition-opacity duration-150 ease-in-out'
+              className={`group-hover:opacity-100 opacity-0 transition-opacity duration-150 ease-in-out ${selectedIssues.includes(issue.id) ? 'opacity-100' : 'opacity-0'}`}
             />
             {renderDisplayProperty(
               'priority',

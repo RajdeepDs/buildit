@@ -45,6 +45,9 @@ export interface FilterStore {
   setGroupBy: (group: keyof TIssue | 'No Grouping') => void
   displayProperties: string[]
   setDisplayProperties: (property: string) => void
+  selectedIssues: string[]
+  setSelectedIssues: (issueId: string) => void
+  clearSelectedIssues: () => void
 }
 
 const createFilterStore = (pathname: string) =>
@@ -94,13 +97,29 @@ const createFilterStore = (pathname: string) =>
               : [...state.displayProperties, property],
           }))
         },
+        selectedIssues: [],
+        setSelectedIssues: (issueId) => {
+          set((state) => ({
+            selectedIssues: state.selectedIssues.includes(issueId)
+              ? state.selectedIssues.filter((id) => id !== issueId)
+              : [...state.selectedIssues, issueId],
+          }))
+        },
+        clearSelectedIssues: () => {
+          set(() => ({
+            selectedIssues: [],
+          }))
+        },
       }),
       {
         name: `filter${pathname}`,
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(
-              ([key]) => key !== 'groupBy' && key !== 'displayProperties',
+              ([key]) =>
+                key !== 'groupBy' &&
+                key !== 'displayProperties' &&
+                key !== 'selectedIssues',
             ),
           ),
       },
