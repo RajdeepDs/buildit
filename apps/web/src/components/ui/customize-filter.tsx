@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@buildit/ui/dropdown-menu'
 
+import { Icons } from '@/components/ui/icons'
 import {
   priorityOptions,
   statusOptions,
@@ -19,8 +20,6 @@ import {
   useTeamsOptions,
 } from '@/configs/filter-settings'
 import { useFilterStore } from '@/hooks/store'
-
-import { Icons } from './icons'
 
 /**
  * The customize filter component, to modify the existing filters

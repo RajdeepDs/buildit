@@ -7,11 +7,10 @@ import type { FilterQuery } from '@/lib/store/filter-store'
 import { Button } from '@buildit/ui/button'
 import { Separator } from '@buildit/ui/separator'
 
+import { NewIssueModal } from '@/components/modals/new-issue-modal'
+import BulkIssueBox from '@/components/ui/bulk-issue-box'
+import CustomizeFilter from '@/components/ui/customize-filter'
 import { Icons } from '@/components/ui/icons'
-
-import { NewIssueModal } from '../modals/new-issue-modal'
-import BulkIssueBox from './bulk-issue-box'
-import CustomizeFilter from './customize-filter'
 
 /**
  * Floating toolbar component. This component is used to display all the display and other filter functionalities.

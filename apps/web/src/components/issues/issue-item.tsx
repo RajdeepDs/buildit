@@ -6,11 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Checkbox } from '@buildit/ui/checkbox'
 import { cn } from '@buildit/ui/cn'
 
+import { Icons } from '@/components/ui/icons'
 import { priorities, statuses } from '@/configs/issue-types'
 import { useFilterStore } from '@/hooks/store'
 import { formatDate } from '@/lib/date'
-
-import { Icons } from '../ui/icons'
 
 type IssueItemProps = Pick<
   TIssue,

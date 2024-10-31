@@ -14,7 +14,7 @@ import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
-import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
+import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
@@ -27,7 +27,6 @@ import { api } from '@/lib/trpc/react'
 export default function MyIssuesClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const { isOpen } = useFloatingToolbar()
   const { and, selectedIssues } = useFilterStore()
 
   const { data: allIssues, isLoading, error } = api.issues.get_issues.useQuery()
@@ -97,7 +96,7 @@ export default function MyIssuesClientPage(): JSX.Element {
   }
 
   return (
-    <div className='h-full flex flex-col gap-2'>
+    <div className='h-full flex flex-col gap-2 overflow-hidden'>
       <Header>
         <Button
           variant={'ghost'}
@@ -134,10 +133,10 @@ export default function MyIssuesClientPage(): JSX.Element {
       </div>
       <div
         className={cn(
-          'absolute bottom-4 inset-x-0 justify-center transition-all duration-300 overflow-hidden py-3',
-          isOpen || and.length > 0 || selectedIssues.length > 0
-            ? 'flex opacity-100 translate-y-0 h-auto'
-            : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
+          'absolute bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
+          and.length > 0 || selectedIssues.length > 0
+            ? 'flex opacity-100 translate-y-0 h-auto py-3 duration-300'
+            : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',
         )}
       >
         <FloatingToolbar filters={and} selectedIssues={selectedIssues} />
