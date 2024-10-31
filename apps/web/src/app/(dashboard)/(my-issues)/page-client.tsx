@@ -96,7 +96,7 @@ export default function MyIssuesClientPage(): JSX.Element {
   }
 
   return (
-    <div className='h-full flex flex-col gap-2 overflow-hidden'>
+    <div className='h-full flex flex-col gap-2'>
       <Header>
         <Button
           variant={'ghost'}
@@ -133,7 +133,7 @@ export default function MyIssuesClientPage(): JSX.Element {
       </div>
       <div
         className={cn(
-          'absolute bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
+          'fixed bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
           and.length > 0 || selectedIssues.length > 0
             ? 'flex opacity-100 translate-y-0 h-auto py-3 duration-300'
             : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',

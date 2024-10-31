@@ -31,7 +31,7 @@ type IssueItemProps = Pick<
  * @param props.issue - The issue to display.
  * @param props.isFirst - Whether the issue is the first in the list.
  * @param props.isLast - Whether the issue is the last in the list.
- * @param props.maxIssueIdWidth
+ * @param props.maxIssueIdWidth - The maximum width of the issue ID column.
  * @returns The IssueItem component.
  */
 export default function IssueItem({
@@ -47,6 +47,7 @@ export default function IssueItem({
 }) {
   const { displayProperties, selectedIssues, setSelectedIssues } =
     useFilterStore()
+
   const priorityIconName = priorities.find(
     (priority) => priority.value === issue.priority,
   )?.icon
@@ -80,7 +81,8 @@ export default function IssueItem({
                 e.stopPropagation()
                 setSelectedIssues(issue.id)
               }}
-              className={`group-hover:opacity-100 opacity-0 transition-opacity duration-150 ease-in-out ${selectedIssues.includes(issue.id) ? 'opacity-100' : 'opacity-0'}`}
+              checked={selectedIssues.includes(issue.id)}
+              className={`group-hover:opacity-100 opacity-0 transition-opacity duration-150 mr-2 ease-in-out ${selectedIssues.includes(issue.id) ? 'opacity-100' : 'opacity-0'}`}
             />
             {renderDisplayProperty(
               'priority',
@@ -93,7 +95,7 @@ export default function IssueItem({
               'id',
               <span
                 data-column-id='issueId'
-                className='text-sm text-soft'
+                className='text-sm text-soft select-none'
                 style={{ width: `${maxIssueIdWidth}px` }}
               >
                 {issue.issueId}
@@ -107,14 +109,14 @@ export default function IssueItem({
               />,
             )}
           </div>
-          <span className='text-sub text-sm font-medium ml-2 flex-grow truncate'>
+          <span className='text-sub text-sm font-medium ml-2 flex-grow truncate select-none'>
             {issue.title}
           </span>
           <div className='ml-auto flex items-center space-x-2 flex-shrink-0'>
             {renderDisplayProperty(
               'updated',
               <span
-                className='text-soft text-xs whitespace-nowrap'
+                className='text-soft text-xs whitespace-nowrap select-none'
                 title={`Updated: ${updatedAt}`}
               >
                 {updatedAt}
@@ -123,33 +125,32 @@ export default function IssueItem({
             {renderDisplayProperty(
               'created',
               <span
-                className='text-soft text-xs whitespace-nowrap'
+                className='text-soft text-xs whitespace-nowrap select-none'
                 title={`Created: ${createdAt}`}
               >
                 {createdAt}
               </span>,
             )}
-            {displayProperties.includes('assignee') && (
-              <>
-                {issue.assigneeId ? (
-                  issue.assignee && (
-                    <Avatar className='size-5'>
-                      <AvatarImage
-                        src={issue.assignee.image ?? ''}
-                        alt={issue.assignee.name ?? ''}
-                      />
-                      <AvatarFallback>
-                        {issue.assignee.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                  )
-                ) : (
-                  <Icons.userCircle2
-                    className='size-5 text-soft'
-                    aria-label='Unassigned'
-                  />
-                )}
-              </>
+            {renderDisplayProperty(
+              'assignee',
+              issue.assigneeId ? (
+                issue.assignee && (
+                  <Avatar className='size-5'>
+                    <AvatarImage
+                      src={issue.assignee.image ?? ''}
+                      alt={issue.assignee.name ?? ''}
+                    />
+                    <AvatarFallback>
+                      {issue.assignee.name?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                )
+              ) : (
+                <Icons.userCircle2
+                  className='size-5 text-soft'
+                  aria-label='Unassigned'
+                />
+              ),
             )}
           </div>
         </div>
