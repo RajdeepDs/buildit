@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
+import { toast } from '@buildit/ui/toast'
 
 import IssueList from '@/components/issues/issue-list'
 import Header from '@/components/layout/header'
@@ -15,7 +16,7 @@ import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
-import { useFilterStore, useFloatingToolbar } from '@/hooks/store'
+import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
@@ -32,8 +33,7 @@ export default function BacklogIssuesClientPage(): JSX.Element {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const { isOpen } = useFloatingToolbar()
-  const { and } = useFilterStore()
+  const { and, selectedIssues } = useFilterStore()
 
   const {
     data: allIssues,
@@ -99,12 +99,12 @@ export default function BacklogIssuesClientPage(): JSX.Element {
     [statuses, statusCount, priorities, priorityCount, teamNamesWithCount],
   )
 
-  if (isLoading) {
-    return <div>Loading issues...</div>
-  }
-
   if (error) {
-    return <div className='text-red-600'>Error: {error.message}</div>
+    toast({
+      title: 'Error',
+      description: 'Failed to fetch issues',
+      variant: 'destructive',
+    })
   }
 
   return (
@@ -133,7 +133,23 @@ export default function BacklogIssuesClientPage(): JSX.Element {
               sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
             )}
           >
-            <IssueList allIssues={issues} />
+            {isLoading ? (
+              <>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+                      index == 0 && 'rounded-t-lg border-t',
+                      index == 7 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+                    )}
+                    role='listitem'
+                  />
+                ))}
+              </>
+            ) : (
+              <IssueList allIssues={issues} />
+            )}
           </div>
           {/* Sliding sidebar */}
           <SlidingSidebar
@@ -146,13 +162,13 @@ export default function BacklogIssuesClientPage(): JSX.Element {
         </div>
         <div
           className={cn(
-            'absolute bottom-5 w-full justify-center transition-all duration-300 overflow-hidden',
-            isOpen || and.length > 0
-              ? 'flex opacity-100 translate-y-0 h-auto'
-              : 'flex opacity-0 translate-y-full h-0 pointer-events-none',
+            'fixed bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
+            and.length > 0 || selectedIssues.length > 0
+              ? 'flex opacity-100 translate-y-0 h-auto py-3 duration-300'
+              : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',
           )}
         >
-          <FloatingToolbar filters={and} />
+          <FloatingToolbar filters={and} selectedIssues={selectedIssues} />
         </div>
       </div>
     </>

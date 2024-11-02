@@ -12,6 +12,7 @@ import {
 } from '@buildit/ui/breadcrumb'
 import { Separator } from '@buildit/ui/separator'
 import { SidebarTrigger } from '@buildit/ui/sidebar'
+import { Skeleton } from '@buildit/ui/skeleton'
 
 import { useNavigation } from '@/hooks/use-navigation'
 import { api } from '@/lib/trpc/react'
@@ -34,7 +35,7 @@ export default function Header({
   const { currentNavigation, isTeamPage } = useNavigation(pathname)
 
   // Fetch team data only if on a team page and teamId is available
-  const { data: teamQuery } = api.team.get_team_by_teamId.useQuery(
+  const { data: teamQuery, isLoading } = api.team.get_team_by_teamId.useQuery(
     { teamId: teamId! },
     { enabled: !!teamId && isTeamPage },
   )
@@ -50,13 +51,21 @@ export default function Header({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              {isTeamPage && teamName && (
+              {isTeamPage ? (
                 <>
-                  <BreadcrumbItem>{teamName}</BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  {isLoading ? (
+                    <Skeleton className='w-52 h-4' />
+                  ) : (
+                    <>
+                      <BreadcrumbItem>{teamName}</BreadcrumbItem>
+                      <BreadcrumbSeparator />
+                      <BreadcrumbPage>{title}</BreadcrumbPage>
+                    </>
+                  )}
                 </>
+              ) : (
+                <BreadcrumbPage>{title}</BreadcrumbPage>
               )}
-              <BreadcrumbPage>{title}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

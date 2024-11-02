@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
+import { toast } from '@buildit/ui/toast'
 
 import IssueList from '@/components/issues/issue-list'
 import Header from '@/components/layout/header'
@@ -87,12 +88,12 @@ export default function MyIssuesClientPage(): JSX.Element {
     [statuses, statusCount, priorities, priorityCount, teamNamesWithCount],
   )
 
-  if (isLoading) {
-    return <div>Loading issues...</div>
-  }
-
   if (error) {
-    return <div className='text-red-600'>Error: {error.message}</div>
+    toast({
+      title: 'Error',
+      description: 'Failed to fetch issues',
+      variant: 'destructive',
+    })
   }
 
   return (
@@ -120,7 +121,23 @@ export default function MyIssuesClientPage(): JSX.Element {
             sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
           )}
         >
-          <IssueList allIssues={allIssues} />
+          {isLoading ? (
+            <>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+                    index == 0 && 'rounded-t-lg border-t',
+                    index == 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+                  )}
+                  role='listitem'
+                />
+              ))}
+            </>
+          ) : (
+            <IssueList allIssues={allIssues} />
+          )}
         </div>
         {/* Sliding sidebar */}
         <SlidingSidebar
