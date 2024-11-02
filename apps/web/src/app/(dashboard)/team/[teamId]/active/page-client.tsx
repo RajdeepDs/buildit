@@ -130,7 +130,23 @@ export default function ActiveIssuesClientPage(): JSX.Element {
               sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
             )}
           >
-            <IssueList allIssues={issues} />
+            {isLoading ? (
+              <>
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+                      index == 0 && 'rounded-t-lg border-t',
+                      index == 7 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+                    )}
+                    role='listitem'
+                  />
+                ))}
+              </>
+            ) : (
+              <IssueList allIssues={issues} />
+            )}
           </div>
           {/* Sliding sidebar */}
           <SlidingSidebar
