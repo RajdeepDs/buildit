@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
   SidebarRail,
 } from '@buildit/ui/sidebar'
 
@@ -23,35 +24,68 @@ import { api } from '@/lib/trpc/react'
  * @returns The sidebar component.
  */
 export function AppSidebar() {
-  const [{ data: user }, { data: workspace }, { data: teams }] = api.useQueries(
-    (query) => [
-      query.user.get_user(),
-      query.workspace.get_workspace(),
-      query.team.get_teams(),
-    ],
-  )
+  const [
+    { data: user, isLoading: isUserLoading },
+    { data: workspace, isLoading: isWorkspaceLoading },
+    { data: teams, isLoading: isTeamsLoading },
+  ] = api.useQueries((query) => [
+    query.user.get_user(),
+    query.workspace.get_workspace(),
+    query.team.get_teams(),
+  ])
 
-  if (!user || !workspace || !teams) {
-    return <></>
-  }
   return (
     <Sidebar>
       <SidebarHeader>
-        <WorkspaceSwitcher user={user} workspace={workspace} />
+        {isUserLoading || isWorkspaceLoading ? (
+          <SidebarMenuSkeleton />
+        ) : (
+          <>
+            {user && workspace && (
+              <WorkspaceSwitcher user={user} workspace={workspace} />
+            )}
+          </>
+        )}
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href={'/'}>
-                <Icons.search className='h-4 w-4 text-soft' />
-                <span>Search</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {isWorkspaceLoading ? (
+            <SidebarMenuItem>
+              <SidebarMenuSkeleton />
+            </SidebarMenuItem>
+          ) : (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href={'/'}>
+                  <Icons.search className='h-4 w-4 text-soft' />
+                  <span>Search</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <HomeNav />
-        <TeamsNav teams={teams} />
+        {isWorkspaceLoading ? (
+          <SidebarMenu>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <SidebarMenuItem key={index}>
+                <SidebarMenuSkeleton />
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        ) : (
+          <HomeNav />
+        )}
+        {isTeamsLoading ? (
+          <SidebarMenu>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <SidebarMenuItem key={index}>
+                <SidebarMenuSkeleton />
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        ) : (
+          <>{teams && <TeamsNav teams={teams} />}</>
+        )}
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
