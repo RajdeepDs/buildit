@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
+import { toast } from '@buildit/ui/toast'
 
 import IssueList from '@/components/issues/issue-list'
 import Header from '@/components/layout/header'
@@ -101,7 +102,11 @@ export default function ActiveIssuesClientPage(): JSX.Element {
   )
 
   if (error) {
-    return <div className='text-red-600'>Error: {error.message}</div>
+    toast({
+      title: 'Error',
+      description: 'Failed to fetch issues',
+      variant: 'destructive',
+    })
   }
 
   return (
