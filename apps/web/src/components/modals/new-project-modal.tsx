@@ -3,6 +3,14 @@
 import React, { useEffect, useState } from 'react'
 
 import type { TTeam } from '@buildit/utils/types'
+import type { CreateProjectPayload } from '@buildit/utils/validations'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+import { Button } from '@buildit/ui/button'
+import { toast } from '@buildit/ui/toast'
+import { CreateProjectSchema } from '@buildit/utils/validations'
 
 import NewProjectForm from '@/components/forms/new-project-form'
 import {
@@ -14,6 +22,7 @@ import {
 import {
   Modal,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalTitle,
   ModalTrigger,
@@ -37,6 +46,46 @@ export const NewProjectModal = ({
       setTeam(allTeams[0])
     }
   }, [allTeams])
+
+  const form = useForm<CreateProjectPayload>({
+    resolver: zodResolver(CreateProjectSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      status: 'planned',
+      priority: 'no priority',
+    },
+  })
+
+  const onSubmit = (values: CreateProjectPayload) => {
+    const localContent = localStorage.getItem('editorContent')
+    const descriptionContent = localContent
+
+    if (!team) {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: 'Team not found',
+      })
+      return
+    }
+
+    // Add mutation here
+
+    localStorage.removeItem('editorContent')
+    form.reset()
+    setOpen(!open)
+  }
+
+  const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
+    const error = errors.name?.message
+    if (error) {
+      toast({
+        title: error,
+        description: 'Please enter a title before submitting',
+      })
+    }
+  })
 
   if (!allTeams || !team) return null
 
@@ -69,7 +118,12 @@ export const NewProjectModal = ({
             </p>
           )}
         </ModalHeader>
-        <NewProjectForm team={team} onOpenChange={setOpen} />
+        <NewProjectForm form={form} team={team} />
+        <ModalFooter className='pt-2'>
+          <Button size={'sm'} onClick={handleSubmit}>
+            Create project
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   )

@@ -10,15 +10,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
 
-import { priorityOptions, statusOptions } from '@/configs/filter-settings'
-
 import {
   ComboBox,
   ComboBoxContent,
   ComboBoxItem,
   ComboBoxTrigger,
-} from '../ui/combo-box'
-import { Icons } from '../ui/icons'
+} from '@/components/ui/combo-box'
+import { Icons } from '@/components/ui/icons'
+import { priorityOptions, statusOptions } from '@/configs/filter-settings'
 
 const defaultEditorValue = [
   {

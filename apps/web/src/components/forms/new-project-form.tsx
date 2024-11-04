@@ -1,95 +1,236 @@
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import type { TTeam } from '@buildit/utils/types'
-import type { z } from 'zod'
+import type { CreateProjectPayload } from '@buildit/utils/validations'
+import type React from 'react'
+import type { UseFormReturn } from 'react-hook-form'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
-import { Button } from '@buildit/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@buildit/ui/form'
+import Editor from '@buildit/editor'
+import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
+import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { CreateProjectSchema } from '@buildit/utils/validations'
 
-import { api } from '@/lib/trpc/react'
+import {
+  ComboBox,
+  ComboBoxContent,
+  ComboBoxItem,
+  ComboBoxTrigger,
+} from '@/components/ui/combo-box'
+import { Icons } from '@/components/ui/icons'
+import {
+  priorityOptions,
+  statusOptions,
+} from '@/configs/project-filter-settings'
 
-/**
- * The new project form. This is the form that is used to create a new project.
- * @param props The props.
- * @param props.onOpenChange The function to change the open state of the modal.
- * @param props.team The team.
- * @returns The new project form.
- */
-export default function NewProjectForm({
-  onOpenChange,
-  team,
-}: {
-  onOpenChange: (isOpen: boolean) => void
-  team: TTeam | undefined
-}): JSX.Element {
-  const router = useRouter()
+const defaultEditorValue = [
+  {
+    type: 'p',
+    children: [
+      {
+        text: '',
+      },
+    ],
+  },
+]
 
-  const form = useForm<z.infer<typeof CreateProjectSchema>>({
-    resolver: zodResolver(CreateProjectSchema),
-    defaultValues: {
-      projectName: '',
-    },
-  })
+interface NewProjectFormProps {
+  form: UseFormReturn<CreateProjectPayload>
+  team: Pick<TTeam, 'user' | 'name' | 'teamId'>
+}
 
-  const mutation = api.project.create_project.useMutation({
-    onSuccess: () => {
-      onOpenChange(false)
-      router.refresh()
-    },
-    onError: () => {
-      onOpenChange(false)
-    },
-  })
+const NewProjectForm: React.FC<NewProjectFormProps> = ({ form, team }) => {
+  const [openStatus, setOpenStatus] = useState(false)
+  const [openPriority, setOpenPriority] = useState(false)
+  const [openLead, setOpenLead] = useState(false)
 
-  const onSubmit = (values: z.infer<typeof CreateProjectSchema>) => {
-    mutation.mutate({ projectName: values.projectName, teamId: team?.id })
-  }
+  const lead = team.user
+
+  const localValue =
+    typeof window !== 'undefined' && localStorage.getItem('editorContent')
+  const content = localValue ? JSON.parse(localValue) : defaultEditorValue
 
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+    <Form {...form}>
+      <form className='space-y-2'>
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 p-0 text-base'
+                  placeholder='Project name'
+                  autoComplete='off'
+                  required
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name='description'
+          control={form.control}
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <Editor
+                  content={content}
+                  onChange={(value) => {
+                    localStorage.setItem('editorContent', JSON.stringify(value))
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className='flex items-center gap-2'>
           <FormField
+            name='status'
             control={form.control}
-            name='projectName'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Project name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='Acme'
-                    required
-                    autoComplete='off'
-                    {...field}
-                    className='bg-white'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const currentStatus = statusOptions.find(
+                (status) => status.value === field.value,
+              )
+              const CurrentStatusIcon =
+                Icons[currentStatus?.icon as keyof typeof Icons]
+              return (
+                <ComboBox open={openStatus} onOpenChange={setOpenStatus}>
+                  <ComboBoxTrigger>
+                    <CurrentStatusIcon className='size-4 mr-1 text-sub' />
+                    {currentStatus?.label}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent placeholder='Change status...'>
+                    {statusOptions.map((status) => {
+                      const Icon = Icons[status.icon as keyof typeof Icons]
+                      return (
+                        <ComboBoxItem
+                          key={status.value}
+                          value={status.value}
+                          onSelect={() => {
+                            field.onChange(status.value)
+                            setOpenStatus(false)
+                          }}
+                        >
+                          <Icon className='mr-2 h-4 w-4 text-soft' />
+                          {status.label}
+                        </ComboBoxItem>
+                      )
+                    })}
+                  </ComboBoxContent>
+                </ComboBox>
+              )
+            }}
           />
-
-          <Button
-            type='submit'
-            className='w-fit'
-            disabled={mutation.isPending || mutation.isSuccess}
-          >
-            Continue
-          </Button>
-        </form>
-      </Form>
-    </div>
+          <FormField
+            name='priority'
+            control={form.control}
+            render={({ field }) => {
+              const currentPriority = priorityOptions.find(
+                (priority) => priority.value === field.value,
+              )
+              const CurrentStatusIcon =
+                Icons[currentPriority?.icon as keyof typeof Icons]
+              return (
+                <ComboBox open={openPriority} onOpenChange={setOpenPriority}>
+                  <ComboBoxTrigger>
+                    <CurrentStatusIcon className='size-4 mr-1 text-sub' />
+                    {currentPriority?.label}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent placeholder='Change priority...'>
+                    {priorityOptions.map((priority) => {
+                      const Icon = Icons[priority.icon as keyof typeof Icons]
+                      return (
+                        <ComboBoxItem
+                          key={priority.value}
+                          value={priority.value}
+                          onSelect={() => {
+                            field.onChange(priority.value)
+                            setOpenPriority(false)
+                          }}
+                        >
+                          <Icon className='mr-2 h-4 w-4 text-soft' />
+                          {priority.label}
+                        </ComboBoxItem>
+                      )
+                    })}
+                  </ComboBoxContent>
+                </ComboBox>
+              )
+            }}
+          />
+          <FormField
+            name='leadId'
+            control={form.control}
+            render={({ field }) => {
+              return (
+                <ComboBox open={openLead} onOpenChange={setOpenLead}>
+                  <ComboBoxTrigger>
+                    {field.value ? (
+                      lead && (
+                        <div className='flex items-center'>
+                          <Avatar className='size-4 mr-2'>
+                            <AvatarImage
+                              src={lead.image ?? ''}
+                              alt={lead.name ?? ''}
+                            />
+                            <AvatarFallback>
+                              {lead.name?.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <p className='text-sm'>{lead.name}</p>
+                        </div>
+                      )
+                    ) : (
+                      <div className='flex items-center space-x-2'>
+                        <Icons.userCircle2 className='h-4 w-4 text-soft' />
+                        <p>No Lead</p>
+                      </div>
+                    )}
+                  </ComboBoxTrigger>
+                  <ComboBoxContent placeholder='Set project lead to...'>
+                    <ComboBoxItem
+                      key='unassigned'
+                      value='unassigned'
+                      onSelect={() => {
+                        field.onChange('')
+                        setOpenLead(false)
+                      }}
+                    >
+                      <Icons.userCircle2 className='mr-2 h-4 w-4 text-soft' />
+                      No Lead
+                    </ComboBoxItem>
+                    {lead && (
+                      <ComboBoxItem
+                        key={lead.id}
+                        value={lead.id}
+                        onSelect={() => {
+                          field.onChange(lead.id)
+                          setOpenLead(false)
+                        }}
+                      >
+                        <Avatar className='size-4 mr-2'>
+                          <AvatarImage
+                            src={lead.image ?? ''}
+                            alt={lead.name ?? ''}
+                          />
+                          <AvatarFallback>
+                            {lead.name?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        {lead.name}
+                      </ComboBoxItem>
+                    )}
+                  </ComboBoxContent>
+                </ComboBox>
+              )
+            }}
+          />
+        </div>
+      </form>
+    </Form>
   )
 }
+
+export default NewProjectForm

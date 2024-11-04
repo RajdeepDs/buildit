@@ -134,7 +134,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
               </ComboBoxContent>
             </ComboBox>
           ) : (
-            <p className='text-sm px-1.5 py-0.5 border rounded-md'>
+            <p className='text-sm px-1.5 py-0.5 border rounded-md select-none'>
               {team.teamId}
             </p>
           )}
