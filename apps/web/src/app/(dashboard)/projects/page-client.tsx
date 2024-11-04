@@ -10,6 +10,7 @@ import { Sidebar, SidebarContent, SidebarHeader } from '@buildit/ui/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@buildit/ui/tabs'
 
 import Header from '@/components/layout/header'
+import { NewProjectModal } from '@/components/modals/new-project-modal'
 import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
@@ -29,11 +30,12 @@ export default function ProjectsClientPage(): JSX.Element {
       <div className='h-full flex flex-col gap-2'>
         <Header>
           <div className='flex items-center gap-2'>
-            {/* TODO: Add a Create Project modal to create project */}
-            <Button variant={'secondary'} size={'sm'} className='h-7'>
-              <Icons.plus className='size-4 text-sub mr-1' />
-              Create project
-            </Button>
+            <NewProjectModal>
+              <Button variant={'secondary'} size={'sm'} className='h-7'>
+                <Icons.plus className='size-4 text-sub mr-1' />
+                Create project
+              </Button>
+            </NewProjectModal>
             <Separator orientation='vertical' className='h-5 ml-1' />
             <Button
               variant={'ghost'}
