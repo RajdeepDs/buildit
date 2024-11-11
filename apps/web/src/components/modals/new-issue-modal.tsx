@@ -26,7 +26,6 @@ import {
   ModalHeader,
   ModalTitle,
   ModalTrigger,
-  VisuallyHide,
 } from '@/components/ui/modal'
 import { api } from '@/lib/trpc/react'
 
@@ -115,9 +114,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger asChild>{children}</ModalTrigger>
       <ModalContent>
-        <VisuallyHide>
-          <ModalTitle>Create Issue</ModalTitle>
-        </VisuallyHide>
+        <ModalTitle className='sr-only'>Create Issue</ModalTitle>
         <ModalHeader name='New issue'>
           {allTeams.length > 1 ? (
             <ComboBox open={openTeam} onOpenChange={setOpenTeam}>
@@ -137,7 +134,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
               </ComboBoxContent>
             </ComboBox>
           ) : (
-            <p className='text-sm px-1.5 py-0.5 border rounded-md'>
+            <p className='text-sm px-1.5 py-0.5 border rounded-md select-none'>
               {team.teamId}
             </p>
           )}

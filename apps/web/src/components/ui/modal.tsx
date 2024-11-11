@@ -68,7 +68,7 @@ export const ModalHeader = ({
       <div className='flex items-center space-x-1'>
         {children}
         <Icons.chevronRight className='h-4 w-4 text-soft' />
-        <p className='text-sm'>{name}</p>
+        <p className='text-sm select-none'>{name}</p>
       </div>
       <div className='flex items-center space-x-2'>
         <button

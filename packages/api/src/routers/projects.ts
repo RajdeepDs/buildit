@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server'
 import { db, eq } from '@buildit/db'
 import { projectTable } from '@buildit/db/schema'
 import {
-  CreateProjectSchema,
+  CreateProjectInputSchema,
   DeleteProjectSchema,
 } from '@buildit/utils/validations'
 
@@ -20,7 +20,7 @@ export const projectRouter = createRouter({
     return projects
   }),
   create_project: protectedProcedure
-    .input(CreateProjectSchema)
+    .input(CreateProjectInputSchema)
     .mutation(async ({ input, ctx }) => {
       if (!input.teamId) {
         throw new TRPCError({
@@ -28,11 +28,17 @@ export const projectRouter = createRouter({
           message: 'Team ID is required',
         })
       }
+
       await db.insert(projectTable).values({
-        name: input.projectName,
+        name: input.name,
+        description: input.description,
+        status: input.status,
+        priority: input.priority,
+        leadId: input.leadId === '' ? null : (input.leadId ?? null),
         teamId: input.teamId,
         admin: ctx.user.id,
       })
+
       return { message: 'Project created successfully' }
     }),
   delete_project: protectedProcedure

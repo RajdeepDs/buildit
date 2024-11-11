@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 
 import { userTable } from '../auth/user'
 import { issueTable } from '../issue'
+import { projectTable } from '../project'
 import { workspaceTable } from '../workspace'
 
 export const teamTable = sqliteTable('team', {
@@ -37,4 +38,5 @@ export const teamRelations = relations(teamTable, ({ one, many }) => ({
     references: [workspaceTable.id],
   }),
   issue: many(issueTable),
+  projects: many(projectTable),
 }))
