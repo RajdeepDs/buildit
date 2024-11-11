@@ -57,6 +57,22 @@ export const NewProjectModal = ({
     },
   })
 
+  const mutation = api.project.create_project.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        title: 'Project created',
+        description: message,
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
+
   const onSubmit = (values: CreateProjectPayload) => {
     const localContent = localStorage.getItem('editorContent')
     const descriptionContent = localContent
@@ -70,7 +86,11 @@ export const NewProjectModal = ({
       return
     }
 
-    // Add mutation here
+    mutation.mutate({
+      ...values,
+      description: descriptionContent,
+      teamId: team.id,
+    })
 
     localStorage.removeItem('editorContent')
     form.reset()
@@ -79,6 +99,7 @@ export const NewProjectModal = ({
 
   const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
     const error = errors.name?.message
+
     if (error) {
       toast({
         title: error,
