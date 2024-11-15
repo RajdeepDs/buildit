@@ -1,6 +1,5 @@
 import { onboardingRouter } from './routers/getting-started'
 import { issuesRouter } from './routers/issues'
-import { joinRouter } from './routers/join'
 import { projectRouter } from './routers/projects'
 import { settingsRouter } from './routers/settings'
 import { teamRouter } from './routers/teams'
@@ -14,7 +13,6 @@ export const appRouter = createRouter({
   workspace: workspaceRouter,
   team: teamRouter,
   project: projectRouter,
-  join: joinRouter,
   issues: issuesRouter,
   settings: settingsRouter,
 })
