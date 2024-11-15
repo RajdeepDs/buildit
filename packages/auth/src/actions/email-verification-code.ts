@@ -14,11 +14,13 @@ import { EmailTemplate, sendEmail } from '../lib/email'
  * Generates an email verification code for the user.
  * @param userId The user ID.
  * @param email The email to verify.
+ * @param name The name of the user.
  * @returns The action response.
  */
 export async function generateEmailVerificationCode(
   userId: string,
   email: string,
+  name: string,
 ): Promise<ActionResponse> {
   if (!userId || !email) {
     return {
@@ -41,6 +43,7 @@ export async function generateEmailVerificationCode(
 
   await sendEmail(email, EmailTemplate.EmailVerification, {
     code,
+    name,
   })
 
   return { success: 'Email verification code generated successfully' }

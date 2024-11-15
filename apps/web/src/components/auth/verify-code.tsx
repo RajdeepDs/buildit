@@ -36,14 +36,17 @@ const COOLDOWN_PERIOD = 60 // Time in seconds
  * @param props The props for the component.
  * @param props.email The email to verify.
  * @param props.userId The userId to verify.
+ * @param props.name The name of the user.
  * @returns JSX.Element
  */
 export default function VerifyCode({
   userId,
   email,
+  name,
 }: {
   userId: string
   email: string
+  name: string
 }): JSX.Element {
   const { toast } = useToast()
   const [cooldown, setCooldown] = useState(0)
@@ -57,51 +60,54 @@ export default function VerifyCode({
   })
 
   const sendCode = useCallback(() => {
-    try {
-      startTransition(async () => {
-        await generateEmailVerificationCode(userId, email)
+    startTransition(async () => {
+      try {
+        await generateEmailVerificationCode(userId, email, name)
         toast({
-          title: 'Code sent!',
-          description: 'A verification code has been sent to your email.',
+          title: 'Code Sent!',
+          description: `A verification code has been sent to ${email}.`,
         })
         setCooldown(COOLDOWN_PERIOD)
-      })
-    } catch (e) {
-      toast({
-        title: 'Error sending code!',
-        description: 'There was an error sending the verification code.',
-      })
-    }
-  }, [email, userId, toast])
+      } catch (error) {
+        toast({
+          title: 'Error Sending Code!',
+          description:
+            'There was an issue sending the verification code. Please try again later.',
+          variant: 'destructive',
+        })
+      }
+    })
+  }, [userId, email, name, toast])
 
   useEffect(() => {
     if (!initialCodeSent) {
       sendCode()
       setInitialCodeSent(true)
-    } else {
-      const interval = setInterval(() => {
-        setCooldown((prev) => (prev > 0 ? prev - 1 : 0))
-      }, 1000)
-      return () => {
-        clearInterval(interval)
-      }
     }
-    return undefined
+
+    const interval = setInterval(() => {
+      setCooldown((prev) => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [initialCodeSent, sendCode])
 
   const onSubmit = (values: z.infer<typeof VerifyEmailSchema>) => {
     verifyTransition(async () => {
-      const { error, success } = await verifyEmail(null, values)
+      const { success, error } = await verifyEmail(null, values)
       if (success) {
         toast({
-          title: 'Email verified!',
-          description: 'Thank you for verifying your email.',
+          title: 'Email Verified!',
+          description: 'Thank you for verifying your email. Redirecting...',
         })
         redirect('/getting-started/')
       } else {
         toast({
-          title: "Couldn't verify email!",
+          title: 'Verification Failed!',
           description: error,
+          variant: 'destructive',
         })
         form.reset()
       }
@@ -138,7 +144,9 @@ export default function VerifyCode({
                   )}
                 />
               </FormControl>
-              <FormDescription>Code was sent to {email}.</FormDescription>
+              <FormDescription>
+                Code was sent to <strong>{email}</strong>.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -147,13 +155,14 @@ export default function VerifyCode({
           {verifyPending ? 'Verifying...' : 'Verify'}
         </Button>
         <FormDescription className='text-center text-xs'>
-          Are you facing any problems with receiving the code?{' '}
+          Didn&apos;t receive the code?{' '}
           <Button
-            variant={'link'}
-            size={'sm'}
+            variant='link'
+            size='sm'
             disabled={cooldown > 0 || isPending}
+            onClick={sendCode}
           >
-            Resend Code
+            {cooldown > 0 ? `Resend in ${cooldown.toString()}s` : 'Resend Code'}
           </Button>
         </FormDescription>
       </form>
