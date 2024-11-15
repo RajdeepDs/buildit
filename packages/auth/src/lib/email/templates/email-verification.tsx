@@ -7,83 +7,52 @@ import {
   Html,
   Preview,
   Section,
+  Tailwind,
   Text,
 } from '@react-email/components'
 
 export interface EmailVerificationTemplateProps {
   code: string
+  name: string
 }
 
 export const EmailVerificationTemplate = ({
   code,
+  name,
 }: EmailVerificationTemplateProps) => {
   return (
     <Html>
       <Head />
       <Preview>
-        Verify your email address to complete your BuildIt registration
+        Please verify your email address by entering the following code: {code}
       </Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Section>
-            <Text style={title}>BuildIt</Text>
-            <Text style={text}>Hi,</Text>
-            <Text style={text}>
-              Thank you for registering for an account on BuildIt. To complete
-              your registration, please verify your your account by using the
-              following code:
-            </Text>
-            <Text style={codePlaceholder}>{code}</Text>
-
-            <Text style={text}>Have a nice day!</Text>
-          </Section>
-        </Container>
-      </Body>
+      <Tailwind>
+        <Body className='bg-white my-auto mx-auto font-sans px-2'>
+          <Container className='border border-[#CACFD8] border-solid rounded my-[40px] mx-auto p-[20px] max-w-[465px]'>
+            <Section>
+              <Text className='text-[#0E121B] font-semibold text-lg'>
+                Welcome to BuildIt!
+              </Text>
+              <Text className='text-[#0E121B] leading-[24px]'>
+                Hello <span className='font-medium'>{name}</span>,
+              </Text>
+              <Text className='text-[#4b4d52] text-sm'>
+                Thank you for signing up for{' '}
+                <span className='text-[#0E121B] font-medium'>BuildIt!</span> To
+                start building and collaborating with the team. Please verify
+                your email address by entering the following code:
+              </Text>
+              <Text className='bg-[#F5F7FA] text-[#525866] border border-[#CACFD8] border-solid px-4 py-3 rounded tabular-nums text-center'>
+                {code}
+              </Text>
+              <Text className='text-[#525866] text-sm'>
+                Thank you for choosing BuildIt. We're excited to have you on
+                board!
+              </Text>
+            </Section>
+          </Container>
+        </Body>
+      </Tailwind>
     </Html>
   )
 }
-
-const main = {
-  backgroundColor: '#f6f9fc',
-  padding: '10px 0',
-}
-
-const container = {
-  backgroundColor: '#ffffff',
-  border: '1px solid #f0f0f0',
-  padding: '45px',
-}
-
-const text = {
-  fontSize: '16px',
-  fontFamily:
-    "'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif",
-  fontWeight: '300',
-  color: '#404040',
-  lineHeight: '26px',
-}
-
-const title = {
-  ...text,
-  fontSize: '22px',
-  fontWeight: '700',
-  lineHeight: '32px',
-}
-
-const codePlaceholder = {
-  backgroundColor: '#fbfbfb',
-  border: '1px solid #f0f0f0',
-  borderRadius: '4px',
-  color: '#1c1c1c',
-  fontFamily: "'Open Sans', 'Helvetica Neue', Arial",
-  fontSize: '15px',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'block',
-  width: '210px',
-  padding: '14px 7px',
-}
-
-// const anchor = {
-//   textDecoration: "underline",
-// };

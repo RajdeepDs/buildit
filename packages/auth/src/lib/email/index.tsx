@@ -33,7 +33,7 @@ const getEmailTemplate = <T extends EmailTemplate>(
   switch (template) {
     case EmailTemplate.EmailVerification:
       return {
-        subject: 'Verify your email address',
+        subject: 'Verify your email address for BuildIt',
         body: render(
           <EmailVerificationTemplate
             {...(props as PropsMap[EmailTemplate.EmailVerification])}
@@ -53,7 +53,7 @@ export const sendEmail = async <T extends EmailTemplate>(
   const { subject, body } = getEmailTemplate(template, props)
 
   await resend.emails.send({
-    from: 'onboarding@resend.dev', // TODO: Update this to the correct email address
+    from: 'BuildIt <buildit@buildit.codes>',
     to,
     subject,
     html: body,

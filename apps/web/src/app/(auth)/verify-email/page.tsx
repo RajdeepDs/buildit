@@ -24,7 +24,7 @@ export default async function VerifyEmail(): Promise<JSX.Element> {
         </h1>
       </div>
 
-      <VerifyCode email={user.email} userId={user.id} />
+      <VerifyCode email={user.email} userId={user.id} name={user.name} />
     </div>
   )
 }
