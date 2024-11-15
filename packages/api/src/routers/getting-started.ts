@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server'
 
+import { EmailTemplate, sendEmail } from '@buildit/auth'
 import { db, eq } from '@buildit/db'
 import { teamTable, userTable, workspaceTable } from '@buildit/db/schema'
 import {
@@ -70,6 +71,10 @@ export const onboardingRouter = createRouter({
         onboarding: true,
       })
       .where(eq(userTable.id, ctx.user.id))
+
+    await sendEmail(ctx.user.email, EmailTemplate.WelcomeEmail, {
+      name: ctx.user.name,
+    })
 
     return {
       message: 'Onboarding completed successfully',
