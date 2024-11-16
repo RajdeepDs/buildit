@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FilterQuery } from '@/lib/store/filter-store'
 import type { TIssue } from '@buildit/utils/types'
 
+import EmptyState from '@/components/ui/empty-state'
 import { useFilterStore } from '@/hooks/store'
 
 import IssuesGroup from './issue-group'
@@ -103,17 +104,7 @@ export default function IssueList({
   }, [filteredAndGroupedIssues])
 
   if (Object.values(filteredAndGroupedIssues).flat().length === 0) {
-    return (
-      <div className='flex h-1/2 w-full flex-col items-center justify-center space-y-4 rounded-lg'>
-        <div className='flex flex-col items-center'>
-          <h2 className='font-cal text-strong text-xl'>No issues found</h2>
-          <p className='text-sm text-sub'>
-            There aren&apos;t any issues at the moment. Create one to get
-            started!
-          </p>
-        </div>
-      </div>
-    )
+    return <EmptyState id='myIssues' />
   }
 
   return (

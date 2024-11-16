@@ -30,3 +30,13 @@ export type TSettingsSidebar = {
     }[]
   }[]
 }[]
+
+export type TEmptyStateContent = Record<
+  string,
+  {
+    icon: string
+    title: string
+    description: string
+    primary: JSX.Element
+  }
+>
