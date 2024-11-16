@@ -29,7 +29,13 @@ import {
 } from '@/components/ui/modal'
 import { api } from '@/lib/trpc/react'
 
-export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
+export const NewIssueModal = ({
+  children,
+  defaultValues = {},
+}: {
+  children: React.ReactNode
+  defaultValues?: Partial<CreateIssuePayload>
+}) => {
   const { data: allTeams } = api.team.get_teams.useQuery()
   const { data: allProjects } = api.project.get_projects.useQuery()
 
@@ -51,6 +57,7 @@ export const NewIssueModal = ({ children }: { children: React.ReactNode }) => {
       description: '',
       status: 'todo',
       priority: 'no priority',
+      ...defaultValues,
     },
   })
 
