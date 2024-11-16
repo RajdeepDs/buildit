@@ -88,7 +88,7 @@ export default function IssueItem({
             <Icons.status className='size-4 mr-2 text-sub' />
             Status
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className='absolute left-1 -top-1 min-w-max'>
+          <ContextMenuSubContent sideOffset={4} alignOffset={-5.5}>
             {statusOptions.map((status) => {
               const Icon = Icons[status.icon as keyof typeof Icons]
               return (
@@ -112,7 +112,7 @@ export default function IssueItem({
             <Icons.signalHigh className='size-4 mr-2 text-sub' />
             Priority
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className='absolute left-1 -top-1 min-w-max'>
+          <ContextMenuSubContent sideOffset={4}>
             {priorityOptions.map((priority) => {
               const Icon = Icons[priority.icon as keyof typeof Icons]
               return (
@@ -136,7 +136,7 @@ export default function IssueItem({
             <Icons.userCircle2 className='size-4 mr-2 text-sub' />
             Assignee
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className='absolute left-1 -top-1 min-w-max'>
+          <ContextMenuSubContent sideOffset={4}>
             <ContextMenuCheckboxItem
               className='flex items-center'
               checked={!issue.assigneeId}
