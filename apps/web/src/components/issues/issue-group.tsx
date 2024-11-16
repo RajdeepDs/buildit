@@ -42,7 +42,7 @@ export default function IssuesGroup({
   return (
     <>
       <div className='flex items-center justify-between pr-2.5 mb-2'>
-        <div className='flex items-center gap-2 bg-weak/50 px-3 py-1 w-32 border border-soft/50 rounded-md'>
+        <div className='flex items-center gap-2 bg-weak/50 px-3 py-1 min-w-32 border border-soft/50 rounded-md'>
           <Icon className='size-4 text-sub' />
           <h2 className='font-medium text-sm text-surface'>
             {groupData.label}
