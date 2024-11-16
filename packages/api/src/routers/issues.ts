@@ -3,7 +3,10 @@ import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
 import { issueTable, teamTable, workspaceTable } from '@buildit/db/schema'
-import { CreateIssueInputSchema } from '@buildit/utils/validations'
+import {
+  CreateIssueInputSchema,
+  UpdateIssuePropertiesSchema,
+} from '@buildit/utils/validations'
 
 import { createRouter, protectedProcedure } from '../trpc'
 
@@ -136,6 +139,34 @@ export const issuesRouter = createRouter({
 
       return {
         message: `${issueId} - ${input.title}`,
+      }
+    }),
+  update_issue_properties: protectedProcedure
+    .input(UpdateIssuePropertiesSchema)
+    .mutation(async ({ input }) => {
+      const { id, ...updates } = input
+
+      // Filter out undefined fields to handle partial updates
+      const filteredUpdates = Object.fromEntries(
+        Object.entries(updates).filter(([_, value]) => value !== undefined),
+      )
+
+      await db
+        .update(issueTable)
+        .set(filteredUpdates)
+        .where(eq(issueTable.id, id))
+
+      return {
+        message: 'Issue updated.',
+      }
+    }),
+  delete_issue: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      await db.delete(issueTable).where(eq(issueTable.id, input.id))
+
+      return {
+        message: 'Issue deleted successfully.',
       }
     }),
 })

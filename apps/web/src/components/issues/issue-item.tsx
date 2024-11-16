@@ -1,15 +1,29 @@
-import Link from 'next/link'
-
 import type { TIssue } from '@buildit/utils/types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
-import { Checkbox } from '@buildit/ui/checkbox'
-import { cn } from '@buildit/ui/cn'
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from '@buildit/ui/context-menu'
+import { toast } from '@buildit/ui/toast'
 
+import IssueCard from '@/components/issues/issue-card'
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import {
+  priorityOptions,
+  statusOptions,
+  useAssigneeOptions,
+} from '@/configs/filter-settings'
 import { useFilterStore } from '@/hooks/store'
-import { formatDate } from '@/lib/date'
+import { api } from '@/lib/trpc/react'
 
 type IssueItemProps = Pick<
   TIssue,
@@ -48,113 +62,146 @@ export default function IssueItem({
   const { displayProperties, selectedIssues, setSelectedIssues } =
     useFilterStore()
 
-  const priorityIconName = priorities.find(
-    (priority) => priority.value === issue.priority,
-  )?.icon
-  const statusIconName = statuses.find(
-    (status) => status.value === issue.status,
-  )?.icon
+  const assigneeOptions = useAssigneeOptions()
 
-  const PriorityIcon = Icons[priorityIconName as keyof typeof Icons]
-  const StatusIcon = Icons[statusIconName as keyof typeof Icons]
+  const mutation = api.issues.update_issue_properties.useMutation()
 
-  const updatedAt = issue.updatedAt ? formatDate(issue.updatedAt) : undefined
-  const createdAt = issue.createdAt ? formatDate(issue.createdAt) : undefined
+  const deleteMutation = api.issues.delete_issue.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
 
-  const renderDisplayProperty = (property: string, content: React.ReactNode) =>
-    displayProperties.includes(property) ? content : null
+  const handleUpdate = (key: string, value: string | null) => {
+    mutation.mutate({ id: issue.id, [key]: value })
+  }
+
+  const handleDelete = () => {
+    deleteMutation.mutate({ id: issue.id })
+  }
 
   return (
-    <Link href={`/issue/${issue.issueId}`} passHref legacyBehavior>
-      <div
-        className={cn(
-          'flex items-center border-x p-3 bg-white hover:bg-weak/50 transition-colors duration-200',
-          isFirst && 'rounded-t-lg border-t',
-          isLast ? 'rounded-b-lg border-b mb-2' : 'border-b',
-        )}
-        role='listitem'
-      >
-        <div className='flex items-center w-full'>
-          <div className='group flex items-center space-x-2'>
-            <Checkbox
-              onClick={(e) => {
-                e.stopPropagation()
-                setSelectedIssues(issue.id)
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <IssueCard
+          issue={issue}
+          isFirst={isFirst}
+          isLast={isLast}
+          maxIssueIdWidth={maxIssueIdWidth}
+          displayProperties={displayProperties}
+          selectedIssues={selectedIssues}
+          setSelectedIssues={setSelectedIssues}
+        />
+      </ContextMenuTrigger>
+      <ContextMenuContent className='w-48 relative'>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.status className='size-4 mr-2 text-sub' />
+            Status
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4} alignOffset={-5.5}>
+            {statusOptions.map((status) => {
+              const Icon = Icons[status.icon as keyof typeof Icons]
+              return (
+                <ContextMenuCheckboxItem
+                  key={status.value}
+                  className='flex items-center'
+                  checked={status.value === issue.status}
+                  onClick={() => {
+                    handleUpdate('status', status.value)
+                  }}
+                >
+                  <Icon className='size-4 mr-2 text-sub' />
+                  <span>{status.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.signalHigh className='size-4 mr-2 text-sub' />
+            Priority
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4}>
+            {priorityOptions.map((priority) => {
+              const Icon = Icons[priority.icon as keyof typeof Icons]
+              return (
+                <ContextMenuCheckboxItem
+                  key={priority.value}
+                  className='flex items-center'
+                  checked={priority.value === issue.priority}
+                  onClick={() => {
+                    handleUpdate('priority', priority.value)
+                  }}
+                >
+                  <Icon className='size-4 mr-2 text-sub' />
+                  <span>{priority.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.userCircle2 className='size-4 mr-2 text-sub' />
+            Assignee
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4}>
+            <ContextMenuCheckboxItem
+              className='flex items-center'
+              checked={!issue.assigneeId}
+              onClick={() => {
+                handleUpdate('assigneeId', null)
               }}
-              checked={selectedIssues.includes(issue.id)}
-              className={`group-hover:opacity-100 opacity-0 transition-opacity duration-150 mr-2 ease-in-out ${selectedIssues.includes(issue.id) ? 'opacity-100' : 'opacity-0'}`}
-            />
-            {renderDisplayProperty(
-              'priority',
-              <PriorityIcon
-                className='size-4 text-sub'
-                aria-label={`Priority: ${issue.priority}`}
-              />,
-            )}
-            {renderDisplayProperty(
-              'id',
-              <span
-                data-column-id='issueId'
-                className='text-sm text-soft select-none'
-                style={{ width: `${maxIssueIdWidth}px` }}
-              >
-                {issue.issueId}
-              </span>,
-            )}
-            {renderDisplayProperty(
-              'status',
-              <StatusIcon
-                className='size-4 text-sub'
-                aria-label={`Status: ${issue.status}`}
-              />,
-            )}
-          </div>
-          <span className='text-sub text-sm font-medium ml-2 flex-grow truncate select-none'>
-            {issue.title}
-          </span>
-          <div className='ml-auto flex items-center space-x-2 flex-shrink-0'>
-            {renderDisplayProperty(
-              'updated',
-              <span
-                className='text-soft text-xs whitespace-nowrap select-none'
-                title={`Updated: ${updatedAt}`}
-              >
-                {updatedAt}
-              </span>,
-            )}
-            {renderDisplayProperty(
-              'created',
-              <span
-                className='text-soft text-xs whitespace-nowrap select-none'
-                title={`Created: ${createdAt}`}
-              >
-                {createdAt}
-              </span>,
-            )}
-            {renderDisplayProperty(
-              'assignee',
-              issue.assigneeId ? (
-                issue.assignee && (
-                  <Avatar className='size-5'>
-                    <AvatarImage
-                      src={issue.assignee.image ?? ''}
-                      alt={issue.assignee.name ?? ''}
-                    />
-                    <AvatarFallback>
-                      {issue.assignee.name?.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                )
-              ) : (
-                <Icons.userCircle2
-                  className='size-5 text-soft'
-                  aria-label='Unassigned'
-                />
-              ),
-            )}
-          </div>
-        </div>
-      </div>
-    </Link>
+            >
+              <Icons.user className='size-4 mr-2 text-sub' />
+              <span>No assignee</span>
+            </ContextMenuCheckboxItem>
+            {assigneeOptions.map((assignee) => {
+              return (
+                <ContextMenuCheckboxItem
+                  key={assignee.value}
+                  className='flex items-center'
+                  checked={assignee.value === issue.assigneeId}
+                  onClick={() => {
+                    handleUpdate('assigneeId', assignee.value)
+                  }}
+                >
+                  {assignee.image && (
+                    <Avatar className='size-4 mr-2'>
+                      <AvatarImage src={assignee.image} />
+                      <AvatarFallback>
+                        {assignee.label?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  <span>{assignee.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuItem
+          onClick={() => {
+            handleDelete()
+          }}
+        >
+          <Icons.trash2 className='size-4 mr-2 text-sub' />
+          Delete
+          <ContextMenuShortcut>⌘D</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   )
 }

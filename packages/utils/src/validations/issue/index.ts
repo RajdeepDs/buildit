@@ -17,3 +17,10 @@ export type CreateIssuePayload = z.infer<typeof CreateIssueSchema>
 export const CreateIssueInputSchema = CreateIssueSchema.extend({
   teamId: z.string(),
 })
+
+export const UpdateIssuePropertiesSchema = z.object({
+  id: z.string(),
+  status: z.optional(z.enum(STATUS)),
+  priority: z.optional(z.enum(PRIORITY)),
+  assigneeId: z.optional(z.nullable(z.string())),
+})
