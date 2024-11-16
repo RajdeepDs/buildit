@@ -14,15 +14,15 @@ import {
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
 
+import IssueCard from '@/components/issues/issue-card'
+import { Icons } from '@/components/ui/icons'
 import {
   priorityOptions,
   statusOptions,
   useAssigneeOptions,
 } from '@/configs/filter-settings'
 import { useFilterStore } from '@/hooks/store'
-
-import { Icons } from '../ui/icons'
-import IssueCard from './issue-card'
+import { api } from '@/lib/trpc/react'
 
 type IssueItemProps = Pick<
   TIssue,
@@ -63,6 +63,12 @@ export default function IssueItem({
 
   const assigneeOptions = useAssigneeOptions()
 
+  const mutation = api.issues.update_issue_properties.useMutation()
+
+  const handleUpdate = (key: string, value: string | null) => {
+    mutation.mutate({ id: issue.id, [key]: value })
+  }
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>
@@ -90,6 +96,9 @@ export default function IssueItem({
                   key={status.value}
                   className='flex items-center'
                   checked={status.value === issue.status}
+                  onClick={() => {
+                    handleUpdate('status', status.value)
+                  }}
                 >
                   <Icon className='size-4 mr-2 text-sub' />
                   <span>{status.label}</span>
@@ -111,6 +120,9 @@ export default function IssueItem({
                   key={priority.value}
                   className='flex items-center'
                   checked={priority.value === issue.priority}
+                  onClick={() => {
+                    handleUpdate('priority', priority.value)
+                  }}
                 >
                   <Icon className='size-4 mr-2 text-sub' />
                   <span>{priority.label}</span>
@@ -128,6 +140,9 @@ export default function IssueItem({
             <ContextMenuCheckboxItem
               className='flex items-center'
               checked={!issue.assigneeId}
+              onClick={() => {
+                handleUpdate('assigneeId', null)
+              }}
             >
               <Icons.user className='size-4 mr-2 text-sub' />
               <span>No assignee</span>
@@ -138,6 +153,9 @@ export default function IssueItem({
                   key={assignee.value}
                   className='flex items-center'
                   checked={assignee.value === issue.assigneeId}
+                  onClick={() => {
+                    handleUpdate('assigneeId', assignee.value)
+                  }}
                 >
                   {assignee.image && (
                     <Avatar className='size-4 mr-2'>
