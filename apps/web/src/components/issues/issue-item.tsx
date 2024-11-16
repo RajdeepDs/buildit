@@ -13,6 +13,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
+import { toast } from '@buildit/ui/toast'
 
 import IssueCard from '@/components/issues/issue-card'
 import { Icons } from '@/components/ui/icons'
@@ -65,8 +66,27 @@ export default function IssueItem({
 
   const mutation = api.issues.update_issue_properties.useMutation()
 
+  const deleteMutation = api.issues.delete_issue.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
+
   const handleUpdate = (key: string, value: string | null) => {
     mutation.mutate({ id: issue.id, [key]: value })
+  }
+
+  const handleDelete = () => {
+    deleteMutation.mutate({ id: issue.id })
   }
 
   return (
@@ -172,7 +192,11 @@ export default function IssueItem({
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />
-        <ContextMenuItem>
+        <ContextMenuItem
+          onClick={() => {
+            handleDelete()
+          }}
+        >
           <Icons.trash2 className='size-4 mr-2 text-sub' />
           Delete
           <ContextMenuShortcut>⌘D</ContextMenuShortcut>

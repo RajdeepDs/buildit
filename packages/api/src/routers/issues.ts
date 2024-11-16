@@ -160,4 +160,13 @@ export const issuesRouter = createRouter({
         message: 'Issue updated.',
       }
     }),
+  delete_issue: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      await db.delete(issueTable).where(eq(issueTable.id, input.id))
+
+      return {
+        message: 'Issue deleted successfully.',
+      }
+    }),
 })
