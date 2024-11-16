@@ -34,11 +34,9 @@ const PropDefaults: WelcomeEmailProps = {
       id: 1,
       Description: (
         <li className='mb-10' key={1}>
-          <strong>Deploy your first project.</strong> Your dashboard is the hub
-          of productivity, where you can create and manage issues, organize
-          tasks into projects, and collaborate seamlessly with your team. It's
-          designed to keep your workflow clear and efficient, so you can focus
-          on achieving your goals.
+          <strong>Get Started with Your First Project</strong>. Create issues,
+          assign priorities, and track progress—all in one streamlined
+          dashboard. BuildIt helps your team stay aligned and productive.
         </li>
       ),
     },
@@ -46,11 +44,9 @@ const PropDefaults: WelcomeEmailProps = {
       id: 2,
       Description: (
         <li className='mb-10' key={2}>
-          <strong>Stay Organized.</strong> Keep your workspace running smoothly
-          with intuitive management tools. Customize your workspace settings,
-          navigate seamlessly between tasks and projects, and use the integrated
-          search to quickly find what you need. BuildIt ensures everything stays
-          in its place, so you can focus on what matters most.
+          <strong>Stay Focused and Organized</strong>. Simplify your workflow
+          with powerful filters, smart search, and easy navigation. BuildIt
+          ensures you spend less time managing and more time building.
         </li>
       ),
     },
