@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
+import { Separator } from '@buildit/ui/separator'
 import { toast } from '@buildit/ui/toast'
 
 import IssueList from '@/components/issues/issue-list'
@@ -11,6 +12,7 @@ import Header from '@/components/layout/header'
 import SlidingSidebar from '@/components/layout/sliding-sidebar'
 import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
+import { NewIssueModal } from '@/components/modals/new-issue-modal'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
@@ -99,16 +101,30 @@ export default function MyIssuesClientPage(): JSX.Element {
   return (
     <div className='h-full flex flex-col gap-2'>
       <Header>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          className='size-7'
-          onClick={() => {
-            setSidebarOpen((prev) => !prev)
-          }}
-        >
-          <Icons.panelRight className='size-4 text-sub' />
-        </Button>
+        <div className='flex items-center gap-2'>
+          <NewIssueModal>
+            <Button
+              size='sm'
+              variant='secondary'
+              className='text-sub h-7'
+              aria-label='Create new issue'
+            >
+              <Icons.plus className='size-4 mr-1 text-sub' />
+              Create Issue
+            </Button>
+          </NewIssueModal>
+          <Separator orientation='vertical' className='h-5 ml-1' />
+          <Button
+            variant={'ghost'}
+            size={'icon'}
+            className='size-7'
+            onClick={() => {
+              setSidebarOpen((prev) => !prev)
+            }}
+          >
+            <Icons.panelRight className='size-4 text-sub' />
+          </Button>
+        </div>
       </Header>
       <div className='flex justify-between items-center'>
         <FilterMenu />
