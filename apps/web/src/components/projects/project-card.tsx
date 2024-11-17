@@ -75,26 +75,43 @@ export default function ProjectCard({
             <TooltipTrigger>
               <StatusIcon className='size-4 text-sub' />
             </TooltipTrigger>
+
             <TooltipContent className='capitalize'>
               Status: {project.status}
             </TooltipContent>
           </Tooltip>
-          {project.leadId ? (
-            project.lead && (
-              <Avatar className='size-5'>
-                <AvatarImage
-                  src={project.lead.image ?? ''}
-                  alt={project.lead.name ?? ''}
-                />
-                <AvatarFallback>{project.lead.name?.charAt(0)}</AvatarFallback>
-              </Avatar>
-            )
-          ) : (
-            <Icons.userCircle2
-              className='size-5 text-soft'
-              aria-label='Unassigned'
-            />
-          )}
+          <Tooltip>
+            {project.leadId ? (
+              project.lead && (
+                <>
+                  <TooltipTrigger>
+                    <Avatar className='size-5'>
+                      <AvatarImage
+                        src={project.lead.image ?? ''}
+                        alt={project.lead.name ?? ''}
+                      />
+                      <AvatarFallback>
+                        {project.lead.name?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </TooltipTrigger>
+                  <TooltipContent align='end'>
+                    Lead: {project.lead.name}
+                  </TooltipContent>
+                </>
+              )
+            ) : (
+              <>
+                <TooltipTrigger>
+                  <Icons.userCircle2
+                    className='size-5 text-soft'
+                    aria-label='Unassigned'
+                  />
+                </TooltipTrigger>
+                <TooltipContent align='end'>Lead: Unassigned</TooltipContent>
+              </>
+            )}
+          </Tooltip>
         </div>
       </div>
     </div>
