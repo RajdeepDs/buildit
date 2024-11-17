@@ -3,17 +3,27 @@ import { useRouter } from 'next/navigation'
 import type { TProject } from '@buildit/utils/types'
 import type { ReactNode } from 'react'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
   ContextMenu,
+  ContextMenuCheckboxItem,
   ContextMenuContent,
-  ContextMenuGroup,
   ContextMenuItem,
+  ContextMenuSeparator,
   ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
 import { useToast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
+import { useAssigneeOptions } from '@/configs/filter-settings'
+import {
+  priorityOptions,
+  statusOptions,
+} from '@/configs/project-filter-settings'
 import { api } from '@/lib/trpc/react'
 
 interface ProjectItemProps {
@@ -35,7 +45,9 @@ export default function ProjectItem({
   const router = useRouter()
   const { toast } = useToast()
 
-  const mutation = api.project.delete_project.useMutation({
+  const assigneeOptions = useAssigneeOptions()
+
+  const deleteMutation = api.project.delete_project.useMutation({
     onSuccess: () => {
       toast({
         description: 'Project deleted successfully!',
@@ -48,21 +60,102 @@ export default function ProjectItem({
       })
     },
   })
+
+  const handleDelete = () => {
+    deleteMutation.mutate({ projectId: project.id })
+  }
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
-      <ContextMenuContent className='w-56'>
-        <ContextMenuGroup>
-          <ContextMenuItem
-            onClick={() => {
-              mutation.mutate({ projectId: project.id })
-            }}
-          >
-            <Icons.trash className='mr-2 h-4 w-4' />
-            Delete
-            <ContextMenuShortcut>Delete</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
+      <ContextMenuContent className='w-48'>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.status className='size-4 mr-2 text-sub' />
+            Status
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4} alignOffset={-5.5}>
+            {statusOptions.map((status) => {
+              const Icon = Icons[status.icon as keyof typeof Icons]
+              return (
+                <ContextMenuCheckboxItem
+                  key={status.value}
+                  className='flex items-center'
+                  checked={status.value === project.status}
+                >
+                  <Icon className='size-4 mr-2 text-sub' />
+                  <span>{status.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.signalHigh className='size-4 mr-2 text-sub' />
+            Priority
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4}>
+            {priorityOptions.map((priority) => {
+              const Icon = Icons[priority.icon as keyof typeof Icons]
+              return (
+                <ContextMenuCheckboxItem
+                  key={priority.value}
+                  className='flex items-center'
+                  checked={priority.value === project.priority}
+                >
+                  <Icon className='size-4 mr-2 text-sub' />
+                  <span>{priority.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Icons.userCircle2 className='size-4 mr-2 text-sub' />
+            Project Lead
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent sideOffset={4}>
+            <ContextMenuCheckboxItem
+              className='flex items-center'
+              checked={!project.leadId}
+            >
+              <Icons.user className='size-4 mr-2 text-sub' />
+              <span>Unassigned</span>
+            </ContextMenuCheckboxItem>
+            {assigneeOptions.map((assignee) => {
+              return (
+                <ContextMenuCheckboxItem
+                  key={assignee.value}
+                  className='flex items-center'
+                  checked={assignee.value === project.leadId}
+                >
+                  {assignee.image && (
+                    <Avatar className='size-4 mr-2'>
+                      <AvatarImage src={assignee.image} />
+                      <AvatarFallback>
+                        {assignee.label?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  <span>{assignee.label}</span>
+                </ContextMenuCheckboxItem>
+              )
+            })}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuItem
+          onClick={() => {
+            handleDelete()
+          }}
+        >
+          <Icons.trash2 className='size-4 mr-2 text-sub' />
+          Delete
+          <ContextMenuShortcut>⌘D</ContextMenuShortcut>
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
