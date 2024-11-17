@@ -3,8 +3,6 @@ import type { TIssue } from '@buildit/utils/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { allDisplayProperties } from '@/configs/display-settings'
-
 type Operator =
   | 'eq'
   | 'ne'
@@ -89,7 +87,7 @@ const createFilterStore = (pathname: string) =>
             groupBy: group,
           }))
         },
-        displayProperties: allDisplayProperties,
+        displayProperties: [''],
         setDisplayProperties: (property) => {
           set((state) => ({
             displayProperties: state.displayProperties.includes(property)

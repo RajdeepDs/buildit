@@ -10,6 +10,7 @@ import {
   priorityOptions,
   statusOptions,
 } from '@/configs/project-filter-settings'
+import { useFilterStore } from '@/hooks/store'
 
 interface ProjectCardProps {
   project: Omit<TProject, 'issues' | 'teams'>
@@ -30,6 +31,8 @@ export default function ProjectCard({
   isFirst,
   isLast,
 }: ProjectCardProps): JSX.Element {
+  const { displayProperties } = useFilterStore()
+
   const priorityIconName = priorityOptions.find(
     (priority) => priority.value === project.priority,
   )?.icon
@@ -39,6 +42,9 @@ export default function ProjectCard({
 
   const PriorityIcon = Icons[priorityIconName as keyof typeof Icons]
   const StatusIcon = Icons[statusIconName as keyof typeof Icons]
+
+  const renderDisplayProperty = (property: string, content: React.ReactNode) =>
+    displayProperties.includes(property) ? content : null
 
   return (
     <div
@@ -63,55 +69,63 @@ export default function ProjectCard({
           </span>
         </div>
         <div className='ml-auto flex items-center space-x-4 flex-shrink-0'>
-          <Tooltip>
-            <TooltipTrigger>
-              <PriorityIcon className='size-4 text-sub' />
-            </TooltipTrigger>
-            <TooltipContent className='capitalize'>
-              Priority: {project.priority}
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger>
-              <StatusIcon className='size-4 text-sub' />
-            </TooltipTrigger>
-
-            <TooltipContent className='capitalize'>
-              Status: {project.status}
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            {project.leadId ? (
-              project.lead && (
+          {renderDisplayProperty(
+            'priority',
+            <Tooltip>
+              <TooltipTrigger>
+                <PriorityIcon className='size-4 text-sub' />
+              </TooltipTrigger>
+              <TooltipContent className='capitalize'>
+                Priority: {project.priority}
+              </TooltipContent>
+            </Tooltip>,
+          )}
+          {renderDisplayProperty(
+            'status',
+            <Tooltip>
+              <TooltipTrigger>
+                <StatusIcon className='size-4 text-sub' />
+              </TooltipTrigger>
+              <TooltipContent className='capitalize'>
+                Status: {project.status}
+              </TooltipContent>
+            </Tooltip>,
+          )}
+          {renderDisplayProperty(
+            'lead',
+            <Tooltip>
+              {project.leadId ? (
+                project.lead && (
+                  <>
+                    <TooltipTrigger>
+                      <Avatar className='size-5'>
+                        <AvatarImage
+                          src={project.lead.image ?? ''}
+                          alt={project.lead.name ?? ''}
+                        />
+                        <AvatarFallback>
+                          {project.lead.name?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent align='end'>
+                      Lead: {project.lead.name}
+                    </TooltipContent>
+                  </>
+                )
+              ) : (
                 <>
                   <TooltipTrigger>
-                    <Avatar className='size-5'>
-                      <AvatarImage
-                        src={project.lead.image ?? ''}
-                        alt={project.lead.name ?? ''}
-                      />
-                      <AvatarFallback>
-                        {project.lead.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <Icons.userCircle2
+                      className='size-5 text-soft'
+                      aria-label='Unassigned'
+                    />
                   </TooltipTrigger>
-                  <TooltipContent align='end'>
-                    Lead: {project.lead.name}
-                  </TooltipContent>
+                  <TooltipContent align='end'>Lead: Unassigned</TooltipContent>
                 </>
-              )
-            ) : (
-              <>
-                <TooltipTrigger>
-                  <Icons.userCircle2
-                    className='size-5 text-soft'
-                    aria-label='Unassigned'
-                  />
-                </TooltipTrigger>
-                <TooltipContent align='end'>Lead: Unassigned</TooltipContent>
-              </>
-            )}
-          </Tooltip>
+              )}
+            </Tooltip>,
+          )}
         </div>
       </div>
     </div>
