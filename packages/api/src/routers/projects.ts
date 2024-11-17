@@ -15,6 +15,8 @@ export const projectRouter = createRouter({
       where: eq(projectTable.admin, ctx.user.id),
       with: {
         user: true,
+        lead: true,
+        team: true,
       },
     })
     return projects

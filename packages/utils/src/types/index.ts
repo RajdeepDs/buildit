@@ -36,12 +36,23 @@ export interface TTeam {
 export interface TProject {
   id: string
   name: string
+  description: unknown | null
+  status:
+    | 'backlog'
+    | 'planned'
+    | 'in progress'
+    | 'completed'
+    | 'canceled'
+    | null
+  priority: 'low' | 'medium' | 'high' | 'urgent' | 'no priority' | null
+  admin: string
+  leadId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  admin: string
   teamId: string
   user?: TUser | null
   team?: TTeam | null
+  lead?: TUser | null
 }
 
 export interface TIssue {
