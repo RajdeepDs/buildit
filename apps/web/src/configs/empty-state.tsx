@@ -27,9 +27,8 @@ export const emptyStateContent: TEmptyStateContent = {
   },
   projects: {
     icon: 'hexagon',
-    title: 'No Projects Yet',
-    description:
-      'Projects help you organize your work. Create a new project to start tracking progress and collaborating with your team.',
+    title: 'No Projects Yet!',
+    description: `Projects serve as the backbone of your work organization, enabling you to structure tasks, set milestones, and monitor progress effectively. By creating a project, you can centralize your team's efforts, ensure clear communication, and track outcomes seamlessly.`,
     primary: (
       <NewProjectModal>
         <Button variant={'default'} size={'sm'} className='h-7'>

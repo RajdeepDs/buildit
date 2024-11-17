@@ -24,7 +24,7 @@ export default function EmptyState({ id }: EmptyStateProps): JSX.Element {
   const Icon = Icons[icon as keyof typeof Icons]
 
   return (
-    <div className='w-full flex justify-center mt-24'>
+    <div className='w-full h-full flex justify-center items-center'>
       <div className='flex flex-col items-start p-4'>
         <div className='border rounded-md mb-2'>
           <Icon className='size-5 text-sub m-2' />
