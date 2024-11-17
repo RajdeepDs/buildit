@@ -47,6 +47,8 @@ export default function ProjectItem({
 
   const assigneeOptions = useAssigneeOptions()
 
+  const updateMutation = api.project.update_project_properties.useMutation()
+
   const deleteMutation = api.project.delete_project.useMutation({
     onSuccess: () => {
       toast({
@@ -60,6 +62,10 @@ export default function ProjectItem({
       })
     },
   })
+
+  const handleUpdate = (key: string, value: string | null) => {
+    updateMutation.mutate({ id: project.id, [key]: value })
+  }
 
   const handleDelete = () => {
     deleteMutation.mutate({ projectId: project.id })
@@ -82,6 +88,9 @@ export default function ProjectItem({
                   key={status.value}
                   className='flex items-center'
                   checked={status.value === project.status}
+                  onClick={() => {
+                    handleUpdate('status', status.value)
+                  }}
                 >
                   <Icon className='size-4 mr-2 text-sub' />
                   <span>{status.label}</span>
@@ -103,6 +112,9 @@ export default function ProjectItem({
                   key={priority.value}
                   className='flex items-center'
                   checked={priority.value === project.priority}
+                  onClick={() => {
+                    handleUpdate('priority', priority.value)
+                  }}
                 >
                   <Icon className='size-4 mr-2 text-sub' />
                   <span>{priority.label}</span>
@@ -121,6 +133,9 @@ export default function ProjectItem({
             <ContextMenuCheckboxItem
               className='flex items-center'
               checked={!project.leadId}
+              onClick={() => {
+                handleUpdate('leadId', null)
+              }}
             >
               <Icons.user className='size-4 mr-2 text-sub' />
               <span>Unassigned</span>
@@ -131,6 +146,9 @@ export default function ProjectItem({
                   key={assignee.value}
                   className='flex items-center'
                   checked={assignee.value === project.leadId}
+                  onClick={() => {
+                    handleUpdate('leadId', assignee.value)
+                  }}
                 >
                   {assignee.image && (
                     <Avatar className='size-4 mr-2'>
