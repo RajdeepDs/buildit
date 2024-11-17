@@ -1,19 +1,19 @@
 import { useMemo } from 'react'
 
-import type { TIssue } from '@buildit/utils/types'
+import type { TIssue, TProject } from '@buildit/utils/types'
 
 type TeamCount = Record<string, number>
 
 /**
  * Extracts the unique teams and their counts from the given issues.
- * @param allIssues The list of issues.
+ * @param data The list of issues or projects.
  * @returns The unique teams and their counts.
  */
-export function useTeamsSummary(allIssues: TIssue[] | undefined) {
+export function useTeamsSummary(data: TIssue[] | TProject[] | undefined) {
   return useMemo(() => {
-    if (!allIssues) return { teams: [], teamCount: {} }
+    if (!data) return { teams: [], teamCount: {} }
 
-    return allIssues.reduce(
+    return data.reduce(
       (acc: { teams: string[]; teamCount: TeamCount }, issue) => {
         const { teamId } = issue
 
@@ -32,5 +32,5 @@ export function useTeamsSummary(allIssues: TIssue[] | undefined) {
         teamCount: {},
       },
     )
-  }, [allIssues])
+  }, [data])
 }

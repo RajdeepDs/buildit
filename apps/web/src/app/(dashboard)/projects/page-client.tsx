@@ -1,21 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
-import { Sidebar, SidebarContent, SidebarHeader } from '@buildit/ui/sidebar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@buildit/ui/tabs'
 import { toast } from '@buildit/ui/toast'
 
 import Header from '@/components/layout/header'
+import SlidingSidebar from '@/components/layout/sliding-sidebar'
+import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
+import TabContentItem from '@/components/layout/tab-content-item'
 import { NewProjectModal } from '@/components/modals/new-project-modal'
 import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
 import { Icons } from '@/components/ui/icons'
+import { useLeadsSummary } from '@/hooks/use-lead-summary'
+import { usePrioritySummary } from '@/hooks/use-priority-summary'
+import { useStatusSummary } from '@/hooks/use-status-summary'
+import { useTeamsSummary } from '@/hooks/use-teams-summary'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -31,112 +35,160 @@ export default function ProjectsClientPage(): JSX.Element {
     error,
   } = api.project.get_projects.useQuery()
 
-  // TODO: Implement filters functionality for projects
+  const { statuses, statusCount } = useStatusSummary(allProjects)
+  const { priorities, priorityCount } = usePrioritySummary(allProjects)
+  const { teams, teamCount } = useTeamsSummary(allProjects)
+  const { uniqueLeads, leadCount } = useLeadsSummary(allProjects)
+
+  const { data: allTeams } = api.team.get_teams.useQuery()
+  const { data: user } = api.user.get_user.useQuery()
+
+  const teamNamesWithCount = useMemo(
+    () =>
+      allTeams
+        ?.filter((team) => teams.includes(team.id))
+        .map((team) => ({
+          name: team.name,
+          count: teamCount[team.id] ?? 0,
+        })),
+    [allTeams, teams, teamCount],
+  )
+
+  const leadNamesWithCount = useMemo(() => {
+    if (!user) return []
+    return uniqueLeads.map((lead) => ({
+      name: lead === user.id ? user.name : lead,
+      count: leadCount[lead] ?? 0,
+    }))
+  }, [uniqueLeads, leadCount, user])
+
+  const tabsData = useMemo(
+    () => [
+      {
+        label: 'Status',
+        content: (
+          <TabContentItem
+            label='Status'
+            items={statuses}
+            itemCount={statusCount}
+          />
+        ),
+      },
+      {
+        label: 'Priority',
+        content: (
+          <TabContentItem
+            label='Priority'
+            items={priorities}
+            itemCount={priorityCount}
+          />
+        ),
+      },
+      {
+        label: 'Leads',
+        content: (
+          <TabContentItem
+            label='Leads'
+            items={leadNamesWithCount
+              .map(({ name }) => name)
+              .filter((name): name is string => name !== null)}
+            itemCount={Object.fromEntries(
+              leadNamesWithCount.map(({ name, count }) => [name, count]),
+            )}
+          />
+        ),
+      },
+      {
+        label: 'Teams',
+        content: (
+          <TabContentItem
+            label='Teams'
+            items={teamNamesWithCount?.map(({ name }) => name) ?? []}
+            itemCount={Object.fromEntries(
+              teamNamesWithCount?.map(({ name, count }) => [name, count]) ?? [],
+            )}
+          />
+        ),
+      },
+    ],
+    [
+      statuses,
+      statusCount,
+      priorities,
+      priorityCount,
+      leadNamesWithCount,
+      teamNamesWithCount,
+    ],
+  )
 
   if (error) {
     toast({
       title: 'Error',
-      description: 'Failed to fetch issues',
+      description: 'Failed to fetch projects',
       variant: 'destructive',
     })
   }
 
   return (
-    <>
-      <div className='h-full flex flex-col gap-2'>
-        <Header>
-          <div className='flex items-center gap-2'>
-            <NewProjectModal>
-              <Button variant={'secondary'} size={'sm'} className='h-7'>
-                <Icons.plus className='size-4 text-sub mr-1' />
-                Create project
-              </Button>
-            </NewProjectModal>
-            <Separator orientation='vertical' className='h-5 ml-1' />
-            <Button
-              variant={'ghost'}
-              size={'icon'}
-              className='size-7'
-              onClick={() => {
-                setSidebarOpen(!sidebarOpen)
-              }}
-            >
-              <Icons.panelRight className='size-4 text-sub' />
+    <div className='h-full flex flex-col gap-2'>
+      <Header>
+        <div className='flex items-center gap-2'>
+          <NewProjectModal>
+            <Button variant='secondary' size='sm' className='h-7'>
+              <Icons.plus className='size-4 text-sub mr-1' />
+              Create project
             </Button>
-          </div>
-        </Header>
-        <div className='flex justify-between items-center'>
-          <FilterMenu />
-          {/* TODO: Add a new display menu for projects */}
-          <DisplayMenu />
-        </div>
-        <div className='relative flex h-full w-full overflow-hidden'>
-          <div
-            className={cn(
-              'flex-1 transition-all ease-in-out duration-300',
-              sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
-            )}
+          </NewProjectModal>
+          <Separator orientation='vertical' className='h-5 ml-1' />
+          <Button
+            variant='ghost'
+            size='icon'
+            className='size-7'
+            onClick={() => {
+              setSidebarOpen(!sidebarOpen)
+            }}
           >
-            {isLoading ? (
-              <>
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
-                      index == 0 && 'rounded-t-lg border-t',
-                      index == 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
-                    )}
-                    role='listitem'
-                  />
-                ))}
-              </>
-            ) : (
-              <ProjectLists projects={allProjects} />
-            )}
-          </div>
-          {/* Sliding sidebar */}
-          <div
-            className={cn(
-              'absolute top-0 right-0 h-full bg-white border rounded-md transition-all ease-in-out duration-300',
-              sidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0',
-            )}
-          >
-            <Sidebar collapsible='none' className='w-full'>
-              <SidebarHeader className='border-b'>
-                <div className='flex items-center justify-between'>
-                  <h1 className='font-medium text-sm'>Projects</h1>
-                  {/* TODO: Add number of projects */}
-                  <Badge>{0}</Badge>
-                </div>
-              </SidebarHeader>
-              <SidebarContent
-                className={cn(
-                  'p-3 transition-opacity duration-300 ease-in-out overflow-hidden',
-                  sidebarOpen ? 'opacity-100' : 'opacity-0',
-                )}
-              >
-                <Tabs
-                  defaultValue='status'
-                  className='flex flex-col gap-2 text-center '
-                >
-                  <TabsList className='p-0.5 w-full gap-3.5'>
-                    <TabsTrigger value='status'>Status</TabsTrigger>
-                    <TabsTrigger value='priority'>Priority</TabsTrigger>
-                    <TabsTrigger value='leads'>Leads</TabsTrigger>
-                    <TabsTrigger value='teams'>Teams</TabsTrigger>
-                  </TabsList>
-                  {/* Todo: Add functionality for all of these*/}
-                  <TabsContent value='status'>No Status used</TabsContent>
-                  <TabsContent value='priority'>No Priority used</TabsContent>
-                  <TabsContent value='leads'>No Leads used</TabsContent>
-                  <TabsContent value='teams'>No Teams used</TabsContent>
-                </Tabs>
-              </SidebarContent>
-            </Sidebar>
-          </div>
+            <Icons.panelRight className='size-4 text-sub' />
+          </Button>
         </div>
+      </Header>
+      <div className='flex justify-between items-center'>
+        <FilterMenu />
+        <DisplayMenu />
       </div>
-    </>
+      <div className='relative flex h-full w-full overflow-hidden'>
+        <div
+          className={cn(
+            'flex-1 transition-all ease-in-out duration-300',
+            sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
+          )}
+        >
+          {isLoading ? (
+            <div className='flex flex-col gap-2'>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+                    index === 0 && 'rounded-t-lg border-t',
+                    index === 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+                  )}
+                  role='listitem'
+                />
+              ))}
+            </div>
+          ) : (
+            <ProjectLists projects={allProjects} />
+          )}
+        </div>
+        <SlidingSidebar
+          label='Projects'
+          sidebarOpen={sidebarOpen}
+          issuesCount={allProjects?.length}
+        >
+          <SlidingSidebarTabs tabsData={tabsData} />
+        </SlidingSidebar>
+      </div>
+    </div>
   )
 }

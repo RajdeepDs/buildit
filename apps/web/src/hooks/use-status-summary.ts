@@ -1,19 +1,19 @@
 import { useMemo } from 'react'
 
-import type { TIssue } from '@buildit/utils/types'
+import type { TIssue, TProject } from '@buildit/utils/types'
 
 type StatusCount = Record<string, number>
 
 /**
  * Extracts the unique statuses and their counts from the given issues.
- * @param allIssues The list of issues.
+ * @param data The list of issues or projects.
  * @returns The unique statuses and their counts.
  */
-export function useStatusSummary(allIssues: TIssue[] | undefined) {
+export function useStatusSummary(data: TIssue[] | TProject[] | undefined) {
   return useMemo(() => {
-    if (!allIssues) return { statuses: [], statusCount: {} }
+    if (!data) return { statuses: [], statusCount: {} }
 
-    return allIssues.reduce(
+    return data.reduce(
       (acc: { statuses: string[]; statusCount: StatusCount }, issue) => {
         const { status } = issue
         if (status === null) return acc
@@ -27,5 +27,5 @@ export function useStatusSummary(allIssues: TIssue[] | undefined) {
       },
       { statuses: [], statusCount: {} },
     )
-  }, [allIssues])
+  }, [data])
 }

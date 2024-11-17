@@ -19,19 +19,24 @@ export default function SlidingSidebarTabs({
   tabsData,
 }: SlidingSidebarTabsProps): JSX.Element {
   return (
-    <Tabs
-      defaultValue={tabsData[0]?.label?.toLowerCase() ?? ''}
-      className='flex flex-col gap-2 text-center'
-    >
+    <Tabs defaultValue={tabsData[0]?.label?.toLowerCase() ?? ''}>
       <TabsList className='p-0.5 w-full gap-2.5'>
         {tabsData.map((tab) => (
-          <TabsTrigger key={tab.label} value={tab.label.toLowerCase()}>
+          <TabsTrigger
+            key={tab.label}
+            value={tab.label.toLowerCase()}
+            className='w-full'
+          >
             {tab.label}
           </TabsTrigger>
         ))}
       </TabsList>
       {tabsData.map((tab) => (
-        <TabsContent key={tab.label} value={tab.label.toLowerCase()}>
+        <TabsContent
+          key={tab.label}
+          value={tab.label.toLowerCase()}
+          className='text-center'
+        >
           {tab.content}
         </TabsContent>
       ))}

@@ -1,19 +1,19 @@
 import { useMemo } from 'react'
 
-import type { TIssue } from '@buildit/utils/types'
+import type { TIssue, TProject } from '@buildit/utils/types'
 
 type PriorityCount = Record<string, number>
 
 /**
  * Extracts the unique priorities and their counts from the given issues.
- * @param allIssues The list of issues.
+ * @param data The list of issues or projects.
  * @returns The unique priorities and their counts.
  */
-export function usePrioritySummary(allIssues: TIssue[] | undefined) {
+export function usePrioritySummary(data: TIssue[] | TProject[] | undefined) {
   return useMemo(() => {
-    if (!allIssues) return { priorities: [], priorityCount: {} }
+    if (!data) return { priorities: [], priorityCount: {} }
 
-    return allIssues.reduce(
+    return data.reduce(
       (acc: { priorities: string[]; priorityCount: PriorityCount }, issue) => {
         const { priority } = issue
         if (priority === null) return acc
@@ -27,5 +27,5 @@ export function usePrioritySummary(allIssues: TIssue[] | undefined) {
       },
       { priorities: [], priorityCount: {} },
     )
-  }, [allIssues])
+  }, [data])
 }
