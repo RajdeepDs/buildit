@@ -1,3 +1,5 @@
+import { cn } from '@buildit/ui/cn'
+
 import ProjectCard from '@/components/projects/project-card'
 import ProjectItem from '@/components/projects/project-item'
 import EmptyState from '@/components/ui/empty-state'
@@ -8,7 +10,25 @@ import { api } from '@/lib/trpc/react'
  * @returns React.FC component.
  */
 export default function ProjectLists() {
-  const { data: projects } = api.project.get_projects.useQuery()
+  const { data: projects, isLoading } = api.project.get_projects.useQuery()
+
+  if (isLoading) {
+    return (
+      <>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <div
+            key={index}
+            className={cn(
+              'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+              index == 0 && 'rounded-t-lg border-t',
+              index == 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+            )}
+            role='listitem'
+          />
+        ))}
+      </>
+    )
+  }
 
   return (
     <>
