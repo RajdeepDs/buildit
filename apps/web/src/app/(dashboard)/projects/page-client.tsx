@@ -58,6 +58,7 @@ export default function ProjectsClientPage(): JSX.Element {
     if (!user) return []
     return uniqueLeads.map((lead) => ({
       name: lead === user.id ? user.name : lead,
+      image: lead === user.id ? user.image : null, // Include image
       count: leadCount[lead] ?? 0,
     }))
   }, [uniqueLeads, leadCount, user])
@@ -89,9 +90,10 @@ export default function ProjectsClientPage(): JSX.Element {
         content: (
           <TabContentItem
             label='Leads'
-            items={leadNamesWithCount
-              .map(({ name }) => name)
-              .filter((name): name is string => name !== null)}
+            items={leadNamesWithCount.map(({ name, image }) => ({
+              name,
+              image,
+            }))}
             itemCount={Object.fromEntries(
               leadNamesWithCount.map(({ name, count }) => [name, count]),
             )}
