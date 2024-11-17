@@ -1,35 +1,20 @@
-import { cn } from '@buildit/ui/cn'
+import type { TProject } from '@buildit/utils/types'
 
 import ProjectCard from '@/components/projects/project-card'
 import ProjectItem from '@/components/projects/project-item'
 import EmptyState from '@/components/ui/empty-state'
-import { api } from '@/lib/trpc/react'
 
 /**
  * The project lists component. Lists all the projects.
+ * @param props The props for the component.
+ * @param props.projects The list of all projects.
  * @returns React.FC component.
  */
-export default function ProjectLists() {
-  const { data: projects, isLoading } = api.project.get_projects.useQuery()
-
-  if (isLoading) {
-    return (
-      <>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <div
-            key={index}
-            className={cn(
-              'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
-              index == 0 && 'rounded-t-lg border-t',
-              index == 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
-            )}
-            role='listitem'
-          />
-        ))}
-      </>
-    )
-  }
-
+export default function ProjectLists({
+  projects,
+}: {
+  projects: TProject[] | undefined
+}): JSX.Element {
   return (
     <>
       {projects?.length === 0 ? (

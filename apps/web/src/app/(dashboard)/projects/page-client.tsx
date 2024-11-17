@@ -8,6 +8,7 @@ import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
 import { Sidebar, SidebarContent, SidebarHeader } from '@buildit/ui/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@buildit/ui/tabs'
+import { toast } from '@buildit/ui/toast'
 
 import Header from '@/components/layout/header'
 import { NewProjectModal } from '@/components/modals/new-project-modal'
@@ -15,6 +16,7 @@ import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
 import { Icons } from '@/components/ui/icons'
+import { api } from '@/lib/trpc/react'
 
 /**
  * The Projects client page.
@@ -23,7 +25,21 @@ import { Icons } from '@/components/ui/icons'
 export default function ProjectsClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  const {
+    data: allProjects,
+    isLoading,
+    error,
+  } = api.project.get_projects.useQuery()
+
   // TODO: Implement filters functionality for projects
+
+  if (error) {
+    toast({
+      title: 'Error',
+      description: 'Failed to fetch issues',
+      variant: 'destructive',
+    })
+  }
 
   return (
     <>
@@ -61,7 +77,23 @@ export default function ProjectsClientPage(): JSX.Element {
               sidebarOpen ? 'pr-80 mr-2' : 'pr-0',
             )}
           >
-            <ProjectLists />
+            {isLoading ? (
+              <>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'flex items-center border-x p-3 bg-weak/50 animate-pulse h-11',
+                      index == 0 && 'rounded-t-lg border-t',
+                      index == 9 ? 'rounded-b-lg border-b mb-2' : 'border-b',
+                    )}
+                    role='listitem'
+                  />
+                ))}
+              </>
+            ) : (
+              <ProjectLists projects={allProjects} />
+            )}
           </div>
           {/* Sliding sidebar */}
           <div
