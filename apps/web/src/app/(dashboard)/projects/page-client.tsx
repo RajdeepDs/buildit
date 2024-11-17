@@ -166,7 +166,7 @@ export default function ProjectsClientPage(): JSX.Element {
           )}
         >
           {isLoading ? (
-            <div className='flex flex-col gap-2'>
+            <>
               {Array.from({ length: 10 }).map((_, index) => (
                 <div
                   key={index}
@@ -178,7 +178,7 @@ export default function ProjectsClientPage(): JSX.Element {
                   role='listitem'
                 />
               ))}
-            </div>
+            </>
           ) : (
             <ProjectLists projects={allProjects} />
           )}
