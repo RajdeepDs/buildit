@@ -5,6 +5,7 @@ import { projectTable } from '@buildit/db/schema'
 import {
   CreateProjectInputSchema,
   DeleteProjectSchema,
+  UpdateProjectPropertiesSchema,
 } from '@buildit/utils/validations'
 
 import { createRouter, protectedProcedure } from '../trpc'
@@ -42,6 +43,23 @@ export const projectRouter = createRouter({
       })
 
       return { message: 'Project created successfully' }
+    }),
+  update_project_properties: protectedProcedure
+    .input(UpdateProjectPropertiesSchema)
+    .mutation(async ({ input }) => {
+      const { id, ...properties } = input
+
+      // Filter out undefined fields to handle partial updates
+      const filteredUpdates = Object.fromEntries(
+        Object.entries(properties).filter(([_, value]) => value !== undefined),
+      )
+
+      await db
+        .update(projectTable)
+        .set(filteredUpdates)
+        .where(eq(projectTable.id, id))
+
+      return { message: 'Project updated successfully.' }
     }),
   delete_project: protectedProcedure
     .input(DeleteProjectSchema)
