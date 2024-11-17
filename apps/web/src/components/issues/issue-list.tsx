@@ -5,11 +5,10 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FilterQuery } from '@/lib/store/filter-store'
 import type { TIssue } from '@buildit/utils/types'
 
+import IssuesGroup from '@/components/issues/issue-group'
+import IssueItem from '@/components/issues/issue-item'
 import EmptyState from '@/components/ui/empty-state'
 import { useFilterStore } from '@/hooks/store'
-
-import IssuesGroup from './issue-group'
-import IssueItem from './issue-item'
 
 interface FilterDetail {
   key: string

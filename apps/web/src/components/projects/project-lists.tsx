@@ -1,4 +1,5 @@
 import ProjectItem from '@/components/projects/project-item'
+import EmptyState from '@/components/ui/empty-state'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -11,14 +12,7 @@ export default function ProjectLists() {
   return (
     <>
       {projects?.length === 0 ? (
-        <div className='flex h-1/2 w-full flex-col items-center justify-center space-y-4 rounded-lg'>
-          <div className='flex flex-col items-center'>
-            <h1 className='font-cal text-strong text-xl'>No project found</h1>
-            <p className='text-sm text-sub'>
-              There aren&apos;t any project at the moment!{' '}
-            </p>
-          </div>
-        </div>
+        <EmptyState id='projects' />
       ) : (
         <ul>
           {projects?.map((project) => (
