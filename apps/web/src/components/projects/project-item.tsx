@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation'
 
 import type { TProject } from '@buildit/utils/types'
+import type { ReactNode } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -18,16 +18,19 @@ import { api } from '@/lib/trpc/react'
 
 interface ProjectItemProps {
   project: Omit<TProject, 'issues' | 'teams'>
+  children: ReactNode
 }
 
 /**
  * The project item component. Displays a single project.
  * @param props ProjectItemProps
  * @param props.project The project object.
+ * @param props.children The children to render.
  * @returns JSX.Element
  */
 export default function ProjectItem({
   project,
+  children,
 }: ProjectItemProps): JSX.Element {
   const router = useRouter()
   const { toast } = useToast()
@@ -47,20 +50,7 @@ export default function ProjectItem({
   })
   return (
     <ContextMenu>
-      <ContextMenuTrigger>
-        <div className='flex cursor-pointer items-center justify-between border-b px-5 py-2 hover:bg-muted'>
-          <div className='flex items-center space-x-4'>
-            <Icons.hexagon className='h-4 w-4 text-sub' />
-            <h2 className='font-medium text-strong'>{project.name}</h2>
-          </div>
-          <div className='flex items-center space-x-4'>
-            <Avatar className='size-6'>
-              <AvatarImage src={project.user?.image ?? ''} alt='user' />
-              <AvatarFallback>{project.user?.name}</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </ContextMenuTrigger>
+      <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent className='w-56'>
         <ContextMenuGroup>
           <ContextMenuItem

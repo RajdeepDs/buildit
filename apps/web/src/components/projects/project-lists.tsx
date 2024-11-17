@@ -1,3 +1,4 @@
+import ProjectCard from '@/components/projects/project-card'
 import ProjectItem from '@/components/projects/project-item'
 import EmptyState from '@/components/ui/empty-state'
 import { api } from '@/lib/trpc/react'
@@ -15,10 +16,14 @@ export default function ProjectLists() {
         <EmptyState id='projects' />
       ) : (
         <ul>
-          {projects?.map((project) => (
-            <li key={project.id}>
-              <ProjectItem project={project} />{' '}
-            </li>
+          {projects?.map((project, index) => (
+            <ProjectItem project={project} key={project.id}>
+              <ProjectCard
+                project={project}
+                isFirst={index === 0}
+                isLast={index === projects.length - 1}
+              />
+            </ProjectItem>
           ))}
         </ul>
       )}
