@@ -37,7 +37,6 @@ export default function ProjectGroup({
     (priorityOptions.find((priority) => priority.value === group) && 'priority')
 
   const groupData = getGroupData(group)
-  console.log('groupData', groupData)
 
   if (!groupData) return <></>
 
