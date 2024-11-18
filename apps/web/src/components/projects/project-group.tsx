@@ -2,7 +2,7 @@
 
 import { Button } from '@buildit/ui/button'
 
-import { NewIssueModal } from '@/components/modals/new-issue-modal'
+import { NewProjectModal } from '@/components/modals/new-project-modal'
 import { Icons } from '@/components/ui/icons'
 import {
   priorityOptions,
@@ -37,6 +37,7 @@ export default function ProjectGroup({
     (priorityOptions.find((priority) => priority.value === group) && 'priority')
 
   const groupData = getGroupData(group)
+  console.log('groupData', groupData)
 
   if (!groupData) return <></>
 
@@ -53,7 +54,7 @@ export default function ProjectGroup({
           <p className='text-sm text-soft'>{count}</p>
         </div>
 
-        <NewIssueModal
+        <NewProjectModal
           defaultValues={{
             [groupType as string]: group,
           }}
@@ -65,7 +66,7 @@ export default function ProjectGroup({
           >
             <Icons.plus className='size-4 text-sub' />
           </Button>
-        </NewIssueModal>
+        </NewProjectModal>
       </div>
     </>
   )

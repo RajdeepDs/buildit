@@ -31,8 +31,10 @@ import { api } from '@/lib/trpc/react'
 
 export const NewProjectModal = ({
   children,
+  defaultValues = {},
 }: {
   children: React.ReactNode
+  defaultValues?: Partial<CreateProjectPayload>
 }) => {
   const { data: allTeams } = api.team.get_teams.useQuery()
 
@@ -54,6 +56,7 @@ export const NewProjectModal = ({
       description: '',
       status: 'planned',
       priority: 'no priority',
+      ...defaultValues,
     },
   })
 
