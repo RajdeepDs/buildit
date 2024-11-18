@@ -16,6 +16,10 @@ import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
 import { Icons } from '@/components/ui/icons'
+import {
+  ProjectsDisplayProperties,
+  ProjectsGroupingOptions,
+} from '@/configs/display-settings'
 import { useLeadsSummary } from '@/hooks/use-lead-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -156,7 +160,10 @@ export default function ProjectsClientPage(): JSX.Element {
       </Header>
       <div className='flex justify-between items-center'>
         <FilterMenu />
-        <DisplayMenu />
+        <DisplayMenu
+          groupingOptions={ProjectsGroupingOptions}
+          allDisplayProperties={ProjectsDisplayProperties}
+        />
       </div>
       <div className='relative flex h-full w-full overflow-hidden'>
         <div

@@ -85,7 +85,9 @@ export default function IssueList({
     if (groupBy === 'No Grouping') return { '': filtered }
 
     return filtered.reduce<Record<string, TIssue[]>>((groups, issue) => {
-      const groupKey = (issue[groupBy] as string) || 'Uncategorized'
+      const groupKey =
+        (issue[groupBy as keyof TIssue] as string) || 'Uncategorized'
+
       if (!groups[groupKey]) groups[groupKey] = []
       groups[groupKey].push(issue)
       return groups

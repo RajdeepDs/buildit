@@ -34,7 +34,7 @@ export const statusOptions: FilterSettings[] = [
   {
     value: 'planned',
     label: 'Planned',
-    icon: 'todo',
+    icon: 'hexagon',
   },
   {
     value: 'in progress',

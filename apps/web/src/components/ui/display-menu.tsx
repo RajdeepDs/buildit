@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
@@ -13,22 +13,35 @@ import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 import { Separator } from '@buildit/ui/separator'
 
 import { Icons } from '@/components/ui/icons'
-import {
-  allDisplayProperties,
-  groupingOptions,
-} from '@/configs/display-settings'
 import { useFilterStore } from '@/hooks/store'
+
+interface DisplayMenuProps {
+  groupingOptions: { label: string; value: string }[]
+  allDisplayProperties: string[]
+}
 
 /**
  * The display menu component. It contains the grouping and ordering options.
+ * @param props The component props.
+ * @param props.groupingOptions The grouping options.
+ * @param props.allDisplayProperties The display properties.
  * @returns The display menu component.
  */
-export default function DisplayMenu() {
+export default function DisplayMenu({
+  groupingOptions,
+  allDisplayProperties,
+}: DisplayMenuProps): JSX.Element {
   const [open, setOpen] = useState(false)
   const [grouping, setGrouping] = useState('noGrouping')
 
   const { setGroupBy, displayProperties, setDisplayProperties } =
     useFilterStore()
+
+  useEffect(() => {
+    allDisplayProperties.forEach((property) => {
+      setDisplayProperties(property)
+    })
+  }, [allDisplayProperties, setDisplayProperties])
 
   const handleSelectGrouping = (group: string) => {
     setGroupBy(group)

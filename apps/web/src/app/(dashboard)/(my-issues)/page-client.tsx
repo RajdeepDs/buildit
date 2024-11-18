@@ -17,6 +17,10 @@ import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
+import {
+  IssuesDisplayProperties,
+  IssuesGroupingOptions,
+} from '@/configs/display-settings'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -128,7 +132,10 @@ export default function MyIssuesClientPage(): JSX.Element {
       </Header>
       <div className='flex justify-between items-center'>
         <FilterMenu />
-        <DisplayMenu />
+        <DisplayMenu
+          groupingOptions={IssuesGroupingOptions}
+          allDisplayProperties={IssuesDisplayProperties}
+        />
       </div>
       <div className='relative flex h-full w-full overflow-hidden'>
         <div
