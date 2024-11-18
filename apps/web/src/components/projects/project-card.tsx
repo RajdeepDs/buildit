@@ -31,7 +31,8 @@ export default function ProjectCard({
   isFirst,
   isLast,
 }: ProjectCardProps): JSX.Element {
-  const { displayProperties } = useFilterStore()
+  const { displayProperties, selectedItems, setSelectedItems } =
+    useFilterStore()
 
   const priorityIconName = priorityOptions.find(
     (priority) => priority.value === project.priority,
@@ -60,7 +61,9 @@ export default function ProjectCard({
           <Checkbox
             onClick={(e) => {
               e.stopPropagation()
+              setSelectedItems(project.id)
             }}
+            checked={selectedItems.includes(project.id)}
             className={`group-hover:opacity-100 opacity-0 transition-opacity duration-150 mr-2 ease-in-out`}
           />
           <Icons.hexagon className='size-4 text-sub' />

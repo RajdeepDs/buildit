@@ -47,12 +47,12 @@ export const useFilterStore = (): FilterStore => {
     (state) => state.setDisplayProperties,
   )
 
-  const selectedIssues = useIssuesFilterStore((state) => state.selectedIssues)
-  const setSelectedIssues = useIssuesFilterStore(
-    (state) => state.setSelectedIssues,
+  const selectedItems = useIssuesFilterStore((state) => state.selectedItems)
+  const setSelectedItems = useIssuesFilterStore(
+    (state) => state.setSelectedItems,
   )
-  const clearSelectedIssues = useIssuesFilterStore(
-    (state) => state.clearSelectedIssues,
+  const clearSelectedItems = useIssuesFilterStore(
+    (state) => state.clearSelectedItems,
   )
 
   return {
@@ -64,8 +64,8 @@ export const useFilterStore = (): FilterStore => {
     setGroupBy,
     displayProperties,
     setDisplayProperties,
-    selectedIssues,
-    setSelectedIssues,
-    clearSelectedIssues,
+    selectedItems,
+    setSelectedItems,
+    clearSelectedItems,
   }
 }

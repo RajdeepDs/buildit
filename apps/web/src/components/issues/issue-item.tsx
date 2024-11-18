@@ -59,7 +59,7 @@ export default function IssueItem({
   isLast: boolean
   maxIssueIdWidth: number
 }) {
-  const { displayProperties, selectedIssues, setSelectedIssues } =
+  const { displayProperties, selectedItems, setSelectedItems } =
     useFilterStore()
 
   const assigneeOptions = useAssigneeOptions()
@@ -98,8 +98,8 @@ export default function IssueItem({
           isLast={isLast}
           maxIssueIdWidth={maxIssueIdWidth}
           displayProperties={displayProperties}
-          selectedIssues={selectedIssues}
-          setSelectedIssues={setSelectedIssues}
+          selectedIssues={selectedItems}
+          setSelectedIssues={setSelectedItems}
         />
       </ContextMenuTrigger>
       <ContextMenuContent className='w-48 relative'>

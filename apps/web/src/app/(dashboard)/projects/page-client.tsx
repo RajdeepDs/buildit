@@ -15,11 +15,13 @@ import { NewProjectModal } from '@/components/modals/new-project-modal'
 import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
+import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import {
   ProjectsDisplayProperties,
   ProjectsGroupingOptions,
 } from '@/configs/display-settings'
+import { useFilterStore } from '@/hooks/store'
 import { useLeadsSummary } from '@/hooks/use-lead-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -32,6 +34,8 @@ import { api } from '@/lib/trpc/react'
  */
 export default function ProjectsClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const { and, selectedItems } = useFilterStore()
 
   const {
     data: allProjects,
@@ -197,6 +201,16 @@ export default function ProjectsClientPage(): JSX.Element {
         >
           <SlidingSidebarTabs tabsData={tabsData} />
         </SlidingSidebar>
+      </div>
+      <div
+        className={cn(
+          'fixed bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
+          and.length > 0 || selectedItems.length > 0
+            ? 'flex opacity-100 translate-y-0 h-auto py-3 duration-300'
+            : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',
+        )}
+      >
+        <FloatingToolbar filters={and} selectedItems={selectedItems} />
       </div>
     </div>
   )
