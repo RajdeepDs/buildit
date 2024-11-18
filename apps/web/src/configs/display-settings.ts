@@ -31,29 +31,6 @@ export const ProjectsGroupingOptions: DisplaySettings[] = [
   },
 ]
 
-export const orderingOptions: DisplaySettings[] = [
-  {
-    label: 'No ordering',
-    value: 'noOrdering',
-  },
-  {
-    label: 'Status',
-    value: 'status',
-  },
-  {
-    label: 'Priority',
-    value: 'priority',
-  },
-  {
-    label: 'Last updated',
-    value: 'lastUpdated',
-  },
-  {
-    label: 'Last created',
-    value: 'lastCreated',
-  },
-]
-
 export const IssuesDisplayProperties = [
   'priority',
   'id',

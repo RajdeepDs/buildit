@@ -1,5 +1,3 @@
-import type { TIssue } from '@buildit/utils/types'
-
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -39,8 +37,8 @@ export interface FilterStore {
     value: FilterCondition | FilterQuery,
   ) => void
   removeFilter: (type: string) => void
-  groupBy: keyof TIssue | 'No Grouping'
-  setGroupBy: (group: keyof TIssue | 'No Grouping') => void
+  groupBy: string
+  setGroupBy: (group: string) => void
   displayProperties: string[]
   setDisplayProperties: (property: string) => void
   selectedIssues: string[]
