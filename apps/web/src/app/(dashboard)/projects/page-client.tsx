@@ -15,6 +15,7 @@ import { NewProjectModal } from '@/components/modals/new-project-modal'
 import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
+import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import {
   ProjectsDisplayProperties,
@@ -35,8 +36,6 @@ export default function ProjectsClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const { and, selectedItems } = useFilterStore()
-
-  console.log('Selected Issues: ', selectedItems)
 
   const {
     data: allProjects,
@@ -211,7 +210,7 @@ export default function ProjectsClientPage(): JSX.Element {
             : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',
         )}
       >
-        {/* <FloatingToolbar filters={and} selectedIssues={selectedIssues} /> */}
+        <FloatingToolbar filters={and} selectedItems={selectedItems} />
       </div>
     </div>
   )

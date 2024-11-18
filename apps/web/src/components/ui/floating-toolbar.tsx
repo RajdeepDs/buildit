@@ -32,6 +32,7 @@ export default function FloatingToolbar({
             )}
           </>
         )}
+        {/* TODO: Fix Customize filter for `issues` and `projects` pages. */}
         {filters.map((filter) => (
           <CustomizeFilter
             key={Object.keys(filter).join('-')}

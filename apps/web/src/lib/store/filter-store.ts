@@ -110,7 +110,7 @@ const createFilterStore = (pathname: string) =>
               ([key]) =>
                 key !== 'groupBy' &&
                 key !== 'displayProperties' &&
-                key !== 'selectedIssues',
+                key !== 'selectedItems',
             ),
           ),
       },
