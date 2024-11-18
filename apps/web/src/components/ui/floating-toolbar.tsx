@@ -11,22 +11,22 @@ import CustomizeFilter from '@/components/ui/customize-filter'
  * Floating toolbar component. This component is used to display all the display and other filter functionalities.
  * @param props The props object
  * @param props.filters The filter prop
- * @param props.selectedIssues The selected issues
+ * @param props.selectedItems The selected Items
  * @returns JSX.Element
  */
 export default function FloatingToolbar({
   filters,
-  selectedIssues,
+  selectedItems,
 }: {
   filters: FilterQuery[]
-  selectedIssues: string[]
+  selectedItems: string[]
 }): JSX.Element {
   return (
     <div className='bg-white p-2 border rounded-md z-50 shadow'>
       <div className='flex items-center gap-2'>
-        {selectedIssues.length > 0 && (
+        {selectedItems.length > 0 && (
           <>
-            <BulkIssueBox selectedIssuesCount={selectedIssues.length} />
+            <BulkIssueBox selectedItemsCount={selectedItems.length} />
             {filters.length !== 0 && (
               <Separator orientation='vertical' className='h-7' />
             )}

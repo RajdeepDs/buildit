@@ -34,7 +34,7 @@ import { api } from '@/lib/trpc/react'
 export default function MyIssuesClientPage(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const { and, selectedIssues } = useFilterStore()
+  const { and, selectedItems } = useFilterStore()
 
   const { data: allIssues, isLoading, error } = api.issues.get_issues.useQuery()
 
@@ -174,12 +174,12 @@ export default function MyIssuesClientPage(): JSX.Element {
       <div
         className={cn(
           'fixed bottom-4 inset-x-0 justify-center transition-all overflow-hidden',
-          and.length > 0 || selectedIssues.length > 0
+          and.length > 0 || selectedItems.length > 0
             ? 'flex opacity-100 translate-y-0 h-auto py-3 duration-300'
             : 'flex opacity-0 translate-y-full h-0 pointer-events-none duration-150',
         )}
       >
-        <FloatingToolbar filters={and} selectedIssues={selectedIssues} />
+        <FloatingToolbar filters={and} selectedItems={selectedItems} />
       </div>
     </div>
   )

@@ -41,9 +41,9 @@ export interface FilterStore {
   setGroupBy: (group: string) => void
   displayProperties: string[]
   setDisplayProperties: (property: string) => void
-  selectedIssues: string[]
-  setSelectedIssues: (issueId: string) => void
-  clearSelectedIssues: () => void
+  selectedItems: string[]
+  setSelectedItems: (itemId: string) => void
+  clearSelectedItems: () => void
 }
 
 const createFilterStore = (pathname: string) =>
@@ -89,16 +89,16 @@ const createFilterStore = (pathname: string) =>
               return { displayProperties: Array.from(currentProps) }
             })
           },
-          selectedIssues: [],
-          setSelectedIssues: (issueId) => {
+          selectedItems: [],
+          setSelectedItems: (itemId) => {
             set((state) => ({
-              selectedIssues: state.selectedIssues.includes(issueId)
-                ? state.selectedIssues.filter((id) => id !== issueId)
-                : [...state.selectedIssues, issueId],
+              selectedItems: state.selectedItems.includes(itemId)
+                ? state.selectedItems.filter((id) => id !== itemId)
+                : [...state.selectedItems, itemId],
             }))
           },
-          clearSelectedIssues: () => {
-            set(() => ({ selectedIssues: [] }))
+          clearSelectedItems: () => {
+            set(() => ({ selectedItems: [] }))
           },
         }
       },
