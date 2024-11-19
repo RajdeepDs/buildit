@@ -6,8 +6,10 @@ import { toast } from '@buildit/ui/toast'
 
 import Header from '@/components/layout/header'
 import TeamList from '@/components/teams/team-list'
+import DisplayMenu from '@/components/ui/display-menu'
 import EmptyState from '@/components/ui/empty-state'
 import { Icons } from '@/components/ui/icons'
+import { TeamsDisplayProperties } from '@/configs/display-settings'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -40,7 +42,10 @@ export default function TeamsClientPage(): JSX.Element {
             </Button>
           </div>
         </Header>
-        {/* TODO: Add Filter menu and display settings options */}
+        <div className='flex justify-end items-center'>
+          {/* TODO: Add Filter menu  */}
+          <DisplayMenu allDisplayProperties={TeamsDisplayProperties} />
+        </div>
         <div className='h-full w-full'>
           {isLoading ? (
             <>

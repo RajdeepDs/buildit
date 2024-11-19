@@ -31,7 +31,7 @@ export const useFilterStore = (): FilterStore => {
     throw new Error('Filter store could not be created.')
   }
 
-  // Access the Zustand store state and actions, assuming store is defined
+  // Access the Zustand store state and actions
   const and = useIssuesFilterStore((state) => state.and)
   const setFilter = useIssuesFilterStore((state) => state.setFilter)
   const updateFilter = useIssuesFilterStore((state) => state.updateFilter)
