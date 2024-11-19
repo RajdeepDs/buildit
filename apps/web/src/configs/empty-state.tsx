@@ -4,6 +4,7 @@ import { Button } from '@buildit/ui/button'
 
 import { NewIssueModal } from '@/components/modals/new-issue-modal'
 import { NewProjectModal } from '@/components/modals/new-project-modal'
+import { NewTeamModal } from '@/components/modals/new-team-modal'
 import { Icons } from '@/components/ui/icons'
 
 export const emptyStateContent: TEmptyStateContent = {
@@ -44,10 +45,12 @@ export const emptyStateContent: TEmptyStateContent = {
     description:
       'Teams allow you to collaborate effectively. Create a new team to start assigning roles and tasks.',
     primary: (
-      <Button variant={'default'} size={'sm'} className='h-7'>
-        <Icons.plus className='size-4  mr-1' />
-        Add team
-      </Button>
+      <NewTeamModal>
+        <Button variant={'default'} size={'sm'} className='h-7'>
+          <Icons.plus className='size-4 mr-1' />
+          Create team
+        </Button>
+      </NewTeamModal>
     ),
   },
   // Add more entries as needed...
