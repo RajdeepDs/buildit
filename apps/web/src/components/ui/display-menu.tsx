@@ -37,12 +37,6 @@ export default function DisplayMenu({
   const { setGroupBy, displayProperties, setDisplayProperties } =
     useFilterStore()
 
-  // useEffect(() => {
-  //   allDisplayProperties.forEach((property) => {
-  //     setDisplayProperties(property)
-  //   })
-  // }, [allDisplayProperties, setDisplayProperties])
-
   const handleSelectGrouping = (group: string) => {
     setGroupBy(group)
     setGrouping(group)

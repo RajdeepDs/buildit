@@ -8,6 +8,7 @@ import { cn } from '@buildit/ui/cn'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@buildit/ui/tooltip'
 
 import { Icons } from '@/components/ui/icons'
+import { useFilterStore } from '@/hooks/store'
 import { formatDate, formatDateTime } from '@/lib/date'
 
 interface TeamCardProps {
@@ -28,6 +29,8 @@ export default function TeamCard({
   isFirst,
   isLast,
 }: TeamCardProps): JSX.Element {
+  const { displayProperties } = useFilterStore()
+
   const updatedAt = team.updatedAt ? formatDate(team.updatedAt) : undefined
   const createdAt = team.createdAt ? formatDate(team.createdAt) : undefined
 
@@ -38,11 +41,14 @@ export default function TeamCard({
     ? formatDateTime(team.createdAt)
     : undefined
 
+  const renderDisplayProperty = (property: string, content: React.ReactNode) =>
+    displayProperties.includes(property) ? content : null
+
   return (
     <Link href={`team/${team.teamId}/active`} passHref legacyBehavior>
       <div
         className={cn(
-          'flex items-center border-x p-3 bg-white hover:bg-weak/50 transition-colors duration-200',
+          'flex items-center border-x p-3 bg-white hover:bg-weak/50 transition-colors duration-200 h-[48px]',
           isFirst && 'rounded-t-lg border-t',
           isLast ? 'rounded-b-lg border-b mb-2' : 'border-b',
         )}
@@ -52,46 +58,62 @@ export default function TeamCard({
           <Icons.team className='size-4 text-sub' />
           <div className='flex items-center gap-2 flex-grow select-none'>
             <span className='text-sm font-medium'>{team.name}</span>
-            <Tooltip>
-              <TooltipTrigger className='text-xs'>
-                <Badge className='text-sub font-medium'>{team.teamId}</Badge>
-              </TooltipTrigger>
-              <TooltipContent>Team ID</TooltipContent>
-            </Tooltip>
+            {renderDisplayProperty(
+              'identifier',
+              <Tooltip>
+                <TooltipTrigger className='text-xs'>
+                  <Badge className='text-sub font-medium'>{team.teamId}</Badge>
+                </TooltipTrigger>
+                <TooltipContent>Team ID</TooltipContent>
+              </Tooltip>,
+            )}
           </div>
           <div className='ml-auto flex items-center space-x-4 flex-shrink-0'>
-            <Tooltip>
-              <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
-                <span>{updatedAt}</span>
-              </TooltipTrigger>
-              <TooltipContent>{`Updated ${updatedAtTime}`}</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
-                <span>{createdAt}</span>
-              </TooltipTrigger>
-              <TooltipContent align='end'>{`Created ${createdAtTime}`}</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              {team.admin && team.user && (
-                <>
-                  <TooltipTrigger>
-                    <Avatar className='size-5'>
-                      <AvatarImage
-                        src={team.user.image ?? ''}
-                        alt={team.user.name ?? ''}
-                      />
-                      <AvatarFallback>
-                        {team.user.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent align='end'>
-                    Admin: {team.user.name}
-                  </TooltipContent>
-                </>
-              )}
-            </Tooltip>
+            {renderDisplayProperty(
+              'updated',
+              <Tooltip>
+                <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
+                  <span>{updatedAt}</span>
+                </TooltipTrigger>
+                {updatedAtTime && (
+                  <TooltipContent>{`Updated ${updatedAtTime}`}</TooltipContent>
+                )}
+              </Tooltip>,
+            )}
+            {renderDisplayProperty(
+              'created',
+              <Tooltip>
+                <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
+                  <span>{createdAt}</span>
+                </TooltipTrigger>
+                {createdAtTime && (
+                  <TooltipContent align='end'>{`Created ${createdAtTime}`}</TooltipContent>
+                )}
+              </Tooltip>,
+            )}
+            {renderDisplayProperty(
+              'admin',
+              <Tooltip>
+                {team.admin && team.user && (
+                  <>
+                    <TooltipTrigger>
+                      <Avatar className='size-5'>
+                        <AvatarImage
+                          src={team.user.image ?? ''}
+                          alt={team.user.name ?? ''}
+                        />
+                        <AvatarFallback>
+                          {team.user.name?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent align='end'>
+                      Admin: {team.user.name}
+                    </TooltipContent>
+                  </>
+                )}
+              </Tooltip>,
+            )}
           </div>
         </div>
       </div>
