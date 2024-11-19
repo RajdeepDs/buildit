@@ -5,6 +5,7 @@ import { cn } from '@buildit/ui/cn'
 import { toast } from '@buildit/ui/toast'
 
 import Header from '@/components/layout/header'
+import { NewTeamModal } from '@/components/modals/new-team-modal'
 import TeamList from '@/components/teams/team-list'
 import DisplayMenu from '@/components/ui/display-menu'
 import EmptyState from '@/components/ui/empty-state'
@@ -35,11 +36,12 @@ export default function TeamsClientPage(): JSX.Element {
       <div className='h-full flex flex-col gap-2'>
         <Header>
           <div className='flex items-center gap-2'>
-            {/* TODO: Add new team modal to create a new team */}
-            <Button variant={'secondary'} size={'sm'} className='h-7'>
-              <Icons.plus className='size-4 text-sub mr-1' />
-              Add team
-            </Button>
+            <NewTeamModal>
+              <Button variant='secondary' size='sm' className='h-7'>
+                <Icons.plus className='size-4 text-sub mr-1' />
+                Create team
+              </Button>
+            </NewTeamModal>
           </div>
         </Header>
         <div className='flex justify-end items-center'>
