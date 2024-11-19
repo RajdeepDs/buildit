@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Badge } from '@buildit/ui/badge'
 import { Button } from '@buildit/ui/button'
@@ -16,7 +16,7 @@ import { Icons } from '@/components/ui/icons'
 import { useFilterStore } from '@/hooks/store'
 
 interface DisplayMenuProps {
-  groupingOptions: { label: string; value: string }[]
+  groupingOptions?: { label: string; value: string }[]
   allDisplayProperties: string[]
 }
 
@@ -37,12 +37,6 @@ export default function DisplayMenu({
   const { setGroupBy, displayProperties, setDisplayProperties } =
     useFilterStore()
 
-  useEffect(() => {
-    allDisplayProperties.forEach((property) => {
-      setDisplayProperties(property)
-    })
-  }, [allDisplayProperties, setDisplayProperties])
-
   const handleSelectGrouping = (group: string) => {
     setGroupBy(group)
     setGrouping(group)
@@ -58,41 +52,46 @@ export default function DisplayMenu({
       </PopoverTrigger>
       <PopoverContent align='end' className='p-0'>
         <div className='flex flex-col'>
-          <div className='flex items-center justify-between p-3'>
-            <Label className='flex items-center text-xs select-none'>
-              <Icons.rows3 className='mr-2 size-4 text-sub' />
-              Grouping
-            </Label>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className='w-2/4'>
-                <Button
-                  variant={'secondary'}
-                  size={'sm'}
-                  className='flex justify-between h-7 focus:ring-0'
-                >
-                  {
-                    groupingOptions.find((option) => option.value === grouping)
-                      ?.label
-                  }
-                  <Icons.chevronDown className='h-4 w-4 text-sub' />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {groupingOptions.map((option) => (
-                  <DropdownMenuItem
-                    key={option.value}
-                    onSelect={() => {
-                      handleSelectGrouping(option.value)
-                    }}
-                    className='font-medium text-xs'
-                  >
-                    {option.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <Separator />
+          {groupingOptions && (
+            <>
+              <div className='flex items-center justify-between p-3'>
+                <Label className='flex items-center text-xs select-none'>
+                  <Icons.rows3 className='mr-2 size-4 text-sub' />
+                  Grouping
+                </Label>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild className='w-2/4'>
+                    <Button
+                      variant={'secondary'}
+                      size={'sm'}
+                      className='flex justify-between h-7 focus:ring-0'
+                    >
+                      {
+                        groupingOptions.find(
+                          (option) => option.value === grouping,
+                        )?.label
+                      }
+                      <Icons.chevronDown className='h-4 w-4 text-sub' />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {groupingOptions.map((option) => (
+                      <DropdownMenuItem
+                        key={option.value}
+                        onSelect={() => {
+                          handleSelectGrouping(option.value)
+                        }}
+                        className='font-medium text-xs'
+                      >
+                        {option.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <Separator />
+            </>
+          )}
           <div className='flex flex-col gap-3 p-3'>
             <Label className='select-none text-xs'>Display properties</Label>
             <div className='flex flex-wrap gap-1'>

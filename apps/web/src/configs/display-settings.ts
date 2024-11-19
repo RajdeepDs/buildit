@@ -41,3 +41,10 @@ export const IssuesDisplayProperties = [
 ]
 
 export const ProjectsDisplayProperties = ['status', 'priority', 'lead']
+
+export const TeamsDisplayProperties = [
+  'identifier',
+  'updated',
+  'created',
+  'admin',
+]

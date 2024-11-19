@@ -50,9 +50,31 @@ const createFilterStore = (pathname: string) =>
   create<FilterStore>()(
     persist(
       (set) => {
-        const defaultDisplayProperties = pathname.includes('projects')
-          ? ['status', 'priority', 'lead']
-          : ['priority', 'id', 'status', 'created', 'updated', 'assignee']
+        let defaultDisplayProperties: string[] = []
+
+        if (pathname === '/my-issues') {
+          defaultDisplayProperties = [
+            'priority',
+            'id',
+            'status',
+            'created',
+            'updated',
+            'assignee',
+          ]
+        }
+
+        if (pathname === '/projects') {
+          defaultDisplayProperties = ['status', 'priority', 'lead']
+        }
+
+        if (pathname === '/teams') {
+          defaultDisplayProperties = [
+            'identifier',
+            'updated',
+            'created',
+            'admin',
+          ]
+        }
 
         return {
           and: [],
