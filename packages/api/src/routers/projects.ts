@@ -1,7 +1,8 @@
 import { TRPCError } from '@trpc/server'
+import { z } from 'zod'
 
 import { db, eq } from '@buildit/db'
-import { projectTable } from '@buildit/db/schema'
+import { projectTable, teamTable } from '@buildit/db/schema'
 import {
   CreateProjectInputSchema,
   DeleteProjectSchema,
@@ -9,6 +10,15 @@ import {
 } from '@buildit/utils/validations'
 
 import { createRouter, protectedProcedure } from '../trpc'
+
+const getTeamByTeamId = async (teamId: string) => {
+  return await db.query.teamTable.findFirst({
+    where: eq(teamTable.teamId, teamId),
+    columns: {
+      id: true,
+    },
+  })
+}
 
 export const projectRouter = createRouter({
   get_projects: protectedProcedure.query(async ({ ctx }) => {
@@ -22,6 +32,29 @@ export const projectRouter = createRouter({
     })
     return projects
   }),
+  get_projects_by_teams: protectedProcedure
+    .input(z.object({ teamId: z.string() }))
+    .query(async ({ input }) => {
+      const team = await getTeamByTeamId(input.teamId)
+
+      if (!team) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Team not found',
+        })
+      }
+
+      const projects = await db.query.projectTable.findMany({
+        where: eq(projectTable.teamId, team.id),
+        with: {
+          user: true,
+          lead: true,
+          team: true,
+        },
+      })
+
+      return projects
+    }),
   create_project: protectedProcedure
     .input(CreateProjectInputSchema)
     .mutation(async ({ input, ctx }) => {
