@@ -24,3 +24,11 @@ export const UpdateIssuePropertiesSchema = z.object({
   priority: z.optional(z.enum(PRIORITY)),
   assigneeId: z.optional(z.nullable(z.string())),
 })
+
+export const UpdateIssueContentSchema = z.object({
+  id: z.string(),
+  title: z.optional(z.string().min(1, { message: 'Title is required.' })),
+  description: z.optional(z.nullable(z.string())),
+})
+
+export type UpdateIssueContentPayload = z.infer<typeof UpdateIssueContentSchema>

@@ -2,6 +2,7 @@
 
 import { Sidebar } from '@buildit/ui/sidebar'
 
+import Content from '@/components/issue/content'
 import Header from '@/components/layout/header'
 import { api } from '@/lib/trpc/react'
 
@@ -22,14 +23,13 @@ export default function IssueClientPage({
     { enabled: !!issueId },
   )
 
-  console.log(issue)
-
   return (
     <div className='h-full flex w-full gap-2'>
-      <div className='h-full flex flex-col flex-grow'>
+      <div className='h-full flex flex-col flex-grow gap-2'>
         <Header />
-        <main className='bg-weak h-full w-full'>
+        <main className='h-full w-full flex justify-center overflow-scroll'>
           {/* Issue Content - Title and Description */}
+          <Content />
         </main>
       </div>
       <Sidebar
