@@ -52,7 +52,11 @@ const createFilterStore = (pathname: string) =>
       (set) => {
         let defaultDisplayProperties: string[] = []
 
-        if (pathname === '/my-issues') {
+        if (
+          pathname === '/my-issues' ||
+          pathname.includes('/active') ||
+          pathname.includes('/backlog')
+        ) {
           defaultDisplayProperties = [
             'priority',
             'id',
