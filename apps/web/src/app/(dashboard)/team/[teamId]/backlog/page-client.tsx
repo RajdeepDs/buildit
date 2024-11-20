@@ -113,7 +113,7 @@ export default function BacklogIssuesClientPage(): JSX.Element {
 
   return (
     <>
-      <div className='h-full flex flex-col gap-2'>
+      <div className='h-full flex flex-col gap-2 p-2'>
         <Header>
           <Button
             variant={'ghost'}

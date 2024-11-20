@@ -1,10 +1,10 @@
 'use client'
 
-import { Sidebar } from '@buildit/ui/sidebar'
 import { Skeleton } from '@buildit/ui/skeleton'
 import { toast } from '@buildit/ui/toast'
 
 import Content from '@/components/issue/content'
+import IssueProperties from '@/components/issue/issue-properties'
 import Header from '@/components/layout/header'
 import { api } from '@/lib/trpc/react'
 
@@ -38,8 +38,8 @@ export default function IssueClientPage({
   }
 
   return (
-    <div className='h-full flex w-full gap-2'>
-      <div className='h-full flex flex-col flex-grow gap-2'>
+    <div className='h-full w-full flex'>
+      <div className='h-full flex flex-col flex-grow gap-2 p-2'>
         <Header />
         <main className='h-full w-full flex justify-center overflow-scroll'>
           {/* Issue Content - Title and Description */}
@@ -50,12 +50,7 @@ export default function IssueClientPage({
           )}
         </main>
       </div>
-      <Sidebar
-        collapsible='none'
-        className='sticky hidden lg:flex top-0 h-full border bg-weak rounded-md'
-      >
-        {/* Sidebar content - Properties of the issue */}
-      </Sidebar>
+      <IssueProperties isLoading={isLoading} properties={issue} />
     </div>
   )
 }
