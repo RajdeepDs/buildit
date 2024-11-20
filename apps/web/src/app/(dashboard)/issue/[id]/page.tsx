@@ -1,3 +1,5 @@
+import { Sidebar } from '@buildit/ui/sidebar'
+
 import Header from '@/components/layout/header'
 
 /**
@@ -12,11 +14,18 @@ export default function IssuePage({
 }: {
   params: { id: string }
 }): JSX.Element {
-  console.log('Params:', params.id)
-
   return (
-    <div className='h-full flex flex-col gap-2'>
-      <Header />
+    <div className='h-full flex w-full gap-2'>
+      <div className='h-full flex flex-col flex-grow'>
+        <Header />
+        <main className='bg-white'></main>
+      </div>
+      <Sidebar
+        collapsible='none'
+        className='sticky hidden lg:flex top-0 h-full border bg-weak rounded-md'
+      >
+        {/* Sidebar content */}
+      </Sidebar>
     </div>
   )
 }
