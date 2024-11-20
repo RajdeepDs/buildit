@@ -67,7 +67,7 @@ const createFilterStore = (pathname: string) =>
           ]
         }
 
-        if (pathname === '/projects') {
+        if (pathname.includes('/projects')) {
           defaultDisplayProperties = ['status', 'priority', 'lead']
         }
 
