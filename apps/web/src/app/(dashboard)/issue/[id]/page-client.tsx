@@ -1,6 +1,8 @@
 'use client'
 
 import { Sidebar } from '@buildit/ui/sidebar'
+import { Skeleton } from '@buildit/ui/skeleton'
+import { toast } from '@buildit/ui/toast'
 
 import Content from '@/components/issue/content'
 import Header from '@/components/layout/header'
@@ -18,10 +20,22 @@ export default function IssueClientPage({
   issueId: string
 }): JSX.Element {
   // Fetch the issue details using the ID
-  const { data: issue } = api.issues.get_issue_by_id.useQuery(
+  const {
+    data: issue,
+    isLoading,
+    error,
+  } = api.issues.get_issue_by_id.useQuery(
     { id: issueId },
     { enabled: !!issueId },
   )
+
+  if (error) {
+    toast({
+      title: 'Error',
+      description: `Failed to fetch issue - ${issueId}`,
+      variant: 'destructive',
+    })
+  }
 
   return (
     <div className='h-full flex w-full gap-2'>
@@ -29,7 +43,11 @@ export default function IssueClientPage({
         <Header />
         <main className='h-full w-full flex justify-center overflow-scroll'>
           {/* Issue Content - Title and Description */}
-          <Content />
+          {isLoading ? (
+            <Skeleton className='bg-weak h-full w-2/3 rounded-md' />
+          ) : (
+            <Content title={issue?.title} description={issue?.description} />
+          )}
         </main>
       </div>
       <Sidebar

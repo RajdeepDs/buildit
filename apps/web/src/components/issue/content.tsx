@@ -19,25 +19,36 @@ const defaultEditorValue = [
   },
 ]
 
+interface ContentProps {
+  title: string | undefined
+  description: unknown | undefined
+}
+
 /**
  * The Issue content component. This component displays the content of an issue which includes Title and the Description.
+ * @param props The props for the Content component.
+ * @param props.title The title of the issue.
+ * @param props.description The description of the issue.
  * @returns JSX.Element
  */
-export default function Content(): JSX.Element {
+export default function Content({
+  title,
+  description,
+}: ContentProps): JSX.Element {
   const form = useForm<UpdateIssueContentPayload>({
     resolver: zodResolver(UpdateIssueContentSchema),
     defaultValues: {
-      title: '',
-      description: '',
+      title: title,
+      description: description as string,
     },
   })
 
-  const localValue =
-    typeof window !== 'undefined' && localStorage.getItem('editorContent')
-  const content = localValue ? JSON.parse(localValue) : defaultEditorValue
+  const content = description
+    ? JSON.parse(description as string)
+    : defaultEditorValue
   return (
     <Form {...form}>
-      <form action='' className='space-y-2 h-fit w-2/3'>
+      <form className='space-y-2 h-fit w-2/3'>
         <FormField
           control={form.control}
           name='title'
