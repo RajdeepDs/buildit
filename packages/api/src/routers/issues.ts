@@ -40,6 +40,29 @@ const generateIssueId = (team: { teamId: string; issueCounter: number }) => {
 }
 
 export const issuesRouter = createRouter({
+  get_issue_by_id: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const issue = await db.query.issueTable.findFirst({
+        where: eq(issueTable.issueId, input.id),
+        with: {
+          assignee: true,
+          project: true,
+          reporter: true,
+          team: true,
+        },
+      })
+
+      if (!issue) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Issue not found',
+          cause: 'The issue does not exist',
+        })
+      }
+
+      return issue
+    }),
   get_issues: protectedProcedure.query(async ({ ctx }) => {
     const workspace = await getWorkspace(ctx.user.id)
 
