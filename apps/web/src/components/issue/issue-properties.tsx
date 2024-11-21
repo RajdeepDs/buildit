@@ -12,6 +12,7 @@ import {
 
 import DefaultProperties from '@/components/issue/default-properties'
 import Labels from '@/components/issue/labels'
+import ProjectProperties from '@/components/issue/projects-properties'
 
 interface IssuePropertiesProps {
   isLoading: boolean
@@ -67,6 +68,9 @@ export default function IssueProperties({
           <SidebarGroupLabel className='text-sub h-[30px]'>
             Project
           </SidebarGroupLabel>
+          <SidebarGroupContent>
+            {properties && <ProjectProperties project={properties.project} />}
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

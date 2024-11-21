@@ -21,6 +21,7 @@ import {
   priorityOptions,
   statusOptions,
   useAssigneeOptions,
+  useProjectOptions,
 } from '@/configs/filter-settings'
 import { getIcon } from '@/lib/get-icons'
 
@@ -40,7 +41,7 @@ export default function PropertiesMenu({
   handleActiveItem,
 }: {
   children: ReactNode
-  property: 'status' | 'priority' | 'team' | 'assignee'
+  property: 'status' | 'priority' | 'team' | 'assignee' | 'project'
   handleSelect: (value: string) => void
   handleActiveItem: (value: string) => void
 }): JSX.Element {
@@ -50,6 +51,8 @@ export default function PropertiesMenu({
 
   const assigneeOptions = useAssigneeOptions()
 
+  const projectsOptions = useProjectOptions()
+
   const getCurrentOptions = () => {
     switch (property) {
       case 'status':
@@ -58,6 +61,8 @@ export default function PropertiesMenu({
         return priorityOptions
       case 'assignee':
         return assigneeOptions
+      case 'project':
+        return projectsOptions
       default:
         return []
     }
@@ -93,6 +98,22 @@ export default function PropertiesMenu({
                   >
                     <Icons.userCircle2 className='size-4 text-sub mr-2' />
                     No Assignee
+                  </CommandItem>
+                  <CommandSeparator className='my-1 bg-soft/50' />
+                </>
+              )}
+              {property === 'project' && (
+                <>
+                  <CommandItem
+                    key='no project'
+                    onSelect={() => {
+                      handleSelect('no project')
+                      setOpen(false)
+                      handleActiveItem('')
+                    }}
+                  >
+                    <Icons.hexagon className='size-4 text-sub mr-2' />
+                    No Project
                   </CommandItem>
                   <CommandSeparator className='my-1 bg-soft/50' />
                 </>

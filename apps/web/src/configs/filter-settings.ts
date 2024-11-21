@@ -129,3 +129,27 @@ export const useAssigneeOptions = () => {
       .filter(Boolean) ?? []
   )
 }
+
+export const useProjectOptions = () => {
+  const {
+    data: projects,
+    isLoading,
+    error,
+  } = api.project.get_projects.useQuery()
+
+  if (isLoading) {
+    return []
+  }
+
+  if (error) {
+    return []
+  }
+
+  return (
+    projects?.map((project) => ({
+      value: project.id,
+      label: project.name,
+      icon: 'hexagon',
+    })) ?? []
+  )
+}
