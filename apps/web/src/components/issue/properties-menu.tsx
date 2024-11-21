@@ -30,16 +30,19 @@ import { getIcon } from '@/lib/get-icons'
  * @param props.children The trigger of the PropertiesMenu component.
  * @param props.property The property name for which the menu-options are to be displayed.
  * @param props.handleSelect The function to be called when an option is selected.
+ * @param props.handleActiveItem The function to be called when an item is active.
  * @returns JSX.Element
  */
 export default function PropertiesMenu({
   children,
   property,
   handleSelect,
+  handleActiveItem,
 }: {
   children: ReactNode
   property: 'status' | 'priority' | 'team' | 'assignee'
   handleSelect: (value: string) => void
+  handleActiveItem: (value: string) => void
 }): JSX.Element {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -84,6 +87,8 @@ export default function PropertiesMenu({
                     key='unassigned'
                     onSelect={() => {
                       handleSelect('unassigned')
+                      setOpen(false)
+                      handleActiveItem('')
                     }}
                   >
                     <Icons.userCircle2 className='size-4 text-sub mr-2' />
@@ -100,6 +105,8 @@ export default function PropertiesMenu({
                       key={option.value}
                       onSelect={() => {
                         handleSelect(option.value)
+                        setOpen(false)
+                        handleActiveItem('')
                       }}
                     >
                       {option.icon === 'image' ? (

@@ -58,7 +58,11 @@ export default function DefaultProperties({
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <PropertiesMenu property='status' handleSelect={setStatusOption}>
+        <PropertiesMenu
+          property='status'
+          handleSelect={setStatusOption}
+          handleActiveItem={setActiveItem}
+        >
           <SidebarMenuButton
             className='capitalize text-sub font-medium'
             onClick={() => {
@@ -72,7 +76,11 @@ export default function DefaultProperties({
         </PropertiesMenu>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <PropertiesMenu property='priority' handleSelect={setPriorityOption}>
+        <PropertiesMenu
+          property='priority'
+          handleSelect={setPriorityOption}
+          handleActiveItem={setActiveItem}
+        >
           <SidebarMenuButton
             className='capitalize text-sub font-medium'
             onClick={() => {
@@ -86,7 +94,11 @@ export default function DefaultProperties({
         </PropertiesMenu>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <PropertiesMenu property='assignee' handleSelect={setAssigneeOption}>
+        <PropertiesMenu
+          property='assignee'
+          handleSelect={setAssigneeOption}
+          handleActiveItem={setActiveItem}
+        >
           <SidebarMenuButton
             className='capitalize text-sub font-medium'
             onClick={() => {

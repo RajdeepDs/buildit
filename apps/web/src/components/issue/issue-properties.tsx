@@ -6,9 +6,12 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
 } from '@buildit/ui/sidebar'
 
 import DefaultProperties from '@/components/issue/default-properties'
+import Labels from '@/components/issue/labels'
 
 interface IssuePropertiesProps {
   isLoading: boolean
@@ -46,6 +49,24 @@ export default function IssueProperties({
               />
             )}
           </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel className='text-sub h-[30px]'>
+            Labels
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                {/* TODO: Implement labels in issues and pass the issue's labels to Labels component */}
+                <Labels />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel className='text-sub h-[30px]'>
+            Project
+          </SidebarGroupLabel>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

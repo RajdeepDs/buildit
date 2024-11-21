@@ -66,3 +66,21 @@ export const priorityConfig: FilterSettings[] = [
     icon: 'signalLow',
   },
 ]
+
+export const labelConfig: FilterSettings[] = [
+  {
+    value: 'bug',
+    label: 'Bug',
+    icon: 'red',
+  },
+  {
+    value: 'feature',
+    label: 'Feature',
+    icon: 'blue',
+  },
+  {
+    value: 'enhancement',
+    label: 'Enhancement',
+    icon: 'purple',
+  },
+]
