@@ -21,6 +21,7 @@ import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
 } from '@/configs/display-settings'
+import { useIssueFilter } from '@/hooks/filters/use-issue-filter'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -43,6 +44,8 @@ export default function MyIssuesClientPage(): JSX.Element {
   const { teams, teamCount } = useTeamsSummary(allIssues)
 
   const { data: allTeams } = api.team.get_teams.useQuery()
+
+  const { filter } = useIssueFilter(allIssues)
 
   const teamNamesWithCount = useMemo(
     () =>
