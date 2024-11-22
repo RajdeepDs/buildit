@@ -5,6 +5,7 @@ import { db, eq } from '@buildit/db'
 import { issueTable, teamTable, workspaceTable } from '@buildit/db/schema'
 import {
   CreateIssueInputSchema,
+  UpdateIssueContentSchema,
   UpdateIssuePropertiesSchema,
 } from '@buildit/utils/validations'
 
@@ -162,6 +163,29 @@ export const issuesRouter = createRouter({
 
       return {
         message: `${issueId} - ${input.title}`,
+      }
+    }),
+
+  update_issue_content: protectedProcedure
+    .input(UpdateIssueContentSchema)
+    .mutation(async ({ input }) => {
+      const { id, ...updates } = input
+
+      // Filter out undefined fields to handle partial updates
+      const filteredUpdates = Object.fromEntries(
+        Object.entries(updates).filter(([_, value]) => value !== undefined),
+      )
+
+      // Get the key of the filtered updates
+      const key = Object.keys(filteredUpdates).at(0)
+
+      await db
+        .update(issueTable)
+        .set(filteredUpdates)
+        .where(eq(issueTable.id, id))
+
+      return {
+        message: `Issue ${key} updated successfully.`,
       }
     }),
   update_issue_properties: protectedProcedure

@@ -6,7 +6,10 @@ import { useForm } from 'react-hook-form'
 import Editor from '@buildit/editor'
 import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
+import { toast } from '@buildit/ui/toast'
 import { UpdateIssueContentSchema } from '@buildit/utils/validations'
+
+import { api } from '@/lib/trpc/react'
 
 const defaultEditorValue = [
   {
@@ -20,6 +23,7 @@ const defaultEditorValue = [
 ]
 
 interface ContentProps {
+  id: string | undefined
   title: string | undefined
   description: unknown | undefined
 }
@@ -29,9 +33,11 @@ interface ContentProps {
  * @param props The props for the Content component.
  * @param props.title The title of the issue.
  * @param props.description The description of the issue.
+ * @param props.id
  * @returns JSX.Element
  */
 export default function Content({
+  id,
   title,
   description,
 }: ContentProps): JSX.Element {
@@ -47,8 +53,27 @@ export default function Content({
     ? JSON.parse(description as string)
     : defaultEditorValue
 
+  const mutation = api.issues.update_issue_content.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+        variant: 'default',
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        description: message,
+        variant: 'destructive',
+      })
+    },
+  })
+
   const onSubmit = (data: Partial<UpdateIssueContentPayload>) => {
     console.log('Submitted Values:', data)
+    mutation.mutate({
+      id: id!,
+      ...data,
+    })
   }
 
   const handleBlur = (field: keyof UpdateIssueContentPayload) => {
@@ -62,7 +87,7 @@ export default function Content({
         : null
 
       if (JSON.stringify(descriptionContent) !== initialValues.description) {
-        onSubmit({ description: descriptionContent })
+        onSubmit({ description: JSON.stringify(descriptionContent) })
         localStorage.removeItem('editorContent')
       }
     } else if (currentValues[field] !== initialValues[field]) {

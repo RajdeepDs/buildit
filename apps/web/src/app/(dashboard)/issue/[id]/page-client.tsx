@@ -46,7 +46,11 @@ export default function IssueClientPage({
           {isLoading ? (
             <Skeleton className='bg-weak h-full w-2/3 rounded-md' />
           ) : (
-            <Content title={issue?.title} description={issue?.description} />
+            <Content
+              id={issue?.id}
+              title={issue?.title}
+              description={issue?.description}
+            />
           )}
         </main>
       </div>
