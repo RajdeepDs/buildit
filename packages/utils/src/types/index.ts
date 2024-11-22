@@ -61,6 +61,7 @@ export interface TIssue {
   description: unknown | null
   status: 'backlog' | 'todo' | 'in progress' | 'done' | 'canceled' | null
   priority: 'low' | 'medium' | 'high' | 'urgent' | 'no priority' | null
+  labels: string[] | null
   reporterId: string | null
   assigneeId: string | null
   createdAt: Date | null

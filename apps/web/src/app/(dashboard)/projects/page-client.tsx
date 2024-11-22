@@ -140,7 +140,7 @@ export default function ProjectsClientPage(): JSX.Element {
   }
 
   return (
-    <div className='h-full flex flex-col gap-2'>
+    <div className='h-full flex flex-col gap-2 p-2'>
       <Header>
         <div className='flex items-center gap-2'>
           <NewProjectModal>

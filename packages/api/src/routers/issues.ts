@@ -5,6 +5,7 @@ import { db, eq } from '@buildit/db'
 import { issueTable, teamTable, workspaceTable } from '@buildit/db/schema'
 import {
   CreateIssueInputSchema,
+  UpdateIssueContentSchema,
   UpdateIssuePropertiesSchema,
 } from '@buildit/utils/validations'
 
@@ -40,6 +41,29 @@ const generateIssueId = (team: { teamId: string; issueCounter: number }) => {
 }
 
 export const issuesRouter = createRouter({
+  get_issue_by_id: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const issue = await db.query.issueTable.findFirst({
+        where: eq(issueTable.issueId, input.id),
+        with: {
+          assignee: true,
+          project: true,
+          reporter: true,
+          team: true,
+        },
+      })
+
+      if (!issue) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Issue not found',
+          cause: 'The issue does not exist',
+        })
+      }
+
+      return issue
+    }),
   get_issues: protectedProcedure.query(async ({ ctx }) => {
     const workspace = await getWorkspace(ctx.user.id)
 
@@ -141,6 +165,29 @@ export const issuesRouter = createRouter({
         message: `${issueId} - ${input.title}`,
       }
     }),
+
+  update_issue_content: protectedProcedure
+    .input(UpdateIssueContentSchema)
+    .mutation(async ({ input }) => {
+      const { id, ...updates } = input
+
+      // Filter out undefined fields to handle partial updates
+      const filteredUpdates = Object.fromEntries(
+        Object.entries(updates).filter(([_, value]) => value !== undefined),
+      )
+
+      // Get the key of the filtered updates
+      const key = Object.keys(filteredUpdates).at(0)
+
+      await db
+        .update(issueTable)
+        .set(filteredUpdates)
+        .where(eq(issueTable.id, id))
+
+      return {
+        message: `Issue ${key} updated successfully.`,
+      }
+    }),
   update_issue_properties: protectedProcedure
     .input(UpdateIssuePropertiesSchema)
     .mutation(async ({ input }) => {
@@ -151,13 +198,25 @@ export const issuesRouter = createRouter({
         Object.entries(updates).filter(([_, value]) => value !== undefined),
       )
 
+      // Get the key of the filtered updates
+      let key = Object.keys(filteredUpdates).at(0)
+
+      switch (key) {
+        case 'assigneeId':
+          key = 'assignee'
+          break
+        case 'projectId':
+          key = 'project'
+          break
+      }
+
       await db
         .update(issueTable)
         .set(filteredUpdates)
         .where(eq(issueTable.id, id))
 
       return {
-        message: 'Issue updated.',
+        message: `Issue ${key} updated successfully.`,
       }
     }),
   delete_issue: protectedProcedure

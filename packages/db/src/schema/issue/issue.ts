@@ -19,6 +19,7 @@ export const issueTable = sqliteTable('issue', {
   priority: text('priority', {
     enum: ['low', 'medium', 'high', 'urgent', 'no priority'],
   }),
+  labels: text('labels', { mode: 'json' }).$type<string[]>(),
   reporterId: text('reporterId').references(() => userTable.id, {
     onDelete: 'cascade',
   }),

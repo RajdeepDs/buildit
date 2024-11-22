@@ -26,7 +26,7 @@ import { api } from '@/lib/trpc/react'
 export default function Header({
   children,
 }: {
-  children: React.ReactNode
+  children?: React.ReactNode
 }): JSX.Element {
   const pathname = usePathname()
 
@@ -57,9 +57,19 @@ export default function Header({
                     <Skeleton className='w-52 h-4' />
                   ) : (
                     <>
-                      <BreadcrumbItem>{teamName}</BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbPage>{title}</BreadcrumbPage>
+                      {teamQuery ? (
+                        <>
+                          <BreadcrumbItem>{teamName}</BreadcrumbItem>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbPage>{title}</BreadcrumbPage>
+                        </>
+                      ) : (
+                        <>
+                          <BreadcrumbPage>Issue</BreadcrumbPage>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbPage>{teamName}</BreadcrumbPage>
+                        </>
+                      )}
                     </>
                   )}
                 </>
