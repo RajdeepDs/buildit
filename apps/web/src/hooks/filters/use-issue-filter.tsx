@@ -5,7 +5,7 @@ import type { TIssue } from '@buildit/utils/types'
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 
 import { Icons } from '@/components/ui/icons'
-import { useAssigneeOptions } from '@/configs/filter-settings'
+import { useAssigneeOptions, useTeamsOptions } from '@/configs/filter-settings'
 import { priorityConfig, statusConfig } from '@/configs/issue-config'
 import { useAssigneeSummary } from '@/hooks/use-assignee-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
@@ -24,8 +24,9 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
   const { uniqueAssignees, assigneeCount } = useAssigneeSummary(issues)
 
   const allAssignees = useAssigneeOptions()
+  const allTeams = useTeamsOptions()
 
-  const filter = useMemo(() => {
+  const filterOptions = useMemo(() => {
     return [
       {
         key: 'status',
@@ -63,9 +64,10 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
         label: 'Team',
         icon: 'team',
         options: teams.map((team) => {
+          const teamOption = allTeams.find((item) => item.value === team)
           return {
-            value: team,
-            label: team,
+            value: teamOption?.value,
+            label: teamOption?.label,
             icon: 'team',
             count: teamCount[team],
           }
@@ -74,16 +76,16 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
       {
         key: 'assignee',
         label: 'Assignee',
-        icon: 'user',
+        icon: 'userCircle2',
         options: uniqueAssignees.map((assignee) => {
           const assigneeOption = allAssignees.find(
             (item) => item.value === assignee,
           )
           return {
             value: assigneeOption?.value,
-            label: assigneeOption?.label,
+            label: assigneeOption?.label ?? 'No assignee',
             icon: (
-              <Avatar>
+              <Avatar className='size-4'>
                 <AvatarImage src={assigneeOption?.image!} />
                 <AvatarFallback>
                   <Icons.userCircle2 className='size-4 text-sub' />
@@ -105,7 +107,8 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
     uniqueAssignees,
     assigneeCount,
     allAssignees,
+    allTeams,
   ])
 
-  return { filter }
+  return { filterOptions }
 }
