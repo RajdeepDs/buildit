@@ -38,7 +38,7 @@ export default function Content({
   const form = useForm<UpdateIssueContentPayload>({
     resolver: zodResolver(UpdateIssueContentSchema),
     defaultValues: {
-      title: title,
+      title,
       description: description as string,
     },
   })
@@ -46,6 +46,30 @@ export default function Content({
   const content = description
     ? JSON.parse(description as string)
     : defaultEditorValue
+
+  const onSubmit = (data: Partial<UpdateIssueContentPayload>) => {
+    console.log('Submitted Values:', data)
+  }
+
+  const handleBlur = (field: keyof UpdateIssueContentPayload) => {
+    const currentValues = form.getValues()
+    const initialValues = form.formState.defaultValues ?? {}
+
+    if (field === 'description') {
+      const localContent = localStorage.getItem('editorContent')
+      const descriptionContent = localContent
+        ? (JSON.parse(localContent) as string)
+        : null
+
+      if (JSON.stringify(descriptionContent) !== initialValues.description) {
+        onSubmit({ description: descriptionContent })
+        localStorage.removeItem('editorContent')
+      }
+    } else if (currentValues[field] !== initialValues[field]) {
+      onSubmit({ [field]: currentValues[field] })
+    }
+  }
+
   return (
     <Form {...form}>
       <form className='space-y-2 h-fit w-2/3'>
@@ -61,6 +85,9 @@ export default function Content({
                   autoComplete='off'
                   required
                   {...field}
+                  onBlur={() => {
+                    handleBlur('title')
+                  }}
                 />
               </FormControl>
             </FormItem>
@@ -76,6 +103,9 @@ export default function Content({
                   content={content}
                   onChange={(value) => {
                     localStorage.setItem('editorContent', JSON.stringify(value))
+                  }}
+                  onBlur={() => {
+                    handleBlur('description')
                   }}
                 />
               </FormControl>
