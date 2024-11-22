@@ -59,8 +59,9 @@ export default function IssueProperties({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                {/* TODO: Implement labels in issues and pass the issue's labels to Labels component */}
-                <Labels />
+                {properties && (
+                  <Labels id={properties.id} labels={properties.labels} />
+                )}
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

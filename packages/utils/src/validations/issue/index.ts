@@ -24,6 +24,7 @@ export const UpdateIssuePropertiesSchema = z.object({
   priority: z.optional(z.enum(PRIORITY)),
   assigneeId: z.optional(z.nullable(z.string())),
   projectId: z.optional(z.nullable(z.string())),
+  labels: z.optional(z.array(z.string())),
 })
 
 export const UpdateIssueContentSchema = z.object({

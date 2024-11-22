@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Badge } from '@buildit/ui/badge'
 import {
@@ -11,28 +11,64 @@ import {
 } from '@buildit/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 import { SidebarMenuButton } from '@buildit/ui/sidebar'
+import { toast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
 import { labelConfig } from '@/configs/issue-config'
+import { api } from '@/lib/trpc/react'
+
+interface LabelsProps {
+  id: string
+  labels: string[] | null
+}
 
 /**
  * The Labels component is the sidebar group that displays the labels of the issue.
+ * @param props The props for the Labels component.
+ * @param props.id The ID of the issue.
+ * @param props.labels The labels of the issue.
  * @returns JSX.Element
  */
-export default function Labels(): JSX.Element {
+export default function Labels({ id, labels }: LabelsProps): JSX.Element {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const commandRef = useRef<HTMLDivElement>(null)
 
   const [activeItem, setActiveItem] = useState('')
-  const [labelOption, setLabelOption] = useState<string[]>([])
+  const [labelOption, setLabelOption] = useState<string[]>(labels ?? [])
+  const [initialLabels, setInitialLabels] = useState<string[]>(labels ?? [])
+
+  const mutation = api.issues.update_issue_properties.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
+
+  useEffect(() => {
+    if (
+      !open &&
+      JSON.stringify(labelOption) !== JSON.stringify(initialLabels)
+    ) {
+      setInitialLabels(labelOption)
+      mutation.mutate({ id, labels: labelOption })
+    }
+  }, [open, labelOption, initialLabels, id, mutation])
 
   const handleSelect = (value: string) => {
-    setLabelOption(
-      labelOption.includes(value)
-        ? labelOption.filter((item) => item !== value)
-        : [...labelOption, value],
-    )
+    const updatedLabels = labelOption.includes(value)
+      ? labelOption.filter((item) => item !== value)
+      : [...labelOption, value]
+
+    setLabelOption(updatedLabels)
     setActiveItem('')
   }
 
