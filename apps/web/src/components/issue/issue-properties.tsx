@@ -44,6 +44,7 @@ export default function IssueProperties({
           <SidebarGroupContent>
             {properties && (
               <DefaultProperties
+                id={properties.id}
                 status={properties.status}
                 priority={properties.priority}
                 assignee={properties.assignee}

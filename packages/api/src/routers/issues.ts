@@ -198,13 +198,16 @@ export const issuesRouter = createRouter({
         Object.entries(updates).filter(([_, value]) => value !== undefined),
       )
 
+      // Get the key of the filtered updates
+      const key = Object.keys(filteredUpdates).at(0)
+
       await db
         .update(issueTable)
         .set(filteredUpdates)
         .where(eq(issueTable.id, id))
 
       return {
-        message: 'Issue updated.',
+        message: `Issue ${key === 'assigneeId' ? 'assignee' : key} updated successfully.`,
       }
     }),
   delete_issue: protectedProcedure

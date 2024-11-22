@@ -8,14 +8,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
+import { toast } from '@buildit/ui/toast'
 
 import PropertiesMenu from '@/components/issue/properties-menu'
 import { Icons } from '@/components/ui/icons'
 import { useAssigneeOptions } from '@/configs/filter-settings'
 import { priorityConfig, statusConfig } from '@/configs/issue-config'
 import { getIcon } from '@/lib/get-icons'
+import { api } from '@/lib/trpc/react'
 
 interface DefaultPropertiesProps {
+  id: string
   status: string | null
   priority: string | null
   assignee: TUser | null | undefined
@@ -24,12 +27,14 @@ interface DefaultPropertiesProps {
 /**
  * Default properties for the issue component. This component is used to display the properties of the issue - status, priority, assignee.
  * @param props The props for the DefaultProperties component.
+ * @param props.id The ID of the issue.
  * @param props.status The status of the issue.
  * @param props.priority The priority of the issue.
  * @param props.assignee The assignee of the issue.
  * @returns JSX.Element
  */
 export default function DefaultProperties({
+  id,
   status,
   priority,
   assignee,
@@ -55,12 +60,34 @@ export default function DefaultProperties({
     (item) => item.value === assigneeOption,
   )
 
+  const mutation = api.issues.update_issue_properties.useMutation({
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+      })
+    },
+    onError: ({ message }) => {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong!',
+        description: message,
+      })
+    },
+  })
+
+  const handleUpdate = (key: string, value: string | null) => {
+    mutation.mutate({ id: id, [key]: value })
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <PropertiesMenu
           property='status'
-          handleSelect={setStatusOption}
+          handleSelect={(value) => {
+            setStatusOption(value)
+            handleUpdate('status', value)
+          }}
           handleActiveItem={setActiveItem}
         >
           <SidebarMenuButton
@@ -78,7 +105,10 @@ export default function DefaultProperties({
       <SidebarMenuItem>
         <PropertiesMenu
           property='priority'
-          handleSelect={setPriorityOption}
+          handleSelect={(value) => {
+            setPriorityOption(value)
+            handleUpdate('priority', value)
+          }}
           handleActiveItem={setActiveItem}
         >
           <SidebarMenuButton
@@ -96,7 +126,10 @@ export default function DefaultProperties({
       <SidebarMenuItem>
         <PropertiesMenu
           property='assignee'
-          handleSelect={setAssigneeOption}
+          handleSelect={(value) => {
+            setAssigneeOption(value)
+            handleUpdate('assigneeId', value === 'unassigned' ? null : value)
+          }}
           handleActiveItem={setActiveItem}
         >
           <SidebarMenuButton

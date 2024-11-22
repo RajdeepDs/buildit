@@ -31,9 +31,9 @@ interface ContentProps {
 /**
  * The Issue content component. This component displays the content of an issue which includes Title and the Description.
  * @param props The props for the Content component.
+ * @param props.id The id of the issue.
  * @param props.title The title of the issue.
  * @param props.description The description of the issue.
- * @param props.id
  * @returns JSX.Element
  */
 export default function Content({
