@@ -70,7 +70,12 @@ export default function IssueProperties({
             Project
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            {properties && <ProjectProperties project={properties.project} />}
+            {properties && (
+              <ProjectProperties
+                id={properties.id}
+                project={properties.project}
+              />
+            )}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
