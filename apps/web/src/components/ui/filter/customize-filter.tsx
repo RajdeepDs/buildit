@@ -20,6 +20,7 @@ import {
 } from '@/configs/filter/filter-settings'
 import useFilterOptions from '@/hooks/filters/use-filter-options'
 import { useFilterStore } from '@/hooks/store'
+import { getIcon } from '@/lib/get-icons'
 
 /**
  * The customize filter component, to modify the existing filters
@@ -93,10 +94,21 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     [filterKey, removeFilter, updateFilter],
   )
 
-  const getIcon = (iconName: string | undefined) => {
-    return iconName !== 'image'
-      ? Icons[iconName as keyof typeof Icons]
-      : Icons.userCircle2
+  const filterIcon = () => {
+    switch (filterKey) {
+      case 'status':
+        return 'backlog'
+      case 'priority':
+        return 'signalHigh'
+      case 'team':
+        return 'team'
+      case 'assignee':
+        return 'userCircle2'
+      case 'lead':
+        return 'userCircle2'
+      default:
+        return 'listFilter'
+    }
   }
 
   const filterOption = filterOptions.find((filter) => {
@@ -111,7 +123,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     }
   })
 
-  const FilterIcon = getIcon(filterOption?.icon)
+  const FilterIcon = getIcon(filterIcon())
 
   const FilterOptionLabel = filterOption?.label ?? 'Select Value'
 
@@ -120,7 +132,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   return (
     <div className='flex items-center rounded-md border text-sm divide-x'>
       <div className='flex items-center gap-2 text-sub px-3 py-1'>
-        <FilterIcon className='size-4 text-sub' />
+        {FilterIcon && <FilterIcon className='size-4 text-sub' />}
         {filterKey}
       </div>
       <p className='cursor-default text-sub px-3 py-1'>
@@ -139,7 +151,11 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
               </AvatarFallback>
             </Avatar>
           ) : (
-            <FilterOptionIcon className='size-4 text-sub' />
+            <>
+              {FilterOptionIcon && (
+                <FilterOptionIcon className='size-4 text-sub' />
+              )}
+            </>
           )}
           {FilterOptionLabel}
         </DropdownMenuTrigger>
@@ -161,7 +177,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
                     </AvatarFallback>
                   </Avatar>
                 ) : (
-                  <Icon className='size-4 text-sub mr-2' />
+                  <>{Icon && <Icon className='size-4 text-sub mr-2' />}</>
                 )}
                 {option.label}
               </DropdownMenuItem>
