@@ -42,13 +42,25 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const filterOptions = useMemo(() => {
     if (filterKey === 'status') return statusOptions
     if (filterKey === 'priority') return priorityOptions
-    if (filterKey === 'teams') return teamOptions
-    if (filterKey === 'assignee') return assigneeOptions
+    if (filterKey === 'team') return teamOptions
+    if (filterKey === 'assignee') {
+      if (assigneeOptions) {
+        return [
+          ...assigneeOptions,
+          {
+            value: null,
+            label: 'No assignee',
+            icon: 'userCircle2',
+          },
+        ]
+      }
+    }
+
     return []
   }, [filterKey, teamOptions, assigneeOptions])
 
   const handleSelectFilter = useCallback(
-    (value: string) => {
+    (value: string | null) => {
       if (value === '') {
         removeFilter(filterKey)
       } else {
@@ -61,17 +73,22 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const getIcon = (iconName: string | undefined) => {
     return iconName !== 'image'
       ? Icons[iconName as keyof typeof Icons]
-      : Icons.listFilter
+      : Icons.userCircle2
   }
-  const filterType = filterOptions.find(
-    (filter) => filter.value === filterValue,
-  )
 
-  const FilterIcon = getIcon(filterType?.icon)
+  const filterOption = filterOptions.find((filter) => {
+    if (filter.value === null) {
+      return {
+        value: filter.value,
+        label: filter.label,
+        icon: filter.icon,
+      }
+    } else {
+      return filter.value === filterValue
+    }
+  })
 
-  const filterOption = filterOptions.find(
-    (option) => option.value === filterValue,
-  )
+  const FilterIcon = getIcon(filterOption?.icon)
 
   const FilterOptionLabel = filterOption?.label ?? 'Select Value'
 
@@ -103,14 +120,14 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
           )}
           {FilterOptionLabel}
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align='start'>
           {filterOptions.map((option) => {
             const Icon = getIcon(option.icon)
             return (
               <DropdownMenuItem
                 key={option.value}
                 onClick={() => {
-                  handleSelectFilter(option.value)
+                  handleSelectFilter(option.value ?? null)
                 }}
               >
                 {option.icon === 'image' ? (

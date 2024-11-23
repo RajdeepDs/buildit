@@ -12,6 +12,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
 import { Icons } from '@/components/ui/icons'
+import { useFilterStore } from '@/hooks/store'
 import { getIcon } from '@/lib/get-icons'
 
 export interface Filter {
@@ -47,7 +48,9 @@ export default function FilterMenu({ filters }: FilterMenuProps): JSX.Element {
   >(null)
   const [_, setSelectedValue] = useState('')
 
-  // Derive the currently selected filter
+  const { setFilter } = useFilterStore()
+
+  // The currently selected filter
   const selectedFilter = filters.find(
     (filter) => filter.key === selectedFilterKey,
   )
@@ -70,11 +73,16 @@ export default function FilterMenu({ filters }: FilterMenuProps): JSX.Element {
     setInputValue('')
   }, [])
 
-  const handleOptionSelect = useCallback((value: string | undefined) => {
-    setSelectedValue(value!)
-    console.log('Filter applied with value:', value)
-    setOpen(false)
-  }, [])
+  const handleOptionSelect = useCallback(
+    (value: string | undefined) => {
+      setSelectedValue(value!)
+      if (selectedFilterKey) {
+        setFilter(selectedFilterKey, 'in', [value])
+      }
+      setOpen(false)
+    },
+    [selectedFilterKey, setFilter],
+  )
 
   const renderIcon = (icon: JSX.Element | string | undefined) => {
     if (React.isValidElement(icon)) {

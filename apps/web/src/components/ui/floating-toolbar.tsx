@@ -5,7 +5,7 @@ import type { FilterQuery } from '@/lib/store/filter-store'
 import { Separator } from '@buildit/ui/separator'
 
 import BulkIssueBox from '@/components/ui/bulk-issue-box'
-import CustomizeFilter from '@/components/ui/customize-filter'
+import CustomizeFilter from '@/components/ui/filter/customize-filter'
 
 /**
  * Floating toolbar component. This component is used to display all the display and other filter functionalities.
@@ -32,7 +32,6 @@ export default function FloatingToolbar({
             )}
           </>
         )}
-        {/* TODO: Fix Customize filter for `issues` and `projects` pages. */}
         {filters.map((filter) => (
           <CustomizeFilter
             key={Object.keys(filter).join('-')}

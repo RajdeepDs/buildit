@@ -82,16 +82,19 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
             (item) => item.value === assignee,
           )
           return {
-            value: assigneeOption?.value,
+            value: assigneeOption?.value ?? null,
             label: assigneeOption?.label ?? 'No assignee',
-            icon: (
-              <Avatar className='size-4'>
-                <AvatarImage src={assigneeOption?.image!} />
-                <AvatarFallback>
-                  <Icons.userCircle2 className='size-4 text-sub' />
-                </AvatarFallback>
-              </Avatar>
-            ),
+            icon:
+              assigneeOption?.icon === 'image' ? (
+                <Avatar className='size-4'>
+                  <AvatarImage src={assigneeOption.image!} />
+                  <AvatarFallback>
+                    <Icons.userCircle2 className='size-4 text-sub' />
+                  </AvatarFallback>
+                </Avatar>
+              ) : (
+                'userCircle2'
+              ),
             count: assigneeCount[assignee],
           }
         }),
