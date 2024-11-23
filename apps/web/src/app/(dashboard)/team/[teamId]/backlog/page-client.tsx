@@ -13,13 +13,14 @@ import SlidingSidebar from '@/components/layout/sliding-sidebar'
 import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
 import DisplayMenu from '@/components/ui/display-menu'
-import FilterMenu from '@/components/ui/filter-menu'
+import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
 } from '@/configs/display-settings'
+import { useIssueFilter } from '@/hooks/filters/use-issue-filter'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -50,6 +51,8 @@ export default function BacklogIssuesClientPage(): JSX.Element {
   const { statuses, statusCount } = useStatusSummary(issues)
   const { priorities, priorityCount } = usePrioritySummary(issues)
   const { teams, teamCount } = useTeamsSummary(issues)
+
+  const { filterOptions } = useIssueFilter(issues)
 
   const { data: allTeams } = api.team.get_teams.useQuery()
 
@@ -127,7 +130,7 @@ export default function BacklogIssuesClientPage(): JSX.Element {
           </Button>
         </Header>
         <div className='flex justify-between items-center'>
-          <FilterMenu />
+          <FilterMenu filters={filterOptions} />
           <DisplayMenu
             groupingOptions={IssuesGroupingOptions}
             allDisplayProperties={IssuesDisplayProperties}

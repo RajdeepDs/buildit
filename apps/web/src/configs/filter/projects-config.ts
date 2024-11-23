@@ -1,15 +1,15 @@
-import type { Priority, Status } from '@buildit/utils/types/configs'
+import type { FilterSettings } from '@buildit/utils/types/configs'
 
-export const statuses: Status[] = [
+export const statusConfig: FilterSettings[] = [
   {
     value: 'backlog',
     label: 'Backlog',
     icon: 'backlog',
   },
   {
-    value: 'todo',
-    label: 'Todo',
-    icon: 'todo',
+    value: 'planned',
+    label: 'Planned',
+    icon: 'hexagon',
   },
   {
     value: 'in progress',
@@ -17,8 +17,8 @@ export const statuses: Status[] = [
     icon: 'inProgress',
   },
   {
-    value: 'done',
-    label: 'Done',
+    value: 'completed',
+    label: 'Completed',
     icon: 'done',
   },
   {
@@ -28,7 +28,7 @@ export const statuses: Status[] = [
   },
 ]
 
-export const priorities: Priority[] = [
+export const priorityConfig: FilterSettings[] = [
   {
     value: 'no priority',
     label: 'No Priority',

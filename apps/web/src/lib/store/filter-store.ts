@@ -1,17 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type Operator =
-  | 'eq'
-  | 'ne'
-  | 'gt'
-  | 'gte'
-  | 'lt'
-  | 'lte'
-  | 'in'
-  | 'nin'
-  | 'and'
-  | 'or'
+type Operator = 'in' | 'nin' | 'and' | 'or'
 
 type FilterCondition = Record<
   string,

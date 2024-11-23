@@ -11,7 +11,7 @@ import { toast } from '@buildit/ui/toast'
 
 import PropertiesMenu from '@/components/issue/properties-menu'
 import { Icons } from '@/components/ui/icons'
-import { useProjectOptions } from '@/configs/filter-settings'
+import { useProjectOptions } from '@/configs/filter/filter-settings'
 import { api } from '@/lib/trpc/react'
 
 interface ProjectPropertiesProps {

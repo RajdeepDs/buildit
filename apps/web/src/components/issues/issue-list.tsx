@@ -13,7 +13,7 @@ import { useFilterStore } from '@/hooks/store'
 interface FilterDetail {
   key: string
   operator: string
-  value: any
+  value: string | null
 }
 
 const traverseFilterQuery = (query: FilterQuery): FilterDetail[] => {
@@ -37,12 +37,23 @@ const traverseFilterQuery = (query: FilterQuery): FilterDetail[] => {
 
 const applyFilterCondition = (issue: TIssue, filter: FilterDetail): boolean => {
   const { key, operator, value } = filter
-
   switch (key) {
-    case 'teams':
+    case 'team':
       return issue.teamId === String(value)
-    case 'assignee':
+    case 'assignee': {
+      if (operator === 'in' && Array.isArray(value)) {
+        // Handle the case where value is an array containing null
+        return (
+          value.includes(issue.assigneeId) ||
+          (value.includes(null) && issue.assigneeId === null)
+        )
+      }
+      // Handle single value for equality check
+      if (value === null || value === 'null') {
+        return issue.assigneeId === null
+      }
       return issue.assigneeId === String(value)
+    }
     default:
       switch (operator) {
         case 'eq':

@@ -17,10 +17,7 @@ import {
   ComboBoxTrigger,
 } from '@/components/ui/combo-box'
 import { Icons } from '@/components/ui/icons'
-import {
-  priorityOptions,
-  statusOptions,
-} from '@/configs/project-filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
 
 const defaultEditorValue = [
   {
@@ -90,7 +87,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ form, team }) => {
             name='status'
             control={form.control}
             render={({ field }) => {
-              const currentStatus = statusOptions.find(
+              const currentStatus = statusConfig.find(
                 (status) => status.value === field.value,
               )
               const CurrentStatusIcon =
@@ -102,7 +99,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ form, team }) => {
                     {currentStatus?.label}
                   </ComboBoxTrigger>
                   <ComboBoxContent placeholder='Change status...'>
-                    {statusOptions.map((status) => {
+                    {statusConfig.map((status) => {
                       const Icon = Icons[status.icon as keyof typeof Icons]
                       return (
                         <ComboBoxItem
@@ -127,7 +124,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ form, team }) => {
             name='priority'
             control={form.control}
             render={({ field }) => {
-              const currentPriority = priorityOptions.find(
+              const currentPriority = priorityConfig.find(
                 (priority) => priority.value === field.value,
               )
               const CurrentStatusIcon =
@@ -139,7 +136,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({ form, team }) => {
                     {currentPriority?.label}
                   </ComboBoxTrigger>
                   <ComboBoxContent placeholder='Change priority...'>
-                    {priorityOptions.map((priority) => {
+                    {priorityConfig.map((priority) => {
                       const Icon = Icons[priority.icon as keyof typeof Icons]
                       return (
                         <ComboBoxItem

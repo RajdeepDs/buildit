@@ -12,7 +12,7 @@ import {
 } from '@buildit/ui/sidebar'
 
 import { Icons } from '@/components/ui/icons'
-import { getHomeNavigations } from '@/configs/sidebar-navigations'
+import { getHomeNavigations } from '@/configs/navigations/sidebar-navigations'
 
 /**
  * The home navigation component. This is where we will have the home navigation of the application.

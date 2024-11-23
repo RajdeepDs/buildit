@@ -7,7 +7,7 @@ import { Checkbox } from '@buildit/ui/checkbox'
 import { cn } from '@buildit/ui/cn'
 
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 import { formatDate } from '@/lib/date'
 
 type IssueItemProps = Pick<
@@ -55,10 +55,10 @@ export default function IssueCard({
   selectedIssues,
   setSelectedIssues,
 }: IssueCardProps): JSX.Element {
-  const priorityIconName = priorities.find(
+  const priorityIconName = priorityConfig.find(
     (priority) => priority.value === issue.priority,
   )?.icon
-  const statusIconName = statuses.find(
+  const statusIconName = statusConfig.find(
     (status) => status.value === issue.status,
   )?.icon
 

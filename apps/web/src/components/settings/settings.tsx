@@ -25,7 +25,7 @@ import { Icons } from '@/components/ui/icons'
 import {
   getSettingsMyAccount,
   getSettingsWorkspace,
-} from '@/configs/settings-sidebar-navigations'
+} from '@/configs/navigations/settings-sidebar-navigations'
 
 interface SettingsProps {
   user: Pick<TUser, 'name' | 'email' | 'image'>

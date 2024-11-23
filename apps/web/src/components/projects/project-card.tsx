@@ -6,10 +6,7 @@ import { cn } from '@buildit/ui/cn'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@buildit/ui/tooltip'
 
 import { Icons } from '@/components/ui/icons'
-import {
-  priorityOptions,
-  statusOptions,
-} from '@/configs/project-filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
 import { useFilterStore } from '@/hooks/store'
 
 interface ProjectCardProps {
@@ -34,10 +31,10 @@ export default function ProjectCard({
   const { displayProperties, selectedItems, setSelectedItems } =
     useFilterStore()
 
-  const priorityIconName = priorityOptions.find(
+  const priorityIconName = priorityConfig.find(
     (priority) => priority.value === project.priority,
   )?.icon
-  const statusIconName = statusOptions.find(
+  const statusIconName = statusConfig.find(
     (status) => status.value === project.status,
   )?.icon
 

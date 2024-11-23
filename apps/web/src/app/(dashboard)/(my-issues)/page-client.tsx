@@ -14,13 +14,14 @@ import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
 import { NewIssueModal } from '@/components/modals/new-issue-modal'
 import DisplayMenu from '@/components/ui/display-menu'
-import FilterMenu from '@/components/ui/filter-menu'
+import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
 } from '@/configs/display-settings'
+import { useIssueFilter } from '@/hooks/filters/use-issue-filter'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
@@ -43,6 +44,8 @@ export default function MyIssuesClientPage(): JSX.Element {
   const { teams, teamCount } = useTeamsSummary(allIssues)
 
   const { data: allTeams } = api.team.get_teams.useQuery()
+
+  const { filterOptions } = useIssueFilter(allIssues)
 
   const teamNamesWithCount = useMemo(
     () =>
@@ -131,7 +134,7 @@ export default function MyIssuesClientPage(): JSX.Element {
         </div>
       </Header>
       <div className='flex justify-between items-center'>
-        <FilterMenu />
+        <FilterMenu filters={filterOptions} />
         <DisplayMenu
           groupingOptions={IssuesGroupingOptions}
           allDisplayProperties={IssuesDisplayProperties}

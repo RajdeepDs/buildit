@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Badge } from '@buildit/ui/badge'
 
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 
 interface TabContentItemProps {
   label: string
@@ -40,9 +40,10 @@ export default function TabContentItem({
           if (item === 'planned') {
             return 'hexagon' // Custom icon for planned status, which is not in the statuses list because it's not in the issues statuses
           }
-          return statuses.find((status) => status.value === item)?.icon
+          return statusConfig.find((status) => status.value === item)?.icon
         case 'Priority':
-          return priorities.find((priority) => priority.value === item)?.icon
+          return priorityConfig.find((priority) => priority.value === item)
+            ?.icon
         case 'Teams':
           return 'team' // Default team icon
         case 'Leads':

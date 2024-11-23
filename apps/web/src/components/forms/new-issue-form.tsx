@@ -17,7 +17,7 @@ import {
   ComboBoxTrigger,
 } from '@/components/ui/combo-box'
 import { Icons } from '@/components/ui/icons'
-import { priorityOptions, statusOptions } from '@/configs/filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 
 const defaultEditorValue = [
   {
@@ -93,7 +93,7 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({
             name='status'
             control={form.control}
             render={({ field }) => {
-              const currentStatus = statusOptions.find(
+              const currentStatus = statusConfig.find(
                 (status) => status.value === field.value,
               )
               const CurrentStatusIcon =
@@ -105,7 +105,7 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({
                     {currentStatus?.label}
                   </ComboBoxTrigger>
                   <ComboBoxContent placeholder='Change status...'>
-                    {statusOptions.map((status) => {
+                    {statusConfig.map((status) => {
                       const Icon = Icons[status.icon as keyof typeof Icons]
                       return (
                         <ComboBoxItem
@@ -130,7 +130,7 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({
             name='priority'
             control={form.control}
             render={({ field }) => {
-              const currentPriority = priorityOptions.find(
+              const currentPriority = priorityConfig.find(
                 (priority) => priority.value === field.value,
               )
               const CurrentStatusIcon =
@@ -142,7 +142,7 @@ const NewIssueForm: React.FC<NewIssueFormProps> = ({
                     {currentPriority?.label}
                   </ComboBoxTrigger>
                   <ComboBoxContent placeholder='Change priority...'>
-                    {priorityOptions.map((priority) => {
+                    {priorityConfig.map((priority) => {
                       const Icon = Icons[priority.icon as keyof typeof Icons]
                       return (
                         <ComboBoxItem

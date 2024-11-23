@@ -19,11 +19,8 @@ import {
 import { useToast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
-import { useAssigneeOptions } from '@/configs/filter-settings'
-import {
-  priorityOptions,
-  statusOptions,
-} from '@/configs/project-filter-settings'
+import { useAssigneeOptions } from '@/configs/filter/filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
 import { api } from '@/lib/trpc/react'
 
 interface ProjectItemProps {
@@ -81,7 +78,7 @@ export default function ProjectItem({
             Status
           </ContextMenuSubTrigger>
           <ContextMenuSubContent sideOffset={4} alignOffset={-5.5}>
-            {statusOptions.map((status) => {
+            {statusConfig.map((status) => {
               const Icon = Icons[status.icon as keyof typeof Icons]
               return (
                 <ContextMenuCheckboxItem
@@ -105,7 +102,7 @@ export default function ProjectItem({
             Priority
           </ContextMenuSubTrigger>
           <ContextMenuSubContent sideOffset={4}>
-            {priorityOptions.map((priority) => {
+            {priorityConfig.map((priority) => {
               const Icon = Icons[priority.icon as keyof typeof Icons]
               return (
                 <ContextMenuCheckboxItem

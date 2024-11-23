@@ -4,7 +4,7 @@ import { Button } from '@buildit/ui/button'
 
 import { NewIssueModal } from '@/components/modals/new-issue-modal'
 import { Icons } from '@/components/ui/icons'
-import { priorities, statuses } from '@/configs/issue-types'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 
 /**
  * The Issues Group component to display the group of issues.
@@ -23,15 +23,15 @@ export default function IssuesGroup({
   // Retrieve either status or priority group by the value
   const getGroupData = (group: string) => {
     return (
-      statuses.find((status) => status.value === group) ??
-      priorities.find((priority) => priority.value === group)
+      statusConfig.find((status) => status.value === group) ??
+      priorityConfig.find((priority) => priority.value === group)
     )
   }
 
   // Determine the group type
   const groupType =
-    (statuses.find((status) => status.value === group) && 'status') ??
-    (priorities.find((priority) => priority.value === group) && 'priority')
+    (statusConfig.find((status) => status.value === group) && 'status') ??
+    (priorityConfig.find((priority) => priority.value === group) && 'priority')
 
   const groupData = getGroupData(group)
 

@@ -13,15 +13,16 @@ import SlidingSidebar from '@/components/layout/sliding-sidebar'
 import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
 import { NewProjectModal } from '@/components/modals/new-project-modal'
-import FilterMenu from '@/components/projects/filter-menu'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
+import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
 import {
   ProjectsDisplayProperties,
   ProjectsGroupingOptions,
 } from '@/configs/display-settings'
+import { useProjectFilter } from '@/hooks/filters/use-project-filter'
 import { useFilterStore } from '@/hooks/store'
 import { useLeadsSummary } from '@/hooks/use-lead-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
@@ -55,6 +56,8 @@ export default function TeamProjectsClientPage(): JSX.Element {
 
   const { data: allTeams } = api.team.get_teams.useQuery()
   const { data: user } = api.user.get_user.useQuery()
+
+  const { filterOptions } = useProjectFilter(allProjects)
 
   const teamNamesWithCount = useMemo(
     () =>
@@ -168,7 +171,7 @@ export default function TeamProjectsClientPage(): JSX.Element {
         </div>
       </Header>
       <div className='flex justify-between items-center'>
-        <FilterMenu />
+        <FilterMenu filters={filterOptions} />
         <DisplayMenu
           groupingOptions={ProjectsGroupingOptions}
           allDisplayProperties={ProjectsDisplayProperties}

@@ -14,12 +14,13 @@ import {
 
 import { Icons } from '@/components/ui/icons'
 import {
-  priorityOptions,
-  statusOptions,
   useAssigneeOptions,
+  useLeadOptions,
   useTeamsOptions,
-} from '@/configs/filter-settings'
+} from '@/configs/filter/filter-settings'
+import useFilterOptions from '@/hooks/filters/use-filter-options'
 import { useFilterStore } from '@/hooks/store'
+import { getIcon } from '@/lib/get-icons'
 
 /**
  * The customize filter component, to modify the existing filters
@@ -30,6 +31,8 @@ import { useFilterStore } from '@/hooks/store'
 export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
+  const leadOptions = useLeadOptions()
+
   const { updateFilter, removeFilter } = useFilterStore()
 
   const filterDetails = useMemo(() => traverseFilterQuery(filter), [filter])
@@ -39,16 +42,49 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     .join('-')
   const filterValue = filterDetails.map((detail) => detail.value).join('-')
 
+  const { statusOptions, priorityOptions } = useFilterOptions()
+
   const filterOptions = useMemo(() => {
     if (filterKey === 'status') return statusOptions
     if (filterKey === 'priority') return priorityOptions
-    if (filterKey === 'teams') return teamOptions
-    if (filterKey === 'assignee') return assigneeOptions
+    if (filterKey === 'team') return teamOptions
+    if (filterKey === 'assignee') {
+      if (assigneeOptions) {
+        return [
+          ...assigneeOptions,
+          {
+            value: null,
+            label: 'No assignee',
+            icon: 'userCircle2',
+          },
+        ]
+      }
+    }
+    if (filterKey === 'lead') {
+      if (leadOptions) {
+        return [
+          ...leadOptions,
+          {
+            value: null,
+            label: 'No lead',
+            icon: 'userCircle2',
+          },
+        ]
+      }
+    }
+
     return []
-  }, [filterKey, teamOptions, assigneeOptions])
+  }, [
+    filterKey,
+    statusOptions,
+    priorityOptions,
+    teamOptions,
+    assigneeOptions,
+    leadOptions,
+  ])
 
   const handleSelectFilter = useCallback(
-    (value: string) => {
+    (value: string | null) => {
       if (value === '') {
         removeFilter(filterKey)
       } else {
@@ -58,20 +94,36 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     [filterKey, removeFilter, updateFilter],
   )
 
-  const getIcon = (iconName: string | undefined) => {
-    return iconName !== 'image'
-      ? Icons[iconName as keyof typeof Icons]
-      : Icons.listFilter
+  const filterIcon = () => {
+    switch (filterKey) {
+      case 'status':
+        return 'backlog'
+      case 'priority':
+        return 'signalHigh'
+      case 'team':
+        return 'team'
+      case 'assignee':
+        return 'userCircle2'
+      case 'lead':
+        return 'userCircle2'
+      default:
+        return 'listFilter'
+    }
   }
-  const filterType = filterOptions.find(
-    (filter) => filter.value === filterValue,
-  )
 
-  const FilterIcon = getIcon(filterType?.icon)
+  const filterOption = filterOptions.find((filter) => {
+    if (filter.value === null) {
+      return {
+        value: filter.value,
+        label: filter.label,
+        icon: filter.icon,
+      }
+    } else {
+      return filter.value === filterValue
+    }
+  })
 
-  const filterOption = filterOptions.find(
-    (option) => option.value === filterValue,
-  )
+  const FilterIcon = getIcon(filterIcon())
 
   const FilterOptionLabel = filterOption?.label ?? 'Select Value'
 
@@ -80,7 +132,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   return (
     <div className='flex items-center rounded-md border text-sm divide-x'>
       <div className='flex items-center gap-2 text-sub px-3 py-1'>
-        <FilterIcon className='size-4 text-sub' />
+        {FilterIcon && <FilterIcon className='size-4 text-sub' />}
         {filterKey}
       </div>
       <p className='cursor-default text-sub px-3 py-1'>
@@ -99,18 +151,22 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
               </AvatarFallback>
             </Avatar>
           ) : (
-            <FilterOptionIcon className='size-4 text-sub' />
+            <>
+              {FilterOptionIcon && (
+                <FilterOptionIcon className='size-4 text-sub' />
+              )}
+            </>
           )}
           {FilterOptionLabel}
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align='start'>
           {filterOptions.map((option) => {
             const Icon = getIcon(option.icon)
             return (
               <DropdownMenuItem
                 key={option.value}
                 onClick={() => {
-                  handleSelectFilter(option.value)
+                  handleSelectFilter(option.value ?? null)
                 }}
               >
                 {option.icon === 'image' ? (
@@ -121,7 +177,7 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
                     </AvatarFallback>
                   </Avatar>
                 ) : (
-                  <Icon className='size-4 text-sub mr-2' />
+                  <>{Icon && <Icon className='size-4 text-sub mr-2' />}</>
                 )}
                 {option.label}
               </DropdownMenuItem>

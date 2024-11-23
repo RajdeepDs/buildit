@@ -18,11 +18,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 
 import { Icons } from '@/components/ui/icons'
 import {
-  priorityOptions,
-  statusOptions,
   useAssigneeOptions,
   useProjectOptions,
-} from '@/configs/filter-settings'
+} from '@/configs/filter/filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 import { getIcon } from '@/lib/get-icons'
 
 /**
@@ -56,9 +55,9 @@ export default function PropertiesMenu({
   const getCurrentOptions = () => {
     switch (property) {
       case 'status':
-        return statusOptions
+        return statusConfig
       case 'priority':
-        return priorityOptions
+        return priorityConfig
       case 'assignee':
         return assigneeOptions
       case 'project':
