@@ -1,33 +1,33 @@
 import { useMemo } from 'react'
 
-import type { TIssue } from '@buildit/utils/types'
+import type { TProject } from '@buildit/utils/types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 
 import { Icons } from '@/components/ui/icons'
 import {
-  useAssigneeOptions,
+  useLeadOptions,
   useTeamsOptions,
 } from '@/configs/filter/filter-settings'
-import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
-import { useAssigneeSummary } from '@/hooks/use-assignee-summary'
+import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
+import { useLeadsSummary } from '@/hooks/use-lead-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
 
 /**
- * The issue filter hook. This hook is used in the issue filter component.
- * @param issues The list of issues.
- * @returns the filter options that is used to filter the issues.
+ * The project filter hook. This hook is used in the project's filter component.
+ * @param projects The list of issues.
+ * @returns the filter options that is used to filter the projects.
  */
-export function useIssueFilter(issues: TIssue[] | undefined) {
-  const { statuses, statusCount } = useStatusSummary(issues)
-  const { priorities, priorityCount } = usePrioritySummary(issues)
-  const { teams, teamCount } = useTeamsSummary(issues)
-  const { uniqueAssignees, assigneeCount } = useAssigneeSummary(issues)
+export function useProjectFilter(projects: TProject[] | undefined) {
+  const { statuses, statusCount } = useStatusSummary(projects)
+  const { priorities, priorityCount } = usePrioritySummary(projects)
+  const { teams, teamCount } = useTeamsSummary(projects)
+  const { uniqueLeads, leadCount } = useLeadsSummary(projects)
 
-  const allAssignees = useAssigneeOptions()
   const allTeams = useTeamsOptions()
+  const allLeads = useLeadOptions()
 
   const filterOptions = useMemo(() => {
     return [
@@ -77,20 +77,18 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
         }),
       },
       {
-        key: 'assignee',
-        label: 'Assignee',
+        key: 'lead',
+        label: 'Lead',
         icon: 'userCircle2',
-        options: uniqueAssignees.map((assignee) => {
-          const assigneeOption = allAssignees.find(
-            (item) => item.value === assignee,
-          )
+        options: uniqueLeads.map((lead) => {
+          const leadOption = allLeads.find((item) => item.value === lead)
           return {
-            value: assigneeOption?.value ?? null,
-            label: assigneeOption?.label ?? 'No assignee',
+            value: leadOption?.value ?? null,
+            label: leadOption?.label ?? 'No lead',
             icon:
-              assigneeOption?.icon === 'image' ? (
+              leadOption?.icon === 'image' ? (
                 <Avatar className='size-4'>
-                  <AvatarImage src={assigneeOption.image!} />
+                  <AvatarImage src={leadOption.image!} />
                   <AvatarFallback>
                     <Icons.userCircle2 className='size-4 text-sub' />
                   </AvatarFallback>
@@ -98,22 +96,22 @@ export function useIssueFilter(issues: TIssue[] | undefined) {
               ) : (
                 'userCircle2'
               ),
-            count: assigneeCount[assignee],
+            count: leadCount[lead],
           }
         }),
       },
     ]
   }, [
-    statuses,
-    statusCount,
+    allLeads,
+    allTeams,
+    leadCount,
     priorities,
     priorityCount,
-    teams,
+    statusCount,
+    statuses,
     teamCount,
-    uniqueAssignees,
-    assigneeCount,
-    allAssignees,
-    allTeams,
+    teams,
+    uniqueLeads,
   ])
 
   return { filterOptions }

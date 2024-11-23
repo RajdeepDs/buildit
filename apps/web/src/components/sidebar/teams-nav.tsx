@@ -23,7 +23,7 @@ import {
 } from '@buildit/ui/sidebar'
 
 import { Icons } from '@/components/ui/icons'
-import { getTeamsNavigations } from '@/configs/sidebar-navigations'
+import { getTeamsNavigations } from '@/configs/navigations/sidebar-navigations'
 
 interface TeamsNavProps {
   teams: Pick<TTeam, 'id' | 'name' | 'teamId'>[]

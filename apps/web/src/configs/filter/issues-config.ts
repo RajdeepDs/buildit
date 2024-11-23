@@ -7,11 +7,6 @@ export const statusConfig: FilterSettings[] = [
     icon: 'backlog',
   },
   {
-    value: 'planned',
-    label: 'Planned',
-    icon: 'hexagon',
-  },
-  {
     value: 'todo',
     label: 'Todo',
     icon: 'todo',
@@ -21,12 +16,6 @@ export const statusConfig: FilterSettings[] = [
     label: 'In Progress',
     icon: 'inProgress',
   },
-  {
-    value: 'completed',
-    label: 'Completed',
-    icon: 'done',
-  },
-
   {
     value: 'done',
     label: 'Done',

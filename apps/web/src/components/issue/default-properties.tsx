@@ -12,8 +12,8 @@ import { toast } from '@buildit/ui/toast'
 
 import PropertiesMenu from '@/components/issue/properties-menu'
 import { Icons } from '@/components/ui/icons'
-import { useAssigneeOptions } from '@/configs/filter-settings'
-import { priorityConfig, statusConfig } from '@/configs/issue-config'
+import { useAssigneeOptions } from '@/configs/filter/filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 import { getIcon } from '@/lib/get-icons'
 import { api } from '@/lib/trpc/react'
 

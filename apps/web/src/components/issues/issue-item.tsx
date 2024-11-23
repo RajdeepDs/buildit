@@ -17,11 +17,8 @@ import { toast } from '@buildit/ui/toast'
 
 import IssueCard from '@/components/issues/issue-card'
 import { Icons } from '@/components/ui/icons'
-import {
-  priorityOptions,
-  statusOptions,
-  useAssigneeOptions,
-} from '@/configs/filter-settings'
+import { useAssigneeOptions } from '@/configs/filter/filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 import { useFilterStore } from '@/hooks/store'
 import { api } from '@/lib/trpc/react'
 
@@ -109,7 +106,7 @@ export default function IssueItem({
             Status
           </ContextMenuSubTrigger>
           <ContextMenuSubContent sideOffset={4} alignOffset={-5.5}>
-            {statusOptions.map((status) => {
+            {statusConfig.map((status) => {
               const Icon = Icons[status.icon as keyof typeof Icons]
               return (
                 <ContextMenuCheckboxItem
@@ -133,7 +130,7 @@ export default function IssueItem({
             Priority
           </ContextMenuSubTrigger>
           <ContextMenuSubContent sideOffset={4}>
-            {priorityOptions.map((priority) => {
+            {priorityConfig.map((priority) => {
               const Icon = Icons[priority.icon as keyof typeof Icons]
               return (
                 <ContextMenuCheckboxItem

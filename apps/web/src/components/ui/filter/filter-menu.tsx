@@ -23,7 +23,7 @@ export interface Filter {
 }
 
 export interface FilterOption {
-  value: string | undefined
+  value: string | undefined | null
   label: string | null | undefined
   icon?: JSX.Element | string
   count?: number | undefined

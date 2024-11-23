@@ -4,10 +4,7 @@ import { Button } from '@buildit/ui/button'
 
 import { NewProjectModal } from '@/components/modals/new-project-modal'
 import { Icons } from '@/components/ui/icons'
-import {
-  priorityOptions,
-  statusOptions,
-} from '@/configs/project-filter-settings'
+import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
 
 /**
  * The Project Group component to display the group of Projects.
@@ -26,15 +23,15 @@ export default function ProjectGroup({
   // Retrieve either status or priority group by the value
   const getGroupData = (group: string) => {
     return (
-      statusOptions.find((status) => status.value === group) ??
-      priorityOptions.find((priority) => priority.value === group)
+      statusConfig.find((status) => status.value === group) ??
+      priorityConfig.find((priority) => priority.value === group)
     )
   }
 
   // Determine the group type
   const groupType =
-    (statusOptions.find((status) => status.value === group) && 'status') ??
-    (priorityOptions.find((priority) => priority.value === group) && 'priority')
+    (statusConfig.find((status) => status.value === group) && 'status') ??
+    (priorityConfig.find((priority) => priority.value === group) && 'priority')
 
   const groupData = getGroupData(group)
 

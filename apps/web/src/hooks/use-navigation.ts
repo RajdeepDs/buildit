@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 
-import type { Navigation } from '@/configs/layout-navigations'
+import type { Navigation } from '@/configs/navigations/layout-navigations'
 
 import {
   getNavigations,
   getTeamNavigations,
-} from '@/configs/layout-navigations'
+} from '@/configs/navigations/layout-navigations'
 
 interface NavigationResult {
   currentNavigation: Navigation | undefined

@@ -14,11 +14,11 @@ import {
 
 import { Icons } from '@/components/ui/icons'
 import {
-  priorityOptions,
-  statusOptions,
   useAssigneeOptions,
+  useLeadOptions,
   useTeamsOptions,
-} from '@/configs/filter-settings'
+} from '@/configs/filter/filter-settings'
+import useFilterOptions from '@/hooks/filters/use-filter-options'
 import { useFilterStore } from '@/hooks/store'
 
 /**
@@ -30,6 +30,8 @@ import { useFilterStore } from '@/hooks/store'
 export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
   const teamOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
+  const leadOptions = useLeadOptions()
+
   const { updateFilter, removeFilter } = useFilterStore()
 
   const filterDetails = useMemo(() => traverseFilterQuery(filter), [filter])
@@ -38,6 +40,8 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
     .map((detail) => detail.operator)
     .join('-')
   const filterValue = filterDetails.map((detail) => detail.value).join('-')
+
+  const { statusOptions, priorityOptions } = useFilterOptions()
 
   const filterOptions = useMemo(() => {
     if (filterKey === 'status') return statusOptions
@@ -55,9 +59,28 @@ export default function CustomizeFilter({ filter }: { filter: FilterQuery }) {
         ]
       }
     }
+    if (filterKey === 'lead') {
+      if (leadOptions) {
+        return [
+          ...leadOptions,
+          {
+            value: null,
+            label: 'No lead',
+            icon: 'userCircle2',
+          },
+        ]
+      }
+    }
 
     return []
-  }, [filterKey, teamOptions, assigneeOptions])
+  }, [
+    filterKey,
+    statusOptions,
+    priorityOptions,
+    teamOptions,
+    assigneeOptions,
+    leadOptions,
+  ])
 
   const handleSelectFilter = useCallback(
     (value: string | null) => {

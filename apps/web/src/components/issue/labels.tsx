@@ -14,7 +14,7 @@ import { SidebarMenuButton } from '@buildit/ui/sidebar'
 import { toast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
-import { labelConfig } from '@/configs/issue-config'
+import { labelConfig } from '@/configs/filter/issues-config'
 import { api } from '@/lib/trpc/react'
 
 interface LabelsProps {
