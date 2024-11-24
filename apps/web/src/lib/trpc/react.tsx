@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { loggerLink, unstable_httpBatchStreamLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server'
@@ -11,7 +12,14 @@ import superjson from 'superjson'
 import { type AppRouter } from '@buildit/api'
 import { getBaseUrl } from '@buildit/utils/url'
 
-const createQueryClient = () => new QueryClient()
+const createQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  })
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {
@@ -58,6 +66,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <api.Provider client={trpcClient} queryClient={queryClient}>
         {props.children}
       </api.Provider>

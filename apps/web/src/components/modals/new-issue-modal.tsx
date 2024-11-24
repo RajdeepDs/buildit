@@ -6,6 +6,7 @@ import type { TTeam } from '@buildit/utils/types'
 import type { CreateIssuePayload } from '@buildit/utils/validations'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@buildit/ui/button'
@@ -36,6 +37,8 @@ export const NewIssueModal = ({
   children: React.ReactNode
   defaultValues?: Partial<CreateIssuePayload>
 }) => {
+  const queryClient = useQueryClient()
+
   const { data: allTeams } = api.team.get_teams.useQuery()
   const { data: allProjects } = api.project.get_projects.useQuery()
 
@@ -62,10 +65,13 @@ export const NewIssueModal = ({
   })
 
   const mutation = api.issues.create_issue.useMutation({
-    onSuccess: ({ message }) => {
+    onSuccess: async ({ message }) => {
       toast({
         title: 'Issue created',
         description: message,
+      })
+      await queryClient.invalidateQueries({
+        queryKey: [['issues', 'get_issues'], { type: 'query' }],
       })
     },
     onError: ({ message }) => {

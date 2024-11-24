@@ -1,5 +1,7 @@
 import type { TIssue } from '@buildit/utils/types'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import {
   ContextMenu,
@@ -56,6 +58,8 @@ export default function IssueItem({
   isLast: boolean
   maxIssueIdWidth: number
 }) {
+  const queryClient = useQueryClient()
+
   const { displayProperties, selectedItems, setSelectedItems } =
     useFilterStore()
 
@@ -64,9 +68,12 @@ export default function IssueItem({
   const mutation = api.issues.update_issue_properties.useMutation()
 
   const deleteMutation = api.issues.delete_issue.useMutation({
-    onSuccess: ({ message }) => {
+    onSuccess: async ({ message }) => {
       toast({
         description: message,
+      })
+      await queryClient.invalidateQueries({
+        queryKey: [['issues', 'get_issues'], { type: 'query' }],
       })
     },
     onError: ({ message }) => {

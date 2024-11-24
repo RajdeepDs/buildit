@@ -56,7 +56,9 @@ export default function WorkspaceSwitcher({
               {user.image && (
                 <Avatar className='size-5 rounded'>
                   <AvatarImage src={user.image} />
-                  <AvatarFallback>{user.name}</AvatarFallback>
+                  <AvatarFallback>
+                    <Icons.userCircle2 className='size-4 text-sub' />
+                  </AvatarFallback>
                 </Avatar>
               )}
               <span className='font-medium text-strong'>{workspace.name}</span>
@@ -74,7 +76,9 @@ export default function WorkspaceSwitcher({
                 {user.image && (
                   <Avatar className='size-10 rounded'>
                     <AvatarImage src={user.image} />
-                    <AvatarFallback>{user.name}</AvatarFallback>
+                    <AvatarFallback>
+                      <Icons.userCircle2 className='size-4 text-sub' />
+                    </AvatarFallback>
                   </Avatar>
                 )}
                 <div className='flex flex-col items-start'>
