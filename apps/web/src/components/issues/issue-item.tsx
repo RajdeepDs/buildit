@@ -13,14 +13,14 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
-import { toast } from '@buildit/ui/toast'
 
 import IssueCard from '@/components/issues/issue-card'
 import { Icons } from '@/components/ui/icons'
 import { useAssigneeOptions } from '@/configs/filter/filter-settings'
 import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
+import { useDeleteIssue } from '@/hooks/mutations/use-delete-issue'
+import { useUpdateIssueProperties } from '@/hooks/mutations/use-update-issue-properties'
 import { useFilterStore } from '@/hooks/store'
-import { api } from '@/lib/trpc/react'
 
 type IssueItemProps = Pick<
   TIssue,
@@ -61,29 +61,15 @@ export default function IssueItem({
 
   const assigneeOptions = useAssigneeOptions()
 
-  const mutation = api.issues.update_issue_properties.useMutation()
-
-  const deleteMutation = api.issues.delete_issue.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
-    },
-  })
+  const { mutate: updateProperty } = useUpdateIssueProperties()
+  const { mutate: deleteIssue } = useDeleteIssue()
 
   const handleUpdate = (key: string, value: string | null) => {
-    mutation.mutate({ id: issue.id, [key]: value })
+    updateProperty({ id: issue.id, [key]: value })
   }
 
   const handleDelete = () => {
-    deleteMutation.mutate({ id: issue.id })
+    deleteIssue({ id: issue.id })
   }
 
   return (

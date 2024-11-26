@@ -11,14 +11,14 @@ import DisplayMenu from '@/components/ui/display-menu'
 import EmptyState from '@/components/ui/empty-state'
 import { Icons } from '@/components/ui/icons'
 import { TeamsDisplayProperties } from '@/configs/display-settings'
-import { api } from '@/lib/trpc/react'
+import { useTeams } from '@/hooks/data/use-teams'
 
 /**
  * The Teams client page.
  * @returns Next.js RSC page.
  */
 export default function TeamsClientPage(): JSX.Element {
-  const { data: allTeams, isLoading, error } = api.team.get_teams.useQuery()
+  const { data: allTeams, isLoading, error } = useTeams()
 
   if (allTeams?.length === 0) {
     return <EmptyState id='teams' />

@@ -6,7 +6,7 @@ import { toast } from '@buildit/ui/toast'
 import Content from '@/components/issue/content'
 import IssueProperties from '@/components/issue/issue-properties'
 import Header from '@/components/layout/header'
-import { api } from '@/lib/trpc/react'
+import { useIssueById } from '@/hooks/data/use-issues'
 
 /**
  * The IssuePage component is the page that displays the details of a specific issue.
@@ -19,15 +19,7 @@ export default function IssueClientPage({
 }: {
   issueId: string
 }): JSX.Element {
-  // Fetch the issue details using the ID
-  const {
-    data: issue,
-    isLoading,
-    error,
-  } = api.issues.get_issue_by_id.useQuery(
-    { id: issueId },
-    { enabled: !!issueId },
-  )
+  const { data: issue, isLoading, error } = useIssueById(issueId)
 
   if (error) {
     toast({

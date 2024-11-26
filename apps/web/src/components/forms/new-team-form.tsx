@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation'
-
 import type { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,7 +16,7 @@ import {
 import { Input } from '@buildit/ui/input'
 import { CreateTeamFormSchema } from '@buildit/utils/validations'
 
-import { api } from '@/lib/trpc/react'
+import { useCreateTeam } from '@/hooks/mutations/use-create-team'
 
 /**
  * The new team form. This is the form that is used to create a new team.
@@ -31,7 +29,7 @@ export default function NewTeamForm({
 }: {
   onOpenChange: (isOpen: boolean) => void
 }): JSX.Element {
-  const router = useRouter()
+  const mutation = useCreateTeam()
 
   const form = useForm<z.infer<typeof CreateTeamFormSchema>>({
     resolver: zodResolver(CreateTeamFormSchema),
@@ -41,18 +39,9 @@ export default function NewTeamForm({
     },
   })
 
-  const mutation = api.team.create_team.useMutation({
-    onSuccess: () => {
-      onOpenChange(false)
-      router.refresh()
-    },
-    onError: () => {
-      onOpenChange(false)
-    },
-  })
-
   const onSubmit = (values: z.infer<typeof CreateTeamFormSchema>) => {
     mutation.mutate(values)
+    onOpenChange(false)
   }
 
   return (

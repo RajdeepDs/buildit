@@ -210,12 +210,14 @@ export const issuesRouter = createRouter({
           break
       }
 
-      await db
+      const issue = await db
         .update(issueTable)
         .set(filteredUpdates)
         .where(eq(issueTable.id, id))
+        .returning()
 
       return {
+        issue,
         message: `Issue ${key} updated successfully.`,
       }
     }),

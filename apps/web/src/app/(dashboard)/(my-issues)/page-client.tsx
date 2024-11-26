@@ -21,12 +21,13 @@ import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
 } from '@/configs/display-settings'
+import { useIssues } from '@/hooks/data/use-issues'
+import { useTeams } from '@/hooks/data/use-teams'
 import { useIssueFilter } from '@/hooks/filters/use-issue-filter'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
-import { api } from '@/lib/trpc/react'
 
 /**
  * The My Issues client page.
@@ -37,13 +38,12 @@ export default function MyIssuesClientPage(): JSX.Element {
 
   const { and, selectedItems } = useFilterStore()
 
-  const { data: allIssues, isLoading, error } = api.issues.get_issues.useQuery()
+  const { data: allIssues, isLoading, error } = useIssues()
+  const { data: allTeams } = useTeams()
 
   const { statuses, statusCount } = useStatusSummary(allIssues)
   const { priorities, priorityCount } = usePrioritySummary(allIssues)
   const { teams, teamCount } = useTeamsSummary(allIssues)
-
-  const { data: allTeams } = api.team.get_teams.useQuery()
 
   const { filterOptions } = useIssueFilter(allIssues)
 

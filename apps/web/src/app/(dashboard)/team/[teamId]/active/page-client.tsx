@@ -20,12 +20,13 @@ import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
 } from '@/configs/display-settings'
+import { useIssuesByTeam } from '@/hooks/data/use-issues'
+import { useTeams } from '@/hooks/data/use-teams'
 import { useIssueFilter } from '@/hooks/filters/use-issue-filter'
 import { useFilterStore } from '@/hooks/store'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
-import { api } from '@/lib/trpc/react'
 
 /**
  * The Active issues client page.
@@ -40,11 +41,8 @@ export default function ActiveIssuesClientPage(): JSX.Element {
 
   const { and, selectedItems } = useFilterStore()
 
-  const {
-    data: allIssues,
-    isLoading,
-    error,
-  } = api.issues.get_issues_by_team.useQuery({ teamId: teamId })
+  const { data: allIssues, isLoading, error } = useIssuesByTeam(teamId)
+  const { data: allTeams } = useTeams()
 
   const issues = allIssues?.filter(
     (issue) => issue.status === 'todo' || issue.status === 'in progress',
@@ -55,8 +53,6 @@ export default function ActiveIssuesClientPage(): JSX.Element {
   const { teams, teamCount } = useTeamsSummary(issues)
 
   const { filterOptions } = useIssueFilter(issues)
-
-  const { data: allTeams } = api.team.get_teams.useQuery()
 
   const teamNamesWithCount = useMemo(
     () =>

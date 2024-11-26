@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation'
-
 import type { TTeam } from '@buildit/utils/types'
 
 import {
@@ -10,10 +8,9 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
-import { useToast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
-import { api } from '@/lib/trpc/react'
+import { useDeleteTeam } from '@/hooks/mutations/use-delete-team'
 
 interface TeamsItemProps {
   team: Omit<TTeam, 'issues'>
@@ -31,22 +28,8 @@ export default function TeamItem({
   team,
   children,
 }: TeamsItemProps): JSX.Element {
-  const router = useRouter()
+  const mutation = useDeleteTeam()
 
-  const { toast } = useToast()
-  const mutation = api.team.delete_team.useMutation({
-    onSuccess: () => {
-      toast({
-        description: 'Team deleted!',
-      })
-      router.refresh()
-    },
-    onError: () => {
-      toast({
-        description: 'Error deleting team!',
-      })
-    },
-  })
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>

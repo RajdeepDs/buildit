@@ -27,7 +27,8 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@/components/ui/modal'
-import { api } from '@/lib/trpc/react'
+import { useTeams } from '@/hooks/data/use-teams'
+import { useCreateProject } from '@/hooks/mutations/use-create-project'
 
 export const NewProjectModal = ({
   children,
@@ -36,10 +37,11 @@ export const NewProjectModal = ({
   children: React.ReactNode
   defaultValues?: Partial<CreateProjectPayload>
 }) => {
-  const { data: allTeams } = api.team.get_teams.useQuery()
-
   const [open, setOpen] = React.useState(false)
   const [openTeam, setOpenTeam] = React.useState(false)
+
+  const { data: allTeams } = useTeams()
+  const mutation = useCreateProject()
 
   const [team, setTeam] = useState<TTeam | undefined>(undefined)
 
@@ -57,22 +59,6 @@ export const NewProjectModal = ({
       status: 'planned',
       priority: 'no priority',
       ...defaultValues,
-    },
-  })
-
-  const mutation = api.project.create_project.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        title: 'Project created',
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
     },
   })
 

@@ -27,7 +27,9 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@/components/ui/modal'
-import { api } from '@/lib/trpc/react'
+import { useProjects } from '@/hooks/data/use-projects'
+import { useTeams } from '@/hooks/data/use-teams'
+import { useCreateIssue } from '@/hooks/mutations/use-create-issue'
 
 export const NewIssueModal = ({
   children,
@@ -36,12 +38,12 @@ export const NewIssueModal = ({
   children: React.ReactNode
   defaultValues?: Partial<CreateIssuePayload>
 }) => {
-  const { data: allTeams } = api.team.get_teams.useQuery()
-  const { data: allProjects } = api.project.get_projects.useQuery()
+  const { data: allTeams } = useTeams()
+  const { data: allProjects } = useProjects()
+  const { mutate: createIssue } = useCreateIssue()
 
   const [open, setOpen] = useState(false)
   const [openTeam, setOpenTeam] = useState(false)
-
   const [team, setTeam] = useState<TTeam | undefined>(undefined)
 
   useEffect(() => {
@@ -61,22 +63,6 @@ export const NewIssueModal = ({
     },
   })
 
-  const mutation = api.issues.create_issue.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        title: 'Issue created',
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
-    },
-  })
-
   const onSubmit = (values: CreateIssuePayload) => {
     const localContent = localStorage.getItem('editorContent')
     const descriptionContent = localContent
@@ -90,7 +76,7 @@ export const NewIssueModal = ({
       return
     }
 
-    mutation.mutate({
+    createIssue({
       title: values.title,
       description: descriptionContent,
       status: values.status,
