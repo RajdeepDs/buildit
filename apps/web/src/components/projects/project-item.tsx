@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation'
-
 import type { TProject } from '@buildit/utils/types'
 import type { ReactNode } from 'react'
 
@@ -16,12 +14,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@buildit/ui/context-menu'
-import { useToast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
 import { useAssigneeOptions } from '@/configs/filter/filter-settings'
 import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
-import { api } from '@/lib/trpc/react'
+import { useDeleteProject } from '@/hooks/mutations/use-delete-project'
+import { useUpdateProjectProperties } from '@/hooks/mutations/use-update-project-properties'
 
 interface ProjectItemProps {
   project: Omit<TProject, 'issues' | 'teams'>
@@ -39,26 +37,10 @@ export default function ProjectItem({
   project,
   children,
 }: ProjectItemProps): JSX.Element {
-  const router = useRouter()
-  const { toast } = useToast()
-
   const assigneeOptions = useAssigneeOptions()
 
-  const updateMutation = api.project.update_project_properties.useMutation()
-
-  const deleteMutation = api.project.delete_project.useMutation({
-    onSuccess: () => {
-      toast({
-        description: 'Project deleted successfully!',
-      })
-      router.refresh()
-    },
-    onError: () => {
-      toast({
-        description: 'Error deleting project!',
-      })
-    },
-  })
+  const updateMutation = useUpdateProjectProperties()
+  const deleteMutation = useDeleteProject()
 
   const handleUpdate = (key: string, value: string | null) => {
     updateMutation.mutate({ id: project.id, [key]: value })
