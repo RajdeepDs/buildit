@@ -64,6 +64,11 @@ export function useUpdateIssueProperties() {
 
       return { previousIssues, previousTeamIssuesMap }
     },
+    onSuccess: ({ message }) => {
+      toast({
+        description: message,
+      })
+    },
     onError: (error, variables, context) => {
       if (context?.previousIssues) {
         queryClient.setQueryData(

@@ -6,10 +6,9 @@ import { useForm } from 'react-hook-form'
 import Editor from '@buildit/editor'
 import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { toast } from '@buildit/ui/toast'
 import { UpdateIssueContentSchema } from '@buildit/utils/validations'
 
-import { api } from '@/lib/trpc/react'
+import { useUpdateIssueContent } from '@/hooks/mutations/use-update-issue-content'
 
 const defaultEditorValue = [
   {
@@ -41,6 +40,8 @@ export default function Content({
   title,
   description,
 }: ContentProps): JSX.Element {
+  const mutation = useUpdateIssueContent()
+
   const form = useForm<UpdateIssueContentPayload>({
     resolver: zodResolver(UpdateIssueContentSchema),
     defaultValues: {
@@ -53,23 +54,7 @@ export default function Content({
     ? JSON.parse(description as string)
     : defaultEditorValue
 
-  const mutation = api.issues.update_issue_content.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        description: message,
-        variant: 'default',
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        description: message,
-        variant: 'destructive',
-      })
-    },
-  })
-
   const onSubmit = (data: Partial<UpdateIssueContentPayload>) => {
-    console.log('Submitted Values:', data)
     mutation.mutate({
       id: id!,
       ...data,

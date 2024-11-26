@@ -7,12 +7,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
-import { toast } from '@buildit/ui/toast'
 
 import PropertiesMenu from '@/components/issue/properties-menu'
 import { Icons } from '@/components/ui/icons'
 import { useProjectOptions } from '@/configs/filter/filter-settings'
-import { api } from '@/lib/trpc/react'
+import { useUpdateIssueProperties } from '@/hooks/mutations/use-update-issue-properties'
 
 interface ProjectPropertiesProps {
   id: string
@@ -35,24 +34,11 @@ export default function ProjectProperties({
 
   const projectsOptions = useProjectOptions()
 
+  const mutation = useUpdateIssueProperties()
+
   const selectedProject = projectsOptions.find(
     (item) => item.value === projectOption,
   )
-
-  const mutation = api.issues.update_issue_properties.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
-    },
-  })
 
   const handleUpdate = (key: string, value: string | null) => {
     mutation.mutate({ id: id, [key]: value })

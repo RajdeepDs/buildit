@@ -11,11 +11,10 @@ import {
 } from '@buildit/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@buildit/ui/popover'
 import { SidebarMenuButton } from '@buildit/ui/sidebar'
-import { toast } from '@buildit/ui/toast'
 
 import { Icons } from '@/components/ui/icons'
 import { labelConfig } from '@/configs/filter/issues-config'
-import { api } from '@/lib/trpc/react'
+import { useUpdateIssueProperties } from '@/hooks/mutations/use-update-issue-properties'
 
 interface LabelsProps {
   id: string
@@ -38,20 +37,7 @@ export default function Labels({ id, labels }: LabelsProps): JSX.Element {
   const [labelOption, setLabelOption] = useState<string[]>(labels ?? [])
   const [initialLabels, setInitialLabels] = useState<string[]>(labels ?? [])
 
-  const mutation = api.issues.update_issue_properties.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
-    },
-  })
+  const mutation = useUpdateIssueProperties()
 
   useEffect(() => {
     if (

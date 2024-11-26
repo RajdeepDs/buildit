@@ -16,3 +16,15 @@ export function useIssues() {
 export function useIssuesByTeam(teamId: string) {
   return api.issues.get_issues_by_team.useQuery({ teamId: teamId })
 }
+
+/**
+ * The hook to get issues by project.
+ * @param issueId The project ID.
+ * @returns The issues by project.
+ */
+export function useIssueById(issueId: string) {
+  return api.issues.get_issue_by_id.useQuery(
+    { id: issueId },
+    { enabled: !!issueId },
+  )
+}

@@ -8,14 +8,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@buildit/ui/sidebar'
-import { toast } from '@buildit/ui/toast'
 
 import PropertiesMenu from '@/components/issue/properties-menu'
 import { Icons } from '@/components/ui/icons'
 import { useAssigneeOptions } from '@/configs/filter/filter-settings'
 import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
+import { useUpdateIssueProperties } from '@/hooks/mutations/use-update-issue-properties'
 import { getIcon } from '@/lib/get-icons'
-import { api } from '@/lib/trpc/react'
 
 interface DefaultPropertiesProps {
   id: string
@@ -46,6 +45,8 @@ export default function DefaultProperties({
 
   const assigneeOptions = useAssigneeOptions()
 
+  const mutation = useUpdateIssueProperties()
+
   const statusIconName = statusConfig.find(
     (item) => item.value === statusOption,
   )?.icon
@@ -59,21 +60,6 @@ export default function DefaultProperties({
   const selectedAssignee = assigneeOptions.find(
     (item) => item.value === assigneeOption,
   )
-
-  const mutation = api.issues.update_issue_properties.useMutation({
-    onSuccess: ({ message }) => {
-      toast({
-        description: message,
-      })
-    },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
-    },
-  })
 
   const handleUpdate = (key: string, value: string | null) => {
     mutation.mutate({ id: id, [key]: value })
