@@ -22,13 +22,15 @@ import {
   ProjectsDisplayProperties,
   ProjectsGroupingOptions,
 } from '@/configs/display-settings'
+import { useProjectsByTeam } from '@/hooks/data/use-projects'
+import { useTeams } from '@/hooks/data/use-teams'
+import { useUser } from '@/hooks/data/use-user'
 import { useProjectFilter } from '@/hooks/filters/use-project-filter'
 import { useFilterStore } from '@/hooks/store'
 import { useLeadsSummary } from '@/hooks/use-lead-summary'
 import { usePrioritySummary } from '@/hooks/use-priority-summary'
 import { useStatusSummary } from '@/hooks/use-status-summary'
 import { useTeamsSummary } from '@/hooks/use-teams-summary'
-import { api } from '@/lib/trpc/react'
 
 /**
  * The Team Projects client page.
@@ -43,19 +45,14 @@ export default function TeamProjectsClientPage(): JSX.Element {
 
   const { and, selectedItems } = useFilterStore()
 
-  const {
-    data: allProjects,
-    isLoading,
-    error,
-  } = api.project.get_projects_by_teams.useQuery({ teamId: teamId })
+  const { data: allProjects, isLoading, error } = useProjectsByTeam(teamId)
+  const { data: allTeams } = useTeams()
+  const { data: user } = useUser()
 
   const { statuses, statusCount } = useStatusSummary(allProjects)
   const { priorities, priorityCount } = usePrioritySummary(allProjects)
   const { teams, teamCount } = useTeamsSummary(allProjects)
   const { uniqueLeads, leadCount } = useLeadsSummary(allProjects)
-
-  const { data: allTeams } = api.team.get_teams.useQuery()
-  const { data: user } = api.user.get_user.useQuery()
 
   const { filterOptions } = useProjectFilter(allProjects)
 
