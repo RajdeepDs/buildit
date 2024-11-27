@@ -16,9 +16,15 @@ export function useDeleteIssue() {
       toast({
         description: message,
       })
-      await queryClient.invalidateQueries({
-        queryKey: [['issues', 'get_issues'], { type: 'query' }],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [['issues', 'get_issues'], { type: 'query' }],
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: [['issues', 'get_issues_by_team'], { type: 'query' }],
+        }),
+      ])
     },
     onError: ({ message }) => {
       toast({
