@@ -41,6 +41,7 @@ export default function IssueClientPage({
           ) : (
             <Content
               id={issue?.id}
+              issueId={issueId}
               title={issue?.title}
               description={issue?.description}
             />
