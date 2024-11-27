@@ -5,10 +5,11 @@ import type { TIssue } from '@buildit/utils/types'
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { Checkbox } from '@buildit/ui/checkbox'
 import { cn } from '@buildit/ui/cn'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@buildit/ui/tooltip'
 
 import { Icons } from '@/components/ui/icons'
 import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
-import { formatDate } from '@/lib/date'
+import { formatDate, formatDateTime } from '@/lib/date'
 
 type IssueItemProps = Pick<
   TIssue,
@@ -68,6 +69,13 @@ export default function IssueCard({
   const updatedAt = issue.updatedAt ? formatDate(issue.updatedAt) : undefined
   const createdAt = issue.createdAt ? formatDate(issue.createdAt) : undefined
 
+  const updatedAtTime = issue.updatedAt
+    ? formatDateTime(issue.updatedAt)
+    : undefined
+  const createdAtTime = issue.createdAt
+    ? formatDateTime(issue.createdAt)
+    : undefined
+
   const renderDisplayProperty = (property: string, content: React.ReactNode) =>
     displayProperties.includes(property) ? content : null
   return (
@@ -92,10 +100,17 @@ export default function IssueCard({
             />
             {renderDisplayProperty(
               'priority',
-              <PriorityIcon
-                className='size-4 text-sub'
-                aria-label={`Priority: ${issue.priority}`}
-              />,
+              <Tooltip>
+                <TooltipTrigger>
+                  <PriorityIcon
+                    className='size-4 text-sub'
+                    aria-label={`Priority: ${issue.priority}`}
+                  />
+                </TooltipTrigger>
+                <TooltipContent className='capitalize'>
+                  Priority: {issue.priority}
+                </TooltipContent>
+              </Tooltip>,
             )}
             {renderDisplayProperty(
               'id',
@@ -109,10 +124,15 @@ export default function IssueCard({
             )}
             {renderDisplayProperty(
               'status',
-              <StatusIcon
-                className='size-4 text-sub'
-                aria-label={`Status: ${issue.status}`}
-              />,
+              <Tooltip>
+                <TooltipTrigger>
+                  <StatusIcon
+                    className='size-4 text-sub'
+                    aria-label={`Status: ${issue.status}`}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>Status: {issue.status}</TooltipContent>
+              </Tooltip>,
             )}
           </div>
           <span className='text-sub text-sm font-medium ml-2 flex-grow truncate select-none'>
@@ -121,42 +141,66 @@ export default function IssueCard({
           <div className='ml-auto flex items-center space-x-2 flex-shrink-0'>
             {renderDisplayProperty(
               'updated',
-              <span
-                className='text-soft text-xs whitespace-nowrap select-none'
-                title={`Updated: ${updatedAt}`}
-              >
-                {updatedAt}
-              </span>,
+              <Tooltip>
+                <TooltipTrigger>
+                  <span
+                    className='text-soft text-xs whitespace-nowrap select-none'
+                    title={`Updated: ${updatedAt}`}
+                  >
+                    {updatedAt}
+                  </span>
+                </TooltipTrigger>
+                {updatedAtTime && (
+                  <TooltipContent>{`Updated ${updatedAtTime}`}</TooltipContent>
+                )}
+              </Tooltip>,
             )}
             {renderDisplayProperty(
               'created',
-              <span
-                className='text-soft text-xs whitespace-nowrap select-none'
-                title={`Created: ${createdAt}`}
-              >
-                {createdAt}
-              </span>,
+              <Tooltip>
+                <TooltipTrigger>
+                  <span
+                    className='text-soft text-xs whitespace-nowrap select-none'
+                    title={`Created: ${createdAt}`}
+                  >
+                    {createdAt}
+                  </span>
+                </TooltipTrigger>
+                {createdAtTime && (
+                  <TooltipContent align='end'>{`Created ${createdAtTime}`}</TooltipContent>
+                )}
+              </Tooltip>,
             )}
             {renderDisplayProperty(
               'assignee',
-              issue.assigneeId ? (
-                issue.assignee && (
-                  <Avatar className='size-5'>
-                    <AvatarImage
-                      src={issue.assignee.image ?? ''}
-                      alt={issue.assignee.name ?? ''}
-                    />
-                    <AvatarFallback>
-                      {issue.assignee.name?.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                )
-              ) : (
-                <Icons.userCircle2
-                  className='size-5 text-soft'
-                  aria-label='Unassigned'
-                />
-              ),
+              <Tooltip>
+                {issue.assigneeId ? (
+                  issue.assignee && (
+                    <>
+                      <TooltipTrigger>
+                        <Avatar className='size-5'>
+                          <AvatarImage
+                            src={issue.assignee.image ?? ''}
+                            alt={issue.assignee.name ?? ''}
+                          />
+                          <AvatarFallback>
+                            {issue.assignee.name?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </TooltipTrigger>
+
+                      <TooltipContent align='end'>
+                        Admin: {issue.assignee.name}
+                      </TooltipContent>
+                    </>
+                  )
+                ) : (
+                  <Icons.userCircle2
+                    className='size-5 text-soft'
+                    aria-label='Unassigned'
+                  />
+                )}
+              </Tooltip>,
             )}
           </div>
         </div>
