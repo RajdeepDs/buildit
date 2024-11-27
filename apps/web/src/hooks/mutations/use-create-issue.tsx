@@ -5,8 +5,8 @@ import { toast } from '@buildit/ui/toast'
 import { api } from '@/lib/trpc/react'
 
 /**
- * Hook to create an new issue.
- * @returns The mutation object.
+ * Hook to create an issue.
+ * @returns Mutation object for creating an issue.
  */
 export function useCreateIssue() {
   const queryClient = useQueryClient()
@@ -17,9 +17,15 @@ export function useCreateIssue() {
         title: 'Issue created!',
         description: message,
       })
-      await queryClient.invalidateQueries({
-        queryKey: [['issues', 'get_issues'], { type: 'query' }],
-      })
+
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [['issues', 'get_issues'], { type: 'query' }],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [['issues', 'get_issues_by_team'], { type: 'query' }],
+        }),
+      ])
     },
     onError: ({ message }) => {
       toast({

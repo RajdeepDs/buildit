@@ -19,19 +19,10 @@ export function useUpdateIssueProperties() {
         queryKey: [['issues', 'get_issues'], { type: 'query' }],
       })
 
-      // Retrieve all cached queries for get_issues_by_team
-      const queryKeys = queryClient
-        .getQueriesData({
-          queryKey: [['issues', 'get_issues_by_team']],
-        })
-        .map(([queryKey]) => queryKey)
-
       const previousIssues = queryClient.getQueryData<TIssue[]>([
-        'issues',
-        'get_issues',
+        ['issues', 'get_issues'],
+        { type: 'query' },
       ])
-
-      const previousTeamIssuesMap: Record<string, TIssue[]> = {}
 
       const updateIssues = (issues: TIssue[] | undefined) =>
         issues?.map((issue) =>
@@ -50,19 +41,7 @@ export function useUpdateIssueProperties() {
         )
       }
 
-      // Update each team-specific cache
-      queryKeys.forEach((key) => {
-        const teamId = (key[1] as { input?: { teamId?: string } }).input?.teamId
-        if (teamId) {
-          const teamIssues = queryClient.getQueryData<TIssue[]>(key)
-          if (teamIssues) {
-            previousTeamIssuesMap[teamId] = teamIssues
-            queryClient.setQueryData(key, updateIssues(teamIssues))
-          }
-        }
-      })
-
-      return { previousIssues, previousTeamIssuesMap }
+      return { previousIssues }
     },
     onSuccess: ({ message }) => {
       toast({
@@ -70,28 +49,10 @@ export function useUpdateIssueProperties() {
       })
     },
     onError: (error, variables, context) => {
-      if (context?.previousIssues) {
-        queryClient.setQueryData(
-          ['issues', 'get_issues'],
-          context.previousIssues,
-        )
-      }
-
-      if (context?.previousTeamIssuesMap) {
-        Object.entries(context.previousTeamIssuesMap).forEach(
-          ([teamId, issues]) => {
-            queryClient.setQueryData(
-              [
-                'issues',
-                'get_issues_by_team',
-                { input: { teamId } },
-                { type: 'query' },
-              ],
-              issues,
-            )
-          },
-        )
-      }
+      queryClient.setQueryData(
+        [['issues', 'get_issues'], { type: 'query' }],
+        context?.previousIssues,
+      )
 
       toast({
         variant: 'destructive',
@@ -100,12 +61,11 @@ export function useUpdateIssueProperties() {
       })
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [['issues', 'get_issues'], { type: 'query' }],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [['issues', 'get_issues_by_team']],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [['issues', 'get_issues'], { type: 'query' }],
+        }),
+      ])
     },
   })
 }
