@@ -16,13 +16,16 @@ export function useUpdateIssueProperties() {
   return api.issues.update_issue_properties.useMutation({
     onMutate: async (variables) => {
       await queryClient.cancelQueries({
-        queryKey: [['issues', 'get_issues'], { type: 'query' }],
+        queryKey: [['issues']],
       })
 
-      const previousIssues = queryClient.getQueryData<TIssue[]>([
-        ['issues', 'get_issues'],
-        { type: 'query' },
-      ])
+      const queryKeys = queryClient
+        .getQueriesData({
+          queryKey: [['issues']],
+        })
+        .map(([queryKey]) => queryKey)
+
+      const previousIssueData: Record<string, TIssue[]> = {}
 
       const updateIssues = (issues: TIssue[] | undefined) =>
         issues?.map((issue) =>
@@ -34,14 +37,15 @@ export function useUpdateIssueProperties() {
             : issue,
         )
 
-      if (previousIssues) {
-        queryClient.setQueryData(
-          ['issues', 'get_issues'],
-          updateIssues(previousIssues),
-        )
-      }
+      queryKeys.forEach((key) => {
+        const issueData = queryClient.getQueryData<TIssue[]>(key)
+        if (issueData) {
+          previousIssueData[JSON.stringify(key)] = issueData
+          queryClient.setQueryData(key, updateIssues(issueData))
+        }
+      })
 
-      return { previousIssues }
+      return { previousIssueData }
     },
     onSuccess: ({ message }) => {
       toast({
@@ -49,11 +53,11 @@ export function useUpdateIssueProperties() {
       })
     },
     onError: (error, variables, context) => {
-      queryClient.setQueryData(
-        [['issues', 'get_issues'], { type: 'query' }],
-        context?.previousIssues,
-      )
-
+      if (context?.previousIssueData) {
+        Object.entries(context.previousIssueData).forEach(([key, data]) => {
+          queryClient.setQueryData(JSON.parse(key), data)
+        })
+      }
       toast({
         variant: 'destructive',
         title: 'Something went wrong!',
@@ -61,11 +65,9 @@ export function useUpdateIssueProperties() {
       })
     },
     onSettled: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [['issues', 'get_issues'], { type: 'query' }],
-        }),
-      ])
+      await queryClient.invalidateQueries({
+        queryKey: [['issues']],
+      })
     },
   })
 }
