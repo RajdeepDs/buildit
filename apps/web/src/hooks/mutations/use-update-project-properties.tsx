@@ -15,16 +15,10 @@ export function useUpdateProjectProperties() {
 
   return api.project.update_project_properties.useMutation({
     onMutate: async (variables) => {
-      // Cancel ongoing queries to prevent conflicts
       await queryClient.cancelQueries({
         queryKey: [['project', 'get_projects']],
       })
 
-      await queryClient.cancelQueries({
-        queryKey: [['project', 'get_projects_by_teams']],
-      })
-
-      // Get all active queries matching project keys
       const queryKeys = queryClient
         .getQueriesData({
           queryKey: [['project']],
@@ -55,14 +49,11 @@ export function useUpdateProjectProperties() {
       return { previousProjectData }
     },
     onError: (error, variables, context) => {
-      // Revert cache to previous state in case of an error
       if (context?.previousProjectData) {
         Object.entries(context.previousProjectData).forEach(([key, data]) => {
           queryClient.setQueryData(JSON.parse(key), data)
         })
       }
-
-      // Display an error message
       toast({
         variant: 'destructive',
         title: 'Something went wrong!',
@@ -70,8 +61,7 @@ export function useUpdateProjectProperties() {
       })
     },
     onSettled: async () => {
-      // Invalidate all related queries to ensure fresh data
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: [['project']],
       })
     },

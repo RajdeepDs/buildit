@@ -12,48 +12,17 @@ export function useDeleteProject() {
   const queryClient = useQueryClient()
 
   return api.project.delete_project.useMutation({
-    onMutate: async (variables) => {
-      await queryClient.cancelQueries({ queryKey: [['project']] })
-
-      const queryKeys = queryClient
-        .getQueriesData({
-          queryKey: [['project']],
-        })
-        .map(([queryKey]) => queryKey)
-
-      const previousProjectData: Record<string, any> = {}
-
-      queryKeys.forEach((key) => {
-        const projects = queryClient.getQueryData<{ id: string }[]>(key)
-        if (projects) {
-          previousProjectData[JSON.stringify(key)] = projects
-          const updatedProjects = projects.filter(
-            (project) => project.id !== variables.projectId,
-          )
-          queryClient.setQueryData(key, updatedProjects)
-        }
+    onSuccess: async () => {
+      toast({
+        description: 'Project deleted successfully!',
       })
-
-      return { previousProjectData }
+      await queryClient.invalidateQueries({ queryKey: [['project']] })
     },
-    onError: (error, variables, context) => {
-      if (context?.previousProjectData) {
-        Object.entries(context.previousProjectData).forEach(([key, data]) => {
-          queryClient.setQueryData(JSON.parse(key), data)
-        })
-      }
-
+    onError: ({ message }) => {
       toast({
         variant: 'destructive',
         title: 'Error deleting project!',
-        description: error.message || 'Something went wrong.',
-      })
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [['project']] })
-
-      toast({
-        description: 'Project deleted successfully!',
+        description: message || 'Something went wrong.',
       })
     },
   })
