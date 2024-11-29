@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { TUser } from '@buildit/utils/types'
 
@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger,
 } from '@buildit/ui/dialog'
 import { Sidebar, SidebarContent, SidebarProvider } from '@buildit/ui/sidebar'
 
@@ -28,7 +27,8 @@ import {
 interface SettingsProps {
   user: Pick<TUser, 'name' | 'email' | 'image'>
   defaultItem: 'My profile' | 'General'
-  children: React.ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 /**
@@ -36,19 +36,23 @@ interface SettingsProps {
  * @param props The props object.
  * @param props.user The user object.
  * @param props.defaultItem The default item to be selected.
- * @param props.children The children
+ * @param props.open The open state.
+ * @param props.onOpenChange The onOpenChange function.
  * @returns The settings dialog component.
  */
 export default function Settings({
   user,
   defaultItem,
-  children,
+  open,
+  onOpenChange,
 }: SettingsProps): JSX.Element {
-  const [selectedItem, setSelectedItem] = useState<string>(
-    defaultItem || 'My profile',
-  )
+  const [selectedItem, setSelectedItem] = useState<string>(defaultItem)
   const myAccountNav = getSettingsMyAccount()
   const workspaceNav = getSettingsWorkspace()
+
+  useEffect(() => {
+    setSelectedItem(defaultItem)
+  }, [defaultItem])
 
   const getContent = () => {
     switch (selectedItem) {
@@ -70,10 +74,7 @@ export default function Settings({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger className='flex items-center w-full gap-2 text-sm'>
-        {children}
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className='overflow-hidden p-0 md:max-h-[700px] md:max-w-[800px] lg:max-w-[1200px] sm:rounded-xl'
         isClose={false}

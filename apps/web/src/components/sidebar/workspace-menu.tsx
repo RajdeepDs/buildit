@@ -1,4 +1,4 @@
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
 import type { TUser, TWorkspace } from '@buildit/utils/types'
 
@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@buildit/ui/dropdown-menu'
 import {
@@ -28,7 +29,7 @@ interface SidebarHeaderNavProps {
 }
 
 /**
- * The workspace menu component.
+ * The workspace menu component. This component is used to display the workspace menu.
  * @param props The props object.
  * @param props.user The user object.
  * @param props.workspace The workspace object.
@@ -40,6 +41,10 @@ export default function WorkspaceMenu({
 }: SidebarHeaderNavProps): JSX.Element {
   const [open, setOpen] = useState(false)
   const [_, startTransition] = useTransition()
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [settingsDefaultItem, setSettingsDefaultItem] = useState<
+    'My profile' | 'General'
+  >('My profile')
 
   const onLogOut = () => {
     startTransition(async () => {
@@ -48,11 +53,43 @@ export default function WorkspaceMenu({
     setOpen(false)
   }
 
+  const openSettings = (defaultItem: 'My profile' | 'General') => {
+    setSettingsDefaultItem(defaultItem)
+    setSettingsOpen(true)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey) {
+        switch (e.key.toLowerCase()) {
+          case '1':
+            e.preventDefault()
+            openSettings('My profile')
+            break
+          case '2':
+            e.preventDefault()
+            openSettings('General')
+            break
+        }
+      }
+    }
+
+    if (open) {
+      window.addEventListener('keydown', handleKeyDown)
+    } else {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open])
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu open={open} onOpenChange={setOpen}>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className='select-none'>
             <SidebarMenuButton className='w-fit px-1.5'>
               {user.image && (
                 <Avatar className='size-5 rounded'>
@@ -94,22 +131,22 @@ export default function WorkspaceMenu({
               <DropdownMenuItem
                 onSelect={(e) => {
                   e.preventDefault()
+                  openSettings('My profile')
                 }}
               >
-                <Settings user={user} defaultItem='My profile'>
-                  <Icons.settings className='size-4 text-sub' />
-                  Settings
-                </Settings>
+                <Icons.settings className='size-4 text-sub' />
+                Settings
+                <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={(e) => {
                   e.preventDefault()
+                  openSettings('General')
                 }}
               >
-                <Settings user={user} defaultItem='General'>
-                  <Icons.home className='size-4 text-sub' />
-                  Workspace
-                </Settings>
+                <Icons.home className='size-4 text-sub' />
+                Workspace
+                <DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -120,6 +157,12 @@ export default function WorkspaceMenu({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+      <Settings
+        user={user}
+        defaultItem={settingsDefaultItem}
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+      />
     </SidebarMenu>
   )
 }
