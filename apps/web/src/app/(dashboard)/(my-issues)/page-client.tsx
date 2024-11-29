@@ -12,7 +12,7 @@ import Header from '@/components/layout/header'
 import SlidingSidebar from '@/components/layout/sliding-sidebar'
 import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
-import { NewIssueModal } from '@/components/modals/new-issue-modal'
+import { IssueModal } from '@/components/modals/issue-modal'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
@@ -109,7 +109,7 @@ export default function MyIssuesClientPage(): JSX.Element {
     <div className='h-full flex flex-col gap-2 p-2'>
       <Header>
         <div className='flex items-center gap-2'>
-          <NewIssueModal>
+          <IssueModal>
             <Button
               size='sm'
               variant='secondary'
@@ -119,7 +119,7 @@ export default function MyIssuesClientPage(): JSX.Element {
               <Icons.plus className='size-4 mr-1 text-sub' />
               Create Issue
             </Button>
-          </NewIssueModal>
+          </IssueModal>
           <Separator orientation='vertical' className='h-5 ml-1' />
           <Button
             variant={'ghost'}
