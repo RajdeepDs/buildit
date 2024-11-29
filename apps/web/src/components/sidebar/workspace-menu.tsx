@@ -56,6 +56,7 @@ export default function WorkspaceMenu({
   const openSettings = (defaultItem: 'My profile' | 'General') => {
     setSettingsDefaultItem(defaultItem)
     setSettingsOpen(true)
+    setOpen(false)
   }
 
   useEffect(() => {
