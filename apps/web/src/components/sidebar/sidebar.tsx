@@ -15,7 +15,7 @@ import {
 
 import HomeNav from '@/components/sidebar/home-nav'
 import TeamsNav from '@/components/sidebar/teams-nav'
-import WorkspaceSwitcher from '@/components/sidebar/workspace-switcher'
+import WorkspaceMenu from '@/components/sidebar/workspace-menu'
 import { Icons } from '@/components/ui/icons'
 import { api } from '@/lib/trpc/react'
 
@@ -42,7 +42,7 @@ export function AppSidebar() {
         ) : (
           <>
             {user && workspace && (
-              <WorkspaceSwitcher user={user} workspace={workspace} />
+              <WorkspaceMenu user={user} workspace={workspace} />
             )}
           </>
         )}

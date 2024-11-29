@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import type { TUser } from '@buildit/utils/types'
 
-import { Button } from '@buildit/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -21,7 +20,6 @@ import Profile from '@/components/settings/profile'
 import Security from '@/components/settings/security'
 import UpgradePlan from '@/components/settings/upgrade-plan'
 import WorkspaceNav from '@/components/settings/workspace-nav'
-import { Icons } from '@/components/ui/icons'
 import {
   getSettingsMyAccount,
   getSettingsWorkspace,
@@ -29,16 +27,26 @@ import {
 
 interface SettingsProps {
   user: Pick<TUser, 'name' | 'email' | 'image'>
+  defaultItem: 'My profile' | 'General'
+  children: React.ReactNode
 }
 
 /**
  * The settings dialog component. This component is used to display the settings dialog.
  * @param props The props object.
  * @param props.user The user object.
+ * @param props.defaultItem The default item to be selected.
+ * @param props.children The children
  * @returns The settings dialog component.
  */
-export default function Settings({ user }: SettingsProps): JSX.Element {
-  const [selectedItem, setSelectedItem] = useState('My profile')
+export default function Settings({
+  user,
+  defaultItem,
+  children,
+}: SettingsProps): JSX.Element {
+  const [selectedItem, setSelectedItem] = useState<string>(
+    defaultItem || 'My profile',
+  )
   const myAccountNav = getSettingsMyAccount()
   const workspaceNav = getSettingsWorkspace()
 
@@ -63,15 +71,8 @@ export default function Settings({ user }: SettingsProps): JSX.Element {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant={'secondary'}
-          size={'sm'}
-          className='w-fit h-7 text-sub'
-        >
-          <Icons.settings className='size-4 mr-2 text-sub' />
-          Settings
-        </Button>
+      <DialogTrigger className='flex items-center w-full gap-2 text-sm'>
+        {children}
       </DialogTrigger>
       <DialogContent
         className='overflow-hidden p-0 md:max-h-[700px] md:max-w-[800px] lg:max-w-[1200px] sm:rounded-xl'
