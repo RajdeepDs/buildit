@@ -31,7 +31,7 @@ export default function ComboBoxSelect({
   property,
   options,
 }: {
-  property: 'Status' | 'Priority' | 'Assignee'
+  property: 'Status' | 'Priority' | 'Assignee' | 'Teams'
   options:
     | FilterSettings[]
     | {
@@ -66,7 +66,7 @@ export default function ComboBoxSelect({
   const Icon = Icons[getIconName() as keyof typeof Icons]
 
   return (
-    <div className='flex flex-col space-y-2 w-full'>
+    <div className='w-full'>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <SidebarMenuButton
