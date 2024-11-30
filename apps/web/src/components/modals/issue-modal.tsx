@@ -1,4 +1,12 @@
-import Editor from '@buildit/editor'
+'use client'
+
+import { useState } from 'react'
+
+import type { CreateIssuePayload } from '@buildit/utils/validations'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,27 +16,24 @@ import {
 import { Button } from '@buildit/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
-import { Input } from '@buildit/ui/input'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarProvider,
-} from '@buildit/ui/sidebar'
+import { toast } from '@buildit/ui/toast'
+import { CreateIssueSchema } from '@buildit/utils/validations'
 
+import NewIssueContentForm from '@/components/forms/new-issue-content'
 import ComboBoxSelect from '@/components/ui/combo-box-select'
+import { Icons } from '@/components/ui/icons'
 import LabelsSelect from '@/components/ui/labels-select'
+import TeamSelect from '@/components/ui/team-select'
 import {
   useAssigneeOptions,
   useProjectOptions,
@@ -39,134 +44,159 @@ import {
   priorityConfig,
   statusConfig,
 } from '@/configs/filter/issues-config'
+import { useCreateIssue } from '@/hooks/mutations/use-create-issue'
 
-import TeamSelect from '../ui/team-select'
+export const IssueModal = ({
+  children,
+  defaultValues = {},
+}: {
+  children: React.ReactNode
+  defaultValues?: Partial<CreateIssuePayload>
+}) => {
+  const [open, setOpen] = useState(false)
+  const [status, setStatus] = useState('')
+  const [priority, setPriority] = useState('')
+  const [assignee, setAssignee] = useState('')
+  const [project, setProject] = useState('')
+  const [labels, setLabels] = useState<string[]>([])
 
-const defaultEditorValue = [
-  {
-    type: 'p',
-    children: [
-      {
-        text: '',
-      },
-    ],
-  },
-]
+  const handleLabelsChange = (selectedValues: string[]) => {
+    setLabels(selectedValues)
+  }
 
-export const IssueModal = ({ children }: { children: React.ReactNode }) => {
   const teamsOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
   const projectOptions = useProjectOptions()
+
+  const { mutate: createIssue } = useCreateIssue()
 
   projectOptions.unshift({
     label: 'No project',
     value: 'no project',
     icon: 'hexagon',
   })
-  const localValue =
-    typeof window !== 'undefined' && localStorage.getItem('editorContent')
-  const content = localValue ? JSON.parse(localValue) : defaultEditorValue
+
+  const form = useForm<CreateIssuePayload>({
+    resolver: zodResolver(CreateIssueSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      status: 'todo',
+      priority: 'no priority',
+      ...defaultValues,
+    },
+  })
+
+  const onSubmit = (values: CreateIssuePayload) => {
+    const localContent = localStorage.getItem('editorContent')
+    const descriptionContent = localContent
+
+    // createIssue({
+    //   title: values.title,
+    //   description: descriptionContent,
+    //   status: values.status,
+    //   priority: values.priority,
+    //   assigneeId: values.assigneeId,
+    //   projectId: values.projectId,
+    //   teamId: teamsOptions[0]?.value ?? '',
+    // })
+    console.log({
+      ...values,
+      description: descriptionContent,
+      status,
+      priority,
+      assignee,
+      project,
+      labels,
+    })
+
+    localStorage.removeItem('editorContent')
+    form.reset()
+    setOpen(false)
+  }
+
+  const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
+    const error = errors.title?.message
+    if (error) {
+      toast({
+        title: error,
+        description: 'Please enter a title before submitting',
+      })
+    }
+  })
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent
-        className='max-w-4xl p-3 max-h-[500px] overflow-hidden gap-2'
-        isClose={false}
-      >
-        <DialogHeader>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                {teamsOptions.length > 0 ? (
-                  // <ComboBoxSelect property='Teams' options={teamsOptions} />
-                  <TeamSelect />
-                ) : (
-                  <BreadcrumbItem>{teamsOptions[0]?.label}</BreadcrumbItem>
-                )}
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>New issue</BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <DialogTitle className='sr-only'>Create a new issue</DialogTitle>
-          <DialogDescription className='sr-only'>
-            Create a new issue with all the necessary details
-          </DialogDescription>
-        </DialogHeader>
-        <div className='flex w-full'>
-          <div className='flex flex-col flex-1 gap-2'>
-            <Input
-              className='bg-white border-none shadow-none focus-visible:ring-0 focus:ring-offset-0 p-0 text-base'
-              placeholder='Issue title'
-            />
-            <Editor
-              content={content}
-              onChange={(value) => {
-                localStorage.setItem('editorContent', JSON.stringify(value))
-              }}
-            />
+      <DialogPortal>
+        <DialogOverlay className='backdrop-blur bg-weak/20' />
+        <DialogContent
+          isClose={false}
+          className='p-0 max-w-3xl overflow-hidden gap-0 top-[30%]'
+        >
+          <DialogHeader className='space-y-0 border-sub p-3 pb-0'>
+            <DialogTitle className='sr-only'>New Issues</DialogTitle>
+            <DialogDescription className='sr-only'>
+              This dialog is to create a new issue.
+            </DialogDescription>
+            <div className='flex items-center justify-between'>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className='text-strong'>
+                    {teamsOptions.length > 1 ? (
+                      <TeamSelect />
+                    ) : (
+                      <BreadcrumbItem>{teamsOptions[0]?.label}</BreadcrumbItem>
+                    )}
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem className='text-strong'>
+                    New issue
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <DialogClose>
+                <Icons.x className='size-4 text-sub' />
+              </DialogClose>
+            </div>
+          </DialogHeader>
+          <div className='p-3 flex flex-col space-y-4'>
+            <NewIssueContentForm form={form} />
+            <div className='flex items-center gap-2 *:w-fit'>
+              <ComboBoxSelect
+                property='Status'
+                options={statusConfig}
+                onChange={setStatus}
+              />
+              <ComboBoxSelect
+                property='Priority'
+                options={priorityConfig}
+                onChange={setPriority}
+              />
+              <ComboBoxSelect
+                property='Assignee'
+                options={assigneeOptions}
+                onChange={setAssignee}
+              />
+              <ComboBoxSelect
+                property='Project'
+                options={projectOptions}
+                onChange={setProject}
+              />
+              <LabelsSelect
+                property='Label'
+                options={labelConfig}
+                onChange={handleLabelsChange}
+              />
+            </div>
           </div>
-          <SidebarProvider className='w-1/4 min-h-3/4 ml-auto'>
-            <Sidebar collapsible='none' className='h-fit'>
-              <SidebarContent>
-                <SidebarGroup>
-                  <SidebarGroupLabel className='text-sub h-[30px]'>
-                    Properties
-                  </SidebarGroupLabel>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      <SidebarMenuItem className='w-full'>
-                        <ComboBoxSelect
-                          property='Status'
-                          options={statusConfig}
-                        />
-                      </SidebarMenuItem>
-                      <SidebarMenuItem className='w-full'>
-                        <ComboBoxSelect
-                          property='Priority'
-                          options={priorityConfig}
-                        />
-                      </SidebarMenuItem>
-                      <SidebarMenuItem className='w-full'>
-                        <ComboBoxSelect
-                          property='Assignee'
-                          options={assigneeOptions}
-                        />
-                      </SidebarMenuItem>
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                  <SidebarGroupLabel className='text-sub h-[30px]'>
-                    Labels
-                  </SidebarGroupLabel>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      <SidebarMenuItem className='w-full'>
-                        <LabelsSelect property='Label' options={labelConfig} />
-                      </SidebarMenuItem>
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-                <SidebarGroup>
-                  <SidebarGroupLabel className='text-sub h-[30px]'>
-                    Project
-                  </SidebarGroupLabel>
-                  <SidebarGroupContent>
-                    <ComboBoxSelect
-                      property='Project'
-                      options={projectOptions}
-                    />
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              </SidebarContent>
-            </Sidebar>
-          </SidebarProvider>
-        </div>
-        <DialogFooter>
-          <Button size={'sm'}>Create issue</Button>
-        </DialogFooter>
-      </DialogContent>
+          <DialogFooter className='p-3 border-t-[0.5px]'>
+            <Button size={'sm'} onClick={handleSubmit}>
+              Create issue
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   )
 }

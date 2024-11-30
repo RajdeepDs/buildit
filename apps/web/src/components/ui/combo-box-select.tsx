@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 
 import type { FilterSettings } from '@buildit/utils/types/configs'
@@ -25,11 +23,13 @@ import { Icons } from '@/components/ui/icons'
  * @param props The ComboBoxSelect component props.
  * @param props.property The property of the ComboBoxSelect.
  * @param props.options The list of options to select from.
+ * @param props.onChange  The callback function to trigger when the selected option changes.
  * @returns The ComboBoxSelect component.
  */
 export default function ComboBoxSelect({
   property,
   options,
+  onChange,
 }: {
   property: 'Status' | 'Priority' | 'Assignee' | 'Teams' | 'Project'
   options:
@@ -40,22 +40,21 @@ export default function ComboBoxSelect({
         image: string | null
         icon: string
       }[]
+  onChange: (value: string) => void // Add this prop
 }) {
   const [open, setOpen] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
   const getIconName = () => {
     switch (property) {
-      case 'Status': {
+      case 'Status':
         return (
           options.find((option) => option.value === value)?.icon ?? 'backlog'
         )
-      }
-      case 'Priority': {
+      case 'Priority':
         return (
           options.find((option) => option.value === value)?.icon ?? 'signalHigh'
         )
-      }
       case 'Assignee':
         return 'userCircle2'
       case 'Project':
@@ -68,6 +67,13 @@ export default function ComboBoxSelect({
   }
 
   const Icon = Icons[getIconName() as keyof typeof Icons]
+
+  const handleSelect = (currentValue: string) => {
+    const newValue = currentValue === value ? '' : currentValue
+    setValue(newValue)
+    setOpen(false)
+    onChange(newValue) // Trigger the callback
+  }
 
   return (
     <div className='w-full'>
@@ -128,10 +134,7 @@ export default function ComboBoxSelect({
                     <CommandItem
                       key={option.value}
                       value={option.value}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? '' : currentValue)
-                        setOpen(false)
-                      }}
+                      onSelect={handleSelect}
                     >
                       {option.icon === 'image' ? (
                         <Avatar className='size-4 mr-2'>

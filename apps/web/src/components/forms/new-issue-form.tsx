@@ -19,17 +19,6 @@ import {
 import { Icons } from '@/components/ui/icons'
 import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
 
-const defaultEditorValue = [
-  {
-    type: 'p',
-    children: [
-      {
-        text: '',
-      },
-    ],
-  },
-]
-
 interface NewIssueFormProps {
   form: UseFormReturn<z.infer<typeof CreateIssueSchema>>
   team: Pick<TTeam, 'user' | 'name' | 'teamId'>

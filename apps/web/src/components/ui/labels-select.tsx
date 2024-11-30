@@ -42,17 +42,21 @@ function StatusDot({ className }: { className?: string }) {
  * @param props The LabelsSelect component props.
  * @param props.property The property of the LabelsSelect.
  * @param props.options The list of options to select from.
+ * @param props.onChange The callback function to trigger when the selected label changes.
  * @returns The LabelsSelect component.
  */
 export default function LabelsSelect({
   property,
   options,
+  onChange,
 }: {
   property: 'Label'
   options: { value: string; label: string; icon: string }[]
+  onChange: (selectedValues: string[]) => void
 }) {
   const [open, setOpen] = useState<boolean>(false)
-  const [value, setValue] = useState<string>('')
+  const [selectedValues, setSelectedValues] = useState<string[]>([])
+
   const getColor = (value: string) => {
     switch (value) {
       case 'bug':
@@ -65,17 +69,33 @@ export default function LabelsSelect({
         return 'text-gray-400'
     }
   }
+
+  const toggleValue = (value: string) => {
+    setSelectedValues((prev: string[]) => {
+      const updatedValues = prev.includes(value)
+        ? prev.filter((v) => v !== value)
+        : [...prev, value]
+      onChange(updatedValues)
+      return updatedValues
+    })
+  }
+
   return (
     <div className='w-full'>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <SidebarMenuButton className='w-full'>
             <span
-              className={cn('truncate flex items-center', !value && 'text-sub')}
+              className={cn(
+                'truncate flex items-center',
+                selectedValues.length === 0 && 'text-sub',
+              )}
             >
-              <StatusDot className={cn('h-2 w-2 mr-2', getColor(value))} />
-              {value
-                ? options.find((option) => option.value === value)?.label
+              <StatusDot className='mr-2 text-sub' />
+              {selectedValues.length > 0
+                ? selectedValues.length > 1
+                  ? `${selectedValues.length} labels`
+                  : `${selectedValues[0]}`
                 : `Select ${property.toLowerCase()}`}
             </span>
           </SidebarMenuButton>
@@ -94,13 +114,13 @@ export default function LabelsSelect({
               <CommandGroup>
                 {options.map((option) => {
                   const color = getColor(option.value)
+                  const isSelected = selectedValues.includes(option.value)
                   return (
                     <CommandItem
                       key={option.value}
                       value={option.value}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? '' : currentValue)
-                        setOpen(false)
+                      onSelect={() => {
+                        toggleValue(option.value)
                       }}
                     >
                       <StatusDot className={cn('mr-2', color)} />
@@ -108,7 +128,7 @@ export default function LabelsSelect({
                       <Icons.checkIcon
                         className={cn(
                           'size-4 text-sub ml-auto',
-                          value === option.value ? 'opacity-100' : 'opacity-0',
+                          isSelected ? 'opacity-100' : 'opacity-0',
                         )}
                       />
                     </CommandItem>
