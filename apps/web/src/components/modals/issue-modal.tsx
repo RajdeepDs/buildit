@@ -40,6 +40,8 @@ import {
   statusConfig,
 } from '@/configs/filter/issues-config'
 
+import TeamSelect from '../ui/team-select'
+
 const defaultEditorValue = [
   {
     type: 'p',
@@ -75,8 +77,9 @@ export const IssueModal = ({ children }: { children: React.ReactNode }) => {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                {teamsOptions.length > 1 ? (
-                  <ComboBoxSelect property='Teams' options={teamsOptions} />
+                {teamsOptions.length > 0 ? (
+                  // <ComboBoxSelect property='Teams' options={teamsOptions} />
+                  <TeamSelect />
                 ) : (
                   <BreadcrumbItem>{teamsOptions[0]?.label}</BreadcrumbItem>
                 )}

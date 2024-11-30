@@ -143,7 +143,15 @@ export default function ComboBoxSelect({
                           </AvatarFallback>
                         </Avatar>
                       ) : (
-                        <OptionIcon className='size-4 text-sub mr-2' />
+                        <OptionIcon
+                          className={cn(
+                            'size-4 text-sub mr-2',
+                            option.value === 'todo' && 'text-soft',
+                            option.value === 'in progress' && 'text-yellow-500',
+                            option.value === 'done' && 'text-blue-500',
+                            option.value === 'canceled' && 'text-red-500',
+                          )}
+                        />
                       )}
                       {option.label}
                       <Icons.checkIcon

@@ -20,7 +20,7 @@ export default function SlidingSidebarTabs({
 }: SlidingSidebarTabsProps): JSX.Element {
   return (
     <Tabs defaultValue={tabsData[0]?.label?.toLowerCase() ?? ''}>
-      <TabsList className='p-0.5 w-full gap-2.5'>
+      <TabsList className='p-0.5 w-full'>
         {tabsData.map((tab) => (
           <TabsTrigger
             key={tab.label}
