@@ -29,7 +29,6 @@ import {
 
 import ComboBoxSelect from '@/components/ui/combo-box-select'
 import LabelsSelect from '@/components/ui/labels-select'
-import ProjectSelect from '@/components/ui/projects-select'
 import {
   useAssigneeOptions,
   useProjectOptions,
@@ -56,6 +55,12 @@ export const IssueModal = ({ children }: { children: React.ReactNode }) => {
   const teamsOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
   const projectOptions = useProjectOptions()
+
+  projectOptions.unshift({
+    label: 'No project',
+    value: 'no project',
+    icon: 'hexagon',
+  })
   const localValue =
     typeof window !== 'undefined' && localStorage.getItem('editorContent')
   const content = localValue ? JSON.parse(localValue) : defaultEditorValue
@@ -145,7 +150,10 @@ export const IssueModal = ({ children }: { children: React.ReactNode }) => {
                     Project
                   </SidebarGroupLabel>
                   <SidebarGroupContent>
-                    <ProjectSelect projects={projectOptions} />
+                    <ComboBoxSelect
+                      property='Project'
+                      options={projectOptions}
+                    />
                   </SidebarGroupContent>
                 </SidebarGroup>
               </SidebarContent>

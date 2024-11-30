@@ -31,7 +31,7 @@ export default function ComboBoxSelect({
   property,
   options,
 }: {
-  property: 'Status' | 'Priority' | 'Assignee' | 'Teams'
+  property: 'Status' | 'Priority' | 'Assignee' | 'Teams' | 'Project'
   options:
     | FilterSettings[]
     | {
@@ -58,6 +58,10 @@ export default function ComboBoxSelect({
       }
       case 'Assignee':
         return 'userCircle2'
+      case 'Project':
+        return 'hexagon'
+      case 'Teams':
+        return 'team'
       default:
         return ''
     }

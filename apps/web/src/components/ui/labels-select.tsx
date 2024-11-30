@@ -56,13 +56,11 @@ export default function LabelsSelect({
   const getColor = (value: string) => {
     switch (value) {
       case 'bug':
-        return 'text-red-400'
+        return 'text-red-500'
       case 'feature':
-        return 'text-green-400'
-      case 'enhancement':
         return 'text-blue-400'
-      case 'documentation':
-        return 'text-yellow-400'
+      case 'enhancement':
+        return 'text-purple-400'
       default:
         return 'text-gray-400'
     }
