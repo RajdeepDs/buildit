@@ -59,14 +59,14 @@ export const IssueModal = ({
   const [assignee, setAssignee] = useState('')
   const [project, setProject] = useState('')
   const [labels, setLabels] = useState<string[]>([])
+  const teamsOptions = useTeamsOptions()
+  const assigneeOptions = useAssigneeOptions()
+  const projectOptions = useProjectOptions()
+  const [team, setTeam] = useState<string>(teamsOptions[0]?.value ?? '')
 
   const handleLabelsChange = (selectedValues: string[]) => {
     setLabels(selectedValues)
   }
-
-  const teamsOptions = useTeamsOptions()
-  const assigneeOptions = useAssigneeOptions()
-  const projectOptions = useProjectOptions()
 
   const { mutate: createIssue } = useCreateIssue()
 
@@ -108,6 +108,7 @@ export const IssueModal = ({
       assignee,
       project,
       labels,
+      team,
     })
 
     localStorage.removeItem('editorContent')
@@ -144,7 +145,7 @@ export const IssueModal = ({
                 <BreadcrumbList>
                   <BreadcrumbItem className='text-strong'>
                     {teamsOptions.length > 1 ? (
-                      <TeamSelect />
+                      <TeamSelect onChange={setTeam} />
                     ) : (
                       <BreadcrumbItem>{teamsOptions[0]?.label}</BreadcrumbItem>
                     )}

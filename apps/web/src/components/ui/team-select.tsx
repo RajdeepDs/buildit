@@ -33,10 +33,19 @@ const Square = ({
 /**
  * The Team select component is used to select a team member from a list of options.
  * It displays a placeholder avatar and the name of the team member.
+ * @param props The Team select component props.
+ * @param props.onChange The callback function to trigger when the selected team member changes.
  * @returns The Team select component.
  */
-export default function TeamSelect() {
+export default function TeamSelect({
+  onChange,
+}: {
+  onChange: (value: string) => void
+}) {
   const teams = useTeamsOptions()
+  const handleChange = (value: string) => {
+    onChange(value)
+  }
   return (
     <div className='space-y-2 max-w-32'>
       <Select defaultValue={teams[0]?.value ?? ''}>
@@ -52,7 +61,13 @@ export default function TeamSelect() {
               Your teams
             </SelectLabel>
             {teams.map((team) => (
-              <SelectItem key={team.value} value={team.value}>
+              <SelectItem
+                key={team.value}
+                value={team.value}
+                onSelect={() => {
+                  handleChange(team.value)
+                }}
+              >
                 <Square className='bg-indigo-400/20 text-indigo-500'>
                   {team.label[0]}
                 </Square>
