@@ -19,7 +19,6 @@ import { Icons } from '@/components/ui/icons'
 
 /**
  * The ComboBoxSelect component is used to select an option from a list of options.
- * It displays the selected option.
  * @param props The ComboBoxSelect component props.
  * @param props.property The property of the ComboBoxSelect.
  * @param props.options The list of options to select from.
@@ -40,7 +39,7 @@ export default function ComboBoxSelect({
         image: string | null
         icon: string
       }[]
-  onChange: (value: string) => void // Add this prop
+  onChange: (value: string) => void
 }) {
   const [open, setOpen] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
@@ -72,7 +71,7 @@ export default function ComboBoxSelect({
     const newValue = currentValue === value ? '' : currentValue
     setValue(newValue)
     setOpen(false)
-    onChange(newValue) // Trigger the callback
+    onChange(newValue)
   }
 
   return (

@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const STATUS = ['backlog', 'todo', 'in progress', 'done', 'canceled'] as const
 const PRIORITY = ['no priority', 'urgent', 'high', 'medium', 'low'] as const
+const LABELS = ['bug', 'feature', 'enhancement'] as const
 
 export const CreateIssueSchema = z.object({
   title: z.string().min(1, { message: 'Title is required.' }),
@@ -10,6 +11,7 @@ export const CreateIssueSchema = z.object({
   priority: z.enum(PRIORITY),
   assigneeId: z.optional(z.nullable(z.string())),
   projectId: z.optional(z.nullable(z.string())),
+  labels: z.enum(LABELS).array(),
 })
 
 export type CreateIssuePayload = z.infer<typeof CreateIssueSchema>

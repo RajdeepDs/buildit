@@ -1,7 +1,8 @@
 import type { CreateIssueSchema } from '@buildit/utils/validations'
 import type React from 'react'
-import type { UseFormReturn } from 'react-hook-form'
 import type { z } from 'zod'
+
+import { type UseFormReturn } from 'react-hook-form'
 
 import Editor from '@buildit/editor'
 import { Form, FormControl, FormField, FormItem } from '@buildit/ui/form'
@@ -26,8 +27,8 @@ const NewIssueContentForm: React.FC<NewIssueContentFormProps> = ({ form }) => {
     typeof window !== 'undefined' && localStorage.getItem('editorContent')
   const content = localValue ? JSON.parse(localValue) : defaultEditorValue
   return (
-    <Form {...form}>
-      <form className='space-y-2'>
+    <>
+      <Form {...form}>
         <FormField
           control={form.control}
           name='title'
@@ -52,7 +53,7 @@ const NewIssueContentForm: React.FC<NewIssueContentFormProps> = ({ form }) => {
             <FormItem>
               <FormControl>
                 <Editor
-                  content={content}
+                  content={content as typeof defaultEditorValue}
                   onChange={(value) => {
                     localStorage.setItem('editorContent', JSON.stringify(value))
                   }}
@@ -61,8 +62,8 @@ const NewIssueContentForm: React.FC<NewIssueContentFormProps> = ({ form }) => {
             </FormItem>
           )}
         />
-      </form>
-    </Form>
+      </Form>
+    </>
   )
 }
 

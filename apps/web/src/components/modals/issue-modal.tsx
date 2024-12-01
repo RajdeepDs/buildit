@@ -54,19 +54,10 @@ export const IssueModal = ({
   defaultValues?: Partial<CreateIssuePayload>
 }) => {
   const [open, setOpen] = useState(false)
-  const [status, setStatus] = useState('')
-  const [priority, setPriority] = useState('')
-  const [assignee, setAssignee] = useState('')
-  const [project, setProject] = useState('')
-  const [labels, setLabels] = useState<string[]>([])
   const teamsOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
   const projectOptions = useProjectOptions()
   const [team, setTeam] = useState<string>(teamsOptions[0]?.value ?? '')
-
-  const handleLabelsChange = (selectedValues: string[]) => {
-    setLabels(selectedValues)
-  }
 
   const { mutate: createIssue } = useCreateIssue()
 
@@ -83,6 +74,9 @@ export const IssueModal = ({
       description: '',
       status: 'todo',
       priority: 'no priority',
+      labels: [],
+      assigneeId: '',
+      projectId: '',
       ...defaultValues,
     },
   })
@@ -91,24 +85,10 @@ export const IssueModal = ({
     const localContent = localStorage.getItem('editorContent')
     const descriptionContent = localContent
 
-    // createIssue({
-    //   title: values.title,
-    //   description: descriptionContent,
-    //   status: values.status,
-    //   priority: values.priority,
-    //   assigneeId: values.assigneeId,
-    //   projectId: values.projectId,
-    //   teamId: teamsOptions[0]?.value ?? '',
-    // })
-    console.log({
+    createIssue({
       ...values,
+      teamId: team,
       description: descriptionContent,
-      status,
-      priority,
-      assignee,
-      project,
-      labels,
-      team,
     })
 
     localStorage.removeItem('editorContent')
@@ -136,16 +116,20 @@ export const IssueModal = ({
           className='p-0 max-w-3xl overflow-hidden gap-0 top-[30%]'
         >
           <DialogHeader className='space-y-0 border-sub p-3 pb-0'>
-            <DialogTitle className='sr-only'>New Issues</DialogTitle>
+            <DialogTitle className='sr-only'>New Issue</DialogTitle>
             <DialogDescription className='sr-only'>
-              This dialog is to create a new issue.
+              Create a new issue with detailed properties.
             </DialogDescription>
             <div className='flex items-center justify-between'>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className='text-strong'>
                     {teamsOptions.length > 1 ? (
-                      <TeamSelect onChange={setTeam} />
+                      <TeamSelect
+                        onChange={(value) => {
+                          setTeam(value)
+                        }}
+                      />
                     ) : (
                       <BreadcrumbItem>{teamsOptions[0]?.label}</BreadcrumbItem>
                     )}
@@ -162,38 +146,73 @@ export const IssueModal = ({
             </div>
           </DialogHeader>
           <div className='p-3 flex flex-col space-y-4'>
-            <NewIssueContentForm form={form} />
-            <div className='flex items-center gap-2 *:w-fit'>
-              <ComboBoxSelect
-                property='Status'
-                options={statusConfig}
-                onChange={setStatus}
-              />
-              <ComboBoxSelect
-                property='Priority'
-                options={priorityConfig}
-                onChange={setPriority}
-              />
-              <ComboBoxSelect
-                property='Assignee'
-                options={assigneeOptions}
-                onChange={setAssignee}
-              />
-              <ComboBoxSelect
-                property='Project'
-                options={projectOptions}
-                onChange={setProject}
-              />
-              <LabelsSelect
-                property='Label'
-                options={labelConfig}
-                onChange={handleLabelsChange}
-              />
-            </div>
+            <form onSubmit={handleSubmit} className='space-y-4'>
+              <NewIssueContentForm form={form} />
+              <div className='flex items-center gap-2 *:w-fit'>
+                <ComboBoxSelect
+                  property='Status'
+                  options={statusConfig}
+                  onChange={(value) => {
+                    form.setValue(
+                      'status',
+                      value as
+                        | 'backlog'
+                        | 'todo'
+                        | 'in progress'
+                        | 'done'
+                        | 'canceled',
+                    )
+                  }}
+                />
+                <ComboBoxSelect
+                  property='Priority'
+                  options={priorityConfig}
+                  onChange={(value) => {
+                    form.setValue(
+                      'priority',
+                      value as
+                        | 'no priority'
+                        | 'urgent'
+                        | 'high'
+                        | 'medium'
+                        | 'low',
+                    )
+                  }}
+                />
+                <ComboBoxSelect
+                  property='Assignee'
+                  options={assigneeOptions}
+                  onChange={(value) => {
+                    form.setValue('assigneeId', value)
+                  }}
+                />
+                <ComboBoxSelect
+                  property='Project'
+                  options={projectOptions}
+                  onChange={(value) => {
+                    if (value === 'no project') {
+                      form.setValue('projectId', null)
+                      return
+                    }
+                    form.setValue('projectId', value)
+                  }}
+                />
+                <LabelsSelect
+                  property='Label'
+                  options={labelConfig}
+                  onChange={(value) => {
+                    form.setValue(
+                      'labels',
+                      value as ('bug' | 'feature' | 'enhancement')[],
+                    )
+                  }}
+                />
+              </div>
+            </form>
           </div>
           <DialogFooter className='p-3 border-t-[0.5px]'>
-            <Button size={'sm'} onClick={handleSubmit}>
-              Create issue
+            <Button size='sm' type='submit' onClick={handleSubmit}>
+              Create Issue
             </Button>
           </DialogFooter>
         </DialogContent>
