@@ -38,6 +38,7 @@ export default function ComboBoxSelect({
         label: string | null
         image: string | null
         icon: string
+        color?: string
       }[]
   onChange: (value: string) => void
 }) {
@@ -74,6 +75,15 @@ export default function ComboBoxSelect({
     onChange(newValue)
   }
 
+  const getTriggerColor = (value: string) => {
+    if (!value) return 'text-sub'
+    const option = options.find((option) => option.value === value)
+    if ('color' in (option ?? {})) {
+      return option?.color ?? 'text-sub'
+    }
+    return 'text-sub'
+  }
+
   return (
     <div className='w-full'>
       <Popover open={open} onOpenChange={setOpen}>
@@ -103,7 +113,7 @@ export default function ComboBoxSelect({
                   </AvatarFallback>
                 </Avatar>
               ) : (
-                <Icon className='size-4 text-sub' />
+                <Icon className={`size-4 ${getTriggerColor(value)}`} />
               )
             ) : (
               <Icon className='size-4 text-sub' />
@@ -129,6 +139,7 @@ export default function ComboBoxSelect({
               <CommandGroup>
                 {options.map((option) => {
                   const OptionIcon = Icons[option.icon as keyof typeof Icons]
+
                   return (
                     <CommandItem
                       key={option.value}
@@ -148,10 +159,7 @@ export default function ComboBoxSelect({
                         <OptionIcon
                           className={cn(
                             'size-4 text-sub mr-2',
-                            option.value === 'todo' && 'text-soft',
-                            option.value === 'in progress' && 'text-yellow-500',
-                            option.value === 'done' && 'text-blue-500',
-                            option.value === 'canceled' && 'text-red-500',
+                            getTriggerColor(option.value),
                           )}
                         />
                       )}

@@ -107,7 +107,16 @@ export const IssueModal = ({
   })
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen)
+        if (!isOpen) {
+          form.reset()
+          localStorage.removeItem('editorContent')
+        }
+      }}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogPortal>
         <DialogOverlay className='backdrop-blur bg-weak/20' />
@@ -145,10 +154,10 @@ export const IssueModal = ({
               </DialogClose>
             </div>
           </DialogHeader>
-          <div className='p-3 flex flex-col space-y-4'>
-            <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='p-3 flex flex-col'>
+            <form onSubmit={handleSubmit}>
               <NewIssueContentForm form={form} />
-              <div className='flex items-center gap-2 *:w-fit'>
+              <div className='flex items-center gap-2 mt-4 *:w-fit'>
                 <ComboBoxSelect
                   property='Status'
                   options={statusConfig}

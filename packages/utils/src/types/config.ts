@@ -14,6 +14,7 @@ export interface FilterSettings {
   value: string
   label: string
   icon: string
+  color?: string
 }
 
 export type TSettingsSidebar = {

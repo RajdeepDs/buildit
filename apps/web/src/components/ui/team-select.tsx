@@ -51,7 +51,7 @@ export default function TeamSelect({
       <Select defaultValue={teams[0]?.value ?? ''}>
         <SelectTrigger
           id='team-select'
-          className='ps-2 [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_[data-square]]:shrink-0'
+          className='[&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_[data-square]]:shrink-0 h-fit px-1 py-1 focus:ring-0'
         >
           <SelectValue placeholder='Select team' />
         </SelectTrigger>

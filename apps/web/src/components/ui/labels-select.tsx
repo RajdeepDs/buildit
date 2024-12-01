@@ -66,7 +66,7 @@ export default function LabelsSelect({
       case 'enhancement':
         return 'text-purple-400'
       default:
-        return 'text-gray-400'
+        return 'text-soft'
     }
   }
 
@@ -91,12 +91,32 @@ export default function LabelsSelect({
                 selectedValues.length === 0 && 'text-sub',
               )}
             >
-              <StatusDot className='mr-2 text-sub' />
-              {selectedValues.length > 0
-                ? selectedValues.length > 1
-                  ? `${selectedValues.length} labels`
-                  : `${selectedValues[0]}`
-                : `Select ${property.toLowerCase()}`}
+              {selectedValues.length > 1 ? (
+                <div className='relative flex'>
+                  <StatusDot
+                    className={cn(
+                      'text-sub absolute left-[4px]',
+                      getColor(selectedValues[1] ?? selectedValues[0]!),
+                    )}
+                  />
+                  <StatusDot
+                    className={cn('text-sub', getColor(selectedValues[0]!))}
+                  />
+                </div>
+              ) : (
+                <StatusDot
+                  className={cn('text-sub', getColor(selectedValues[0] || ''))}
+                />
+              )}
+              <span className='ml-2'>
+                {selectedValues.length > 0
+                  ? selectedValues.length > 1
+                    ? `${selectedValues.length} labels`
+                    : options.find(
+                        (option) => option.value === selectedValues[0],
+                      )?.label
+                  : `Select ${property.toLowerCase()}`}
+              </span>
             </span>
           </SidebarMenuButton>
         </PopoverTrigger>
