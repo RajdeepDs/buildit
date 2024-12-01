@@ -5,26 +5,31 @@ export const statusConfig: FilterSettings[] = [
     value: 'backlog',
     label: 'Backlog',
     icon: 'backlog',
+    color: 'text-soft',
   },
   {
     value: 'todo',
     label: 'Todo',
     icon: 'todo',
+    color: 'text-soft',
   },
   {
     value: 'in progress',
     label: 'In Progress',
     icon: 'inProgress',
+    color: 'text-yellow-500',
   },
   {
     value: 'done',
     label: 'Done',
     icon: 'done',
+    color: 'text-blue-500',
   },
   {
     value: 'canceled',
     label: 'Canceled',
     icon: 'canceled',
+    color: 'text-red-500',
   },
 ]
 

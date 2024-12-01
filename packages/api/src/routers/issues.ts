@@ -148,6 +148,7 @@ export const issuesRouter = createRouter({
         description: input.description,
         status: input.status,
         priority: input.priority,
+        labels: input.labels,
         teamId: input.teamId,
         assigneeId: input.assigneeId === '' ? null : (input.assigneeId ?? null),
         projectId: input.projectId === '' ? null : (input.projectId ?? null),

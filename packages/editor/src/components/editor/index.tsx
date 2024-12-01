@@ -14,7 +14,7 @@ import { FloatingToolbarButtons } from '../plate-ui/floating-toolbar-buttons'
 
 export interface EditorProps {
   content: Value
-  onBlur: () => void
+  onBlur?: () => void
   onChange: (value: Value) => void
   autoFocus?: boolean
   readOnly?: boolean
@@ -25,9 +25,9 @@ export interface EditorProps {
  * @param props The props for the editor component.
  * @param props.content The initial content of the editor.
  * @param props.onBlur The callback function to call when the content changes.
- * @param props.onChange
- * @param props.autoFocus
- * @param props.readOnly
+ * @param props.onChange The callback function to call when the editor loses focus.
+ * @param props.autoFocus Whether the editor should be focused when it mounts.
+ * @param props.readOnly Whether the editor should be read-only.
  * @returns The editor component.
  */
 export default function Editor({
