@@ -10,7 +10,7 @@ const STATUS = [
 const PRIORITY = ['no priority', 'urgent', 'high', 'medium', 'low'] as const
 
 export const CreateProjectSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required.' }),
+  name: z.string().min(1, { message: 'Project name is required.' }),
   description: z.nullable(z.string()),
   status: z.enum(STATUS),
   priority: z.enum(PRIORITY),

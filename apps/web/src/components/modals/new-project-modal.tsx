@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@buildit/ui/button'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { CreateProjectSchema } from '@buildit/utils/validations'
 
 import NewProjectForm from '@/components/forms/new-project-form'
@@ -27,6 +27,8 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@/components/ui/modal'
+import ErrorNotification from '@/components/ui/toast/error'
+import WarningNotification from '@/components/ui/toast/warning'
 import { useTeams } from '@/hooks/data/use-teams'
 import { useCreateProject } from '@/hooks/mutations/use-create-project'
 
@@ -67,11 +69,7 @@ export const NewProjectModal = ({
     const descriptionContent = localContent
 
     if (!team) {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: 'Team not found',
-      })
+      sonner.custom((t) => <ErrorNotification t={t} />)
       return
     }
 
@@ -90,10 +88,7 @@ export const NewProjectModal = ({
     const error = errors.name?.message
 
     if (error) {
-      toast({
-        title: error,
-        description: 'Please enter a title before submitting',
-      })
+      sonner.custom((t) => <WarningNotification t={t} message={error} />)
     }
   })
 

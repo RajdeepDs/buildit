@@ -34,6 +34,7 @@ import ComboBoxSelect from '@/components/ui/combo-box-select'
 import { Icons } from '@/components/ui/icons'
 import LabelsSelect from '@/components/ui/labels-select'
 import TeamSelect from '@/components/ui/team-select'
+import WarningNotification from '@/components/ui/toast/warning'
 import {
   useAssigneeOptions,
   useProjectOptions,
@@ -45,8 +46,6 @@ import {
   statusConfig,
 } from '@/configs/filter/issues-config'
 import { useCreateIssue } from '@/hooks/mutations/use-create-issue'
-
-import WarningNotification from '../ui/toast/warning'
 
 export const IssueModal = ({
   children,
