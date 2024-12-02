@@ -2,8 +2,10 @@ import type { TIssue } from '@buildit/utils/types'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -48,9 +50,7 @@ export function useUpdateIssueProperties() {
       return { previousIssueData }
     },
     onSuccess: ({ message }) => {
-      toast({
-        description: message,
-      })
+      sonner.custom((t) => <SuccessNotification t={t} message={message} />)
     },
     onError: (error, variables, context) => {
       if (context?.previousIssueData) {
@@ -58,11 +58,7 @@ export function useUpdateIssueProperties() {
           queryClient.setQueryData(JSON.parse(key), data)
         })
       }
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: error.message,
-      })
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
     onSettled: async () => {
       await queryClient.invalidateQueries({

@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import CreateIssueNotification from '@/components/ui/toast/create-issue'
+import ErrorNotification from '@/components/ui/toast/error'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -12,11 +14,15 @@ export function useCreateIssue() {
   const queryClient = useQueryClient()
 
   return api.issues.create_issue.useMutation({
-    onSuccess: async ({ message }) => {
-      toast({
-        title: 'Issue created!',
-        description: message,
-      })
+    onSuccess: async ({ message, issueId, title }) => {
+      sonner.custom((t) => (
+        <CreateIssueNotification
+          t={t}
+          message={message}
+          issueId={issueId}
+          title={title}
+        />
+      ))
 
       await Promise.all([
         queryClient.invalidateQueries({
@@ -27,12 +33,8 @@ export function useCreateIssue() {
         }),
       ])
     },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

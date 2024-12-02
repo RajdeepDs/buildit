@@ -5,7 +5,7 @@ const PRIORITY = ['no priority', 'urgent', 'high', 'medium', 'low'] as const
 const LABELS = ['bug', 'feature', 'enhancement'] as const
 
 export const CreateIssueSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required.' }),
+  title: z.string().min(1, { message: 'Issue title is required.' }),
   description: z.nullable(z.string()),
   status: z.enum(STATUS),
   priority: z.enum(PRIORITY),

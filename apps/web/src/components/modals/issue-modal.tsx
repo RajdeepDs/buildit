@@ -26,7 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { CreateIssueSchema } from '@buildit/utils/validations'
 
 import NewIssueContentForm from '@/components/forms/new-issue-content'
@@ -45,6 +45,8 @@ import {
   statusConfig,
 } from '@/configs/filter/issues-config'
 import { useCreateIssue } from '@/hooks/mutations/use-create-issue'
+
+import WarningNotification from '../ui/toast/warning'
 
 export const IssueModal = ({
   children,
@@ -99,10 +101,7 @@ export const IssueModal = ({
   const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
     const error = errors.title?.message
     if (error) {
-      toast({
-        title: error,
-        description: 'Please enter a title before submitting',
-      })
+      sonner.custom((t) => <WarningNotification t={t} message={error} />)
     }
   })
 
