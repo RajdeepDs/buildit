@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -13,17 +15,15 @@ export function useDeleteTeam() {
 
   return api.team.delete_team.useMutation({
     onSuccess: async () => {
-      toast({
-        description: 'Team deleted!',
-      })
+      sonner.custom((t) => (
+        <SuccessNotification t={t} message={'Team deleted successfully.'} />
+      ))
       await queryClient.invalidateQueries({
         queryKey: [['team', 'get_teams'], { type: 'query' }],
       })
     },
     onError: () => {
-      toast({
-        description: 'Error deleting team!',
-      })
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -13,18 +15,11 @@ export function useCreateProject() {
 
   return api.project.create_project.useMutation({
     onSuccess: async ({ message }) => {
-      toast({
-        title: 'Project created',
-        description: message,
-      })
+      sonner.custom((t) => <SuccessNotification t={t} message={message} />)
       await queryClient.invalidateQueries({ queryKey: [['project']] })
     },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Error creating project!',
-        description: message || 'Something went wrong.',
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

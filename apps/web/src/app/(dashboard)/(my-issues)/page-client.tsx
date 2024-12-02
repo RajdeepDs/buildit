@@ -1,11 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
 import IssueList from '@/components/issues/issue-list'
 import Header from '@/components/layout/header'
@@ -17,6 +17,7 @@ import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
+import ErrorNotification from '@/components/ui/toast/error'
 import {
   IssuesDisplayProperties,
   IssuesGroupingOptions,
@@ -38,7 +39,7 @@ export default function MyIssuesClientPage(): JSX.Element {
 
   const { and, selectedItems } = useFilterStore()
 
-  const { data: allIssues, isLoading, error } = useIssues()
+  const { data: allIssues, isLoading, isError } = useIssues()
   const { data: allTeams } = useTeams()
 
   const { statuses, statusCount } = useStatusSummary(allIssues)
@@ -97,13 +98,11 @@ export default function MyIssuesClientPage(): JSX.Element {
     [statuses, statusCount, priorities, priorityCount, teamNamesWithCount],
   )
 
-  if (error) {
-    toast({
-      title: 'Error',
-      description: 'Failed to fetch issues',
-      variant: 'destructive',
-    })
-  }
+  useEffect(() => {
+    if (isError) {
+      sonner.custom((t) => <ErrorNotification t={t} />)
+    }
+  }, [isError])
 
   return (
     <div className='h-full flex flex-col gap-2 p-2'>

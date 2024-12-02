@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 
 import { ThemeProvider } from 'next-themes'
 
+import { Toaster as SonnerToaster } from '@buildit/ui/sonner'
 import { Toaster } from '@buildit/ui/toast'
 import { TooltipProvider } from '@buildit/ui/tooltip'
 
@@ -71,6 +72,7 @@ export default function RootLayout({
             <TooltipProvider>
               <TRPCReactProvider>{children}</TRPCReactProvider>
               <Toaster />
+              <SonnerToaster />
             </TooltipProvider>
           </ThemeProvider>
         </body>

@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -13,17 +15,13 @@ export function useDeleteProject() {
 
   return api.project.delete_project.useMutation({
     onSuccess: async () => {
-      toast({
-        description: 'Project deleted successfully!',
-      })
+      sonner.custom((t) => (
+        <SuccessNotification t={t} message={'Project deleted successfully.'} />
+      ))
       await queryClient.invalidateQueries({ queryKey: [['project']] })
     },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Error deleting project!',
-        description: message || 'Something went wrong.',
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

@@ -1,12 +1,12 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
 import { Separator } from '@buildit/ui/separator'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
 import Header from '@/components/layout/header'
 import SlidingSidebar from '@/components/layout/sliding-sidebar'
@@ -18,6 +18,7 @@ import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter/filter-menu'
 import FloatingToolbar from '@/components/ui/floating-toolbar'
 import { Icons } from '@/components/ui/icons'
+import ErrorNotification from '@/components/ui/toast/error'
 import {
   ProjectsDisplayProperties,
   ProjectsGroupingOptions,
@@ -45,7 +46,7 @@ export default function TeamProjectsClientPage(): JSX.Element {
 
   const { and, selectedItems } = useFilterStore()
 
-  const { data: allProjects, isLoading, error } = useProjectsByTeam(teamId)
+  const { data: allProjects, isLoading, isError } = useProjectsByTeam(teamId)
   const { data: allTeams } = useTeams()
   const { data: user } = useUser()
 
@@ -136,13 +137,11 @@ export default function TeamProjectsClientPage(): JSX.Element {
     ],
   )
 
-  if (error) {
-    toast({
-      title: 'Error',
-      description: 'Failed to fetch projects',
-      variant: 'destructive',
-    })
-  }
+  useEffect(() => {
+    if (isError) {
+      sonner.custom((t) => <ErrorNotification t={t} />)
+    }
+  }, [isError])
 
   return (
     <div className='h-full flex flex-col gap-2 p-2'>

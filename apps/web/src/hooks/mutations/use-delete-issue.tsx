@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -13,9 +15,7 @@ export function useDeleteIssue() {
 
   return api.issues.delete_issue.useMutation({
     onSuccess: async ({ message }) => {
-      toast({
-        description: message,
-      })
+      sonner.custom((t) => <SuccessNotification t={t} message={message} />)
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: [['issues', 'get_issues'], { type: 'query' }],
@@ -26,12 +26,8 @@ export function useDeleteIssue() {
         }),
       ])
     },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

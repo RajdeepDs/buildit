@@ -1,12 +1,15 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { Skeleton } from '@buildit/ui/skeleton'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
 import Content from '@/components/issue/content'
 import IssueMenu from '@/components/issue/issue-menu'
 import IssueProperties from '@/components/issue/issue-properties'
 import Header from '@/components/layout/header'
+import ErrorNotification from '@/components/ui/toast/error'
 import { useIssueById } from '@/hooks/data/use-issues'
 
 /**
@@ -20,15 +23,13 @@ export default function IssueClientPage({
 }: {
   issueId: string
 }): JSX.Element {
-  const { data: issue, isLoading, error } = useIssueById(issueId)
+  const { data: issue, isLoading, isError } = useIssueById(issueId)
 
-  if (error) {
-    toast({
-      title: 'Error',
-      description: `Failed to fetch issue - ${issueId}`,
-      variant: 'destructive',
-    })
-  }
+  useEffect(() => {
+    if (isError) {
+      sonner.custom((t) => <ErrorNotification t={t} />)
+    }
+  }, [isError])
 
   return (
     <div className='h-full w-full flex'>

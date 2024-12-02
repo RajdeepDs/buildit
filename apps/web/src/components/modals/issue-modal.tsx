@@ -26,7 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { CreateIssueSchema } from '@buildit/utils/validations'
 
 import NewIssueContentForm from '@/components/forms/new-issue-content'
@@ -34,6 +34,7 @@ import ComboBoxSelect from '@/components/ui/combo-box-select'
 import { Icons } from '@/components/ui/icons'
 import LabelsSelect from '@/components/ui/labels-select'
 import TeamSelect from '@/components/ui/team-select'
+import WarningNotification from '@/components/ui/toast/warning'
 import {
   useAssigneeOptions,
   useProjectOptions,
@@ -99,10 +100,7 @@ export const IssueModal = ({
   const handleSubmit = form.handleSubmit(onSubmit, (errors) => {
     const error = errors.title?.message
     if (error) {
-      toast({
-        title: error,
-        description: 'Please enter a title before submitting',
-      })
+      sonner.custom((t) => <WarningNotification t={t} message={error} />)
     }
   })
 
