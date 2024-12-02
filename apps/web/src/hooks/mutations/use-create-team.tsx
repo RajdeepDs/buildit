@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SuccessNotification from '@/components/ui/toast/success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -13,21 +15,14 @@ export function useCreateTeam() {
 
   return api.team.create_team.useMutation({
     onSuccess: async ({ message }) => {
-      toast({
-        title: 'Team created',
-        description: message,
-      })
+      sonner.custom((t) => <SuccessNotification t={t} message={message} />)
 
       await queryClient.invalidateQueries({
         queryKey: [['team', 'get_teams'], { type: 'query' }],
       })
     },
-    onError: ({ message }) => {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: message,
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 }

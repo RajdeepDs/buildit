@@ -1,8 +1,10 @@
 'use client'
 
+import { useEffect } from 'react'
+
 import { Button } from '@buildit/ui/button'
 import { cn } from '@buildit/ui/cn'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
 import Header from '@/components/layout/header'
 import { NewTeamModal } from '@/components/modals/new-team-modal'
@@ -10,6 +12,7 @@ import TeamList from '@/components/teams/team-list'
 import DisplayMenu from '@/components/ui/display-menu'
 import EmptyState from '@/components/ui/empty-state'
 import { Icons } from '@/components/ui/icons'
+import ErrorNotification from '@/components/ui/toast/error'
 import { TeamsDisplayProperties } from '@/configs/display-settings'
 import { useTeams } from '@/hooks/data/use-teams'
 
@@ -18,19 +21,18 @@ import { useTeams } from '@/hooks/data/use-teams'
  * @returns Next.js RSC page.
  */
 export default function TeamsClientPage(): JSX.Element {
-  const { data: allTeams, isLoading, error } = useTeams()
+  const { data: allTeams, isLoading, isError } = useTeams()
+
+  useEffect(() => {
+    if (isError) {
+      sonner.custom((t) => <ErrorNotification t={t} />)
+    }
+  }, [isError])
 
   if (allTeams?.length === 0) {
     return <EmptyState id='teams' />
   }
 
-  if (error) {
-    toast({
-      title: 'Error',
-      description: 'Failed to fetch teams',
-      variant: 'destructive',
-    })
-  }
   return (
     <>
       <div className='h-full flex flex-col gap-2 p-2'>
