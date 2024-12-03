@@ -142,13 +142,8 @@ export default function IssueCard({
             {renderDisplayProperty(
               'updated',
               <Tooltip>
-                <TooltipTrigger>
-                  <span
-                    className='text-soft text-xs whitespace-nowrap select-none'
-                    title={`Updated: ${updatedAt}`}
-                  >
-                    {updatedAt}
-                  </span>
+                <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
+                  <span title={`Updated: ${updatedAt}`}>{updatedAt}</span>
                 </TooltipTrigger>
                 {updatedAtTime && (
                   <TooltipContent>{`Updated ${updatedAtTime}`}</TooltipContent>
@@ -158,13 +153,8 @@ export default function IssueCard({
             {renderDisplayProperty(
               'created',
               <Tooltip>
-                <TooltipTrigger>
-                  <span
-                    className='text-soft text-xs whitespace-nowrap select-none'
-                    title={`Created: ${createdAt}`}
-                  >
-                    {createdAt}
-                  </span>
+                <TooltipTrigger className='text-soft text-xs whitespace-nowrap select-none'>
+                  <span title={`Created: ${createdAt}`}>{createdAt}</span>
                 </TooltipTrigger>
                 {createdAtTime && (
                   <TooltipContent align='end'>{`Created ${createdAtTime}`}</TooltipContent>
