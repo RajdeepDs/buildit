@@ -15,9 +15,11 @@ import {
   FormLabel,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { ProfileFormSchema } from '@buildit/utils/validations'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 import { api } from '@/lib/trpc/react'
 
 interface ProfileFormProps {
@@ -41,17 +43,16 @@ export default function ProfileForm({ user }: ProfileFormProps): JSX.Element {
 
   const mutation = api.settings.update_profile.useMutation({
     onSuccess: ({ message }) => {
-      toast({
-        title: 'Saved!',
-        description: message,
-      })
+      sonner.custom((t) => (
+        <SettingsSuccessNotification
+          t={t}
+          title='Profile saved!'
+          description={message}
+        />
+      ))
     },
     onError: () => {
-      toast({
-        title: "Couldn't save!",
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive',
-      })
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 

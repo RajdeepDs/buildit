@@ -10,10 +10,11 @@ import {
   AlertDialogTrigger,
 } from '@buildit/ui/alert-dialog'
 import { Button } from '@buildit/ui/button'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 
 import SubHeader from '@/components/settings/sub-header'
 import { Icons } from '@/components/ui/icons'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -23,10 +24,13 @@ import { api } from '@/lib/trpc/react'
 export default function Security(): JSX.Element {
   const mutation = api.settings.logout_all_devices.useMutation({
     onSuccess: ({ message }) => {
-      toast({
-        title: 'Success!',
-        description: message,
-      })
+      sonner.custom((t) => (
+        <SettingsSuccessNotification
+          t={t}
+          title='Success!'
+          description={message}
+        />
+      ))
     },
   })
 

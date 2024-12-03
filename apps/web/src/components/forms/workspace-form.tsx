@@ -14,9 +14,11 @@ import {
   FormLabel,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { ChangeWorkspaceNameSchema } from '@buildit/utils/validations'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -39,16 +41,16 @@ export default function WorkspaceForm({
 
   const mutation = api.settings.update_workspaceName.useMutation({
     onSuccess: ({ message }) => {
-      toast({
-        title: 'Updated!',
-        description: message,
-      })
+      sonner.custom((t) => (
+        <SettingsSuccessNotification
+          t={t}
+          title='Updated!'
+          description={message}
+        />
+      ))
     },
     onError: () => {
-      toast({
-        title: 'Error!',
-        description: 'An error occurred while updating the workspace name.',
-      })
+      sonner.custom((t) => <ErrorNotification t={t} />)
     },
   })
 
