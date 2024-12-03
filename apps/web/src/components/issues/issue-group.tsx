@@ -2,9 +2,10 @@
 
 import { Button } from '@buildit/ui/button'
 
-import { NewIssueModal } from '@/components/modals/new-issue-modal'
 import { Icons } from '@/components/ui/icons'
 import { priorityConfig, statusConfig } from '@/configs/filter/issues-config'
+
+import { IssueModal } from '../modals/issue-modal'
 
 /**
  * The Issues Group component to display the group of issues.
@@ -50,7 +51,7 @@ export default function IssuesGroup({
           <p className='text-sm text-soft'>{count}</p>
         </div>
 
-        <NewIssueModal
+        <IssueModal
           defaultValues={{
             [groupType as string]: group,
           }}
@@ -62,7 +63,7 @@ export default function IssuesGroup({
           >
             <Icons.plus className='size-4 text-sub' />
           </Button>
-        </NewIssueModal>
+        </IssueModal>
       </div>
     </>
   )

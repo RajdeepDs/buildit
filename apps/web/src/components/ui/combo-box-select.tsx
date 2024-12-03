@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import type { FilterSettings } from '@buildit/utils/types/configs'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@buildit/ui/avatar'
 import { cn } from '@buildit/ui/cn'
 import {
@@ -19,41 +17,46 @@ import { Icons } from '@/components/ui/icons'
 
 /**
  * The ComboBoxSelect component is used to select an option from a list of options.
+ * It integrates directly with react-hook-form via Controller.
  * @param props The ComboBoxSelect component props.
  * @param props.property The property of the ComboBoxSelect.
  * @param props.options The list of options to select from.
- * @param props.onChange  The callback function to trigger when the selected option changes.
- * @returns The ComboBoxSelect component.
+ * @param props.field The react-hook-form field provided by Controller.
+ * @param props.field.value The current value of the ComboBoxSelect.
+ * @param props.field.onChange The function to update the value of the ComboBoxSelect.
+ * @returns JSX component.
  */
 export default function ComboBoxSelect({
   property,
   options,
-  onChange,
+  field,
 }: {
   property: 'Status' | 'Priority' | 'Assignee' | 'Teams' | 'Project'
-  options:
-    | FilterSettings[]
-    | {
-        value: string
-        label: string | null
-        image: string | null
-        icon: string
-        color?: string
-      }[]
-  onChange: (value: string) => void
+  options: {
+    value: string
+    label: string | null
+    image?: string | null
+    icon: string
+    color?: string
+  }[]
+  field: {
+    value: string
+    onChange: (value: string) => void
+  }
 }) {
   const [open, setOpen] = useState<boolean>(false)
-  const [value, setValue] = useState<string>('')
 
   const getIconName = () => {
     switch (property) {
       case 'Status':
         return (
-          options.find((option) => option.value === value)?.icon ?? 'backlog'
+          options.find((option) => option.value === field.value)?.icon ??
+          'backlog'
         )
       case 'Priority':
         return (
-          options.find((option) => option.value === value)?.icon ?? 'signalHigh'
+          options.find((option) => option.value === field.value)?.icon ??
+          'signalHigh'
         )
       case 'Assignee':
         return 'userCircle2'
@@ -69,19 +72,15 @@ export default function ComboBoxSelect({
   const Icon = Icons[getIconName() as keyof typeof Icons]
 
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? '' : currentValue
-    setValue(newValue)
+    const newValue = currentValue === field.value ? '' : currentValue
     setOpen(false)
-    onChange(newValue)
+    field.onChange(newValue)
   }
 
   const getTriggerColor = (value: string) => {
     if (!value) return 'text-sub'
     const option = options.find((option) => option.value === value)
-    if ('color' in (option ?? {})) {
-      return option?.color ?? 'text-sub'
-    }
-    return 'text-sub'
+    return option?.color ?? 'text-sub'
   }
 
   return (
@@ -92,18 +91,21 @@ export default function ComboBoxSelect({
             className='w-full'
             aria-label={`Select ${property.toLowerCase()}`}
           >
-            {value ? (
-              options.find((option) => option.value === value)?.icon ===
+            {field.value ? (
+              options.find((option) => option.value === field.value)?.icon ===
               'image' ? (
-                <Avatar className='size-4 mr-2'>
+                <Avatar className='size-4'>
                   <AvatarImage
                     src={
                       'image' in
-                      (options.find((option) => option.value === value) ?? {})
+                      (options.find((option) => option.value === field.value) ??
+                        {})
                         ? (
                             options.find(
-                              (option) => option.value === value,
-                            ) as { image: string }
+                              (option) => option.value === field.value,
+                            ) as {
+                              image: string
+                            }
                           ).image
                         : ''
                     }
@@ -113,14 +115,14 @@ export default function ComboBoxSelect({
                   </AvatarFallback>
                 </Avatar>
               ) : (
-                <Icon className={`size-4 ${getTriggerColor(value)}`} />
+                <Icon className={`size-4 ${getTriggerColor(field.value)}`} />
               )
             ) : (
               <Icon className='size-4 text-sub' />
             )}
-            <span className={cn('truncate', !value && 'text-sub')}>
-              {value
-                ? options.find((option) => option.value === value)?.label
+            <span className={cn('truncate', !field.value && 'text-sub')}>
+              {field.value
+                ? options.find((option) => option.value === field.value)?.label
                 : `Select ${property.toLowerCase()}`}
             </span>
           </SidebarMenuButton>
@@ -144,7 +146,9 @@ export default function ComboBoxSelect({
                     <CommandItem
                       key={option.value}
                       value={option.value}
-                      onSelect={handleSelect}
+                      onSelect={() => {
+                        handleSelect(option.value)
+                      }}
                     >
                       {option.icon === 'image' ? (
                         <Avatar className='size-4 mr-2'>
@@ -167,7 +171,9 @@ export default function ComboBoxSelect({
                       <Icons.checkIcon
                         className={cn(
                           'size-4 text-sub ml-auto',
-                          value === option.value ? 'opacity-100' : 'opacity-0',
+                          field.value === option.value
+                            ? 'opacity-100'
+                            : 'opacity-0',
                         )}
                       />
                     </CommandItem>
