@@ -43,8 +43,8 @@ export default function Workflow() {
             and achieve goals seamlessly.
           </p>
           <div className='grid gap-2 grid-cols-2 mt-4 sm:mt-0'>
-            <a href='https://app.buildit.codes/join' className='w-full'>
-              <Button className='w-full'>Get Early Access!</Button>
+            <a href='https://app.buildit.codes/signup' className='w-full'>
+              <Button className='w-full'>Get started!</Button>
             </a>
             <a
               href='https://github.com/RajdeepDs/buildit'
