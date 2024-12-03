@@ -35,11 +35,12 @@ export default function WorkspaceGeneral(): JSX.Element {
         description={`If you want to permanently delete your workspace and all of it's data, you can do so here.`}
       />
       <AlertDialog>
-        <AlertDialogTrigger>
+        <AlertDialogTrigger disabled>
           <Button
             variant={'destructive'}
             size={'sm'}
             className='bg-error-lighter border-error text-error'
+            disabled
           >
             Delete this workspace
           </Button>
