@@ -31,7 +31,7 @@ export default function ComboBoxSelect({
   options,
   field,
 }: {
-  property: 'Status' | 'Priority' | 'Assignee' | 'Teams' | 'Project'
+  property: 'Status' | 'Priority' | 'Assignee' | 'Teams' | 'Project' | 'Lead'
   options: {
     value: string
     label: string | null
@@ -59,6 +59,8 @@ export default function ComboBoxSelect({
           'signalHigh'
         )
       case 'Assignee':
+        return 'userCircle2'
+      case 'Lead':
         return 'userCircle2'
       case 'Project':
         return 'hexagon'
