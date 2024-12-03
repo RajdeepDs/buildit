@@ -15,9 +15,11 @@ import {
   FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { toast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { ChangePasswordSchema } from '@buildit/utils/validations'
 
+import ErrorNotification from '@/components/ui/toast/error'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -42,18 +44,17 @@ export default function ChangePasswordForm({
 
   const mutations = api.settings.update_password.useMutation({
     onSuccess: ({ message }) => {
-      toast({
-        title: 'Updated!',
-        description: message,
-      })
+      sonner.custom((t) => (
+        <SettingsSuccessNotification
+          t={t}
+          title='Updated!'
+          description={message}
+        />
+      ))
       form.reset()
     },
-    onError: ({ message }) => {
-      toast({
-        title: 'Error!',
-        description: message,
-        variant: 'destructive',
-      })
+    onError: () => {
+      sonner.custom((t) => <ErrorNotification t={t} />)
       form.reset()
     },
   })

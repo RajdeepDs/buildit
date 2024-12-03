@@ -19,16 +19,17 @@ import {
   FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { useToast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { SignUpSchema } from '@buildit/utils/validations'
+
+import ErrorNotification from '@/components/ui/toast/error'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 
 /**
  * The sign-up form component, which will allow the user to sign-up with their email and password.
  * @returns JSX.Element
  */
 export default function SignUpForm(): JSX.Element {
-  const { toast } = useToast()
-
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -43,19 +44,18 @@ export default function SignUpForm(): JSX.Element {
     startTransition(async () => {
       const { error, success } = await signup(null, values)
       if (success) {
-        toast({
-          title: 'Thank you for signing up!',
-          description:
-            'Please verify your email to complete the sign-up process',
-        })
+        sonner.custom((t) => (
+          <SettingsSuccessNotification
+            t={t}
+            title='Thank you for signing up!'
+            description='Please verify your email to complete the sign-up process.'
+          />
+        ))
 
         redirect('/verify-email')
       }
       if (error) {
-        toast({
-          title: "Couldn't sign up!",
-          description: error,
-        })
+        sonner.custom((t) => <ErrorNotification t={t} />)
         form.reset()
       }
     })

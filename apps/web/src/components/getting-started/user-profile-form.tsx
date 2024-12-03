@@ -15,10 +15,11 @@ import {
   FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
+import { sonner } from '@buildit/ui/sonner'
 import { Textarea } from '@buildit/ui/textarea'
-import { useToast } from '@buildit/ui/toast'
 import { UserProfileFormSchema } from '@buildit/utils/validations'
 
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 import { api } from '@/lib/trpc/react'
 
 /**
@@ -26,7 +27,6 @@ import { api } from '@/lib/trpc/react'
  * @returns The user profile form component.
  */
 export default function UserProfileForm() {
-  const { toast } = useToast()
   const form = useForm<z.infer<typeof UserProfileFormSchema>>({
     resolver: zodResolver(UserProfileFormSchema),
     defaultValues: {
@@ -39,10 +39,13 @@ export default function UserProfileForm() {
 
   const onboardingMutation = api.onboarding.update_onboarding.useMutation({
     onSuccess: () => {
-      toast({
-        title: 'Onboarding completed',
-        description: 'Thank you for completing your onboarding!',
-      })
+      sonner.custom((t) => (
+        <SettingsSuccessNotification
+          t={t}
+          title='Onboarding completed!'
+          description='Thank you for completing your onboarding.'
+        />
+      ))
     },
   })
 

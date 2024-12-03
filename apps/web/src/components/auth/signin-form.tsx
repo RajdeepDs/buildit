@@ -19,16 +19,17 @@ import {
   FormMessage,
 } from '@buildit/ui/form'
 import { Input } from '@buildit/ui/input'
-import { useToast } from '@buildit/ui/toast'
+import { sonner } from '@buildit/ui/sonner'
 import { SignInSchema } from '@buildit/utils/validations'
+
+import ErrorNotification from '@/components/ui/toast/error'
+import SettingsSuccessNotification from '@/components/ui/toast/settings-success'
 
 /**
  * The sign-in form component, which will allow the user to sign-in with their email and password.
  * @returns JSX.Element
  */
 export default function SignInForm(): JSX.Element {
-  const { toast } = useToast()
-
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -43,16 +44,16 @@ export default function SignInForm(): JSX.Element {
     startTransition(async () => {
       const { error, success } = await login(null, values)
       if (success) {
-        toast({
-          title: "You're signed in!",
-          description: 'Welcome back!',
-        })
+        sonner.custom((t) => (
+          <SettingsSuccessNotification
+            t={t}
+            title="You're signed in!"
+            description='Welcome back!'
+          />
+        ))
       }
       if (error) {
-        toast({
-          title: "Couldn't log in!",
-          description: error,
-        })
+        sonner.custom((t) => <ErrorNotification t={t} />)
         form.reset()
       }
     })
