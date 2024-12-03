@@ -2,7 +2,7 @@
 
 import { Button } from '@buildit/ui/button'
 
-import { NewProjectModal } from '@/components/modals/new-project-modal'
+import { ProjectModal } from '@/components/modals/project-modal'
 import { Icons } from '@/components/ui/icons'
 import { priorityConfig, statusConfig } from '@/configs/filter/projects-config'
 
@@ -50,7 +50,7 @@ export default function ProjectGroup({
           <p className='text-sm text-soft'>{count}</p>
         </div>
 
-        <NewProjectModal
+        <ProjectModal
           defaultValues={{
             [groupType as string]: group,
           }}
@@ -62,7 +62,7 @@ export default function ProjectGroup({
           >
             <Icons.plus className='size-4 text-sub' />
           </Button>
-        </NewProjectModal>
+        </ProjectModal>
       </div>
     </>
   )

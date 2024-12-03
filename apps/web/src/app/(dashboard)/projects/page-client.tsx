@@ -11,7 +11,7 @@ import Header from '@/components/layout/header'
 import SlidingSidebar from '@/components/layout/sliding-sidebar'
 import SlidingSidebarTabs from '@/components/layout/sliding-sidebar-tabs'
 import TabContentItem from '@/components/layout/tab-content-item'
-import { NewProjectModal } from '@/components/modals/new-project-modal'
+import { ProjectModal } from '@/components/modals/project-modal'
 import ProjectLists from '@/components/projects/project-lists'
 import DisplayMenu from '@/components/ui/display-menu'
 import FilterMenu from '@/components/ui/filter/filter-menu'
@@ -142,12 +142,12 @@ export default function ProjectsClientPage(): JSX.Element {
     <div className='h-full flex flex-col gap-2 p-2'>
       <Header>
         <div className='flex items-center gap-2'>
-          <NewProjectModal>
+          <ProjectModal>
             <Button variant='secondary' size='sm' className='h-7'>
               <Icons.plus className='size-4 text-sub mr-1' />
               Create project
             </Button>
-          </NewProjectModal>
+          </ProjectModal>
           <Separator orientation='vertical' className='h-5 ml-1' />
           <Button
             variant='ghost'

@@ -3,8 +3,8 @@ import type { TEmptyStateContent } from '@buildit/utils/types/configs'
 import { Button } from '@buildit/ui/button'
 
 import { IssueModal } from '@/components/modals/issue-modal'
-import { NewProjectModal } from '@/components/modals/new-project-modal'
 import { NewTeamModal } from '@/components/modals/new-team-modal'
+import { ProjectModal } from '@/components/modals/project-modal'
 import { Icons } from '@/components/ui/icons'
 
 export const emptyStateContent: TEmptyStateContent = {
@@ -31,12 +31,12 @@ export const emptyStateContent: TEmptyStateContent = {
     title: 'No Projects Yet!',
     description: `Projects serve as the backbone of your work organization, enabling you to structure tasks, set milestones, and monitor progress effectively. By creating a project, you can centralize your team's efforts, ensure clear communication, and track outcomes seamlessly.`,
     primary: (
-      <NewProjectModal>
+      <ProjectModal>
         <Button variant={'default'} size={'sm'} className='h-7'>
           <Icons.plus className='size-4 mr-1' />
           Create project
         </Button>
-      </NewProjectModal>
+      </ProjectModal>
     ),
   },
   teams: {
