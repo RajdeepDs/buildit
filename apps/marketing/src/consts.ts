@@ -3,6 +3,6 @@ export const consts = {
     title: 'BuildIt',
     description:
       'BuildIt is an open source collaborative project management tool.',
-    previewImage: '/images/preview.png',
+    previewImage: '/opengraph-image.png',
   },
 }
