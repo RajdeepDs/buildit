@@ -29,8 +29,12 @@ export function useUpdateIssueProperties() {
 
       const previousIssueData: Record<string, TIssue[]> = {}
 
-      const updateIssues = (issues: TIssue[] | undefined) =>
-        issues?.map((issue) =>
+      const updateIssues = (issues: TIssue[] | undefined) => {
+        if (!Array.isArray(issues)) {
+          return issues
+        }
+
+        return issues.map((issue) =>
           issue.id === variables.id
             ? {
                 ...issue,
@@ -38,6 +42,7 @@ export function useUpdateIssueProperties() {
               }
             : issue,
         )
+      }
 
       queryKeys.forEach((key) => {
         const issueData = queryClient.getQueryData<TIssue[]>(key)
