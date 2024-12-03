@@ -52,7 +52,7 @@ export function AppSidebar() {
               <SidebarMenuSkeleton />
             </SidebarMenuItem>
           ) : (
-            <SidebarMenuItem>
+            <SidebarMenuItem className='hidden'>
               <SidebarMenuButton asChild>
                 <Link href={'/'}>
                   <Icons.search className='h-4 w-4 text-soft' />

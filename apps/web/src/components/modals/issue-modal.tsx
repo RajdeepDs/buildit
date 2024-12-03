@@ -26,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@buildit/ui/dialog'
+import { FormField } from '@buildit/ui/form'
 import { sonner } from '@buildit/ui/sonner'
 import { CreateIssueSchema } from '@buildit/utils/validations'
 
@@ -54,6 +55,8 @@ export const IssueModal = ({
   children: React.ReactNode
   defaultValues?: Partial<CreateIssuePayload>
 }) => {
+  console.log(defaultValues)
+
   const [open, setOpen] = useState(false)
   const teamsOptions = useTeamsOptions()
   const assigneeOptions = useAssigneeOptions()
@@ -73,7 +76,7 @@ export const IssueModal = ({
     defaultValues: {
       title: '',
       description: '',
-      status: 'todo',
+      status: 'backlog',
       priority: 'no priority',
       labels: [],
       assigneeId: '',
@@ -156,53 +159,49 @@ export const IssueModal = ({
             <form onSubmit={handleSubmit}>
               <NewIssueContentForm form={form} />
               <div className='flex items-center gap-2 mt-4 *:w-fit'>
-                <ComboBoxSelect
-                  property='Status'
-                  options={statusConfig}
-                  onChange={(value) => {
-                    form.setValue(
-                      'status',
-                      value as
-                        | 'backlog'
-                        | 'todo'
-                        | 'in progress'
-                        | 'done'
-                        | 'canceled',
-                    )
-                  }}
+                <FormField
+                  name='status'
+                  control={form.control}
+                  render={({ field }) => (
+                    <ComboBoxSelect
+                      property='Status'
+                      options={statusConfig}
+                      field={field}
+                    />
+                  )}
                 />
-                <ComboBoxSelect
-                  property='Priority'
-                  options={priorityConfig}
-                  onChange={(value) => {
-                    form.setValue(
-                      'priority',
-                      value as
-                        | 'no priority'
-                        | 'urgent'
-                        | 'high'
-                        | 'medium'
-                        | 'low',
-                    )
-                  }}
+                <FormField
+                  name='priority'
+                  control={form.control}
+                  render={({ field }) => (
+                    <ComboBoxSelect
+                      property='Priority'
+                      options={priorityConfig}
+                      field={field}
+                    />
+                  )}
                 />
-                <ComboBoxSelect
-                  property='Assignee'
-                  options={assigneeOptions}
-                  onChange={(value) => {
-                    form.setValue('assigneeId', value)
-                  }}
+                <FormField
+                  name='assigneeId'
+                  control={form.control}
+                  render={({ field }) => (
+                    <ComboBoxSelect
+                      property='Assignee'
+                      options={assigneeOptions}
+                      field={field}
+                    />
+                  )}
                 />
-                <ComboBoxSelect
-                  property='Project'
-                  options={projectOptions}
-                  onChange={(value) => {
-                    if (value === 'no project') {
-                      form.setValue('projectId', null)
-                      return
-                    }
-                    form.setValue('projectId', value)
-                  }}
+                <FormField
+                  name='projectId'
+                  control={form.control}
+                  render={({ field }) => (
+                    <ComboBoxSelect
+                      property='Project'
+                      options={projectOptions}
+                      field={field}
+                    />
+                  )}
                 />
                 <LabelsSelect
                   property='Label'
