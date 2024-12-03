@@ -15,9 +15,9 @@ Our vision is to create a powerful yet user-friendly project development tool th
 
 ## Tech Stacks
 
-- [**Monorepo**](https://monorepo.tools/): BuildIt is a monorepo, giving you the ability to scale your project with ease.
+- [**Monorepo**](https://monorepo.tools/): BuildIt is a monorepo, giving you the ability to scale the project with ease.
 - [**TypeScript**](https://www.typescriptlang.org/): type-safety is a core principle of BuildIt.
-- [**Astrojs**](https://astro.build): for a clean slate to build your marketing website on top.
+- [**Astrojs**](https://astro.build): for the marketing site of BuildIt.
 - [**Next.js**](https://nextjs.org): Web application is included, giving you a solid foundation for your product.
 - [**Posthog**](https://posthog.com): for analytics and event tracking.
 - [**Sentry**](https://sentry.io): for error tracking and monitoring.

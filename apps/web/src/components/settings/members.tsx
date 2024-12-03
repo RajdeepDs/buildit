@@ -25,6 +25,7 @@ export default function Members(): JSX.Element {
       </SubHeader>
 
       <div className='flex flex-col gap-3'>
+        {/* MembersOptions is currently hidden */}
         <MembersOptions />
         <MembersList user={user} />
       </div>

@@ -8,7 +8,7 @@ import InviteMember from '@/components/settings/modals/invite-member'
  */
 export default function MembersOptions(): JSX.Element {
   return (
-    <div className='flex items-center justify-between'>
+    <div className='hidden items-center justify-between'>
       <Input
         placeholder='Search by name or email'
         className='bg-weak h-8 w-1/3 shadow-none'
