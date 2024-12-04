@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 
 import type { Metadata } from 'next'
 
+import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
 
 import { Toaster as SonnerToaster } from '@buildit/ui/sonner'
@@ -72,6 +73,7 @@ export default function RootLayout({
             <TooltipProvider>
               <TRPCReactProvider>{children}</TRPCReactProvider>
               <Toaster />
+              <Analytics />
               <SonnerToaster />
             </TooltipProvider>
           </ThemeProvider>

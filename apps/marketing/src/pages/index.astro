@@ -1,4 +1,6 @@
 ---
+import Analytics from '@vercel/analytics/astro'
+
 import { Button } from '@buildit/ui/button'
 
 import BaseHead from '@/components/BaseHead.astro'
@@ -17,6 +19,7 @@ import Workflow from '@/components/workflow'
   <head>
     <BaseHead />
     <PostHog />
+    <Analytics />
   </head>
   <body>
     <DotPattern className='opacity-40'>
